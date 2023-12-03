@@ -1,0 +1,22 @@
+.navbar{
+    display: flex;
+    justify-content: space-between;
+    background-color: #000;
+    color: #fff;
+    align-items: center;
+    padding: 10px;
+}
+
+
+
+
+.navbar a{
+    margin: 8px;
+    color: #fff;
+    text-decoration: none;
+    padding: 10px;
+    cursor: pointer; /* Add this line */
+}
+
+
+
