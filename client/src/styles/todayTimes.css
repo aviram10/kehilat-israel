@@ -1,0 +1,15 @@
+
+
+.info{
+    width: 50%;
+    max-width: 500px;
+}
+.todayTimes{
+    width: 33%;
+    border: 1px solid black;
+    padding: 16px;
+}
+table{
+    font-size: x-large;
+    margin: auto;
+}

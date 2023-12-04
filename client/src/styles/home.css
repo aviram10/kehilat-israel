@@ -1,0 +1,14 @@
+body{
+    /* background-image: url("../assets/shul.jpg");
+    background-position: center;
+    background-size: auto;
+    background-repeat: no-repeat; */
+}
+main{
+    background-color:antiquewhite ;
+    font-size: x-large;
+    display: flex;
+    justify-content: space-around;
+    margin: 16px;
+
+}
