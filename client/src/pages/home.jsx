@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import "../styles/home.css"
+import "../styles/home.css";
 
 import axios from 'axios';
 import { DateTime } from "luxon";
 import {  Grid } from "@mui/material";
 import PrayersTimes from "../comps/prayersTimes";
+import Message from "../comps/message";
 async function fetchData(setHebrewDate, setTimes) {
     try {
         const date = DateTime.now();
@@ -55,6 +56,9 @@ export default function Home() {
                 <Grid item xs={10}>
                     <p> ברוכים הבאים לאתר הבית כנסת שלנו. אנחנו קהילה חרדית שמחה ומאוחדת, שמקיימת את התורה והמצוות באהבה וביראה. באתר זה תוכלו למצוא מידע על השירותים, השיעורים, האירועים והפעילויות שאנחנו מציעים לחברי הקהילה ולכל המעוניינים. אנחנו מזמינים אתכם להצטרף אלינו בתפילה, בלימוד, בחסד ובשמחה. </p>
 
+                </Grid>
+                <Grid item xs={10}>
+                   <Message style={{marginBottom: "10px"}} />
                 </Grid>
                 <Grid item xs={10}>
                     <h2>פרנס היום: בעילום שם לעילוי נשמת כל הנרצחים  </h2>
