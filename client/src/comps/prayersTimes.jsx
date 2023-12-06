@@ -1,20 +1,22 @@
 
 import React, { useState } from "react";
-import PrayerTime from "./prayerTime";
-import "../styles/todayTimes.css";
+import "../styles/prayersTimes.css";
+import { List } from "@mui/material";
+import Time from "./time";
 
-export default function TodayTimes(){
+export default function PrayersTimes(){
     const [times, setTimes] = useState([{name: "שחרית",time:"7:30" },{name: "מנחה", time:"4:00"}, {name:"ערבית",time:"5:00"}])
 
-    return <>
-    <h4>פרשת השבוע בשלח</h4>
-    <h3>זמני תפילות היום</h3>
-        {times.map(t => <PrayerTime key= {t.name} {...t} />)}
+    return <div className="prayersTimes">
+    <h2>זמני תפילות היום</h2>
+    <List>
+        {times.map(t => <Time key= {t.name} {...t} />)}
+    </List>
         <ul>
             <li>זמן קריאת שמע</li>
             <li>שקיעת החמה </li>
             <li>צאת הכוכבים</li>
             
         </ul>
-    </>
+    </div>
 }

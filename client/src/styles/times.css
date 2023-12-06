@@ -1,0 +1,8 @@
+.times{
+    display: flex;
+    justify-content: space-between;
+
+}
+.times > *{
+    width: 40%;
+}

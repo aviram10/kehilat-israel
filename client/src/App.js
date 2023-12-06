@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from "./pages/home";
 import "./App.css";
 import Login from './pages/login';
+import Times from './pages/times';
 
 
 
@@ -16,6 +17,7 @@ function App() {
           <Route index element={<Home />} />  
           <Route path="login" element={<Login />} />
           <Route path='signup' element={<Login />} />
+          <Route path='times' element={<Times />} />
         </Route>
     </Routes>
     {/* <TestField /> */}

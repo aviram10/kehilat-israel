@@ -1,0 +1,9 @@
+.dayTimes *{
+    text-align: center;
+   
+}
+.dayTimes{
+    border: 1px solid black;
+    margin-top: 8px;
+    padding: 16px;
+}
