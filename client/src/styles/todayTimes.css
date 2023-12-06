@@ -1,15 +1,17 @@
 
-
-.info{
-    width: 50%;
-    max-width: 500px;
-}
 .todayTimes{
+    margin-top: 8px;
     width: 33%;
-    border: 1px solid black;
     padding: 16px;
-}
-table{
-    font-size: x-large;
-    margin: auto;
-}
+    height: fit-content;
+    min-height: 50vh;
+    background-image: url("../assets/border.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    }
+
+    h3 {
+        text-align: center;
+    }

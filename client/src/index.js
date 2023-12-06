@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import '@fontsource/inter';
+import { Container } from '@mui/material';
 
 
 // import reportWebVitals from './reportWebVitals';
@@ -10,7 +11,9 @@ import '@fontsource/inter';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.Fragment>
+    <Container>
     <App />
+    </Container>
   </React.Fragment>
 );
 
