@@ -6,6 +6,7 @@ import "./App.css";
 import Login from './pages/login';
 import Times from './pages/times';
 import MessagesBoard from './pages/messagesBoard';
+import Dedication from './pages/dedication';
 
 
 
@@ -20,6 +21,8 @@ function App() {
           <Route path='signup' element={<Login />} />
           <Route path='times' element={<Times />} />
           <Route path='board' element={<MessagesBoard />} />
+          <Route path='dedication' element={<Dedication/>} />
+
         </Route>
     </Routes>
     {/* <TestField /> */}
