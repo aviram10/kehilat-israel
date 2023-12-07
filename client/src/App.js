@@ -5,6 +5,7 @@ import Home from "./pages/home";
 import "./App.css";
 import Login from './pages/login';
 import Times from './pages/times';
+import MessagesBoard from './pages/messagesBoard';
 
 
 
@@ -18,6 +19,7 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route path='signup' element={<Login />} />
           <Route path='times' element={<Times />} />
+          <Route path='board' element={<MessagesBoard />} />
         </Route>
     </Routes>
     {/* <TestField /> */}
