@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "../styles/home.css";
+import shul from "../assets/shul.jpg";
 
 import axios from 'axios';
 import { DateTime } from "luxon";
 import {  Grid } from "@mui/material";
 import PrayersTimes from "../comps/prayersTimes";
-import Message from "../comps/message";
 async function fetchData(setHebrewDate, setTimes) {
     try {
         const date = DateTime.now();
@@ -38,29 +38,25 @@ export default function Home() {
         }, sunset.diffNow());
     }, [times])
 
-    return <Grid container rowSpacing={1} spacing={0}>
+    return <Grid container sx={{m: 2}} rowSpacing={1} spacing={2}>
            
-                <Grid item xs={8} className="info">
-                    <div className="infotext" >
+                <Grid item xs={8} >
+                    <div className="info" >
                         <h1>קהילת ישראל</h1>
                         <h2>בית כנסת שהוא גם קהילה</h2>
                     </div>
-                    {/* <img src={shul} alt="" width={"100%"} height={"400"} /> */}
+                    <p> ברוכים הבאים לאתר הבית כנסת שלנו. אנחנו קהילה חרדית שמחה ומאוחדת, שמקיימת את התורה והמצוות באהבה וביראה. באתר זה תוכלו למצוא מידע על השירותים, השיעורים, האירועים והפעילויות שאנחנו מציעים לחברי הקהילה ולכל המעוניינים. </p>
+                    <img src={shul} alt="" width={"100%"} height={"400"} />
+
                 
                 </Grid>
-                <Grid item xs={4}>
-                   פרשת השבוע וישלח {hebrewDate}
+                <Grid item style={{border: "1px solid black"}} xs={4}>
+                 <h3> פרשת השבוע וישלח {hebrewDate} </h3>
                     <PrayersTimes />
                     
                 </Grid>
-                <Grid item xs={10}>
-                    <p> ברוכים הבאים לאתר הבית כנסת שלנו. אנחנו קהילה חרדית שמחה ומאוחדת, שמקיימת את התורה והמצוות באהבה וביראה. באתר זה תוכלו למצוא מידע על השירותים, השיעורים, האירועים והפעילויות שאנחנו מציעים לחברי הקהילה ולכל המעוניינים. אנחנו מזמינים אתכם להצטרף אלינו בתפילה, בלימוד, בחסד ובשמחה. </p>
-
-                </Grid>
-                <Grid item xs={10}>
-                   <Message style={{marginBottom: "10px"}} />
-                </Grid>
-                <Grid item xs={10}>
+              
+                <Grid item xs={10} border={"1px solid black"} sx={{m:2}}>
                     <h2>פרנס היום: בעילום שם לעילוי נשמת כל הנרצחים  </h2>
                 </Grid>
           
