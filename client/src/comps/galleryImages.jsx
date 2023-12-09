@@ -27,6 +27,6 @@ const a = [
 
 export default class MyGallery extends React.Component {
   render() {
-    return <ImageGallery items={a}  />;
+    return <ImageGallery items={a} isRTL={true} autoPlay={true} showBullets={true} />;
   }
 }
