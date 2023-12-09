@@ -1,36 +1,31 @@
-import { Grid, Input, Sheet, Stack, Typography } from '@mui/joy';
+import { Button, Grid, Input } from '@mui/joy';
 import React from 'react';
+import UserDetailsForm from '../comps/userDetailsForm';
+import IconlessRadio from '../comps/radioFrom';
+
+import '../styles/dedication.css';
 
 export default function Dedication(params) {
-    return <Grid container sx={{ m: 2 }} >
+    return<Grid container spacing={1} sx={{ m: 2 }} >
         <Grid xs={6} >
-            <Sheet variant='soft'>
-                <Stack>
-                    <Typography level='h2' textAlign={"center"}>
-                        פרטים אישיים
-                    </Typography>
-                    <Grid container sx={{m: 2}} spacing={2} >
-                        <Grid xs={4}>
-                            <Typography level='body-lg'>
-                                שם
-                            </Typography>
-                        </Grid>
-                        <Grid xs={8}>
-                            <Input></Input>
-                        </Grid>
-                        <Grid xs={4}>
-                            <Typography level='body-lg'>
-                                שם משפחה
-                            </Typography>
-                        </Grid>
-                        <Grid xs={8}>
-                            <Input></Input>
-                        </Grid>
-                    </Grid>
-                </Stack>
-            </Sheet>
+           <UserDetailsForm/>
+        </Grid>
+        <Grid xs={6} >
+            <div className='choose'><IconlessRadio  values={['לרפואה', 'פרנס היום', 'אזכרה']} />
+            </div>
+        </Grid>
+        <Grid xs={2}></Grid>
+        <Grid xs={4}>
+            <Input placeholder='הכנס שם'></Input>
+        </Grid>
+        <Grid xs={2}>
+           <Input defaultValue={100}></Input>
+        </Grid>
+        <Grid xs={2}>
+            <Button>המשך</Button>
         </Grid>
     </Grid >
+          
 };
 
 
