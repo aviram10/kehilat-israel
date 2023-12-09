@@ -26,6 +26,14 @@ export default function Dedication(params) {
                         <Grid xs={8}>
                             <Input></Input>
                         </Grid>
+                        <Grid xs={4}>
+                            <Typography level='body-lg'>
+                                אימייל
+                            </Typography>
+                        </Grid>
+                        <Grid xs={8}>
+                            <Input type='email'></Input>
+                        </Grid>
                     </Grid>
                 </Stack>
             </Sheet>
