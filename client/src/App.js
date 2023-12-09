@@ -13,7 +13,8 @@ import Dedication from './pages/dedication';
 
 function App() {
 
-  return <BrowserRouter>
+  return <div className='cont'>
+  <BrowserRouter>
     <Routes>
         <Route path="/" element={<Navbar />}>
           <Route index element={<Home />} />  
@@ -25,9 +26,10 @@ function App() {
 
         </Route>
     </Routes>
-    {/* <TestField /> */}
-  </BrowserRouter>
+     {/* <TestField /> */}
+  </BrowserRouter> 
 
+  </div>
 }
 
 export default App;
