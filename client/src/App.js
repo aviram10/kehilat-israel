@@ -9,6 +9,7 @@ import MessagesBoard from './pages/messagesBoard';
 import Dedication from './pages/dedication';
 import Checkout from './comps/checkout/checout';
 import Profile from './pages/profile';
+import Managment from './pages/managment';
 
 
 
@@ -20,6 +21,7 @@ function App() {
     <Routes>
         <Route path="/" element={<Navbar />}>
           <Route index element={<Home />} />  
+          <Route path='home' element={<Home />} />  
           <Route path="login" element={<Login />} />
           <Route path='signup' element={<Login />} />
           <Route path='times' element={<Times />} />
@@ -27,6 +29,7 @@ function App() {
           <Route path='dedication' element={<Dedication/>} />
           <Route path='checkout' element={<Checkout/>} />
           <Route path='profile' element={<Profile/>} />
+          <Route path='managment' element={<Managment/>} />
           <Route path='*' element={<h1>Not Found</h1>} />
 
         </Route>

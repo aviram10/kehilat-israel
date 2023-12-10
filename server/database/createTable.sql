@@ -57,6 +57,16 @@ CREATE TABLE deductions(
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
+CREATE TABLE debts (
+    debt_id INT NOT NULL AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    amount INT UNSIGNED NOT NULL,
+    date DATE NOT NULL,
+    PRIMARY KEY (debt_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
+
 
 
 
