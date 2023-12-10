@@ -4,11 +4,31 @@ import '../styles/message.css';
 import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
 import {  CardActionArea } from '@mui/material';
 import CommentForm from './commentForm';
+import { CssVarsProvider, extendTheme } from '@mui/joy/styles';
 
 export default function Message({ }) {
+    extendTheme({
+        components: {
+            JoyAccordion: {
+            styleOverrides: {
+              root: ({ ownerState, theme }) => ({
+                ...(ownerState.variant === 'solid' &&
+                  ownerState.clickable && {
+                    color: 'rgba(255 255 255 / 0.72)',
+                    '&:hover': {
+                      color: 'black',
+                    },
+                  }),
+              }),
+            },
+          },
+        },
+      });
+      
+      
     return <>
-       
-            <Accordion variant="soft" >
+      
+            <Accordion  variant="outline" >
                 <AccordionSummary>
                     <Card variant='soft' orientation='horizontal' sx={{ p: 1, maxWidth: 500 }}>
                         <CardOverflow >
@@ -43,13 +63,14 @@ export default function Message({ }) {
                         </CardContent>
                     </Card>
                 </AccordionSummary>
-                <AccordionDetails>
+                <AccordionDetails variant='plain' sx={{width: "80%", m: "auto"}}>
                     מזל טוב לבני שיחיה ולמשפחה!
                     שיהיה בהצלחה!
                     שיהיה רק מזל טוב
                     <CommentForm />
                 </AccordionDetails>
                 </Accordion>
+               
        
     </>
 }

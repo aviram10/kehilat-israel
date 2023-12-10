@@ -12,8 +12,8 @@ export default function MessagesBoard(params) {
     return <>
         <h1>לוח המודעות הקהילתי</h1>
         <Stack m="auto" maxWidth={800} alignItems="center">
-            <Sheet variant='soft' sx={{p:2, m: 2}}>
-                <Stack  spacing={1}>
+            <Sheet  variant='soft' sx={{p:2}}>
+                <Stack minWidth={500} spacing={1}>
                     <Input placeholder="נושא" required />
                     <Textarea minRows={2} placeholder="תוכן" />
                     <Button type="submit">פרסם</Button>

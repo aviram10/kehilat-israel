@@ -8,7 +8,7 @@ import '../styles/dedication.css';
 
 export default function Dedication(params) {
     return <>
-        <Grid container minHeight={"100vh"} spacing={1} sx={{ m: 2, alignContent: "space-evenly", justifyContent: "center" }} >
+        <Grid container minHeight={"70vh"} spacing={1} sx={{ m: 2, alignContent: "space-between", justifyContent: "center" }} >
 
             <Grid alignItems={"center"} justifyContent={"center"} display={"flex"} xs={12}>
                 <Typography level='h1' textAlign={"center"}>   דף הנצחה </Typography>
