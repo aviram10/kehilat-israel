@@ -7,6 +7,8 @@ import Login from './pages/login';
 import Times from './pages/times';
 import MessagesBoard from './pages/messagesBoard';
 import Dedication from './pages/dedication';
+import Checkout from './comps/checkout/checout';
+import Profile from './pages/profile';
 
 
 
@@ -23,6 +25,9 @@ function App() {
           <Route path='times' element={<Times />} />
           <Route path='board' element={<MessagesBoard />} />
           <Route path='dedication' element={<Dedication/>} />
+          <Route path='checkout' element={<Checkout/>} />
+          <Route path='profile' element={<Profile/>} />
+          <Route path='*' element={<h1>Not Found</h1>} />
 
         </Route>
     </Routes>

@@ -8,7 +8,7 @@ import { Card, Typography } from '@mui/joy';
 
 export default function IconlessRadio({values}) {
   return (
-    <Card  sx={{ width: 300}} >
+    <Card variant='soft'  sx={{ width: "100%", direction: "ltr", textAlign: "center"}} >
       <Typography level='title-md' >
         בחרו סוג תרומה
       </Typography>

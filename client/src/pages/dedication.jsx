@@ -1,31 +1,36 @@
-import { Button, Grid, Input } from '@mui/joy';
+import { Button, CssBaseline, Grid, Input, Typography } from '@mui/joy';
 import React from 'react';
 import UserDetailsForm from '../comps/userDetailsForm';
 import IconlessRadio from '../comps/radioFrom';
+import dedicationBoard from '../assets/dedicationBoard.png';
 
 import '../styles/dedication.css';
 
 export default function Dedication(params) {
-    return<Grid container spacing={1} sx={{ m: 2 }} >
-        <Grid xs={6} >
-           <UserDetailsForm/>
-        </Grid>
-        <Grid xs={6} >
-            <div className='choose'><IconlessRadio  values={['לרפואה', 'פרנס היום', 'אזכרה']} />
-            </div>
-        </Grid>
-        <Grid xs={2}></Grid>
-        <Grid xs={4}>
-            <Input placeholder='הכנס שם'></Input>
-        </Grid>
-        <Grid xs={2}>
-           <Input defaultValue={100}></Input>
-        </Grid>
-        <Grid xs={2}>
-            <Button>המשך</Button>
-        </Grid>
-    </Grid >
-          
+    return <>
+        <Grid container minHeight={"100vh"} spacing={1} sx={{ m: 2, alignContent: "space-evenly", justifyContent: "center" }} >
+
+            <Grid alignItems={"center"} justifyContent={"center"} display={"flex"} xs={12}>
+                <Typography level='h1' textAlign={"center"}>   דף הנצחה </Typography>
+                <img src={dedicationBoard} alt="dedication board" width={150} height={150} />
+            </Grid>
+            <Grid lg={7} md={6} xs={8} >
+                <UserDetailsForm />
+            </Grid>
+            <Grid  >
+                <IconlessRadio values={['לרפואה', 'פרנס היום', 'אזכרה']} />
+            </Grid>
+            <Grid justifyContent={"center"} display={'flex'}  xs={10}>
+               
+                    
+                <Input sx={{m:1}}></Input>
+                <Input sx={{m:1}}></Input>
+                <Button sx={{m:1}}>תרום</Button>
+            
+            </Grid>
+        </Grid >
+    </>
+
 };
 
 

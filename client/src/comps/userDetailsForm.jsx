@@ -2,9 +2,11 @@ import React from 'react';
 import { Grid, Stack, Sheet, Typography, Input } from '@mui/joy';
 
 export default function UserDetailsForm() {
+    const [editMode, setEditMode] = React.useState(true);
+
     return (
-        <Sheet variant='soft'>
-                <Stack>
+        <Sheet  variant='soft'>
+                <Stack >
                     <Typography level='title-lg' textAlign={"center"}>
                         פרטים אישיים
                     </Typography>
@@ -15,7 +17,7 @@ export default function UserDetailsForm() {
                             </Typography>
                         </Grid>
                         <Grid xs={8}>
-                            <Input required></Input>
+                           { editMode ? <Input value={"אבי"} required></Input> : <Typography level='body-lg'>אבי</Typography>}
                         </Grid>
                         <Grid xs={4}>
                             <Typography level='body-lg'>
@@ -23,7 +25,7 @@ export default function UserDetailsForm() {
                             </Typography>
                         </Grid>
                         <Grid xs={8}>
-                            <Input></Input>
+                        { editMode ? <Input value={"רם"} required></Input> : <Typography level='body-lg'>רם</Typography>}
                         </Grid>
                         <Grid xs={4}>
                             <Typography level='body-lg'>
@@ -31,7 +33,7 @@ export default function UserDetailsForm() {
                             </Typography>
                         </Grid>
                         <Grid xs={8}>
-                            <Input  required type='tel'></Input>
+                        { editMode ? <Input value={"0527128119"} required></Input> : <Typography level='body-lg'>0527128119</Typography>}
                         </Grid>
                         <Grid xs={4}>
                             <Typography level='body-lg'>
@@ -39,7 +41,7 @@ export default function UserDetailsForm() {
                             </Typography>
                         </Grid>
                         <Grid xs={8}>
-                            <Input required type='email'></Input>
+                        { editMode ? <Input value={"avi@gmail.com"} required></Input> : <Typography level='body-lg'>avi@gmail.com</Typography>}
                         </Grid>
                     </Grid>
                 </Stack>

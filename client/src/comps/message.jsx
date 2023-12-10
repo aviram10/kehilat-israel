@@ -12,9 +12,9 @@ export default function Message({ }) {
                 <AccordionSummary>
                     <Card variant='soft' orientation='horizontal' sx={{ p: 1, maxWidth: 500 }}>
                         <CardOverflow >
-                            <CardContent sx={{ justifyContent: "start" }}>
-                                <Avatar size='lg' sx={{ alignSelf: "center" }}>ר</Avatar>
-                                <Chip >
+                            <CardContent sx={{ justifyContent: "start", p:0, m: 0 }}>
+                                <Avatar size='lg' sx={{ alignSelf: "center", p:0, mt:-1}}>ר</Avatar>
+                                <Chip sx={{mt:-2}}>
                                     חבר קהילה
                                 </Chip>
                             </CardContent>

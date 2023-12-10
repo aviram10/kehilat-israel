@@ -9,14 +9,14 @@ export default function Navbar() {
             <NavLink to="/home" >   קהילת ישראל  </NavLink>
         </div>
         <div className="nav">
-            <NavLink to="/home" >   זמני היום </NavLink>|    
-            <NavLink to="/home" >   זמני התפילות  </NavLink>|    
-            <NavLink to="/home">   לוח הקהילה  </NavLink> |    
-            <NavLink to="/home">  הקדשות  </NavLink>    
+            <NavLink to="/times" >   זמני היום </NavLink>|    
+            <NavLink to="/times" >   זמני התפילות  </NavLink>|    
+            <NavLink to="/board">   לוח הקהילה  </NavLink> |    
+            <NavLink to="/dedication">  הקדשות  </NavLink>    
         </div>
 
         <div className="account">
-            <NavLink>  אזור אישי </NavLink>
+            <NavLink to={"profile"}>  אזור אישי </NavLink>
         </div>
     </div>
     <Outlet/>
