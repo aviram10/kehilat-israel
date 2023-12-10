@@ -1,5 +1,5 @@
 import React from 'react';
-import { Accordion, AccordionDetails, AccordionSummary, Avatar, Card, CardActions, CardContent, CardOverflow, Chip, Typography } from '@mui/joy';
+import { Accordion, AccordionDetails, AccordionSummary, Avatar, Card, CardActions, CardContent, CardOverflow, Chip, Divider, Typography } from '@mui/joy';
 import '../styles/message.css';
 import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
 import {  CardActionArea } from '@mui/material';
@@ -28,9 +28,9 @@ export default function Message({ }) {
       
     return <>
       
-            <Accordion  variant="outline" >
+            <Accordion sx={{width: "fit-content"}}  variant="outlined" >
                 <AccordionSummary>
-                    <Card variant='soft' orientation='horizontal' sx={{ p: 1, maxWidth: 500 }}>
+                    <Card variant='plain' orientation='horizontal' sx={{ p: 1, maxWidth: 500 }}>
                         <CardOverflow >
                             <CardContent sx={{ justifyContent: "start", p:0, m: 0 }}>
                                 <Avatar size='lg' sx={{ alignSelf: "center", p:0, mt:-1}}>ר</Avatar>
@@ -41,7 +41,7 @@ export default function Message({ }) {
                         </CardOverflow>
 
                         <CardContent>
-                            <CardActionArea>
+                            {/* <CardActionArea> */}
                                 <Typography level='title-md'>
                                     הזמנה לבר המצווה של בני שיחיה
                                 </Typography>
@@ -50,7 +50,7 @@ export default function Message({ }) {
                                     תאריך: 10 באוגוסט 2022
                                     מקום: קהילת ישראל, רחוב הרצל 5, תל אביב
                                 </Typography>
-                            </CardActionArea>
+                            {/* </CardActionArea> */}
                             <CardActions>
                                 <Chip>
                                     <SentimentVerySatisfiedIcon />
@@ -60,8 +60,10 @@ export default function Message({ }) {
                                     פרטים
                                 </Chip>
                             </CardActions>
+                           
                         </CardContent>
                     </Card>
+                  
                 </AccordionSummary>
                 <AccordionDetails variant='plain' sx={{width: "80%", m: "auto"}}>
                     מזל טוב לבני שיחיה ולמשפחה!
@@ -69,6 +71,7 @@ export default function Message({ }) {
                     שיהיה רק מזל טוב
                     <CommentForm />
                 </AccordionDetails>
+                <Divider />
                 </Accordion>
                
        

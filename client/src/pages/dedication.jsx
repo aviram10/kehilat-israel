@@ -20,13 +20,10 @@ export default function Dedication(params) {
             <Grid  >
                 <IconlessRadio values={['לרפואה', 'פרנס היום', 'אזכרה']} />
             </Grid>
-            <Grid justifyContent={"center"} display={'flex'}  xs={10}>
-               
-                    
+            <Grid justifyContent={"center"} display={'flex'}  xs={10}> 
                 <Input sx={{m:1}}></Input>
                 <Input sx={{m:1}}></Input>
                 <Button sx={{m:1}}>תרום</Button>
-            
             </Grid>
         </Grid >
     </>
