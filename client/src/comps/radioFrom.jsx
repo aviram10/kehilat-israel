@@ -20,7 +20,8 @@ export default function IconlessRadio({values}) {
       >
         {values.map((value) => (
           <Sheet
-          variant='soft '
+          color='primary'
+          variant='outlined'
             key={value}
             sx={{
               p: 2,
