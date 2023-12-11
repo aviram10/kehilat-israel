@@ -1,35 +1,37 @@
 import React from 'react';
-import { Accordion, AccordionDetails, AccordionSummary, Avatar, Card, CardActions, CardContent, CardOverflow, Chip, Divider, Typography } from '@mui/joy';
+import { Accordion, Avatar, Card, CardActions, CardContent, CardOverflow, Chip, Divider, Typography } from '@mui/joy';
 import '../styles/message.css';
 import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
-import {  CardActionArea } from '@mui/material';
 import CommentForm from './commentForm';
-import { CssVarsProvider, extendTheme } from '@mui/joy/styles';
+import AccordionDetails, {
+  accordionDetailsClasses,
+} from '@mui/joy/AccordionDetails';
+import AccordionSummary, {
+  accordionSummaryClasses,
+} from '@mui/joy/AccordionSummary';
 
 export default function Message({ }) {
-    extendTheme({
-        components: {
-            JoyAccordion: {
-            styleOverrides: {
-              root: ({ ownerState, theme }) => ({
-                ...(ownerState.variant === 'solid' &&
-                  ownerState.clickable && {
-                    color: 'rgba(255 255 255 / 0.72)',
-                    '&:hover': {
-                      color: 'black',
-                    },
-                  }),
-              }),
-            },
-          },
-        },
-      });
+
       
       
     return <>
       
-            <Accordion sx={{width: "fit-content"}}  variant="outlined" >
-                <AccordionSummary>
+            <Accordion   variant="outlined" 
+            sx={{
+        maxWidth: 600,
+        borderRadius: 'lg',
+        [`& .${accordionSummaryClasses.button}:hover`]: {
+          bgcolor: 'transparent',
+        },
+        [`& .${accordionDetailsClasses.content}`]: {
+          boxShadow: (theme) => `inset 0 1px ${theme.vars.palette.divider}`,
+          [`&.${accordionDetailsClasses.expanded}`]: {
+            paddingBlock: '0.75rem',
+          },
+        },
+      }} 
+      >
+                <AccordionSummary   >
                     <Card variant='plain' orientation='horizontal' sx={{ p: 1, maxWidth: 500 }}>
                         <CardOverflow >
                             <CardContent sx={{ justifyContent: "start", p:0, m: 0 }}>
@@ -65,7 +67,7 @@ export default function Message({ }) {
                     </Card>
                   
                 </AccordionSummary>
-                <AccordionDetails variant='plain' sx={{width: "80%", m: "auto"}}>
+                <AccordionDetails  variant='soft'>
                     מזל טוב לבני שיחיה ולמשפחה!
                     שיהיה בהצלחה!
                     שיהיה רק מזל טוב
