@@ -1,6 +1,7 @@
 import React from "react";
 import Stack from '@mui/joy/Stack'; 
 import Message from "./message";
+import { AccordionGroup } from "@mui/joy";
 
 export default function Messages({times}) {
     let messages = []
@@ -11,9 +12,9 @@ export default function Messages({times}) {
 
 
     return <>
-        <Stack>
+        <AccordionGroup>
            {messages}
-        </Stack>
+        </AccordionGroup>
     
     
     
