@@ -3,6 +3,7 @@ import Stack from '@mui/joy/Stack';
 import Message from '../comps/message';
 import "../styles/messagesBoard.css";
 import { AccordionGroup, Input, Textarea, Button, Sheet } from '@mui/joy';
+import Messages from '../comps/messages';
 
 
 
@@ -19,12 +20,7 @@ export default function MessagesBoard(params) {
                     <Button type="submit">פרסם</Button>
                 </Stack>
             </Sheet>
-            <AccordionGroup >
-                <Message />
-                <Message />
-                <Message />
-                <Message />
-            </AccordionGroup>
+           <Messages times={5} />
         </Stack>
     </>
         ;

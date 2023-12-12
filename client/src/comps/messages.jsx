@@ -1,5 +1,4 @@
 import React from "react";
-import Stack from '@mui/joy/Stack'; 
 import Message from "./message";
 import { AccordionGroup } from "@mui/joy";
 
@@ -12,7 +11,7 @@ export default function Messages({times}) {
 
 
     return <>
-        <AccordionGroup>
+        <AccordionGroup variant="outlined">
            {messages}
         </AccordionGroup>
     
