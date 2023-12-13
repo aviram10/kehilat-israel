@@ -66,6 +66,12 @@ CREATE TABLE debts (
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
+CREATE TABLE prayer(
+    prayer_name VARCHAR(255) NOT NULL PRIMARY KEY,
+    dependency VARCHAR(255) NOT NULL,
+    minutes INT SIGNED NOT NULL,
+)
+
 
 
 
