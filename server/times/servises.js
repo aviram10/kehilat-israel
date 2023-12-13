@@ -1,9 +1,10 @@
 const { DateTime } = require("luxon")
+const db = require("../database/db");
 const axios = require('axios');
 let timesData = {};
 let hebrewDate ={hebrew: ""};
 
-async function getTimes() {
+async function getDayTimes() {
     try {
         const dateTime = DateTime.now();
         const date = dateTime.toISODate();
@@ -15,7 +16,7 @@ async function getTimes() {
 async function getTimesEveryMidnight() {
     try {
         const dateTime = DateTime.now();
-        const times = await getTimes();
+        const times = await getDayTimes();
         
         Object.keys(times).forEach(key => {
             timesData[key] = times[key];
@@ -43,13 +44,17 @@ async function getHebrewDateEverySunset() {
 }
 
 async function isAfterSunset(){
-    const sunset = timesData.sunset || (await getTimes()).sunset; // if timesData.sunset is undefined, getTimes() will be called
+    const sunset = timesData.sunset || (await getDayTimes()).sunset; // if timesData.sunset is undefined, getTimes() will be called
     const dateTime = DateTime.now();
     const isAfterSunset = dateTime > DateTime.fromISO(sunset);// if it's after sunset, we need to add gs=on to the url
     return isAfterSunset;
 }
 
+async function getPrayersTimes() {
+    return await db.get("prayers_times", ["*"], "*");
+}
+
 getTimesEveryMidnight();
 getHebrewDateEverySunset();
-module.exports = { timesData, getTimes, getHebrewDate, hebrewDate }
+module.exports = { timesData, getDayTimes, getHebrewDate, hebrewDate, getPrayersTimes }
 

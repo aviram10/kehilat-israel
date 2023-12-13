@@ -38,7 +38,7 @@ export default function Home() {
         }, sunset.diffNow());
     }, [times])
 
-    return <Grid container sx={{m: 2}} rowSpacing={2} spacing={2}>
+    return <Grid onClick={()=>{console.log("test");}} container sx={{m: 2}} rowSpacing={2} spacing={2}>
            
                 <Grid item lg={8} md={6} xs={10}>
                     <div className="info" >

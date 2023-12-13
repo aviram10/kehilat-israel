@@ -1,5 +1,5 @@
-CREATE DATABASE kehila;
-USE kehila;
+CREATE DATABASE kehilat_israel;
+USE kehilat_israel;
 CREATE TABLE users (
     user_id INT NOT NULL AUTO_INCREMENT,
     username VARCHAR(255) NOT NULL UNIQUE,
@@ -11,7 +11,8 @@ CREATE TABLE users (
     address VARCHAR(255) NOT NULL,
     city VARCHAR(255) NOT NULL,
     state VARCHAR(255) NOT NULL,
-    zip VARCHAR(255),
+    zip VARCHAR(255) NOT NULL,
+    role VARCHAR(255) NOT NULL DEFAULT 'user',
     PRIMARY KEY (user_id)
 );
 
@@ -20,8 +21,8 @@ CREATE TABLE donations (
     user_id INT NOT NULL,
     amount INT UNSIGNED NOT NULL,
     date DATE NOT NULL,
-    PRIMARY KEY (donation_id),
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
+    PRIMARY KEY (donation_id)
+   
 );
 
 CREATE TABLE messages(
@@ -29,10 +30,9 @@ CREATE TABLE messages(
     user_id INT NOT NULL,
     message VARCHAR(255) NOT NULL,
     date DATE NOT NULL,
-    likes INT UNSIGNED NOT NULL,
+    likes INT UNSIGNED NOT NULL DEFAULT 0,
     category VARCHAR(255) NOT NULL,
-    PRIMARY KEY (message_id),
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
+    PRIMARY KEY (message_id)
 );
 
 CREATE TABLE comments(
@@ -41,10 +41,9 @@ CREATE TABLE comments(
     message_id INT NOT NULL,
     comment VARCHAR(255) NOT NULL,
     date DATE NOT NULL,
-    likes INT UNSIGNED NOT NULL,
-    PRIMARY KEY (comment_id),
-    FOREIGN KEY (user_id) REFERENCES users(user_id),
-    FOREIGN KEY (message_id) REFERENCES messages(message_id)
+    likes INT UNSIGNED NOT NULL DEFAULT 0,
+    PRIMARY KEY (comment_id)    
+
 );
 
 CREATE TABLE deductions(
@@ -53,8 +52,7 @@ CREATE TABLE deductions(
     user_id INT NOT NULL,
     date DATE NOT NULL,
     name VARCHAR(255) NOT NULL,
-    PRIMARY KEY (deduction_id),
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
+    PRIMARY KEY (deduction_id)
 );
 
 CREATE TABLE debts (
@@ -62,15 +60,18 @@ CREATE TABLE debts (
     user_id INT NOT NULL,
     amount INT UNSIGNED NOT NULL,
     date DATE NOT NULL,
-    PRIMARY KEY (debt_id),
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
+    PRIMARY KEY (debt_id)
 );
 
 CREATE TABLE prayer(
-    prayer_name VARCHAR(255) NOT NULL PRIMARY KEY,
-    dependency VARCHAR(255) NOT NULL,
-    minutes INT SIGNED NOT NULL,
+    prayer_name VARCHAR(255) NOT NULL ,
+    dependency VARCHAR(255),
+    minutes INT SIGNED,
+    fixed VARCHAR(255),
+    category VARCHAR(255) NOT NULL,
+    PRIMARY KEY (prayer_name)
 )
+      
 
 
 

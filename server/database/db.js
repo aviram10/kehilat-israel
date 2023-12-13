@@ -4,7 +4,7 @@ const mysql = require('mysql2/promise');
 
  const pool = mysql.createPool({
     host: "localhost",
-    database: "kehilat-israel",
+    database: "kehilat_israel",
     password: process.env.COMPUTERNAME === "DESKTOP-B0HJLB4" ? "123456" : "12345678",
     user: "root"
 })
@@ -14,7 +14,7 @@ async function getPrimaryKey(table) {
      JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE K
      ON K.CONSTRAINT_NAME=T.CONSTRAINT_NAME  
      WHERE K.TABLE_NAME=?
-     AND K.TABLE_SCHEMA='kehilat-israel'  
+     AND K.TABLE_SCHEMA='kehilat_israel'  
      AND T.CONSTRAINT_TYPE='PRIMARY KEY' LIMIT 1;`
     const [[{ COLUMN_NAME: primaryKey }]] = await pool.query(sqlQuery, [table])
     return primaryKey;

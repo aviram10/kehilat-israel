@@ -1,16 +1,16 @@
-USE kehila;
+USE kehilat_israel;
 
 INSERT INTO users (user_id, username, first_name, last_name, pass, email, phone, address, city, state, zip)
 VALUES (1000, 'user1', 'יוחנן', 'דויד', 'password1', 'john.doe@example.com', '1234567890', '123 Main St', 'City1', 'State1', '12345'),
        (1001, 'user2', 'יעל', 'כהן', 'password2', 'jane.smith@example.com', '0987654321', '456 Elm St', 'City2', 'State2', '54321'),
        (1002, 'user3', 'מיכאל', 'כהן', 'password3', 'michael.johnson@example.com', '9876543210', '789 Oak St', 'City3', 'State3', '67890'),
        (1003, 'user4', 'אמילי', 'לוי', 'password4', 'emily.brown@example.com', '0123456789', '321 Pine St', 'City4', 'State4', '09876'),
-       (1004, 'user5', 'דוד', 'כהן', 'password5', 'david.taylor@example.com', '9876543210', '654 Maple St', 'City5', 'State5', '54321'),
-       (1005, 'user6', 'אוליביה', 'כהן', 'password6', 'olivia.miller@example.com', '0123456789', '987 Cedar St', 'City6', 'State6', '67890'),
-       (1006, 'user7', 'יעקב', 'כהן', 'password7', 'james.anderson@example.com', '1234567890', '654 Birch St', 'City7', 'State7', '12345'),
-       (1007, 'user8', 'שרה', 'כהן', 'password8', 'sophia.wilson@example.com', '0987654321', '321 Oak St', 'City8', 'State8', '54321'),
-       (1008, 'user9', 'בנימין', 'כהן', 'password9', 'benjamin.martinez@example.com', '9876543210', '789 Elm St', 'City9', 'State9', '67890'),
-       (1009, 'user10', 'אביגיל', 'כהן', 'password10', 'ava.harris@example.com', '0123456789', '123 Pine St', 'City10', 'State10', '09876');
+       (1004, 'user5', 'דוד', 'כהן', 'password5', 'david.taylor@example.com', '8765432109', '654 Maple St', 'City5', 'State5', '54321'),
+       (1005, 'user6', 'אוליביה', 'כהן', 'password6', 'olivia.miller@example.com', '7654321098', '987 Cedar St', 'City6', 'State6', '67890'),
+       (1006, 'user7', 'יעקב', 'כהן', 'password7', 'james.anderson@example.com', '6543210987', '654 Birch St', 'City7', 'State7', '12345'),
+       (1007, 'user8', 'שרה', 'כהן', 'password8', 'sophia.wilson@example.com', '5432109876', '321 Oak St', 'City8', 'State8', '54321'),
+       (1008, 'user9', 'בנימין', 'כהן', 'password9', 'benjamin.martinez@example.com', '4321098765', '789 Elm St', 'City9', 'State9', '67890'),
+       (1009, 'user10', 'אביגיל', 'כהן', 'password10', 'ava.harris@example.com', '3210987654', '123 Pine St', 'City10', 'State10', '09876');
 
 INSERT INTO messages (user_id, message, date, likes, category)
 VALUES (1000, "ברוכים הבאים לקהילה!", DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY), 0, "ברוכים"),
@@ -114,7 +114,7 @@ VALUES
     (25, 1009, "אני מעוניין!", DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY));
 
     -- Insert 10 rows into the deductions table
-    INSERT INTO deductions (deduction_id, user_id, date, name)
+    INSERT INTO deductions (donation_id, user_id, date, name)
     VALUES
         (1, 1007, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY), "אביב"),
         (2, 1008, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY), "נועה"),
