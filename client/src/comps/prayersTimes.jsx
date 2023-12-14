@@ -4,8 +4,7 @@ import "../styles/prayersTimes.css";
 import { List } from "@mui/material";
 import Time from "./time";
 
-export default function PrayersTimes(){
-    const [times, setTimes] = useState([{name: "שחרית",time:"7:30" },{name: "מנחה", time:"4:00"}, {name:"ערבית",time:"5:00"}])
+export default function PrayersTimes({times}){
 
     return <div className="prayersTimes">
     <h2>זמני תפילות היום</h2>
