@@ -5,6 +5,7 @@ async function getTimes(req, res) {
         const times = services.timesData || await services.getDayTimes();
         times.hebrewDate = services.hebrewDate.hebrew || await services.getHebrewDate();
         times.prayers = await services.getPrayersTimes();
+        times.items= 
         res.json(times);
     } catch (err) { console.log(err); }
 }
@@ -29,6 +30,8 @@ async function getPrayersTimes(req, res) {
         res.json(times);
     } catch (err) { console.log(err); }
 }
+
+
 
 
 module.exports = { getTimes, getHebrewDate, getTimesData }

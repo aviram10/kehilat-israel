@@ -6,35 +6,30 @@ import { DateTime } from "luxon";
 import {  Grid } from "@mui/material";
 import PrayersTimes from "../comps/prayersTimes";
 import MyGallery from "../comps/galleryImages";
-async function fetchData(setHebrewDate, setTimes) {
+import server from "../config/server";
+async function fetchData(setTimes) {
     try {
-        const date = DateTime.now();
-        const currentDate = date.toISODate();
-        const { data: { times } } = await axios.get(`https://www.hebcal.com/zmanim?cfg=json&geonameid=295514&date=${currentDate}`)
-        const gs = DateTime.now() > DateTime.fromISO(times.sunset) && "on"
-        const { data: { hebrew: hebrewDate } } = await axios.get(`https://www.hebcal.com/converter?cfg=json&date=${currentDate}&g2h=1&strict=1&gs=${gs}`);
-        setHebrewDate(hebrewDate)
+        const { data: { times } } = await axios.get(`${server}/times`);
         setTimes(times);
     } catch (error) {
         setTimeout(() => {
-            fetchData(setHebrewDate)
+            fetchData(setTimes)
         }, 500000);
     }
 }
 
 
 export default function Home() {
-    const [hebrewDate, setHebrewDate] = useState("");
     const [times, setTimes] = useState({});
 
     useEffect(() => {
-        fetchData(setHebrewDate, setTimes)
+        fetchData( setTimes)
     }, []);
 
     useEffect(() => {
         const sunset = DateTime.fromISO(times.sunset)
         setTimeout(() => {
-            fetchData(setHebrewDate, setTimes)
+            fetchData(setTimes)
         }, sunset.diffNow());
     }, [times])
 
@@ -51,7 +46,7 @@ export default function Home() {
                 
                 </Grid>
                 <Grid item lg={3} md={5} xs={10} style={{border: "1px solid black"}} >
-                 <h3> פרשת השבוע וישלח <br/>{hebrewDate} </h3>
+                
                     <PrayersTimes />
                     
                 </Grid>

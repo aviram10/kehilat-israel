@@ -63,7 +63,7 @@ CREATE TABLE debts (
     PRIMARY KEY (debt_id)
 );
 
-CREATE TABLE prayer(
+CREATE TABLE prayersTimes(
     prayer_name VARCHAR(255) NOT NULL ,
     dependency VARCHAR(255),
     minutes INT SIGNED,
