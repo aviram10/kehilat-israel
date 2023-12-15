@@ -2,15 +2,14 @@ const { DateTime } = require("luxon")
 const axios = require('axios');
 const dayTimes = {};
 const hebrewDate = { hebrew: "" };
-const weekTimes = {};
-const prayersTimes = {}
+const weekTimes = [];
+const prayersTimes = []
 
 async function getTimesEveryMidnight() {
     try {
-        const dateTime = DateTime.now();
         let data  = await getDayTimes();
-        convertToTime(data);
         copyToGlobalVar(data, dayTimes);
+        const dateTime = DateTime.now();
         const tommorow = dateTime.plus({ days: 1 }).toISODate();
         const midnight = DateTime.fromISO(tommorow);
         setTimeout(getTimesEveryMidnight, midnight - dateTime);// get the times every midnight 
@@ -23,9 +22,9 @@ async function getWeekTimesEverySunday() {
         let nextSunday = dateTime.plus({ days: 7 - dateTime.weekday }).toISODate();
         nextSunday = DateTime.fromISO(nextSunday);
         let data = await getWeekTimes(dateTime.toISODate(), nextSunday);
-        copyToGlobalVar(data, weekTimes);
+       data.forEach(t => weekTimes.push(t))
         data =await getPrayersTimes()
-        copyToGlobalVar(data, prayersTimes)
+        data.forEach(p => prayersTimes.push(p))
         setTimeout(getWeekTimesEverySunday, nextSunday - dateTime);// get the times every midnight
     } catch (err) { console.log(err); }
 }
@@ -53,13 +52,15 @@ async function getDayTimes() {
 }
 
 async function getPrayersTimes() {
-    return {hol: { shahrit: dayTimes.sunrise, minha: dayTimes.sunset, arvit: dayTimes.tzeit_72 },
-        shabat: {shahrit: DateTime.fromISO(dayTimes.sunrise).plus({hours: 1}), minha: DateTime.fromISO(dayTimes.sunset).minus({hours:1}), arvit: dayTimes.tzeit_72}};
+    return  [
+        {name: "שחרית", time:"7:30", category: "shabat"},
+        {name: "מנחה", time:"4:30", category:"shabat"},
+        {name: "ערבית", time:"7:30", category: "shabat"}
+    ] 
 }
 
 async function getWeekTimes(now, nextSunday) {
-
-    const { data: { items } } = await axios.get(`https://www.hebcal.com/hebcal?v=1&cfg=json&maj=on&min=on&nx=on&year=now&month=x&start=${now}&end=${nextSunday}&ss=on&mf=on&c=on&geoname=Bnei Brakgeonameid=295514&M=on&s=on&leyning=off`);
+    const { data: { items } } = await axios.get(`https://www.hebcal.com/hebcal?v=1&cfg=json&maj=on&i=on&M=on&min=on&nx=on&year=now&month=x&start=${now}&end=${nextSunday}&ss=on&mf=on&c=on&geo=geoname&geonameid=295514&M=on&s=on&leyning=off`);
     return items;
 }
 
@@ -92,11 +93,6 @@ function copyToGlobalVar(obj, global) {
     })// add the times to the timesData without overwriting the timesData object itself (so that the reference to timesData in the router doesn't change)
 }
 
-function convertToTime(times) {
-    Object.keys(times).forEach(key => {
-        times[key] = times[key].split('T')[1].slice(0, 5);
-    })
-}
 
 getTimesEveryMidnight();
 getHebrewDateEverySunset();
