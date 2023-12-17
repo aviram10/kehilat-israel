@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import '../styles/login.css'
 import {url} from '../config/server' 
-import cookie from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -10,6 +10,7 @@ export default function Login() {
     const [mode, setMode] = useState("login");
     const [input, setInput] = useState({ username: "", pass: "", remember: false, first_name: "", last_name: "", email: "", phone: ""})
     const [message, setMessage] = useState("");
+    const navigate = useNavigate();
     function changeMode() {
         setMode(prev => prev === "login" ? "signup" : "login")
     }
@@ -19,11 +20,14 @@ export default function Login() {
     }
     async function handleClick() {
         try {
-            let { date } = await axios.post(`${url}/${mode}`, input);
-            sessionStorage.setItem("user_id", date.user_id);
+            let { data } = await axios.post(`${url}/${mode}`, input);
+            console.log(data);
+            sessionStorage.setItem("user_id", data.user_id);
             if (input.remember) {
-                localStorage.setItem("user_id", date.user_id);
+                localStorage.setItem("user_id", data.user_id);
             }
+            navigate('/profile')
+
         } catch (error) {
             console.log(error);
         }

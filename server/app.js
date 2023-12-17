@@ -11,10 +11,10 @@ app.use(express.json());
 app.use((req, res, next) => {
     visitors++;
     console.log("visitors: ", visitors);
+    console.log("req.body: ", req.body); 
     next();
 });
-app.get("/login", identification, (req, res) => { res.send(req.user.user_id) });
-app.get("/login", (req, res) => { });
+app.post("/api/login", identification, (req, res) => { res.send({user_id : req.user.user_id}) });
 app.use("/api/times", timesRoter);
 app.use("/api/messages", messagesRoute);
 
