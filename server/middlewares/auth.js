@@ -3,9 +3,9 @@ const db = require("../database/db");
 
 async function identification (req, res, next) {
     try {
-         const cookies = cookie.parse(req.headers.cookie|| '');
+        const cookies = cookie.parse(req.headers.cookie|| '');
     if(!cookies.username || !cookies.pass) return res.status(401).send('unidentified');
-    const user = await db.get("users", ['*'], cookies.username, "username");
+    const [[user]] = await db.get("users", ['*'], cookies.username, "username");
     if(!user || user.pass != cookies.pass) return res.status(401).send('unidentified');
     req.user = user;
     return next();

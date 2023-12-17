@@ -37,7 +37,7 @@ async function del(table, value_key, key) {
  return await pool.query(`DELETE FROM ${table} WHERE ${key} = ${value_key}`)
 }
 async function add(table, cols, values) {
-        return await pool.query(`INSERT INTO ${table}(${cols.join(", ")}) VALUES ?`, [values])
+        return await pool.query(`INSERT INTO ${table}(${cols.join(", ")}) VALUES (?)`, [values])
 }
 
 async function query(sql, values) {

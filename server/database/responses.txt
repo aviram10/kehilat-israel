@@ -1,0 +1,50 @@
+
+GET FROM SQL
+[
+  [
+    {
+      user_id: 1000,
+      username: 'user1',
+      first_name: 'יוחנן',
+      last_name: 'דויד',
+      pass: 'password1',
+      email: 'john.doe@example.com',
+      phone: '1234567890',
+      address: '123 Main St',
+      city: 'City1',
+      state: 'State1',
+      zip: '12345',
+      role: 'user'
+    }
+  ],
+  [
+    `user_id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `username` VARCHAR(255) NOT NULL UNIQUE_KEY,
+    `first_name` VARCHAR(255) NOT NULL,
+    `last_name` VARCHAR(255) NOT NULL,
+    `pass` VARCHAR(255) NOT NULL,
+    `email` VARCHAR(255) NOT NULL UNIQUE_KEY,
+    `phone` VARCHAR(255) NOT NULL UNIQUE_KEY,
+    `address` VARCHAR(255) NOT NULL,
+    `city` VARCHAR(255) NOT NULL,
+    `state` VARCHAR(255) NOT NULL,
+    `zip` VARCHAR(255) NOT NULL,
+    `role` VARCHAR(255) NOT NULL
+  ]
+]
+
+CHANGE TABLE
+
+[
+  ResultSetHeader {
+    fieldCount: 0,
+    affectedRows: 1,
+    insertId: 22,
+    info: '',
+    serverStatus: 2,
+    warningStatus: 0,
+    changedRows: 0
+  },
+  undefined
+]
+
