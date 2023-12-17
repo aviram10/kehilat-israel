@@ -7,7 +7,6 @@ async function getTimes(req, res) {
         times.hebrewDate = services.hebrewDate.hebrew || await services.getHebrewDate();
         times.prayers =services.prayersTimes || await services.getPrayersTimes();
         times.items= services.weekTimes || await services.getWeekTimes();
-        console.log(times);
         res.json(times);
     } catch (err) { console.log(err); }
 }
@@ -15,7 +14,7 @@ async function getTimes(req, res) {
 async function getHebrewDate(req, res) {
     try {
         const hebrewDate = services.hebrewDate.hebrew || await services.getHebrewDate();
-        res.json(hebrewDate);
+        res.send(hebrewDate);
     } catch (err) { console.log(err); }
 }
 

@@ -17,7 +17,7 @@ import { DateTime } from 'luxon';
 async function getTimes(setTimes) {
     try {
       console.log('getTimes');
-        const { data} = await axios.get(`${server.URL}/times`);
+        const { data} = await axios.get(`${server.url}/times`);
         console.log(data);
         setTimes(data);
     } catch (error) {

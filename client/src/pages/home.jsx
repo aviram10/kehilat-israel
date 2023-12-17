@@ -7,10 +7,9 @@ import DayTimes from "../comps/dayTimes";
 
 
 export default function Home({ times}) {
-    console.log(times);
 
-    return <Grid onClick={() => { console.log("test"); }} container sx={{ m: 2 }} rowSpacing={2} spacing={2}>
-        <Grid item lg={8} md={6} xs={10}>
+    return <Grid container maxWidth={"100%"}  rowSpacing={2} spacing={2}>
+        <Grid item lg={8} md={6} xs={12}>
             <div className="info" >
                 <h1>קהילת ישראל</h1>
                 <h2>בית כנסת שהוא גם קהילה</h2>
@@ -22,7 +21,7 @@ export default function Home({ times}) {
             <PrayersTimes isDaily={true} times={times && times.prayers}/>
             <DayTimes times={times} />
         </Grid>
-        <Grid item xs={11} border={"1px solid black"} sx={{ m: 2 }}>
+        <Grid item xs={12} border={"1px solid black"}>
             <h2>פרנס היום: בעילום שם לעילוי נשמת כל הנרצחים  </h2>
         </Grid>
     </Grid>

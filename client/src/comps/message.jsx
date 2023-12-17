@@ -1,7 +1,6 @@
 import React from 'react';
-import { Accordion, Avatar, Card, CardActions, CardContent, CardOverflow, Chip, Divider, Typography } from '@mui/joy';
+import { Accordion, Divider, Typography } from '@mui/joy';
 import '../styles/message.css';
-import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
 import CommentForm from './commentForm';
 import AccordionDetails, {
     accordionDetailsClasses,
@@ -9,66 +8,50 @@ import AccordionDetails, {
 import AccordionSummary, {
     accordionSummaryClasses,
 } from '@mui/joy/AccordionSummary';
+import MessageCard from './messageCard';
+import axios from 'axios';
+import { url } from '../config/server';
 
-export default function Message({ }) {
+async function getComments(message_id, setComments) {
+    const { data } = await axios.get(url + `/messages/${message_id}`);
+    setComments(data.comments);
+}
 
+
+export default function Message({ message }) {
+    const [comments, setComments] = React.useState([]);
     return <>
-        <Accordion 
+        <Accordion
+            onChange={() =>getComments(message.message_id, setComments)}
             sx={{
-                maxWidth: 603,
+              
                 borderRadius: 'lg',
                 [`& .${accordionSummaryClasses.button}:hover`]: {
-                  bgcolor: 'transparent',
+                      bgcolor: 'transparent',
                 },
                 [`& .${accordionDetailsClasses.content}`]: {
-                  boxShadow: (theme) => `inset 0 1px ${theme.vars.palette.divider}`,
-                  [`&.${accordionDetailsClasses.expanded}`]: {
-                    paddingBlock: '0.75rem',
-                  },
+                    boxShadow: (theme) => `inset 0 1px ${theme.vars.palette.divider}`,
+                    [`&.${accordionDetailsClasses.expanded}`]: {
+                        paddingBlock: '0.75rem',
+                    },
                 },
-              }}
+            }}
         >
-            <AccordionSummary>
-                <Card variant='plain'  orientation='horizontal' sx={{ p: 1 ,maxWidth: 500 }}>
-                    <CardOverflow >
-                        <CardContent sx={{ justifyContent: "start", p: 0, m: 0 }}>
-                            <Avatar size='lg' sx={{ alignSelf: "center", p: 0, mt: -1 }}>ר</Avatar>
-                            <Chip sx={{ mt: -2 }}>
-                                חבר קהילה
-                            </Chip>
-                        </CardContent>
-                    </CardOverflow>
-
-                    <CardContent>
-                        {/* <CardActionArea> */}
-                        <Typography level='title-md'>
-                            הזמנה לבר המצווה של בני שיחיה
-                        </Typography>
-                        <Typography level='body-sm'>
-                            נשמח לראותכם באירוע בר מצווה של בני שיחיה.
-                            תאריך: 10 באוגוסט 2022
-                            מקום: קהילת ישראל, רחוב הרצל 5, תל אביב
-                        </Typography>
-                        {/* </CardActionArea> */}
-                        <CardActions>
-                            <Chip>
-                                <SentimentVerySatisfiedIcon />
-
-                            </Chip>
-                            <Chip>
-                                פרטים
-                            </Chip>
-                        </CardActions>
-
-                    </CardContent>
-                </Card>
-
+            <AccordionSummary color='neutral'>
+                <MessageCard likes={message.likes}  >
+                    <Typography level='title-lg'>{message.title}</Typography>
+                    <Typography level='body-lg'>{message.content}</Typography>
+                </MessageCard>
             </AccordionSummary>
-            <AccordionDetails variant='soft'>
-                מזל טוב לבני שיחיה ולמשפחה!
-                שיהיה בהצלחה!
-                שיהיה רק מזל טוב
-                <CommentForm />
+            <AccordionDetails variant='soft' color="primary" >
+               
+            <div className="comment">  
+              {comments && comments.map((comment, i) =><><MessageCard likes={comment.likes}  key={i} >
+                    <Typography level='body-md'>{comment.comment}</Typography>
+                </MessageCard>  
+                <Divider/> </>)}
+              </div>  
+                <CommentForm sx={{m:1}} />
             </AccordionDetails>
             {/* <Divider /> */}
         </Accordion>

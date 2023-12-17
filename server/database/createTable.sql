@@ -28,7 +28,8 @@ CREATE TABLE donations (
 CREATE TABLE messages(
     message_id INT NOT NULL AUTO_INCREMENT,
     user_id INT NOT NULL,
-    message VARCHAR(255) NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    content VARCHAR(255),
     date DATE NOT NULL,
     likes INT UNSIGNED NOT NULL DEFAULT 0,
     category VARCHAR(255) NOT NULL,

@@ -18,4 +18,8 @@ async function adminAuth (req, res, next) {
     return next();
 }
 
-module.exports = {identification, adminAuth}
+async function auth (req, res, next) {
+    
+}
+
+module.exports = {identification, adminAuth, auth}

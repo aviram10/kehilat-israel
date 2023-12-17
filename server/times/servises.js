@@ -22,8 +22,10 @@ async function getWeekTimesEverySunday() {
         let nextSunday = dateTime.plus({ days: 7 - dateTime.weekday }).toISODate();
         nextSunday = DateTime.fromISO(nextSunday);
         let data = await getWeekTimes(dateTime.toISODate(), nextSunday);
+        weekTimes.splice(0, weekTimes.length)
        data.forEach(t => weekTimes.push(t))
         data =await getPrayersTimes()
+        prayersTimes.splice(0, prayersTimes.length)
         data.forEach(p => prayersTimes.push(p))
         setTimeout(getWeekTimesEverySunday, nextSunday - dateTime);// get the times every midnight
     } catch (err) { console.log(err); }

@@ -1,3 +1,3 @@
-const URL = 'http://localhost:3010/api';
+const url = 'http://localhost:3010/api';
 
-module.exports = {URL};
+module.exports = {url};
