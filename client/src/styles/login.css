@@ -11,15 +11,14 @@
     color: white;
 }
 .login{
-    
-   
+    height: fit-content;
     width: 50%;
    text-align: center;
    background-color:whitesmoke;
 }
 .login h1{
     color: goldenrod;
-    margin-top: 10%;
+    margin-top: 5%;
     text-align: center;
     font-size: 3em;
     margin-bottom: 0px;
@@ -36,7 +35,7 @@
     margin-top: 5px;
 }
 .form{
-   margin:  8% auto;
+   margin:  20px auto;
    height: 400px;
    max-height: 35%;
     max-width: 700px;
@@ -46,28 +45,24 @@
     justify-content: space-evenly   ;
     flex-direction: column;
     align-items: center;
-    padding: 10px;
+    /* padding: 10px; */
     border-radius: 10px;
     box-shadow: 0 0 10px #ccc;
 }
 #signup{
-  height: 700px;  
-  max-height: 50%;
-  margin:  4% auto;
+  height: 100%;
 }
-#signup input{
-    margin: 4px 0;
-}
+
 
    
 .form input{
     text-align: center;
     width: 75%;
     height: 50px;
-    margin: 10px 0;
+    margin: 4px 0;
     border: none;
     border-radius: 5px;
-    padding: 0 10px;
+    /* padding: 0 4px; */
     font-size: 16px;
     background-color: lightblue;
   
@@ -92,67 +87,4 @@
 }
 
 
-
-/* 
-.login{
-    text-align: center;
-    color: white;
-    font-family: sans-serif;
-    background: url("https://d33wubrfki0l68.cloudfront.net/3f7ab8af2882c2d3712671865fa3c2983f3fe8f6/19658/images/digital/digital-prog-as-02.jpg") no-repeat;
-    background-size: cover;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: start;
-    height:100vh;
-}
-.login h1{
-    text-align: center;
-    font-size: 4em;
-    margin-bottom: 0px;
-}
-.login h2{
-    text-align: center;
-    font-size: 3em;
-    margin-top: 0px;
-}
-.form{
-   margin: 8%;
-   height: 35%;
-    max-width: 700px;
-    width: 50%;
-    background-color: rgba(255, 255, 255, 0.784);
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px #ccc;
-}
-.form input{
-    text-align: center;
-    width: 75%;
-    height: 50px;
-    margin: 10px 0;
-    border: none;
-    border-radius: 5px;
-    padding: 0 10px;
-    font-size: 16px;
-    background-color: #f2f2f2;
-
-     
-}
-.form button{
-    width: 75%;
-    height: 40px;
-    margin: 10px 0;
-    border: none;
-    border-radius: 5px;
-    padding: 0 10px;
-    font-size: 16px;
-    background-color: #1E90FF;
-    color: white;
-    cursor: pointer;
-} */
 

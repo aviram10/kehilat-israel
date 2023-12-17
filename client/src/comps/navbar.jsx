@@ -16,7 +16,7 @@ export default function Navbar() {
         </div>
 
         <div className="account">
-            <NavLink to={"profile"}>  אזור אישי </NavLink>
+            <NavLink to={sessionStorage.user_id ? "profile" : "login"}>  אזור אישי </NavLink>
         </div>
     </div>
     <Outlet/>

@@ -8,10 +8,10 @@ import Messages from '../comps/messages';
 export default function Profile({params}) {
   return<>
   <h1>חשבון</h1>
-  <Sheet us  sx={{m:2, minHeight: "100vh"}}>
+  <Sheet   sx={{m:2, minHeight: "100vh"}}>
   
   <Grid container >
-    <Grid  useFlexGap xs={12} md={5}>
+    <Grid  xs={12} md={5}>
         <UserDetailsForm/>
         <Button fullWidth >עדכן</Button>
         <Typography sx={{mt:1}} color='danger' variant='solid' level='title-lg'>סה"כ חובות: 350 ש"ח <Button color='warning'>שלם</Button></Typography>
