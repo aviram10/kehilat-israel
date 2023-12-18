@@ -1,15 +1,12 @@
 const { get } = require("http");
 const {DateTime} = require('luxon');
 const db = require("../database/db");
-const { log } = require("console");
 
 
 async function getMessages(filters) {
     const values = Object.values(filters);
     const keys = Object.keys(filters);
-    console.log(values, keys);
     const messages = await db.get("messages", ['*'], values, keys);
-    console.log(messages);
     return messages[0];
 }
 

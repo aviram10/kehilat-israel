@@ -16,9 +16,7 @@ import { DateTime } from 'luxon';
 
 async function getTimes(setTimes) {
     try {
-      console.log('getTimes');
         const { data} = await axios.get(`${server.url}/times`);
-        console.log(data);
         setTimes(data);
     } catch (error) {
         setTimeout(() => {
@@ -28,7 +26,6 @@ async function getTimes(setTimes) {
 }
 
 function App() {
-  console.log('app');
   const [times, setTimes] = useState({});
   useEffect(() => {
     getTimes(setTimes)
@@ -36,9 +33,7 @@ function App() {
 
   useEffect(() => {
     if(!times.dayTimes) return;
-    console.log(times);
     const sunset = DateTime.fromISO(times.dayTimes.sunset)
-    console.log(sunset.diffNow());
     setTimeout(() => {
       getTimes(setTimes)
     }, sunset.diffNow());

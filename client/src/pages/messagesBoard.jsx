@@ -5,35 +5,44 @@ import { Input, Textarea, Button, Grid } from '@mui/joy';
 import Messages from '../comps/messages';
 import axios from 'axios';
 import { url } from '../config/server';
+import { useEffect } from 'react';
+import { getMessages } from '../functions/server';
 
 
 
 export default function MessagesBoard(params) {
-    const [input, setInput] = React.useState({});
+    const [input, setInput] = React.useState({title:'', category:'', content:''});
+    const [messages, setMessages] = React.useState([]);
+    
     const handleChange = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value });
     }
+
     const handleSubmit = async () => {
-        try{
+        try {
             console.log(input);
-       const {data} = await axios.post(`${url}/messages`, input)
-        console.log(data); 
-        }catch(error){
+            const { data } = await axios.post(`${url}/messages`, input,{withCredentials:true})
+            console.log(data);
+        } catch (error) {
             console.log(error);
         }
-       
     }
-
+    useEffect(() => {
+        console.log('useEffect');
+        getMessages().then((data) => {
+            setMessages(data);
+        })
+    }, [])
 
 
     return <>
         <Stack m="auto" maxWidth={600} alignItems="center" spacing={2}>
             <h1>לוח המודעות הקהילתי</h1>
             <Grid container spacing={1}>
-                <Grid item xs={12} sm={6} >
+                <Grid xs={12} sm={6} >
                     <Input name='category' value={input.category} onChange={handleChange} placeholder="נושא" required />
                 </Grid>
-                <Grid item xs={12} sm={6} >
+                <Grid xs={12} sm={6} >
                     <Input name='title' value={input.title} onChange={handleChange} placeholder="כותרת" required />
                 </Grid>
                 <Grid xs={12}>
@@ -43,7 +52,7 @@ export default function MessagesBoard(params) {
                 <Button type="submit" onClick={handleSubmit} fullWidth>פרסם</Button>
             </Grid>
 
-            <Messages times={5} />
+            <Messages messages={messages} />
         </Stack>
     </>
         ;
