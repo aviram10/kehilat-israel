@@ -4,6 +4,7 @@ const db = require("../database/db");
 async function identification (req, res, next) {
     try {
        let data = cookie.parse(req.headers.cookie|| '').username || req.body;
+       console.log(data);
     if(!data || !data.username || !data.pass) return res.status(401).send('unidentified');
     const [[user]] = await db.get("users", ['*'], data.username, "username");
     if(!user || user.pass != data.pass) return res.status(401).send('unidentified');

@@ -1,14 +1,15 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import '../styles/login.css'
-import {url} from '../config/server' 
+import { url } from '../config/server'
 import { useNavigate } from 'react-router-dom';
+import cookie from 'js-cookie';
 
 
 
 export default function Login() {
     const [mode, setMode] = useState("login");
-    const [input, setInput] = useState({ username: "", pass: "", remember: false, first_name: "", last_name: "", email: "", phone: ""})
+    const [input, setInput] = useState({ username: "", pass: "", remember: false, first_name: "", last_name: "", email: "", phone: "" })
     const [message, setMessage] = useState("");
     const navigate = useNavigate();
     function changeMode() {
@@ -26,6 +27,8 @@ export default function Login() {
             if (input.remember) {
                 localStorage.setItem("user_id", data.user_id);
             }
+            cookie.set("username", input.username, { expires: input.remember ? 7 : 1 })
+            cookie.set("pass", input.pass, { expires: input.remember ? 7 : 1 })
             navigate('/profile')
 
         } catch (error) {

@@ -6,7 +6,7 @@ const express = require('express');
 const app = express();
 
 let visitors = 0;
-app.use(cors())
+app.use(cors( {origin: "http://localhost:3000", credentials: true}  ))
 app.use(express.json());
 app.use((req, res, next) => {
     visitors++;
