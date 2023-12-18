@@ -1,3 +1,4 @@
+DROP DATABASE kehilat_israel;
 CREATE DATABASE kehilat_israel;
 USE kehilat_israel;
 CREATE TABLE users (
@@ -47,7 +48,7 @@ CREATE TABLE comments(
 
 );
 
-CREATE TABLE deductions(
+CREATE TABLE dedictions(
     deduction_id INT NOT NULL AUTO_INCREMENT,
     donation_id INT NOT NULL,
     user_id INT NOT NULL,
@@ -71,7 +72,19 @@ CREATE TABLE prayersTimes(
     fixed VARCHAR(255),
     category VARCHAR(255) NOT NULL,
     PRIMARY KEY (prayer_name)
-)
+);
+
+CREATE TABLE likes(
+    like_id INT NOT NULL AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    message_id INT ,
+    comment_id INT ,
+    CHECK (message_id IS NOT NULL OR comment_id IS NOT NULL),
+    PRIMARY KEY (like_id),
+    FOREIGN KEY (message_id) REFERENCES messages(message_id),
+    FOREIGN KEY (comment_id) REFERENCES comments(comment_id)
+
+);
       
 
 

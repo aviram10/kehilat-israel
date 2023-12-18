@@ -58,24 +58,24 @@ export default function Review() {
         </ListItem>
       </List>
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
+        <Grid xs={12} sm={6}>
           <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
             Shipping
           </Typography>
           <Typography gutterBottom>John Smith</Typography>
           <Typography gutterBottom>{addresses.join(', ')}</Typography>
         </Grid>
-        <Grid item container direction="column" xs={12} sm={6}>
+        <Grid container direction="column" xs={12} sm={6}>
           <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
             Payment details
           </Typography>
           <Grid container>
             {payments.map((payment) => (
               <React.Fragment key={payment.name}>
-                <Grid item xs={6}>
+                <Grid xs={6}>
                   <Typography gutterBottom>{payment.name}</Typography>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid xs={6}>
                   <Typography gutterBottom>{payment.detail}</Typography>
                 </Grid>
               </React.Fragment>

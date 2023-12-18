@@ -7,16 +7,15 @@ import CardOverflow from '@mui/joy/CardOverflow';
 import Avatar from '@mui/joy/Avatar';
 import Chip from '@mui/joy/Chip';
 import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
-import Cookies from 'js-cookie';
 
 
-export default function MessageCard({ likes, children}) {
+export default function MessageCard({ message, children}) {
     return <Card variant='soft' orientation='horizontal' sx={{ bgcolor: "transparent", p: 2, maxWidth: 600 }}>
         <CardOverflow >
             <CardContent sx={{ justifyContent: "start", p: 0, m: 0 }}>
-                <Avatar variant="soft" color='primary' size='md' sx={{ alignSelf: "center", p: 0, mt: -1 }}></Avatar>
+                <Avatar variant="soft" color='primary' size='md' sx={{ alignSelf: "center", p: 0, mt: -1 }}>{message.username}</Avatar>
                 <Chip variant='soft' sx={{ mt: -1 }}>
-                    חבר קהילה
+                   {message.role}
                 </Chip>
             </CardContent>
         </CardOverflow>
@@ -24,7 +23,7 @@ export default function MessageCard({ likes, children}) {
         {children}
             <CardActions  >
                 <Chip sx={{'& span': {display:"flex",alignItems: "center"}}}>
-                    {likes}
+                    {message.likes}
                     <SentimentVerySatisfiedIcon />
                 </Chip>
             </CardActions>

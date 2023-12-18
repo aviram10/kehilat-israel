@@ -9,7 +9,7 @@ import DayTimes from "../comps/dayTimes";
 export default function Home({ times}) {
 
     return <Grid container maxWidth={"100%"}  rowSpacing={2} spacing={2}>
-        <Grid item lg={8} md={6} xs={12}>
+        <Grid lg={8} md={6} xs={12}>
             <div className="info" >
                 <h1>קהילת ישראל</h1>
                 <h2>בית כנסת שהוא גם קהילה</h2>
@@ -17,11 +17,11 @@ export default function Home({ times}) {
             <p> ברוכים הבאים לאתר הבית כנסת שלנו. אנחנו קהילה חרדית שמחה ומאוחדת, שמקיימת את התורה והמצוות באהבה וביראה. באתר זה תוכלו למצוא מידע על השירותים, השיעורים, האירועים והפעילויות שאנחנו מציעים לחברי הקהילה ולכל המעוניינים. </p>
             <MyGallery />
         </Grid>
-        <Grid item lg={3} md={5} xs={10} style={{ border: "1px solid black" }} >
+        <Grid lg={3} md={5} xs={10} style={{ border: "1px solid black" }} >
             <PrayersTimes isDaily={true} times={times && times.prayers}/>
             <DayTimes times={times} />
         </Grid>
-        <Grid item xs={12} border={"1px solid black"}>
+        <Grid xs={12} border={"1px solid black"}>
             <h2>פרנס היום: בעילום שם לעילוי נשמת כל הנרצחים  </h2>
         </Grid>
     </Grid>

@@ -12,7 +12,7 @@ export default function Shipping() {
                 כתובת למשלוח
             </Typography>
             <Grid container spacing={3}>
-                <Grid item xs={12} sm={6}>
+                <Grid xs={12} sm={6}>
                     <TextField
                         required
                         id="firstName"
@@ -23,7 +23,7 @@ export default function Shipping() {
                         variant="standard"
                     />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid xs={12} sm={6}>
                     <TextField
                         required
                         id="lastName"
@@ -34,7 +34,7 @@ export default function Shipping() {
                         variant="standard"
                     />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid xs={12}>
                     <TextField
                         required
                         id="address1"
@@ -45,7 +45,7 @@ export default function Shipping() {
                         variant="standard"
                     />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid xs={12}>
                     <TextField
                         id="address2"
                         name="address2"
@@ -55,7 +55,7 @@ export default function Shipping() {
                         variant="standard"
                     />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid xs={12} sm={6}>
                     <TextField
                         required
                         id="city"
@@ -66,7 +66,7 @@ export default function Shipping() {
                         variant="standard"
                     />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid xs={12} sm={6}>
                     <TextField
                         id="state"
                         name="state"
@@ -75,7 +75,7 @@ export default function Shipping() {
                         variant="standard"
                     />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid xs={12} sm={6}>
                     <TextField
                         required
                         id="zip"
@@ -86,7 +86,7 @@ export default function Shipping() {
                         variant="standard"
                     />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid xs={12} sm={6}>
                     <TextField
                         required
                         id="country"
@@ -97,7 +97,7 @@ export default function Shipping() {
                         variant="standard"
                     />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid xs={12}>
                     <FormControlLabel
                         control={<Checkbox color="secondary" name="saveAddress" value="yes" />}
                         label="השתמש בכתובת זו לפרטי התשלום"

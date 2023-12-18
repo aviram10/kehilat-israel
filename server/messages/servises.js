@@ -1,13 +1,26 @@
 const { get } = require("http");
 const {DateTime} = require('luxon');
 const db = require("../database/db");
+const dataAccess = require("./dataAccess");
+const fs = require("fs/promises");
 
 
 async function getMessages(filters) {
-    const values = Object.values(filters);
-    const keys = Object.keys(filters);
-    const messages = await db.get("messages", ['*'], values, keys);
-    return messages[0];
+    const messages = await dataAccess.getMessages(filters);
+    messages.forEach(message => {  
+        message.date = DateTime.fromSQL(message.date).toFormat('dd-MM-yyyy');
+        delete message.first_name;
+        delete message.last_name;
+        delete message.email;
+        delete message.address;
+        delete message.city;
+        delete message.state;
+        delete message.zip;
+        delete message.phone;
+        delete message.pass;
+    });
+    console.log(messages);
+    return messages;
 }
 
 async function getComments(message_id) {
@@ -25,6 +38,6 @@ async function createMessage(message) {
     console.log(data);
     return data;
 }
-    
+    getMessages({ user_id: 1000})
 
 module.exports = { getMessages, getComments, createMessage }

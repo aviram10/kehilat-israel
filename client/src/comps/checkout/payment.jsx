@@ -12,7 +12,7 @@ export default function Payment() {
         Payment method
       </Typography>
       <Grid container spacing={3}>
-        <Grid item xs={12} md={6}>
+        <Grid xs={12} md={6}>
           <TextField
             required
             id="cardName"
@@ -22,7 +22,7 @@ export default function Payment() {
             variant="standard"
           />
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid xs={12} md={6}>
           <TextField
             required
             id="cardNumber"
@@ -32,7 +32,7 @@ export default function Payment() {
             variant="standard"
           />
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid xs={12} md={6}>
           <TextField
             required
             id="expDate"
@@ -42,7 +42,7 @@ export default function Payment() {
             variant="standard"
           />
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid xs={12} md={6}>
           <TextField
             required
             id="cvv"
@@ -53,7 +53,7 @@ export default function Payment() {
             variant="standard"
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid xs={12}>
           <FormControlLabel
             control={<Checkbox color="secondary" name="saveCard" value="yes" />}
             label="Remember credit card details for next time"

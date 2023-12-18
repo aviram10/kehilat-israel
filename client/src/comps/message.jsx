@@ -38,7 +38,7 @@ export default function Message({ message }) {
             }}
         >
             <AccordionSummary color='neutral'>
-                <MessageCard likes={message.likes}  >
+                <MessageCard message={message}  >
                     <Typography level='title-lg'>{message.title}</Typography>
                     <Typography level='body-md'>{message.content}</Typography>
                 </MessageCard>
