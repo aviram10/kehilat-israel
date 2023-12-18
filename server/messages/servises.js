@@ -21,7 +21,8 @@ async function createMessage(message) {
     const values = Object.values(message);
     values.push(DateTime.now().toFormat('yyyy-MM-dd'));
     const [{insertId}] = await db.add("messages", columns , values);
-    const data = await getMessages(insertId);
+    const data = await getMessages({message_id: insertId});
+    console.log(data);
     return data;
 }
     

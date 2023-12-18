@@ -7,26 +7,20 @@ import axios from 'axios';
 import { url } from '../config/server';
 import { useEffect } from 'react';
 import { getMessages } from '../functions/server';
-
-
+import MessageForm from '../comps/messageForm';
 
 export default function MessagesBoard(params) {
-    const [input, setInput] = React.useState({title:'', category:'', content:''});
     const [messages, setMessages] = React.useState([]);
-    
-    const handleChange = (e) => {
-        setInput({ ...input, [e.target.name]: e.target.value });
-    }
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (input) => {
         try {
-            console.log(input);
-            const { data } = await axios.post(`${url}/messages`, input,{withCredentials:true})
-            console.log(data);
+            const { data } = await axios.post(`${url}/messages`, input, { withCredentials: true });
+            setMessages([...data, ...messages]);
         } catch (error) {
             console.log(error);
         }
     }
+
     useEffect(() => {
         console.log('useEffect');
         getMessages().then((data) => {
@@ -38,19 +32,7 @@ export default function MessagesBoard(params) {
     return <>
         <Stack m="auto" maxWidth={600} alignItems="center" spacing={2}>
             <h1>לוח המודעות הקהילתי</h1>
-            <Grid container spacing={1}>
-                <Grid xs={12} sm={6} >
-                    <Input name='category' value={input.category} onChange={handleChange} placeholder="נושא" required />
-                </Grid>
-                <Grid xs={12} sm={6} >
-                    <Input name='title' value={input.title} onChange={handleChange} placeholder="כותרת" required />
-                </Grid>
-                <Grid xs={12}>
-                    <Textarea name='content' value={input.content} onChange={handleChange} minRows={2} placeholder="תוכן" />
-
-                </Grid>
-                <Button type="submit" onClick={handleSubmit} fullWidth>פרסם</Button>
-            </Grid>
+            <MessageForm handleSubmit={handleSubmit} />
 
             <Messages messages={messages} />
         </Stack>

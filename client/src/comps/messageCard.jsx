@@ -7,6 +7,7 @@ import CardOverflow from '@mui/joy/CardOverflow';
 import Avatar from '@mui/joy/Avatar';
 import Chip from '@mui/joy/Chip';
 import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
+import Cookies from 'js-cookie';
 
 
 export default function MessageCard({ likes, children}) {
