@@ -1,11 +1,33 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import UserDetailsForm from '../comps/userDetailsForm';
 import { Button, Grid, Sheet, Tab, TabList, TabPanel, Tabs, Typography } from '@mui/joy';
 import Messages from '../comps/messages';
+import { url } from '../config/server';
+import axios from 'axios';
 
-
+const getMessages =async (setMyMessages, setSavedMessages ) => {
+  try{
+     const {data} = await axios.get(`${url}/messages?user_id=${sessionStorage.getItem('user_id')}`)
+     console.log(data);
+     setMyMessages(data)
+  }catch(e){
+    console.log(e)
+  }
+}
 
 export default function Profile({params}) {
+  const [myMessages, setMyMessages] = React.useState([])
+  const [savedMessages, setSavedMessages] = React.useState([])
+  useEffect(()=>{
+    console.log('useEffect');
+    getMessages(setMyMessages, setSavedMessages)
+  },[])
+
+  useEffect(()=>{
+    console.log(myMessages);
+  },[myMessages])
+
+
   return<>
   <h1>חשבון</h1>
   <Sheet   sx={{m:2, minHeight: "100vh"}}>
@@ -27,7 +49,7 @@ export default function Profile({params}) {
    <Messages times={1} />
   </TabPanel>
   <TabPanel sx={{m:"auto"}}  value={1}>
-  <Messages times={3} />
+  <Messages messages={myMessages} />
   </TabPanel>
   
 </Tabs>

@@ -2,7 +2,7 @@
 const mysql = require('mysql2/promise');
 
 
- const pool = mysql.createPool({
+const pool = mysql.createPool({
     host: "localhost",
     database: "kehilat_israel",
     password: process.env.COMPUTERNAME === "DESKTOP-B0HJLB4" ? "123456" : "12345678",
@@ -20,35 +20,38 @@ async function getPrimaryKey(table) {
     return primaryKey;
 }
 async function update(table, cols, values, key_value) {
-        const primaryKey = await getPrimaryKey(table);
-        return await pool.query(`UPDATE ${table} SET ${cols.join("=?,")} = ?  WHERE ${primaryKey} = ? `, [...values, key_value])
+    const primaryKey = await getPrimaryKey(table);
+    return await pool.query(`UPDATE ${table} SET ${cols.join("=?,")} = ?  WHERE ${primaryKey} = ? `, [...values, key_value])
 }
 
-async function get(table, col, key_value, key) {
+async function get(table, col, key_value, key = []) {
     //if key not provide default value is the primary key. 
-    key = key || await getPrimaryKey(table);
-        //where you need all the rows add "" to avoid where.
-    if(key_value === '*') table += "--";
-    return await pool.query(`SELECT ${col.join(", ")} FROM ${table} WHERE ${key}= ?`, [key_value])
+    key = key.length > 0 ? key : await getPrimaryKey(table);
+    //where you need all the rows add "" to avoid where.
+    if (key_value === '*') table += "--";
+    if (!(key instanceof Array)) key = [key];//backword compatability
+    if (!(key_value instanceof Array)) key_value = [key_value];//backword compatability
+    return await pool.query(`SELECT ${col.join(", ")} FROM ${table} WHERE ${key.join("=? AND ")}= ?`, [...key_value])
 }
 
 async function del(table, value_key, key) {
     key = key || await getPrimaryKey(table)
- return await pool.query(`DELETE FROM ${table} WHERE ${key} = ${value_key}`)
+    return await pool.query(`DELETE FROM ${table} WHERE ${key} = ${value_key}`)
 }
 async function add(table, cols, values) {
-        return await pool.query(`INSERT INTO ${table}(${cols.join(", ")}) VALUES (?)`, [values])
+    return await pool.query(`INSERT INTO ${table}(${cols.join(", ")}) VALUES (?)`, [values])
 }
 
 async function query(sql, values) {
     return await pool.query(sql, values)
 }
-// async function main(){
-//     // console.log("get user => \n"+await get("users", ['*'], "1000"));
-//     // console.log("get users => \n"+await get("users--", ['*'], "1000"));
-//     // console.log("update user => \n"+await update("users", ["first_name","last_name"],["change", "me"], "1000"));
-//     // console.log("add users => \n"+await add("users", ['*'], "1000"));
-//     console.log(await pool.query('INS users SET last_name = "cohen"'));
-// }
+async function main() {
+    //     // console.log("get user => \n"+await get("users", ['*'], "1000"));
+    //     // console.log("get users => \n"+await get("users--", ['*'], "1000"));
+    //     // console.log("update user => \n"+await update("users", ["first_name","last_name"],["change", "me"], "1000"));
+    //     // console.log("add users => \n"+await add("users", ['*'], "1000"));
+    //     console.log(await pool.query('INS users SET last_name = "cohen"'));
+    // console.log(await get("messages", ['*'], ['1000', "ברכות"],[ 'user_id', 'category']));
+}
 // main()
 module.exports = { update, get, add, pool, del, query }

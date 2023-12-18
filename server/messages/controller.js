@@ -3,7 +3,12 @@ const servises = require("./servises")
 
 async function getMessages(req, res) {
     try {
-        const messages = await servises.getMessages();
+        console.log("query", req.query);
+        const filters = {};
+        if (req.query.category) filters.category = req.query.category;
+        if (req.query.user_id) filters.user_id = req.query.user_id;
+        console.log("filters", filters);
+        const messages = await servises.getMessages(filters);
         res.send(messages)
     } catch (err) { handleError(err, res) }
 }
