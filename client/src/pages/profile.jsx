@@ -7,9 +7,11 @@ import axios from 'axios';
 
 const getMessages =async (setMyMessages, setSavedMessages ) => {
   try{
-     let {data} = await axios.get(`${url}/messages?user_id=${sessionStorage.getItem('user_id')}`)
+    console.log(`${url}/messages?user_id=${sessionStorage.getItem('user_id')}`);
+     let {data} = await axios.get(`${url}/messages?user_id=${sessionStorage.getItem('user_id')}`, {withCredentials: true})
+     console.log(data);
      setMyMessages(data)
-      data = await axios.get(`${url}/messages?liked=true`)
+      data = await axios.get(`${url}/messages?liked=true`, {withCredentials: true})
       data = data.data;
      setSavedMessages(data)
   }catch(e){
@@ -21,13 +23,10 @@ export default function Profile({params}) {
   const [myMessages, setMyMessages] = React.useState([])
   const [savedMessages, setSavedMessages] = React.useState([])
   useEffect(()=>{
-    console.log('useEffect');
     getMessages(setMyMessages, setSavedMessages)
   },[])
 
-  useEffect(()=>{
-    console.log(myMessages);
-  },[myMessages])
+
 
 
   return<>

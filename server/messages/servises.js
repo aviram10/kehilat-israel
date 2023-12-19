@@ -8,7 +8,8 @@ const fs = require("fs/promises");
 async function getMessages(user, filters = {}) {
     const liked = filters.liked;
     delete filters.liked;
-    const messages = await dataAccess.getMessages(filters);
+    console.log(filters);
+    let messages = await dataAccess.getMessages(filters);
     if (!user|| filters.user_id) return messages;
     const likes = await dataAccess.getLikes("user_id", user.user_id);
     likes.forEach(like => {
@@ -19,11 +20,10 @@ async function getMessages(user, filters = {}) {
     messages.forEach(message => {
         prepareMessage(message);
     });
-    console.log(messages);
     if (liked) {
         messages = messages.filter(message => message.liked);
-        return messages;
     }
+    return messages;
 }
 function prepareMessage(message) {
     message.date = DateTime.fromSQL(message.date).toFormat('dd-MM-yyyy');

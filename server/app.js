@@ -10,7 +10,7 @@ app.use(cors( {origin: "http://localhost:3000", credentials: true}  ))
 app.use(express.json());
 app.use((req, res, next) => {
     visitors++;
-    // console.log("visitors: ", visitors);
+    console.log("visitors: ", visitors);
     // console.log("req.body: ", req.body); 
     next();
 });

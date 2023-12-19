@@ -1,4 +1,4 @@
-DROP DATABASE kehilat_israel;
+DROP DATABASE IF EXISTS kehilat_israel;
 CREATE DATABASE kehilat_israel;
 USE kehilat_israel;
 CREATE TABLE users (

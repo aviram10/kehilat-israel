@@ -4,7 +4,6 @@ import { Grid, Input, Textarea, Button } from '@mui/joy';
 
 
 export default function MessageForm({handleSubmit}) {
-    console.log(handleSubmit);
     const [input, setInput] = React.useState({ title: '', category: '', content: '' });
     const handleChange = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value })

@@ -2,12 +2,14 @@ const db = require('../database/db');
 
 async function getMessages(filters) {
     try {
+        console.log(filters);
         const values = Object.values(filters);
         const keys = Object.keys(filters);
         let query = `SELECT * FROM messages m LEFT JOIN users u ON m.user_id = u.user_id `;
         if (keys.length) {
-            query += `WHERE m.${keys.join('= ? AND m.')}`;
+            query += `WHERE m.${keys.join('= ? AND m.')} = ?`;
         }
+        console.log(query);
         const messages = await db.query(query, values);
         return messages[0];
     } catch (error) {
@@ -41,7 +43,6 @@ async function addLike(message_id, user_id, likes) {
         const like = await db.add("likes", ['message_id', 'user_id'], [message_id, user_id]);
         if (like[0].affectedRows) {
         const [{ affectedRows }] = await db.update("messages", ['likes'], [likes+1], message_id);
-        console.log(affectedRows);
         return affectedRows;
     }
     return 0;
@@ -56,7 +57,6 @@ async function deleteLike(like_id, likes, message_id) {
         if (like[0].affectedRows) {
            
         const [{ affectedRows }] = await db.update("messages", ['likes'], [likes-1], message_id);
-        console.log(affectedRows);
         return affectedRows;
     }
     return 0;

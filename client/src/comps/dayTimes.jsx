@@ -2,7 +2,6 @@ import { List, ListItem, ListItemText } from '@mui/material';
 import React from 'react';
 import "../styles/dayTimes.css"
 export default function DayTimes({times}) {
-    console.log(times);
     return<div className='dayTimes'>
         <h2>זמני היום</h2>
     <List>
