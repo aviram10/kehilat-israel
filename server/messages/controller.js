@@ -6,6 +6,7 @@ async function getMessages(req, res) {
         const filters = {};
         if (req.query.category) filters.category = req.query.category;
         if (req.query.user_id) filters.user_id = req.query.user_id;
+        if (req.query.liked) filters.liked = req.query.liked;
         const messages = await servises.getMessages( req.user, filters);
         res.send(messages)
     } catch (err) { handleError(err, res) }

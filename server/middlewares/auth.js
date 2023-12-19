@@ -6,7 +6,7 @@ async function identification(req, res, next) {
         // console.log(req.headers.cookie);
         let data = cookie.parse(req.headers.cookie || '');
         if (!data.username || !data.pass) data = req.body;
-        if (!data || !data.username || !data.pass) return  next();
+        if (!data || !data.username || !data.pass) return next();
         const [[user]] = await db.get("users", ['*'], data.username, "username");
         if (!user || user.pass != data.pass) return next();
         req.user = user;
@@ -21,7 +21,7 @@ async function adminAuth(req, res, next) {
 }
 
 async function auth(req, res, next) {
-
+        req.user ? next() : res.status(401).json("Unauthorized");
 }
 
 module.exports = { identification, adminAuth, auth }

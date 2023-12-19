@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.route("/")
     .get(getMessages)
-    .all(identification)
+    .all(auth)
     .post(createMessage)
     .all(adminAuth)
     .delete( deleteAllMessages)

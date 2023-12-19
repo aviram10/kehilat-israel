@@ -7,9 +7,11 @@ import axios from 'axios';
 
 const getMessages =async (setMyMessages, setSavedMessages ) => {
   try{
-     const {data} = await axios.get(`${url}/messages?user_id=${sessionStorage.getItem('user_id')}`)
-     console.log(data);
+     let {data} = await axios.get(`${url}/messages?user_id=${sessionStorage.getItem('user_id')}`)
      setMyMessages(data)
+      data = await axios.get(`${url}/messages?liked=true`)
+      data = data.data;
+     setSavedMessages(data)
   }catch(e){
     console.log(e)
   }
@@ -46,10 +48,10 @@ export default function Profile({params}) {
     
   </TabList>
   <TabPanel sx={{m:"auto"}} value={0}>
-   <Messages times={1} />
+  <Messages messages={myMessages} />
   </TabPanel>
   <TabPanel sx={{m:"auto"}}  value={1}>
-  <Messages messages={myMessages} />
+  <Messages messages={savedMessages} />
   </TabPanel>
   
 </Tabs>
