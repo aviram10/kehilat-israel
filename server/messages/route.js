@@ -1,6 +1,7 @@
 const express = require("express");
-const { getMessages, getMessage, createMessage, deleteMessage, editMessage, deleteAllMessages } = require("./controller");
+const { getMessages, toggleLike, getMessage, createMessage, deleteMessage, editMessage, deleteAllMessages } = require("./controller");
 const { auth, adminAuth, identification } = require("../middlewares/auth");
+
 const router = express.Router();
 
 router.route("/")
@@ -14,6 +15,7 @@ router.route("/:message_id")
     .all(identification, auth)
     .delete(deleteMessage) //delete comments
     .put(editMessage)
+router.put("/:message_id/likes", toggleLike)
 
 
 module.exports = router;

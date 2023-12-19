@@ -3,13 +3,12 @@ const db = require("../database/db");
 
 async function identification(req, res, next) {
     try {
-        console.log(req.headers.cookie);
+        // console.log(req.headers.cookie);
         let data = cookie.parse(req.headers.cookie || '');
         if (!data.username || !data.pass) data = req.body;
-        console.log(data);
-        if (!data || !data.username || !data.pass) return res.status(401).send('unidentified');
+        if (!data || !data.username || !data.pass) return  next();
         const [[user]] = await db.get("users", ['*'], data.username, "username");
-        if (!user || user.pass != data.pass) return res.status(401).send('unidentified');
+        if (!user || user.pass != data.pass) return next();
         req.user = user;
         return next();
     } catch (error) { console.log(error); }

@@ -1,12 +1,12 @@
 import React from 'react';
 import Stack from '@mui/joy/Stack';
 import "../styles/messagesBoard.css";
-import Messages from '../comps/messages';
+import Messages from '../comps/messagesComps/messages';
 import axios from 'axios';
 import { url } from '../config/server';
 import { useEffect } from 'react';
 import { getMessages } from '../functions/server';
-import MessageForm from '../comps/messageForm';
+import MessageForm from '../comps/messagesComps/messageForm';
 
 export default function MessagesBoard(params) {
     const [messages, setMessages] = React.useState([]);

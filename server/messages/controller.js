@@ -6,7 +6,7 @@ async function getMessages(req, res) {
         const filters = {};
         if (req.query.category) filters.category = req.query.category;
         if (req.query.user_id) filters.user_id = req.query.user_id;
-        const messages = await servises.getMessages(filters);
+        const messages = await servises.getMessages( req.user, filters);
         res.send(messages)
     } catch (err) { handleError(err, res) }
 }
@@ -44,6 +44,16 @@ async function deleteAllMessages(req, res) {
 async function editAllmessages(req, res) {
 }
 
+async function toggleLike(req, res) {
+    // console.log(req.user);
+    try{
+       const data = await servises.toggleLike(req.params.message_id, req.user.user_id);
+         res.send(data > 0);
+    }catch(err){handleError(err,res)}
+    
+}
+
+
 
 
 function handleError(err, res) {
@@ -53,4 +63,4 @@ function handleError(err, res) {
 
 
 
-module.exports = { getMessages, getMessage, createMessage, deleteMessage, editMessage, deleteAllMessages, editAllmessages }
+module.exports = { getMessages, getMessage, createMessage, deleteMessage, editMessage, deleteAllMessages, editAllmessages, toggleLike }

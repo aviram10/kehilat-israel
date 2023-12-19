@@ -1,16 +1,16 @@
 USE kehilat_israel;
 
 INSERT INTO users (user_id, username, first_name, last_name, pass, email, phone, address, city, state, zip)
-VALUES (1000, 'user1', 'יוחנן', 'דויד', 'password1', 'john.doe@example.com', '1234567890', '123 Main St', 'City1', 'State1', '12345'),
-       (1001, 'user2', 'יעל', 'כהן', 'password2', 'jane.smith@example.com', '0987654321', '456 Elm St', 'City2', 'State2', '54321'),
-       (1002, 'user3', 'מיכאל', 'כהן', 'password3', 'michael.johnson@example.com', '9876543210', '789 Oak St', 'City3', 'State3', '67890'),
-       (1003, 'user4', 'אמילי', 'לוי', 'password4', 'emily.brown@example.com', '0123456789', '321 Pine St', 'City4', 'State4', '09876'),
-       (1004, 'user5', 'דוד', 'כהן', 'password5', 'david.taylor@example.com', '8765432109', '654 Maple St', 'City5', 'State5', '54321'),
-       (1005, 'user6', 'אוליביה', 'כהן', 'password6', 'olivia.miller@example.com', '7654321098', '987 Cedar St', 'City6', 'State6', '67890'),
-       (1006, 'user7', 'יעקב', 'כהן', 'password7', 'james.anderson@example.com', '6543210987', '654 Birch St', 'City7', 'State7', '12345'),
-       (1007, 'user8', 'שרה', 'כהן', 'password8', 'sophia.wilson@example.com', '5432109876', '321 Oak St', 'City8', 'State8', '54321'),
-       (1008, 'user9', 'בנימין', 'כהן', 'password9', 'benjamin.martinez@example.com', '4321098765', '789 Elm St', 'City9', 'State9', '67890'),
-       (1009, 'user10', 'אביגיל', 'כהן', 'password10', 'ava.harris@example.com', '3210987654', '123 Pine St', 'City10', 'State10', '09876');
+VALUES (1000, 'david', 'יוחנן', 'דויד', 'password1', 'john.doe@example.com', '1234567890', '123 Main St', 'City1', 'State1', '12345'),
+       (1001, 'yael', 'יעל', 'כהן', 'password2', 'jane.smith@example.com', '0987654321', '456 Elm St', 'City2', 'State2', '54321'),
+       (1002, 'michael', 'מיכאל', 'כהן', 'password3', 'michael.johnson@example.com', '9876543210', '789 Oak St', 'City3', 'State3', '67890'),
+       (1003, 'levy', 'אמילי', 'לוי', 'password4', 'emily.brown@example.com', '0123456789', '321 Pine St', 'City4', 'State4', '09876'),
+       (1004, 'dudi', 'דוד', 'כהן', 'password5', 'david.taylor@example.com', '8765432109', '654 Maple St', 'City5', 'State5', '54321'),
+       (1005, 'oliv', 'אוליביה', 'כהן', 'password6', 'olivia.miller@example.com', '7654321098', '987 Cedar St', 'City6', 'State6', '67890'),
+       (1006, 'yaakov', 'יעקב', 'כהן', 'password7', 'james.anderson@example.com', '6543210987', '654 Birch St', 'City7', 'State7', '12345'),
+       (1007, 'shara', 'שרה', 'כהן', 'password8', 'sophia.wilson@example.com', '5432109876', '321 Oak St', 'City8', 'State8', '54321'),
+       (1008, 'ben', 'בנימין', 'כהן', 'password9', 'benjamin.martinez@example.com', '4321098765', '789 Elm St', 'City9', 'State9', '67890'),
+       (1009, 'avi', 'אביגיל', 'כהן', 'password10', 'ava.harris@example.com', '3210987654', '123 Pine St', 'City10', 'State10', '09876');
 
 INSERT INTO messages (user_id, title, content, date, likes, category)
 VALUES

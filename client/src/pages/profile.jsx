@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import UserDetailsForm from '../comps/userDetailsForm';
 import { Button, Grid, Sheet, Tab, TabList, TabPanel, Tabs, Typography } from '@mui/joy';
-import Messages from '../comps/messages';
+import Messages from '../comps/messagesComps/messages';
 import { url } from '../config/server';
 import axios from 'axios';
 

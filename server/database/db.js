@@ -28,9 +28,9 @@ async function get(table, col, key_value, key = []) {
     //if key not provide default value is the primary key. 
     key = key.length > 0 ? key : await getPrimaryKey(table);
     //where you need all the rows add "" to avoid where.
-    if (key_value === '*' || key_value.length === 0) table += "--";
-    if (!(key instanceof Array)) key = [key];//backword compatability
     if (!(key_value instanceof Array)) key_value = [key_value];//backword compatability
+    if (key_value === '*' || key_value.length === 0 || key_value[0] === '*') table += "--";
+    if (!(key instanceof Array)) key = [key];//backword compatability
     return await pool.query(`SELECT ${col.join(", ")} FROM ${table} WHERE ${key.join("=? AND ")}= ?`, [...key_value])
 }
 

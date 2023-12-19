@@ -2,7 +2,7 @@ import React from 'react';
 import { Stack, Typography, Tabs, TabList, Tab, TabPanel } from '@mui/joy';
 import GenericTable from '../comps/Table';
 import {users, donations, messages} from '../demoData';
-import Messages from '../comps/messages';
+import Messages from '../comps/messagesComps/messages';
 
 export default function Managment(params) {
         const sx= {m:4, p: 4, textAlign: "center"}
@@ -33,4 +33,5 @@ export default function Managment(params) {
             </TabPanel>
         </Tabs>
         </>
+        
 };

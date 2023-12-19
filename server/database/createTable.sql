@@ -13,7 +13,7 @@ CREATE TABLE users (
     city VARCHAR(255) NOT NULL,
     state VARCHAR(255) NOT NULL,
     zip VARCHAR(255) NOT NULL,
-    role VARCHAR(255) NOT NULL DEFAULT 'user',
+    role VARCHAR(255) NOT NULL DEFAULT 'חבר קהילה',
     PRIMARY KEY (user_id)
 );
 
