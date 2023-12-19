@@ -9,7 +9,7 @@ import Like from './like';
 import { Divider } from '@mui/joy';
 
 
-export default function Message({ message, children}) {
+export default function Message({params: { message, edit, handleSuccess}, children}) {
     return<><Card variant='soft' orientation='horizontal' sx={{ bgcolor: "transparent", p: 2, maxWidth: 600 }}>
         <CardOverflow >
             <CardContent sx={{ justifyContent: "start", p: 0, m: 1, ml:3 }}>
@@ -19,7 +19,8 @@ export default function Message({ message, children}) {
         <CardContent >
         {children}
             <CardActions  >
-               <Like message={message} />
+               <Like params = {{message, children, handleSuccess}} />
+               {edit && <button onClick={() => edit(message)}>ערוך</button>}
             </CardActions>
         </CardContent>
     </Card><Divider/></> 

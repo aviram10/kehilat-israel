@@ -15,7 +15,7 @@ async function getComments(message_id, setComments) {
 }
 
 
-export default function ExtendMessage({ message }) {
+export default function ExtendMessage({params :{ message, handleSuccess, edit }}) {
     const [comments, setComments] = React.useState([]);
     const [expanded, setExpanded] = React.useState(false);
 
@@ -42,7 +42,7 @@ export default function ExtendMessage({ message }) {
             }}
         >
             <AccordionSummary color='neutral'>
-                <Message message={message}  >
+                <Message params = {{handleSuccess, message, edit}}  >
                     <Typography level='title-lg'>{message.title}</Typography>
                     <Typography level='body-md'>{expanded || message.content.length < 100 ? message.content : message.content.slice(0, 100) + "..."}</Typography>
                 </Message>
@@ -50,7 +50,7 @@ export default function ExtendMessage({ message }) {
             <AccordionDetails variant='soft' color="primary" >
                 <div className="comment">
                     {comments.map((comment) => 
-                    <Message  key={comment.comment_id} message={comment}  >
+                    <Message  key={comment.comment_id} params={{message: comment}}  >
                         <Typography level='body-md'>{comment.comment}</Typography>
                         
                     </Message>  

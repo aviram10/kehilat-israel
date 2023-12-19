@@ -29,7 +29,11 @@ export default function MessagesBoard(params) {
         <Stack m="auto" maxWidth={600} alignItems="center" spacing={2}>
             <h1>לוח המודעות הקהילתי</h1>
             <MessageForm handleSubmit={handleSubmit} />
-            <Messages messages={messages} />
+            <Messages messages={messages} handleSuccess={message => {
+                message.likes += message.liked ? -1 : 1;
+                message.liked = !message.liked;
+                setMessages([...messages]);
+            }}/>
         </Stack>
     </>
         ;
