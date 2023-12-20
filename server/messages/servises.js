@@ -5,13 +5,15 @@ const dataAccess = require("./dataAccess");
 const { handleError } = require("../functions");
 const e = require("express");
 
-async function getMessages(user, filters = {}) {
+async function getMessages( filters = {},user) {
     try {
         const liked = filters.liked;
         delete filters.liked;
+        console.log("getMessages: ", filters);
         let messages = await dataAccess.getMessages(filters);
-        if (!user || filters.user_id) return messages;
-        const likes = await dataAccess.getLikes("user_id", user.user_id);
+
+        if ( !user) return messages;
+        const likes = await dataAccess.getLikes("user_id", user.user_id) || []
         likes.forEach(like => {
             if (like.message_id)
                 messages.find(message => message.message_id == like.message_id).liked = true;
@@ -49,15 +51,18 @@ async function getComments(message_id) {
 
 async function toggleLike(message_id, user_id) {
     try {
+        console.log("service togglelike");
         let data;
         const likes = await dataAccess.getLikes("message_id", message_id);
         const like = likes.find(l => l.user_id === user_id);
+        console.log("like: ", like);
         if (like) {
+            console.log("delete like");
              data = await dataAccess.deleteLike(like.like_id, likes.length, message_id);
             return data
         }
         else  data = await dataAccess.addLike(message_id, user_id, likes.length);
-
+        console.log("add like");
         return data
     } catch (error) {
         handleError(error, res);

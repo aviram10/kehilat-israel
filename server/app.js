@@ -11,7 +11,7 @@ app.use(express.json());
 app.use((req, res, next) => {
     visitors++;
     console.log("visitors: ", visitors);
-    // console.log("req.body: ", req.body); 
+    console.log("req.url: ", req.url); 
     next();
 });
 app.use(identification)

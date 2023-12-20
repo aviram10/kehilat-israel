@@ -42,7 +42,7 @@ export default function Profile({ params }) {
       }
     },
    
-  }),[myMessages])
+  }),[])
 
   const  handleSuccess = message =>
   {setSavedMessages(savedMessages.filter(m => m.message_id !== message.message_id))}

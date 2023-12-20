@@ -21,7 +21,7 @@ export default function Message({params: { message, edit, handleMessage}, childr
         {children}
             <CardActions   >
                <Like params = {{message, children, handleMessage}} />
-               {edit && <EditIcon  color='primary'  />}
+               {edit && <EditIcon sx={{border: "1px solid blue" }} color='primary'  />}
                {edit && <DeleteIcon onClick={()=>{handleMessage.handleDelete(message.message_id)}}  sx={{color:"red"}}  />}
             </CardActions>
         </CardContent>
