@@ -12,7 +12,6 @@ async function getMessages(filters) {
         const messages = await db.query(query, values);
         return messages[0];
     } catch (error) {
-        console.log(data)
        
     }
 }
@@ -23,7 +22,7 @@ async function getComments(message_id) {
         const comments = await db.get(table, ['*'], [message_id], ['message_id']);
         return comments[0];
     } catch (error) {
-        console.log(data)
+        console.log(error)
        
     }
 }

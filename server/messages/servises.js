@@ -49,13 +49,14 @@ async function getComments(message_id) {
 
 async function toggleLike(message_id, user_id) {
     try {
+        let data;
         const likes = await dataAccess.getLikes("message_id", message_id);
-        const like = likes.find(like => like.user_id === user_id);
+        const like = likes.find(l => l.user_id === user_id);
         if (like) {
-            const data = await dataAccess.deleteLike(like.like_id, likes.length, message_id);
+             data = await dataAccess.deleteLike(like.like_id, likes.length, message_id);
             return data
         }
-        const data = await dataAccess.addLike(message_id, user_id, likes.length);
+        else  data = await dataAccess.addLike(message_id, user_id, likes.length);
 
         return data
     } catch (error) {

@@ -7,7 +7,7 @@ async function getMessages(req, res) {
         if (req.query.category) filters.category = req.query.category;
         if (req.query.user_id) filters.user_id = req.query.user_id;
         if (req.query.liked) filters.liked = req.query.liked;
-        const messages = await servises.getMessages( req.user, filters);
+        const messages = await servises.getMessages(req.user, filters);
         res.send(messages)
     } catch (err) { handleError(err, res) }
 }
@@ -28,7 +28,7 @@ async function createMessage(req, res) {
     if (!req.body.category) req.body.category = "general";
     let message = { title: req.body.title, content: req.body.content, category: req.body.category, user_id: req.user.user_id }
     try {
-       message =  await servises.createMessage(message);
+        message = await servises.createMessage(message);
         res.status(201).send(message);
     } catch (err) { handleError(err, res) }
 }
@@ -50,13 +50,18 @@ async function deleteAllMessages(req, res) {
 async function editAllmessages(req, res) {
 }
 
-async function toggleLike(req, res) {
-    // console.log(req.user);
-    try{
-       const data = await servises.toggleLike(req.params.message_id, req.user.user_id);
-         res.send(data > 0);
-    }catch(err){handleError(err,res)}
-    
+async function updateMessage(req, res) {
+    try {
+        let data;
+        switch (req.params.field) {
+            case "likes":
+                data = await servises.toggleLike(req.params.message_id, req.user.user_id);
+                break;
+            default:
+                return res.sendStatus(400);
+        }
+        return res.send(data > 0);
+    } catch (err) { handleError(err, res) }
 }
 
 
@@ -65,4 +70,4 @@ async function toggleLike(req, res) {
 
 
 
-module.exports = { getMessages, getMessage, createMessage, deleteMessage, editMessage, deleteAllMessages, editAllmessages, toggleLike }
+module.exports = { getMessages, getMessage, createMessage, deleteMessage, editMessage, deleteAllMessages, editAllmessages, updateMessage }

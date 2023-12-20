@@ -4,7 +4,6 @@ const dataAccess = require( './accessData')
 async function getUsers(value, key = "user_id"){
     try{
         const [[data]] = await dataAccess.getUsers(value, key);
-        console.log(data);
         return data;
 
     }catch(err){console.log(err);}
