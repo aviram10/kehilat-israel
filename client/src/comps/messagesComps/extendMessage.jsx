@@ -1,5 +1,5 @@
 import React from 'react';
-import { Accordion, Divider, Typography } from '@mui/joy';
+import { Accordion, Typography } from '@mui/joy';
 import '../../styles/message.css';
 import CommentForm from './commentForm';
 import AccordionDetails, { accordionDetailsClasses } from '@mui/joy/AccordionDetails';
@@ -15,7 +15,7 @@ async function getComments(message_id, setComments) {
 }
 
 
-export default function ExtendMessage({params :{ message, handleSuccess, edit }}) {
+export default function ExtendMessage({params :{ message, handleMessage, edit }}) {
     const [comments, setComments] = React.useState([]);
     const [expanded, setExpanded] = React.useState(false);
 
@@ -42,7 +42,7 @@ export default function ExtendMessage({params :{ message, handleSuccess, edit }}
             }}
         >
             <AccordionSummary color='neutral'>
-                <Message params = {{handleSuccess, message, edit}}  >
+                <Message params = {{handleMessage, message, edit}}  >
                     <Typography level='title-lg'>{message.title}</Typography>
                     <Typography level='body-md'>{expanded || message.content.length < 100 ? message.content : message.content.slice(0, 100) + "..."}</Typography>
                 </Message>

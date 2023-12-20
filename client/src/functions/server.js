@@ -20,7 +20,7 @@ export async function toggleLike( id){
 
 export async function deleteMessage(message_id){
     try{
-        const { data } = await axios.delete(`${url}/messages/${message_id}`,{withCredentials: true});
+        const data = await axios.delete(`${url}/messages/${message_id}`,{withCredentials: true});
         return data;
     }catch(err){console.log(err);}
 }

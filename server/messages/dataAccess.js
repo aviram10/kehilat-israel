@@ -81,6 +81,15 @@ async function deleteComments(id, key ="comment_id") {
     }
 }
 
-module.exports = { getMessages, getComments, getLikes, addLike, deleteLike, deleteMessage, deleteComments }
+async function deleteNMessageLikes(message_id) {
+    try {
+        const data = await db.del("likes", message_id, 'message_id');
+        return data;
+    } catch (error) {
+        console.log(data)
+    }
+}
+
+module.exports = { getMessages, getComments, getLikes, addLike, deleteLike, deleteMessage, deleteComments, deleteNMessageLikes }
 
 

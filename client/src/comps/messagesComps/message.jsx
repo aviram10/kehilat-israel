@@ -10,7 +10,7 @@ import {  Divider } from '@mui/joy';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
-export default function Message({params: { message, edit, handleSuccess}, children}) {
+export default function Message({params: { message, edit, handleMessage}, children}) {
     return<><Card variant='soft' orientation='horizontal' sx={{ bgcolor: "transparent", p: 2, maxWidth: 600 }}>
         <CardOverflow >
             <CardContent sx={{ justifyContent: "start", p: 0, m: 1, ml:3 }}>
@@ -20,9 +20,9 @@ export default function Message({params: { message, edit, handleSuccess}, childr
         <CardContent >
         {children}
             <CardActions   >
-               <Like params = {{message, children, handleSuccess}} />
+               <Like params = {{message, children, handleMessage}} />
                {edit && <EditIcon  color='primary'  />}
-               {edit && <DeleteIcon  sx={{color:"red"}}  />}
+               {edit && <DeleteIcon onClick={()=>{handleMessage.handleDelete(message.message_id)}}  sx={{color:"red"}}  />}
             </CardActions>
         </CardContent>
     </Card><Divider/></> 

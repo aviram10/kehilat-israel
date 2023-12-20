@@ -79,9 +79,11 @@ async function createMessage(message) {
 async function deleteMessage(message_id) {
     try {
         const ids = []
-        let [{ effectedRows }] = await dataAccess.deleteMessage(message_id);
-        ids.push(effectedRows);
-        const data = await deleteComments(message_id, "message_id");
+        let data = await dataAccess.deleteMessage(message_id);
+        ids.push(data);
+         data = await deleteComments(message_id, "message_id");
+        ids.push(data);
+        data  = await dataAccess.deleteNMessageLikes(message_id); 
         ids.push(data);
         return ids;
     } catch (err) { console.log(err); }

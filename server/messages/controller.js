@@ -34,6 +34,7 @@ async function createMessage(req, res) {
 }
 
 async function deleteMessage(req, res) {
+    console.log("deleteMessage", req.params.message_id);
     try {
         const data = await servises.deleteMessage(req.params.message_id);
         return res.send(data);

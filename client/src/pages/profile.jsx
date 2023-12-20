@@ -4,6 +4,7 @@ import { Button, Grid, Sheet, Tab, TabList, TabPanel, Tabs, Typography } from '@
 import Messages from '../comps/messagesComps/messages';
 import { url } from '../config/server';
 import axios from 'axios';
+const server = require('../functions/server');
 
 export const MessagesContext = createContext(null);
 
@@ -31,8 +32,21 @@ export default function Profile({ params }) {
   const handleMessages = useMemo(()=>({
     handleSave: async (input) =>{
       
-    }
-  }))
+    },
+    handleDelete: async (message_id) =>{
+      try{
+      await server.deleteMessage(message_id)   
+      setMyMessages(myMessages.filter(m => m.message_id !== message_id))
+      }catch(e){
+        console.log(e)
+      }
+    },
+   
+  }),[myMessages])
+
+  const  handleSuccess = message =>
+  {setSavedMessages(savedMessages.filter(m => m.message_id !== message.message_id))}
+
 
   return <>
     <h1>חשבון</h1>
@@ -52,11 +66,10 @@ export default function Profile({ params }) {
 
             </TabList>
             <TabPanel sx={{ m: "auto" }} value={0}>
-              <Messages messages={myMessages} edit={true} />
+              <Messages handleMessage={handleMessages} messages={myMessages} edit={true} />
             </TabPanel>
             <TabPanel sx={{ m: "auto" }} value={1}>
-              <Messages messages={savedMessages} handleSuccess = {message =>
-                {setSavedMessages(savedMessages.filter(m => m.message_id !== message.message_id))}} />
+              <Messages messages={savedMessages} handleMessage={{handleSuccess}} />
             </TabPanel>
 
           </Tabs>
