@@ -24,7 +24,7 @@ async function getMessages(user, filters = {}) {
             messages = messages.filter(message => message.liked);
         }
         return messages;
-    } catch (err) { handleError(err, res) }
+    } catch (err) { console.log(err); }
 }
 function prepareMessage(message) {
     message.date = DateTime.fromSQL(message.date).toFormat('dd-MM-yyyy');
@@ -78,20 +78,19 @@ async function createMessage(message) {
 async function deleteMessage(message_id) {
     try {
         const ids = []
-        let [{ insertId }] = await dataAccess.deleteMessage(message_id);
-        console.log(insertId);
-        ids.push(insertId);
-        [{ effectedRows }] = await deleteComments(message_id, "message_id");
+        let [{ effectedRows }] = await dataAccess.deleteMessage(message_id);
         ids.push(effectedRows);
+        const data = await deleteComments(message_id, "message_id");
+        ids.push(data);
         return ids;
     } catch (err) { console.log(err); }
 }
 
 async function deleteComments(id, key = "comment_id") {
     try {
-        const [{ effectedRows }] = await dataAccess.deleteComments(message_id, key);
+        const [{ effectedRows }] = await dataAccess.deleteComments(id, key);
         return effectedRows;
-    } catch (err) { handleError(err, res) }
+    } catch (err) { console.log(err); }
 }
 
 module.exports = { getMessages, getComments, createMessage, toggleLike, deleteMessage, deleteComments }

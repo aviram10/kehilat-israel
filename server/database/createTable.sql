@@ -80,10 +80,7 @@ CREATE TABLE likes(
     message_id INT ,
     comment_id INT ,
     CHECK (message_id IS NOT NULL OR comment_id IS NOT NULL),
-    PRIMARY KEY (like_id),
-    FOREIGN KEY (message_id) REFERENCES messages(message_id),
-    FOREIGN KEY (comment_id) REFERENCES comments(comment_id)
-
+    PRIMARY KEY (like_id)
 );
       
 
