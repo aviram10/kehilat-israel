@@ -6,10 +6,14 @@ import CardActions from '@mui/joy/CardActions';
 import CardOverflow from '@mui/joy/CardOverflow';
 import Budge from './budge';
 import Like from './like';
-import { Divider } from '@mui/joy';
-
+import {  Divider } from '@mui/joy';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import {MessagesContext} from '../../pages/profile';
 
 export default function Message({params: { message, edit, handleSuccess}, children}) {
+    const messages = React.useContext(MessagesContext);
+    console.log(messages);
     return<><Card variant='soft' orientation='horizontal' sx={{ bgcolor: "transparent", p: 2, maxWidth: 600 }}>
         <CardOverflow >
             <CardContent sx={{ justifyContent: "start", p: 0, m: 1, ml:3 }}>
@@ -18,9 +22,12 @@ export default function Message({params: { message, edit, handleSuccess}, childr
         </CardOverflow>
         <CardContent >
         {children}
-            <CardActions  >
+            <CardActions   >
                <Like params = {{message, children, handleSuccess}} />
-               {edit && <button onClick={() => edit(message)}>ערוך</button>}
+           
+               {edit && <EditIcon  color='primary'  />}
+               {edit && <DeleteIcon  sx={{color:"red"}}  />}
+              
             </CardActions>
         </CardContent>
     </Card><Divider/></> 

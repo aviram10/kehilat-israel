@@ -12,8 +12,9 @@ export default function MessagesBoard(params) {
     const [messages, setMessages] = React.useState([]);
     const handleSubmit = async (input) => {
         try {
+            //todo: get only the new message
             const { data } = await axios.post(`${url}/messages`, input, { withCredentials: true });
-            setMessages([...data, ...messages]);
+            setMessages([...data].reverse());
         } catch (error) {
             console.log(error);
         }

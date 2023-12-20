@@ -1,9 +1,11 @@
-import { useEffect, useState, createContext } from 'react';
+import { useEffect, useState, createContext, useMemo } from 'react';
 import UserDetailsForm from '../comps/userDetailsForm';
 import { Button, Grid, Sheet, Tab, TabList, TabPanel, Tabs, Typography } from '@mui/joy';
 import Messages from '../comps/messagesComps/messages';
 import { url } from '../config/server';
 import axios from 'axios';
+
+export const MessagesContext = createContext(null);
 
 
 const getMessages = async (setMyMessages, setSavedMessages) => {
@@ -18,7 +20,6 @@ const getMessages = async (setMyMessages, setSavedMessages) => {
     console.log(e)
   }
 }
-const LikeContext = createContext(null);
 
 export default function Profile({ params }) {
   const [myMessages, setMyMessages] = useState([])
@@ -26,6 +27,12 @@ export default function Profile({ params }) {
   useEffect(() => {
     getMessages(setMyMessages, setSavedMessages)
   }, [])
+
+  const handleMessages = useMemo(()=>({
+    handleSave: async (input) =>{
+      
+    }
+  }))
 
   return <>
     <h1>חשבון</h1>

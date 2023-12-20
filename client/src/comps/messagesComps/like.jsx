@@ -1,7 +1,9 @@
-import { useContext, useEffect, useMemo, useState } from 'react';
 import Chip from '@mui/joy/Chip';
 import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
 import { toggleLike } from "../../functions/server"
+import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
+import GradeSharpIcon from '@mui/icons-material/GradeSharp';
+
 
 
 export default function Like({params: { message, handleSuccess }}) {
@@ -20,14 +22,14 @@ export default function Like({params: { message, handleSuccess }}) {
             console.log(e)
         }
     }
-    const color = message.liked ? "purple" : "";
+    const color = message.liked ? "red" : "";
     // const color = useMemo(() => {
     //     return liked ? "purple" : ""
     // }, [liked])
     return <>
         <Chip color="neutral" sx={{ '& span': { display: "flex", alignItems: "center" }, color: { color } }}>
             {message.likes}
-            <SentimentVerySatisfiedIcon onClick={handleLike} sx={{ color: { color } }} />
+            <GradeSharpIcon onClick={handleLike} sx={{color:color}} />
         </Chip>
     </>
 };

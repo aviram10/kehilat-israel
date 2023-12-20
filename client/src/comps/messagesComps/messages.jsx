@@ -1,7 +1,6 @@
 import React from "react";
 import { AccordionGroup } from "@mui/joy";
 import ExtendMessage from "./extendMessage";
-
    
 
 export default function Messages({messages, handleSuccess, edit}) {

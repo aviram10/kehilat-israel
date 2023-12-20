@@ -24,13 +24,13 @@ async function update(table, cols, values, key_value) {
     return await pool.query(`UPDATE ${table} SET ${cols.join("=?,")} = ?  WHERE ${primaryKey} = ? `, [...values, key_value])
 }
 
-async function get(table, col, key_value, key = []) {
+async function get(table, col, key_value, key) {
+        if (!(key_value instanceof Array)) key_value = [key_value];//backword compatability
+        if (!(key instanceof Array)) key = [key];//backword compatability
     //if key not provide default value is the primary key. 
-    key = key.length > 0 ? key : await getPrimaryKey(table);
     //where you need all the rows add "" to avoid where.
-    if (!(key_value instanceof Array)) key_value = [key_value];//backword compatability
-    if (key_value === '*' || key_value.length === 0 || key_value[0] === '*') table += "--";
-    if (!(key instanceof Array)) key = [key];//backword compatability
+    if (!key_value[0]|| key_value[0] === '*') table += "--";
+    else if (!key[0]) await getPrimaryKey(table);
     return await pool.query(`SELECT ${col.join(", ")} FROM ${table} WHERE ${key.join("=? AND ")}= ?`, [...key_value])
 }
 

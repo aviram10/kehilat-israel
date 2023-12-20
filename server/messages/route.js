@@ -1,21 +1,22 @@
 const express = require("express");
 const { getMessages, toggleLike, getMessage, createMessage, deleteMessage, editMessage, deleteAllMessages } = require("./controller");
-const { auth, adminAuth, identification } = require("../middlewares/auth");
+const { userAuth, adminAuth, ownerAuth } = require("../middlewares/auth");
 
 const router = express.Router();
 
 router.route("/")
     .get(getMessages)
-    .all(auth)
+    .all(userAuth)
     .post(createMessage)
     .all(adminAuth)
     .delete( deleteAllMessages)
 router.route("/:message_id")
     .get(getMessage)//params if to send commants. default send
-    .all(identification, auth)
+    .all( ownerAuth)
     .delete(deleteMessage) //delete comments
     .put(editMessage)
-router.put("/:message_id/likes", toggleLike)
+router.route("/:message_id/:field")
+    .all(userAuth)
 
 
 module.exports = router;

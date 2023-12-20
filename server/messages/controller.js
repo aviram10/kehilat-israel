@@ -1,5 +1,5 @@
 const servises = require("./servises")
-
+const { handleError } = require("../functions")
 
 async function getMessages(req, res) {
     try {
@@ -7,7 +7,6 @@ async function getMessages(req, res) {
         if (req.query.category) filters.category = req.query.category;
         if (req.query.user_id) filters.user_id = req.query.user_id;
         if (req.query.liked) filters.liked = req.query.liked;
-        console.log(filters);
         const messages = await servises.getMessages( req.user, filters);
         res.send(messages)
     } catch (err) { handleError(err, res) }
@@ -35,6 +34,11 @@ async function createMessage(req, res) {
 }
 
 async function deleteMessage(req, res) {
+    try {
+        const data = await servises.deleteMessage(req.params.message_id);
+        return res.send(data);
+    } catch (err) { handleError(err, res) }
+
 }
 
 async function editMessage(req, res) {
@@ -58,10 +62,6 @@ async function toggleLike(req, res) {
 
 
 
-function handleError(err, res) {
-    console.log(err);
-    res.sendStatus(400)
-}
 
 
 
