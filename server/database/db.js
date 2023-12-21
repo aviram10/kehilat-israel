@@ -24,34 +24,48 @@ async function update(table, cols, values, key_value) {
     return await pool.query(`UPDATE ${table} SET ${cols.join("=?,")} = ?  WHERE ${primaryKey} = ? `, [...values, key_value])
 }
 
-async function get(table, col, key_value, key) {
-        if (!(key_value instanceof Array)) key_value = [key_value];//backword compatability
-        if (!(key instanceof Array)) key = [key];//backword compatability
-    //if key not provide default value is the primary key. 
-    //where you need all the rows add "" to avoid where.
-    if (!key_value[0]|| key_value[0] === '*') table += "--";
-    else if (!key[0]) await getPrimaryKey(table);
-    return await pool.query(`SELECT ${col.join(", ")} FROM ${table} WHERE ${key.join("=? AND ")}= ?`, [...key_value])
+//params: table: string, col: array, key_value: array, key: array
+//if keys and values are empty, will return all the rows.
+async function get(table, col, keys = [], values = []) {
+    try {
+        //where you need all the rows add -- to comment the where condition.
+        if (!values[0] || values[0] === '*') table += "--";
+        return await pool.query(`SELECT ${col.join(", ")} FROM ${table} WHERE ${keys.join("=? AND ")}= ?`, [...values])
+    } catch (e) {
+        console.log(e)
+    }
 }
 
-async function del(table, value_key, key) {
-    key = key || await getPrimaryKey(table)
-    return await pool.query(`DELETE FROM ${table} WHERE ${key} = ${value_key}`)
+//params: table: string, keys: array, values: array
+//return: sql data
+async function del(table, keys =[], values=[]) {
+    return await pool.query(`DELETE FROM ${table} WHERE ${keys.join(" = ?")} = ?`, [...values])
 }
+
+
+//params: table: string, cols: array, values: array
+//return: sql data
 async function add(table, cols, values) {
+    try{
     return await pool.query(`INSERT INTO ${table}(${cols.join(", ")}) VALUES (?)`, [values])
+    }catch(e){
+        console.log(e)
+    }
 }
 
 async function query(sql, values) {
     return await pool.query(sql, values)
 }
-async function main() {
-    //     // console.log("get user => \n"+await get("users", ['*'], "1000"));
-    //     // console.log("get users => \n"+await get("users--", ['*'], "1000"));
-    //     // console.log("update user => \n"+await update("users", ["first_name","last_name"],["change", "me"], "1000"));
-    //     // console.log("add users => \n"+await add("users", ['*'], "1000"));
-    //     console.log(await pool.query('INS users SET last_name = "cohen"'));
-    // console.log(await get("messages", ['*'], ['1000', "ברכות"],[ 'user_id', 'category']));
-}
+// async function main() {
+//     // console.log("get user => \n"+await get("users", ['*'], "1000"));
+//     // console.log("get users => \n"+await get("users--", ['*'], "1000"));
+//     // console.log("update user => \n"+await update("users", ["first_name","last_name"],["change", "me"], "1000"));
+//     // console.log("add users => \n"+await add("users", ['*'], "1000"));
+//     console.log(await pool.query('INS users SET last_name = "cohen"'));
+// console.log(await get("messages", ['*'], ['1000', "ברכות"],[ 'user_id', 'category']));
+// }
 // main()
+
+
+
 module.exports = { update, get, add, pool, del, query }

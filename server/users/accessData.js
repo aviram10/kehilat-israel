@@ -1,8 +1,8 @@
 const db = require('../database/db');
 
-async function getUsers(value, key = "user_id") {
+async function getUsers(values, keys = ["user_id"]) {
     try {
-     return  await db.get("users", ['*'], value, key);
+        return await db.get("users", ['*'], values, keys);
     } catch (err) { console.log(err); }
 }
 

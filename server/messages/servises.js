@@ -1,52 +1,68 @@
-const { get } = require("http");
 const { DateTime } = require('luxon');
 const db = require("../database/db");
 const dataAccess = require("./dataAccess");
 const { handleError } = require("../functions");
-const e = require("express");
 
-async function getMessages( filters = {},user) {
+//params: filters: object {key: value} empty object by default, user: object optional
+//return: array of objects
+async function getMessages( filters = {}, user) {
     try {
-        const liked = filters.liked;
+        const LikedByUser = filters.liked;
         delete filters.liked;
         console.log("getMessages: ", filters);
-        let messages = await dataAccess.getMessages(filters);
-
-        if ( !user) return messages;
-        const likes = await dataAccess.getLikes("user_id", user.user_id) || []
+        const keys = Object.keys(filters);
+        const values = Object.values(filters);
+        let [messages] = await dataAccess.getMessages(keys, values);
+        if ( !user ) return messages;
+        const [likes] = await dataAccess.getLikes(["user_id"],[ user.user_id]);
         likes.forEach(like => {
-            if (like.message_id)
-                messages.find(message => message.message_id == like.message_id).liked = true;
-        })
-
-        messages.forEach(message => {
-            prepareMessage(message);
-        });
-        if (liked) {
-            messages = messages.filter(message => message.liked);
-        }
+            if (like.message_id){
+                const message = messages.find(m => m.message_id == like.message_id);
+                if (message) message.liked = true;
+            }})
+           if ( LikedByUser)  messages = messages.filter(message => message.liked);
         return messages;
     } catch (err) { console.log(err); }
-}
-function prepareMessage(message) {
-    message.date = DateTime.fromSQL(message.date).toFormat('dd-MM-yyyy');
-    delete message.first_name;
-    delete message.last_name;
-    delete message.email;
-    delete message.address;
-    delete message.city;
-    delete message.state;
-    delete message.zip;
-    delete message.phone;
-    delete message.pass;
 }
 
 async function getComments(message_id) {
     try {
-        const comments = await dataAccess.getComments(message_id);
-        comments.forEach(comment => prepareMessage(comment))
+        const [comments] = await dataAccess.getComments(message_id);
         return comments;
+    } catch (err) { console.log(err); }
+}
+
+//params: message: object {title: string, content: string, category: string, user_id: number}
+//return: message object
+async function createMessage(message) {
+    try {
+        //prepare message for sql
+        const columns = Object.keys(message);
+        columns.push("date");
+        const values = Object.values(message);
+        values.push(DateTime.now().toFormat('yyyy-MM-dd'));
+        const [{ insertId }] = await db.add("messages", columns, values);
+        //get the new message
+        const data = await getMessages({ message_id: insertId });
+        return [data];
     } catch (err) { handleError(err, res) }
+}
+
+async function deleteMessage(message_id) {
+    //todo: create transaction to delete all the comments and likes of the message 
+    try {
+        await dataAccess.deleteMessage(message_id);
+        await deleteComments(["message_id"], [message_id]);
+        await dataAccess.deleteNMessageLikes(["message_id"], [message_id]); 
+        return true;
+    } catch (err) { console.log(err); }
+}
+
+async function deleteComments(id, key = "comment_id") {
+    try {
+        const [{ effectedRows }] = await dataAccess.deleteComments([key], [id]);
+        return effectedRows;
+    } catch (err) { console.log(err); }
 }
 
 async function toggleLike(message_id, user_id) {
@@ -55,7 +71,6 @@ async function toggleLike(message_id, user_id) {
         let data;
         const likes = await dataAccess.getLikes("message_id", message_id);
         const like = likes.find(l => l.user_id === user_id);
-        console.log("like: ", like);
         if (like) {
             console.log("delete like");
              data = await dataAccess.deleteLike(like.like_id, likes.length, message_id);
@@ -67,38 +82,6 @@ async function toggleLike(message_id, user_id) {
     } catch (error) {
         handleError(error, res);
     }
-}
-
-async function createMessage(message) {
-    try {
-        const columns = Object.keys(message);
-        columns.push("date");
-        const values = Object.values(message);
-        values.push(DateTime.now().toFormat('yyyy-MM-dd'));
-        const [{ insertId }] = await db.add("messages", columns, values);
-        const data = await getMessages({ message_id: insertId });
-        return data;
-    } catch (err) { handleError(err, res) }
-}
-
-async function deleteMessage(message_id) {
-    try {
-        const ids = []
-        let data = await dataAccess.deleteMessage(message_id);
-        ids.push(data);
-         data = await deleteComments(message_id, "message_id");
-        ids.push(data);
-        data  = await dataAccess.deleteNMessageLikes(message_id); 
-        ids.push(data);
-        return ids;
-    } catch (err) { console.log(err); }
-}
-
-async function deleteComments(id, key = "comment_id") {
-    try {
-        const [{ effectedRows }] = await dataAccess.deleteComments(id, key);
-        return effectedRows;
-    } catch (err) { console.log(err); }
 }
 
 module.exports = { getMessages, getComments, createMessage, toggleLike, deleteMessage, deleteComments }

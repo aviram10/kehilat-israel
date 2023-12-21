@@ -1,11 +1,13 @@
-const { get } = require('http');
 const dataAccess = require( './accessData')
 
-async function getUsers(value, key = "user_id"){
+//params: filters: object {key: value}
+//return: array of objects
+async function getUsers(filters){
     try{
-        const [[data]] = await dataAccess.getUsers(value, key);
+        const keys = Object.keys(filters);
+        const values = Object.values(filters);
+        const [data] = await dataAccess.getUsers(keys, values);
         return data;
-
     }catch(err){console.log(err);}
 }
 

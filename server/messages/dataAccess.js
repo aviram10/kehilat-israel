@@ -1,40 +1,54 @@
 const db = require('../database/db');
 const { handleError } = require('../functions');
 
-async function getMessages(filters) {
+//GET
+//------
+
+//params: keys: array of strings, values: array of values
+//return: array of sql data
+//if keys is empty return all messages
+async function getMessages(keys = [], values = []) {
     try {
-        console.log(filters);
-        const values = Object.values(filters);
-        const keys = Object.keys(filters);
-        let query = `SELECT * FROM messages m LEFT JOIN users u ON m.user_id = u.user_id `;
-        if (keys.length) {
-            query += `WHERE m.${keys.join('= ? AND m.')} = ?`;
-        }
-        console.log(query);
-        const messages = await db.query(query, values);
-        return messages[0];
+        //add user data to messages table
+        keys = keys.map(key => "m." + key)
+        const table = "messages m LEFT JOIN users u ON m.user_id = u.user_id";
+        const messages = await db.get(table, ['*'], keys, values);
+        return messages;
     } catch (error) {
-       
+
     }
 }
 
 async function getComments(message_id) {
     try {
         const table = "comments c JOIN users u ON c.user_id = u.user_id";
-        const comments = await db.get(table, ['*'], [message_id], ['message_id']);
-        return comments[0];
+        const comments = await db.get(table, ['*'],['message_id'] , [message_id]);
+        return comments;
     } catch (error) {
         console.log(error)
-       
+
     }
 }
 
-async function getLikes(filter, value) {
+//params: keys: array of strings, values: array of strings
+//return: array of sql data
+async function getLikes(keys = [], values = []) {
     try {
-        const likes = await db.get("likes", ['*'], [value], [filter]);
-        return likes[0];
+        const likes = await db.get("likes", ['*'], keys, values);
+        return likes;
     } catch (error) {
         handleError(error, res)
+    }
+}
+
+//================================================
+//ADD
+
+async function createMessage(cols, values) {
+    try {
+        return await db.add("messages", cols, values);
+    } catch (error) {
+       console.log(error);
     }
 }
 
@@ -42,10 +56,10 @@ async function addLike(message_id, user_id, likes) {
     try {
         const like = await db.add("likes", ['message_id', 'user_id'], [message_id, user_id]);
         if (like[0].affectedRows) {
-        const [{ affectedRows }] = await db.update("messages", ['likes'], [likes+1], message_id);
-        return affectedRows;
-    }
-    return 0;
+            const [{ affectedRows }] = await db.update("messages", ['likes'], [likes + 1], message_id);
+            return affectedRows;
+        }
+        return 0;
     } catch (error) {
         handleError(error, res)
     }
@@ -55,11 +69,11 @@ async function deleteLike(like_id, likes, message_id) {
     try {
         const like = await db.del("likes", like_id, 'like_id');
         if (like[0].affectedRows) {
-           
-        const [{ affectedRows }] = await db.update("messages", ['likes'], [likes-1], message_id);
-        return affectedRows;
-    }
-    return 0;
+
+            const [{ affectedRows }] = await db.update("messages", ['likes'], [likes - 1], message_id);
+            return affectedRows;
+        }
+        return 0;
     } catch (error) {
         handleError(error, res)
     }
@@ -67,23 +81,25 @@ async function deleteLike(like_id, likes, message_id) {
 
 async function deleteMessage(message_id) {
     try {
-        const data= await db.del("messages", message_id, 'message_id');
+        const data = await db.del("messages", ['message_id'],[ message_id]);
         return data;
     } catch (error) {
         console.log(error)
     }
 }
 
-async function deleteComments(id, key ="comment_id") {
+
+async function deleteComments(keys=[], values =[]) {
     try {
-        const data = await db.del("comments", id, key);
+        const data = await db.del("comments", keys, values);
         return data;
     } catch (error) {
         console.log(data)
     }
 }
 
-async function deleteNMessageLikes(message_id) {
+
+async function deleteNMessageLikes(keys =[], values =[]) {
     try {
         const data = await db.del("likes", message_id, 'message_id');
         return data;
@@ -92,6 +108,6 @@ async function deleteNMessageLikes(message_id) {
     }
 }
 
-module.exports = { getMessages, getComments, getLikes, addLike, deleteLike, deleteMessage, deleteComments, deleteNMessageLikes }
+module.exports = {createMessage, getMessages, getComments, getLikes, addLike, deleteLike, deleteMessage, deleteComments, deleteNMessageLikes }
 
 
