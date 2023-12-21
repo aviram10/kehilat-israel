@@ -8,21 +8,24 @@ const pool = mysql.createPool({
     password: process.env.COMPUTERNAME === "DESKTOP-B0HJLB4" ? "123456" : "12345678",
     user: "root"
 })
-async function getPrimaryKey(table) {
-    const sqlQuery = `SELECT K.COLUMN_NAME FROM  
-     INFORMATION_SCHEMA.TABLE_CONSTRAINTS T
-     JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE K
-     ON K.CONSTRAINT_NAME=T.CONSTRAINT_NAME  
-     WHERE K.TABLE_NAME=?
-     AND K.TABLE_SCHEMA='kehilat_israel'  
-     AND T.CONSTRAINT_TYPE='PRIMARY KEY' LIMIT 1;`
-    const [[{ COLUMN_NAME: primaryKey }]] = await pool.query(sqlQuery, [table])
-    return primaryKey;
+// async function getPrimaryKey(table) {
+//     const sqlQuery = `SELECT K.COLUMN_NAME FROM  
+//      INFORMATION_SCHEMA.TABLE_CONSTRAINTS T
+//      JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE K
+//      ON K.CONSTRAINT_NAME=T.CONSTRAINT_NAME  
+//      WHERE K.TABLE_NAME=?
+//      AND K.TABLE_SCHEMA='kehilat_israel'  
+//      AND T.CONSTRAINT_TYPE='PRIMARY KEY' LIMIT 1;`
+//     const [[{ COLUMN_NAME: primaryKey }]] = await pool.query(sqlQuery, [table])
+//     return primaryKey;
+// }
+
+//params: table: string, cols: array, keys: array, values: array keysValues: array
+//return: sql data
+async function update(table, cols, values, keys, keysValues) {
+    return await pool.query(`UPDATE ${table} SET ${cols.join("=?,")} = ?  WHERE ${keys.join("=?")} = ? `, [...values, ...keysValues])
 }
-async function update(table, cols, values, key_value) {
-    const primaryKey = await getPrimaryKey(table);
-    return await pool.query(`UPDATE ${table} SET ${cols.join("=?,")} = ?  WHERE ${primaryKey} = ? `, [...values, key_value])
-}
+
 
 //params: table: string, col: array, key_value: array, key: array
 //if keys and values are empty, will return all the rows.

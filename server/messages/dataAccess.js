@@ -1,5 +1,4 @@
 const db = require('../database/db');
-const { handleError } = require('../functions');
 
 //GET
 //------
@@ -15,14 +14,14 @@ async function getMessages(keys = [], values = []) {
         const messages = await db.get(table, ['*'], keys, values);
         return messages;
     } catch (error) {
-
+        console.log(error);
     }
 }
 
 async function getComments(message_id) {
     try {
         const table = "comments c JOIN users u ON c.user_id = u.user_id";
-        const comments = await db.get(table, ['*'],['message_id'] , [message_id]);
+        const comments = await db.get(table, ['*'], ['message_id'], [message_id]);
         return comments;
     } catch (error) {
         console.log(error)
@@ -37,8 +36,7 @@ async function getLikes(keys = [], values = []) {
         const likes = await db.get("likes", ['*'], keys, values);
         return likes;
     } catch (error) {
-        handleError(error, res)
-    }
+console.log(error);    }
 }
 
 //================================================
@@ -48,40 +46,46 @@ async function createMessage(cols, values) {
     try {
         return await db.add("messages", cols, values);
     } catch (error) {
-       console.log(error);
+        console.log(error);
     }
 }
 
-async function addLike(message_id, user_id, likes) {
+async function addLike(user_id, message_id, likes) {
     try {
-        const like = await db.add("likes", ['message_id', 'user_id'], [message_id, user_id]);
-        if (like[0].affectedRows) {
-            const [{ affectedRows }] = await db.update("messages", ['likes'], [likes + 1], message_id);
+        const [like] = await db.add("likes", ['message_id', 'user_id'], [message_id, user_id]);
+
+        if (like.affectedRows) {
+            console.log("add like: ", like.affectedRows);
+            const [{ affectedRows }] = await db.update("messages", ['likes'], [likes + 1],["message_id"], [message_id]);
             return affectedRows;
         }
         return 0;
     } catch (error) {
-        handleError(error, res)
+        console.log(error);
     }
 }
 
-async function deleteLike(like_id, likes, message_id) {
-    try {
-        const like = await db.del("likes", like_id, 'like_id');
-        if (like[0].affectedRows) {
 
-            const [{ affectedRows }] = await db.update("messages", ['likes'], [likes - 1], message_id);
-            return affectedRows;
+//params: message_id: number, user_id: number
+async function deleteLike(like_id, message_id, likes) {
+    try {
+        const [{ affectedRows }] = await db.del("likes",['like_id'], [like_id] );
+        if (affectedRows) {
+            console.log("delete like: ", affectedRows);
+            const [{ affectedRows1 }] = await db.update("messages", ['likes'], [likes - 1], ["message_id"],[message_id] );
+            return affectedRows1;
         }
         return 0;
     } catch (error) {
-        handleError(error, res)
+        console.log(error)
     }
 }
+
 
 async function deleteMessage(message_id) {
     try {
-        const data = await db.del("messages", ['message_id'],[ message_id]);
+        const data = await db.del("messages", ['message_id'], [message_id]);
+
         return data;
     } catch (error) {
         console.log(error)
@@ -89,7 +93,7 @@ async function deleteMessage(message_id) {
 }
 
 
-async function deleteComments(keys=[], values =[]) {
+async function deleteComments(keys = [], values = []) {
     try {
         const data = await db.del("comments", keys, values);
         return data;
@@ -98,16 +102,17 @@ async function deleteComments(keys=[], values =[]) {
     }
 }
 
-
-async function deleteNMessageLikes(keys =[], values =[]) {
+//params: message_id: number
+//return 
+async function deleteMessageLikes(message_id) {
     try {
-        const data = await db.del("likes", message_id, 'message_id');
-        return data;
+        const [{affectedRows}] = await db.del("likes",['message_id'],[ message_id] );
+        return affectedRows;
     } catch (error) {
         console.log(data)
     }
 }
 
-module.exports = {createMessage, getMessages, getComments, getLikes, addLike, deleteLike, deleteMessage, deleteComments, deleteNMessageLikes }
+module.exports = { createMessage, getMessages, getComments, getLikes, addLike, deleteLike, deleteMessage, deleteComments, deleteMessageLikes }
 
 
