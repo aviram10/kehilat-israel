@@ -15,7 +15,8 @@ export default function MessagesBoard(params) {
         try {
             //todo: get only the new message
             const { data } = await axios.post(`${url}/messages`, input, { withCredentials: true });
-            setMessages([...data].reverse());
+            console.log(data);
+            setMessages([data, ...messages]);
         } catch (error) {
             console.log(error);
         }

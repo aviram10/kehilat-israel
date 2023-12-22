@@ -43,8 +43,9 @@ async function createMessage(message) {
         values.push(DateTime.now().toFormat('yyyy-MM-dd'));
         const [{ insertId }] = await db.add("messages", columns, values);
         //get the new message
-        const data = await getMessages({ message_id: insertId });
-        return [data];
+        const [data] = await getMessages({ message_id: insertId });
+        console.log("createMessage: ", data);
+        return data;
     } catch (err) { console.log(err); }
 }
 
@@ -77,4 +78,4 @@ async function toggleLike(message_id, user_id) {
     }
 }
 
-module.exports = { getMessages, getComments, createMessage, toggleLike, deleteMessage, deleteComments }
+module.exports = { getMessages, getComments, createMessage, toggleLike, deleteMessage }

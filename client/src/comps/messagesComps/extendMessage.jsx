@@ -10,7 +10,6 @@ import Message from './message';
 
 async function getComments(message_id, setComments) {
     const { data } = await axios.get(url + `/messages/${message_id}`);
-    console.log(data);
     setComments(data.comments);
 }
 
@@ -50,7 +49,7 @@ export default function ExtendMessage({ message, handleMessage }) {
             <AccordionDetails variant='soft' color="primary" >
                 <div className="comment">
                     {comments.map((comment) => 
-                    <Message  key={comment.comment_id} params={{message: comment}}  >
+                    <Message  key={comment.comment_id} params={{message: comment, handleMessage}}  >
                         <Typography level='body-md'>{comment.comment}</Typography>
                         
                     </Message>  

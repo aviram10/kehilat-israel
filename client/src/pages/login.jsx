@@ -27,6 +27,7 @@ export default function Login() {
             if (input.remember) {
                 localStorage.setItem("user_id", data.user_id);
             }
+            //todo: check expire date of cookie 
             cookie.set("username", input.username, { expires: input.remember ? 7 : 1 })
             cookie.set("pass", input.pass, { expires: input.remember ? 7 : 1 })
             navigate('/profile')

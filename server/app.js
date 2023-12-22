@@ -1,5 +1,6 @@
 const timesRoter = require('./times/route');
 const messagesRoute = require("./messages/route")
+const usersRoute = require("./users/route")
 const { identification } = require("./middlewares/auth")
 const cors = require('cors');
 const express = require('express');
@@ -15,7 +16,7 @@ app.use((req, res, next) => {
     next();
 });
 app.use(identification)
-app.post("/api/login", (req, res) => { req.user ? res.send({user_id : req.user.user_id}) : res.status(401).send("unidentified") });
+app.use("/api/users", usersRoute);
 app.use("/api/times", timesRoter);
 app.use("/api/messages", messagesRoute);
 
