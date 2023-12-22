@@ -52,17 +52,16 @@ async function deleteMessage(message_id) {
     //todo: create transaction to delete all the comments and likes of the message 
     try {
         await dataAccess.deleteMessage(message_id);
-        await deleteComments(["message_id"], [message_id]);
         return true;
     } catch (err) { console.log(err); }
 }
 
-async function deleteComments(id, key = "comment_id") {
-    try {
-        const [{ effectedRows }] = await dataAccess.deleteComments([key], [id]);
-        return effectedRows;
-    } catch (err) { console.log(err); }
-}
+// async function deleteComments(id, key = "comment_id") {
+//     try {
+//         const [{ effectedRows }] = await dataAccess.deleteComments([key], [id]);
+//         return effectedRows;
+//     } catch (err) { console.log(err); }
+// }
 
 async function toggleLike(message_id, user_id) {
     try {

@@ -4,13 +4,12 @@ import { Button, Grid, Sheet, Tab, TabList, TabPanel, Tabs, Typography } from '@
 import Messages from '../comps/messagesComps/messages';
 import { url } from '../config/server';
 import axios from 'axios';
-const server = require('../functions/server');
+import  {deleteMessage, toggleLike} from '../functions/server';
 
 export const MessagesContext = createContext(null);
 
 
 const getMessages = async (setMyMessages, setSavedMessages) => {
-
   try {
     let { data } = await axios.get(`${url}/messages?user_id=${sessionStorage.getItem('user_id')}`, { withCredentials: true })
     setMyMessages(data)
@@ -29,23 +28,35 @@ export default function Profile({ params }) {
     getMessages(setMyMessages, setSavedMessages)
   }, [])
 
-  const handleMessages = useMemo(()=>({
-    handleSave: async (input) =>{
-      
+  const handleMyMessages = useMemo(() => ({
+    save: async (input) => {
     },
-    handleDelete: async (message_id) =>{
-      try{
-      await server.deleteMessage(message_id)   
-      setMyMessages(myMessages.filter(m => m.message_id !== message_id))
-      }catch(e){
+    delete: async (message_id,event) => {
+      try {
+        event.stopPropagation();
+        await deleteMessage(message_id)
+        setMyMessages(prev => prev.filter(m => m.message_id !== message_id))
+      } catch (e) {
         console.log(e)
       }
     },
-   
-  }),[])
+    toggleLike: ()=>{},
+    edit: true
+  }), [])
 
-  const  handleSuccess = message =>
-  {setSavedMessages(savedMessages.filter(m => m.message_id !== message.message_id))}
+  const handleSavedMessages = useMemo(() => ({
+    toggleLike: async message_id =>{
+      try {
+        await toggleLike(message_id);
+        //copy the message and change the liked property
+        setSavedMessages(prev => prev.filter(m => m.message_id !== message_id))
+      } catch (e) {
+        console.log(e)
+      }
+    }
+  }), [])
+
+ 
 
 
   return <>
@@ -66,10 +77,10 @@ export default function Profile({ params }) {
 
             </TabList>
             <TabPanel sx={{ m: "auto" }} value={0}>
-              <Messages handleMessage={handleMessages} messages={myMessages} edit={true} />
+              <Messages handleMessage={handleMyMessages} messages={myMessages} />
             </TabPanel>
             <TabPanel sx={{ m: "auto" }} value={1}>
-              <Messages messages={savedMessages} handleMessage={{handleSuccess}} />
+              <Messages messages={savedMessages} handleMessage={handleSavedMessages} />
             </TabPanel>
 
           </Tabs>

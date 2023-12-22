@@ -4,9 +4,7 @@ import { url } from '../config/server';
 
 export async function getMessages(filters={}) {
     try {
-        
         const { data } = await axios.get(`${url}/messages`,{withCredentials: true});
-        console.log(data);
         return data;
     } catch (err) { console.log(err); }
 }

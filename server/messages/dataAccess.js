@@ -84,21 +84,24 @@ async function deleteLike(like_id, message_id, likes) {
 
 async function deleteMessage(message_id) {
     try {
-        const data = await db.del("messages", ['message_id'], [message_id]);
-
+        let [data] = await db.del("messages", ['message_id'], [message_id]);
+        if(data.affectedRows)
+            data = await deleteMessageLikes(message_id);
+        if(data)
+            data = await deleteMessageComments(message_id);
+        console.log(data);
         return data;
     } catch (error) {
         console.log(error)
     }
 }
 
-
 async function deleteComments(keys = [], values = []) {
     try {
         const data = await db.del("comments", keys, values);
         return data;
     } catch (error) {
-        console.log(data)
+        console.log(error)
     }
 }
 
@@ -110,6 +113,15 @@ async function deleteMessageLikes(message_id) {
         return affectedRows;
     } catch (error) {
         console.log(data)
+    }
+}
+async function deleteMessageComments(message_id) {
+    console.log("deleteMessageComments");
+    try{
+        const [{affectedRows}] = await db.del("comments",['message_id'],[ message_id] );
+        return affectedRows;
+    }catch(error){
+        console.log(error)
     }
 }
 

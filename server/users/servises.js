@@ -6,7 +6,7 @@ async function getUsers(filters){
     try{
         const keys = Object.keys(filters);
         const values = Object.values(filters);
-        const [data] = await dataAccess.getUsers(keys, values);
+        const [data] = await dataAccess.getUsers(values, keys);
         return data;
     }catch(err){console.log(err);}
 }
