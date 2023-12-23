@@ -7,6 +7,8 @@ import { url } from '../config/server';
 import { getMessages } from '../functions/server';
 import MessageForm from '../comps/messagesComps/messageForm';
 import {toggleLike} from '../functions/server';
+import SelectIndicator from '../comps/messagesComps/select';
+import { Card } from '@mui/joy';
 
 
 export default function MessagesBoard(params) {
@@ -49,6 +51,11 @@ export default function MessagesBoard(params) {
         <Stack m="auto" maxWidth={600} alignItems="center" spacing={2}>
             <h1>לוח המודעות הקהילתי</h1>
             <MessageForm handleSubmit={handleSubmit} />
+            <Card variant='soft' sx={{width: "100%", m: 0}} orientation='horizontal'  >
+                <SelectIndicator />
+                <SelectIndicator />                
+                <SelectIndicator />                
+            </Card>
             <Messages messages={messages} handleMessage={handleMessages} />
         </Stack>
     </>

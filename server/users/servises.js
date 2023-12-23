@@ -1,4 +1,5 @@
 const dataAccess = require( './accessData')
+const util = require('../utils/accessData');
 
 //params: filters: object {key: value}
 //return: array of objects
@@ -10,6 +11,8 @@ async function getUsers(filters){
         return data;
     }catch(err){console.log(err);}
 }
+
+
 
 
 module.exports = {getUsers}

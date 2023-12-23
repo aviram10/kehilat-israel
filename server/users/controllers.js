@@ -1,4 +1,5 @@
-
+const servises = require('./services');
+const accessData = require('./accessData');
 
 
 async function login(req, res) {
@@ -6,7 +7,8 @@ async function login(req, res) {
 }
 async function register(req, res) {
     try {
-        const user = await servises.register(req.body);
+        //todo: validate req.body
+        const user = await accessData.addUser(req.body);
         res.status(201).send(user);
     } catch (err) { handleError(err, res) }
 }
