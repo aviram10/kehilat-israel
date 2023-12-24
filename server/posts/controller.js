@@ -72,7 +72,8 @@ async function deletePost(req, res) {
 async function editPost(req, res) {
     console.log("editPost: ", req.params.post_id);
     try {
-        const data = await servises.editPost(req.params.post_id, req.body);
+       
+        const data = await servises.editPost(req.params.post_id,{title: req.body.title, content: req.body.content});
         return res.send(data);
     } catch (err) { handleError(err, res) }
 }

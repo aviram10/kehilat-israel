@@ -126,6 +126,7 @@ async function deletePostComments(post_id) {
 
 async function editPost(post_id, data) {
     try {
+        console.log(data);
         const cols = Object.keys(data);
         const values = Object.values(data);
         const [status] = await db.update("posts", cols, values, ["post_id"], [post_id]);

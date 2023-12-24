@@ -9,7 +9,6 @@ import Budge from './budge';
 
 
 export default function Message({message, handleMessage, children}) {
-    console.log(handleMessage, message);
     return <>
    <Card variant='soft' orientation='horizontal' sx={{ bgcolor: "transparent", p: 2,width:"100%", maxWidth: 600 }}>
         <CardOverflow >

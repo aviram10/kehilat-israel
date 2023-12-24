@@ -24,8 +24,8 @@ export default function Profile() {
     const handleMyPosts = useMemo(() => ({
       save: async (input, post_id) => {
         try{
-          console.log(input, post_id);
-          const { data} = await axios.put(`${url}/posts/${post_id}`, { input }, { withCredentials: true })
+          const { data} = await axios.put(`${url}/posts/${post_id}`,  input , { withCredentials: true })
+          console.log(data);
           setMyPosts(prev => prev.map(post => post.post_id === post_id ? data : post))
         }catch(e){
           console.log(e)

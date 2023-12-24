@@ -11,12 +11,10 @@ import Comment from './comment';
 
 async function getComments(post_id, setComments) {
     const { data } = await axios.get(url + `/posts/${post_id}`);
-    console.log(data);
     setComments(data.comments);
 }
 
 export default function ExtebdPost({ post, handlePosts }) {
-    console.log(handlePosts, post);
     const [comments, setComments] = useState([]);
     const [extend, setExtend] = useState(false);
 
