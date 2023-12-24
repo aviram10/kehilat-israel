@@ -9,10 +9,10 @@ CREATE TABLE users (
     pass VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     phone VARCHAR(255) NOT NULL UNIQUE,
-    address VARCHAR(255) NOT NULL,
-    city VARCHAR(255) NOT NULL,
-    state VARCHAR(255) NOT NULL,
-    zip VARCHAR(255) NOT NULL,
+    address VARCHAR(255) ,
+    city VARCHAR(255)  ,
+    state VARCHAR(255) ,
+    zip VARCHAR(255) ,
     role VARCHAR(255) NOT NULL DEFAULT 'חבר קהילה',
     PRIMARY KEY (user_id)
 );

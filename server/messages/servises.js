@@ -8,7 +8,6 @@ async function getMessages(filters = {}, user) {
     try {
         const LikedByUser = filters.liked;
         delete filters.liked;
-        console.log("getMessages: ", filters);
         const keys = Object.keys(filters);
         const values = Object.values(filters);
         let [messages] = await dataAccess.getMessages(keys, values);
@@ -44,7 +43,6 @@ async function createMessage(message) {
         const [{ insertId }] = await db.add("messages", columns, values);
         //get the new message
         const [data] = await getMessages({ message_id: insertId });
-        console.log("createMessage: ", data);
         return data;
     } catch (err) { console.log(err); }
 }
@@ -57,12 +55,15 @@ async function deleteMessage(message_id) {
     } catch (err) { console.log(err); }
 }
 
-// async function deleteComments(id, key = "comment_id") {
-//     try {
-//         const [{ effectedRows }] = await dataAccess.deleteComments([key], [id]);
-//         return effectedRows;
-//     } catch (err) { console.log(err); }
-// }
+async function editMessage(message_id, data) {
+    try {
+        //validate data
+         await dataAccess.editMessage(message_id, data);
+         const [message] = await getMessages({message_id});
+        return message;
+    } catch (err) { console.log(err); }
+}
+
 
 async function toggleLike(message_id, user_id) {
     try {
@@ -78,4 +79,4 @@ async function toggleLike(message_id, user_id) {
     }
 }
 
-module.exports = { getMessages, getComments, createMessage, toggleLike, deleteMessage }
+module.exports = {editMessage, getMessages, getComments, createMessage, toggleLike, deleteMessage }

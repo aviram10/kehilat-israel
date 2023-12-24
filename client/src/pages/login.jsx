@@ -13,7 +13,7 @@ export default function Login() {
     const [message, setMessage] = useState("");
     const navigate = useNavigate();
     function changeMode() {
-        setMode(prev => prev === "login" ? "signup" : "login")
+        setMode(prev => prev === "login" ? "register" : "login")
     }
 
     function handleChange(e) {
@@ -21,19 +21,19 @@ export default function Login() {
     }
     async function handleClick() {
         try {
-            let { data } = await axios.post(`${url}/${mode}`, input);
-            console.log(data);
-            sessionStorage.setItem("user_id", data.user_id);
-            if (input.remember) {
-                localStorage.setItem("user_id", data.user_id);
-            }
+            let { data } = await axios.post(`${url}/users/${mode}`, input);
             //todo: check expire date of cookie 
             cookie.set("username", input.username, { expires: input.remember ? 7 : 1 })
             cookie.set("pass", input.pass, { expires: input.remember ? 7 : 1 })
-            navigate('/profile')
+            cookie.set("user_id", data.user_id, { expires: input.remember ? 7 : 1 })
+            setMessage(`${mode} success`)
+            setTimeout(() => {
+                navigate('/profile')    
+            }, 1000);
 
         } catch (error) {
             console.log(error);
+            setMessage(`${mode} failed \n ${error.message}`)
         }
     }
 

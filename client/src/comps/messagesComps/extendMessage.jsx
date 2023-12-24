@@ -10,6 +10,7 @@ import Message from './message';
 
 async function getComments(message_id, setComments) {
     const { data } = await axios.get(url + `/messages/${message_id}`);
+    console.log(data);
     setComments(data.comments);
 }
 
@@ -22,6 +23,8 @@ export default function ExtendMessage({ message, handleMessage }) {
         getComments(message.message_id, setComments)
         setExpanded(!expanded);
     }
+
+
 
     return <>
         <Accordion
@@ -41,23 +44,18 @@ export default function ExtendMessage({ message, handleMessage }) {
             }}
         >
             <AccordionSummary color='neutral'>
-                <Message params = {{handleMessage, message}}  >
-                    <Typography level='title-lg'>{message.title}</Typography>
-                    <Typography level='body-md'>{expanded || message.content.length < 100 ? message.content : message.content.slice(0, 100) + "..."}</Typography>
-                </Message>
+                <Message params={{ handleMessage, message }} />
             </AccordionSummary>
             <AccordionDetails variant='soft' color="primary" >
                 <div className="comment">
-                    {comments.map((comment) => 
-                    <Message  key={comment.comment_id} params={{message: comment, handleMessage}}  >
-                        <Typography level='body-md'>{comment.comment}</Typography>
-                        
-                    </Message>  
-
-                   )}
+                    {comments.map((comment) => {
+                        comment.content = comment.comment;
+                        return <Message key={comment.comment_id} params={{ message: comment, handleMessage }} />
+                    }
+                    )}
                 </div>
                 <CommentForm sx={{ m: 1 }} />
-               
+
             </AccordionDetails>
         </Accordion>
 

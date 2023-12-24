@@ -1,17 +1,16 @@
 const cookie = require('cookie');
-const users = require('../users/servises');
+const users = require('../users/accessData');
 const messages = require('../messages/servises');
-const { handleError } = require('../functions')
+const { handleError } = require('../utils/errors')
 
 async function identification(req, res, next) {
     try {
-        console.log(req.body);
         //get autintication datafrom cookie or body
         let data = cookie.parse(req.headers.cookie || '');
         if (!data.username || !data.pass) data = req.body;
         if (!data || !data.username || !data.pass) return next();
         //check if user exist and password is correct
-        const [user] = await users.getUsers({ username: data.username });
+        const [[user]] = await users.getUsers({ username: data.username });
         if (!user || user.pass != data.pass) return next();
         req.user = user;
         console.log("identification: ", user.user_id);
@@ -26,8 +25,16 @@ async function adminAuth(req, res, next) {
     return next();
 }
 
-async function userAuth(req, res, next) {
+async function userId(req, res, next) {
     req.user ? next() : res.status(401).json("Unauthorized");
+}
+
+async function userAuth(req, res, next) {
+    try{
+        if(!req.user) return res.status(401).send('unidentified');
+        if(req.user.user_id != req.params.user_id) return res.status(401).send('unauthorized');
+        return next();
+    }catch(err){handleError(err, res)}
 }
 
 async function ownerAuth(req, res, next) {
@@ -49,4 +56,4 @@ async function ownerAuth(req, res, next) {
 }
 
 
-module.exports = { identification, adminAuth, userAuth, ownerAuth }
+module.exports = { identification, adminAuth, userId, ownerAuth, userAuth }

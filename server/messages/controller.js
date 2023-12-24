@@ -1,5 +1,5 @@
 const servises = require("./servises")
-const { handleError } = require("../functions")
+const { handleError } = require("../utils/errors")
 const { DateTime } = require("luxon");
 
 
@@ -70,6 +70,11 @@ async function deleteMessage(req, res) {
 }
 
 async function editMessage(req, res) {
+    console.log("editMessage: ", req.params.message_id);
+    try {
+        const data = await servises.editMessage(req.params.message_id, req.body);
+        return res.sendStatus(data);
+    } catch (err) { handleError(err, res) }
 }
 
 async function deleteAllMessages(req, res) {

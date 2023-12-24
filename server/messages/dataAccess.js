@@ -65,7 +65,8 @@ async function addLike(user_id, message_id, likes) {
     }
 }
 
-
+//DELETE
+//================
 //params: message_id: number, user_id: number
 async function deleteLike(like_id, message_id, likes) {
     try {
@@ -89,7 +90,6 @@ async function deleteMessage(message_id) {
             data = await deleteMessageLikes(message_id);
         if(data)
             data = await deleteMessageComments(message_id);
-        console.log(data);
         return data;
     } catch (error) {
         console.log(error)
@@ -112,7 +112,6 @@ async function deleteMessageLikes(message_id) {
         const [{affectedRows}] = await db.del("likes",['message_id'],[ message_id] );
         return affectedRows;
     } catch (error) {
-        console.log(data)
     }
 }
 async function deleteMessageComments(message_id) {
@@ -125,6 +124,17 @@ async function deleteMessageComments(message_id) {
     }
 }
 
-module.exports = { createMessage, getMessages, getComments, getLikes, addLike, deleteLike, deleteMessage, deleteComments, deleteMessageLikes }
+async function editMessage(message_id, data) {
+    try {
+        const cols = Object.keys(data);
+        const values = Object.values(data);
+        const [status] = await db.update("messages", cols, values, ["message_id"], [message_id]);
+        return status;
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+module.exports = { editMessage, createMessage, getMessages, getComments, getLikes, addLike, deleteLike, deleteMessage, deleteComments, deleteMessageLikes }
 
 

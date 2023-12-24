@@ -3,3 +3,5 @@
     const values = Object.values(obj);
     return { keys, values };
  }
+
+   module.exports = { extractKeyValues }

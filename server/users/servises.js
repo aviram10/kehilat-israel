@@ -1,18 +1,25 @@
-const dataAccess = require( './accessData')
+const accessData = require( './accessData')
 const util = require('../utils/accessData');
+const messages = require('../messages/servises');
 
-//params: filters: object {key: value}
-//return: array of objects
-async function getUsers(filters){
+
+
+async function getUsers(filters) {
     try{
-        const keys = Object.keys(filters);
-        const values = Object.values(filters);
-        const [data] = await dataAccess.getUsers(values, keys);
-        return data;
-    }catch(err){console.log(err);}
+        const [users] = await accessData.getUsers(filters);
+        return users;
+    }catch(err){console.log(err);}  
 }
 
+async function updateUser(user_id, data){
+    try{
+        //todo: validate data
+        const [{affectedRows}] = await accessData.updateUser(user_id, data);
+        return affectedRows;
+    }catch(err){console.log(err);}
+}   
 
 
 
-module.exports = {getUsers}
+
+module.exports = {getUsers, updateUser}
