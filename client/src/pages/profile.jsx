@@ -1,53 +1,56 @@
 import { useEffect, useState, useMemo } from 'react';
 import UserDetailsForm from '../comps/userDetailsForm';
 import { Button, Grid, Sheet, Tab, TabList, TabPanel, Tabs, Typography } from '@mui/joy';
-import Messages from '../comps/messagesComps/messages';
 import { url } from '../config/server';
 import axios from 'axios';
-import { deleteMessage, toggleLike } from '../functions/server';
 import Cookies from 'js-cookie';
+import Posts from '../comps/postsComps/posts';
+import {toggleLike, deletePost} from '../functions/server';
 
-export default function Profile({ params }) {
-  const [myMessages, setMyMessages] = useState([])
-  const [savedMessages, setSavedMessages] = useState([])
+
+export default function Profile() {
+  const [myPosts, setMyPosts] = useState([])
+  const [savedPosts, setSavedPosts] = useState([])
   useEffect(() => {
-    axios.get(`${url}/users/${Cookies.get('user_id')}/messages?type=all`, { withCredentials: true })
+    axios.get(`${url}/users/${Cookies.get('user_id')}/posts?type=all`, { withCredentials: true })
       .then(({ data }) => {
         console.log(data);
-        setMyMessages(data.myMessages);
-        setSavedMessages(data.savedMessages);
+        setMyPosts(data.myPosts);
+        setSavedPosts(data.savedPosts);
       })
       .catch(e => console.log(e))
     }, [])
 
-    const handleMyMessages = useMemo(() => ({
-      save: async (input, message_id) => {
+    const handleMyPosts = useMemo(() => ({
+      save: async (input, post_id) => {
         try{
-          const { data} = await axios.put(`${url}/messages/${message_id}`, { input }, { withCredentials: true })
-          setMyMessages(myMessages.map(m => m.message_id === message_id ? data : m))
+          console.log(input, post_id);
+          const { data} = await axios.put(`${url}/posts/${post_id}`, { input }, { withCredentials: true })
+          setMyPosts(prev => prev.map(post => post.post_id === post_id ? data : post))
         }catch(e){
           console.log(e)
         }
       },
-      delete: async (message_id, event) => {
+      delete: async (post_id, event) => {
         try {
           event.stopPropagation();
-          await deleteMessage(message_id)
-          setMyMessages(prev => prev.filter(m => m.message_id !== message_id))
+          await deletePost(post_id)
+          setMyPosts(prev => prev.filter(post => post.post_id !== post_id))
         } catch (e) {
           console.log(e)
         }
       },
       toggleLike: () => { },
+      
       edit: true
     }), [])
 
-    const handleSavedMessages = useMemo(() => ({
-      toggleLike: async message_id => {
+    const handleSavedPosts = useMemo(() => ({
+      toggleLike: async post_id => {
         try {
-          await toggleLike(message_id);
+          await toggleLike(post_id);
           //copy the message and change the liked property
-          setSavedMessages(prev => prev.filter(m => m.message_id !== message_id))
+          setSavedPosts(prev => prev.filter(post => post.post_id !== post_id))
         } catch (e) {
           console.log(e)
         }
@@ -72,10 +75,10 @@ export default function Profile({ params }) {
 
               </TabList>
               <TabPanel sx={{ m: "auto" }} value={0}>
-                <Messages handleMessage={handleMyMessages} messages={myMessages} />
+                <Posts handlePosts={handleMyPosts} posts={myPosts} />
               </TabPanel>
               <TabPanel sx={{ m: "auto" }} value={1}>
-                <Messages messages={savedMessages} handleMessage={handleSavedMessages} />
+                <Posts posts={savedPosts} handlePosts={handleSavedPosts} />
               </TabPanel>
 
             </Tabs>

@@ -12,7 +12,7 @@ VALUES (1000, 'david', 'יוחנן', 'דויד', 'password1', 'john.doe@example.
        (1008, 'ben', 'בנימין', 'כהן', 'password9', 'benjamin.martinez@example.com', '4321098765', '789 Elm St', 'City9', 'State9', '67890'),
        (1009, 'avi', 'אביגיל', 'כהן', 'password10', 'ava.harris@example.com', '3210987654', '123 Pine St', 'City10', 'State10', '09876');
 
-INSERT INTO messages (user_id, title, content, date, likes, category)
+INSERT INTO posts (user_id, title, content, date, likes, category)
 VALUES
     (1000, "שלום לכולם!", "אני שמח להצטרף לקהילה החדשה.", '2022-01-01', 10, "ברכות"),
     (1001, "בעיה בפתרון", "היי, יש למישהו מושג איך לפתור את הבעיה הזו?", '2022-02-02', 20, "תגובות"),
@@ -37,7 +37,7 @@ VALUES
     (1000, "פיתוח אפליקציות נייטיב ב-Kotlin", "אני מחפש מישהו שיכול לעזור לי לפתח אפליקציות נייטיב ב-Kotlin.", '2023-09-09', 210, "פרויקטים");
 
 
-INSERT INTO comments (message_id, user_id, comment, date)
+INSERT INTO comments (post_id, user_id, content, date)
 VALUES
     (1, 1007, "נהדר להיות כאן!", DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY)),
     (1, 1008, "מצפה לאירועים!", DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY)),
@@ -156,7 +156,7 @@ VALUES
     (9, 1008, 9000, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY)),
     (10, 1009, 10000, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY));
 
-    INSERT INTO likes (user_id, message_id) VALUES
+    INSERT INTO likes (user_id, post_id) VALUES
     (1000, 1),
     (1001, 1),
     (1002, 1),

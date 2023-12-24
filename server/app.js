@@ -1,5 +1,5 @@
 const timesRoter = require('./times/route');
-const messagesRoute = require("./messages/route")
+const postsRoute = require("./posts/route")
 const usersRoute = require("./users/route")
 const { identification } = require("./middlewares/auth")
 const cors = require('cors');
@@ -18,6 +18,6 @@ app.use((req, res, next) => {
 app.use(identification)
 app.use("/api/users", usersRoute);
 app.use("/api/times", timesRoter);
-app.use("/api/messages", messagesRoute);
+app.use("/api/posts", postsRoute);
 
 app.listen(3010, () => console.log("listen on port 3010..."))

@@ -26,24 +26,24 @@ CREATE TABLE donations (
    
 );
 
-CREATE TABLE messages(
-    message_id INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE posts(
+    post_id INT NOT NULL AUTO_INCREMENT,
     user_id INT NOT NULL,
     title VARCHAR(255) NOT NULL,
     content VARCHAR(255),
     date DATE NOT NULL,
     likes INT UNSIGNED NOT NULL DEFAULT 0,
     category VARCHAR(255) NOT NULL,
-    PRIMARY KEY (message_id)
+    PRIMARY KEY (post_id)
 );
 
 CREATE TABLE comments(
     comment_id INT NOT NULL AUTO_INCREMENT,
     user_id INT NOT NULL,
-    message_id INT NOT NULL,
-    comment VARCHAR(255) NOT NULL,
+    post_id INT NOT NULL,
+    content VARCHAR(255) NOT NULL,
     date DATE NOT NULL,
-    likes INT UNSIGNED NOT NULL DEFAULT 0,
+    likes INT UNSIGNED  DEFAULT 0,
     PRIMARY KEY (comment_id)    
 
 );
@@ -77,9 +77,9 @@ CREATE TABLE prayersTimes(
 CREATE TABLE likes(
     like_id INT NOT NULL AUTO_INCREMENT,
     user_id INT NOT NULL,
-    message_id INT ,
+    post_id INT ,
     comment_id INT ,
-    CHECK (message_id IS NOT NULL OR comment_id IS NOT NULL),
+    CHECK (post_id IS NOT NULL OR comment_id IS NOT NULL),
     PRIMARY KEY (like_id)
 );
       

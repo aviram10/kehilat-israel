@@ -2,58 +2,59 @@ import axios from 'axios';
 import { url } from '../config/server';
 
 
-export async function getMessages(filters={}) {
+export async function getPosts(filters={}) {
     try {
-        const { data } = await axios.get(`${url}/messages`,{withCredentials: true});
+        const { data } = await axios.get(`${url}/posts`,{withCredentials: true});
+        console.log(data);
         return data;
     } catch (err) { console.log(err); }
 }
 
 export async function toggleLike( id){
     try{
-        const { data } = await axios.put(`${url}/messages/${id}/likes`, {},{withCredentials: true});
+        const { data } = await axios.put(`${url}/posts/${id}/likes`, {},{withCredentials: true});
         return data;
     }catch(err){console.log(err);}
 }
 
-export async function deleteMessage(message_id){
+export async function deletePost(post_id){
     try{
-        const data = await axios.delete(`${url}/messages/${message_id}`,{withCredentials: true});
+        const data = await axios.delete(`${url}/posts/${post_id}`,{withCredentials: true});
         return data;
     }catch(err){console.log(err);}
 }
 
-export async function postMessage(message){
+export async function postPost(post){
     try{
-        const { data } = await axios.post(`${url}/messages`, message,{withCredentials: true});
+        const { data } = await axios.post(`${url}/posts`, post,{withCredentials: true});
         return data;
     }catch(err){console.log(err);}
 }
 
-export async function postComment(message_id, comment){
+export async function postComment(post_id, comment){
     try{
-        const { data } = await axios.post(`${url}/messages/${message_id}/comments`, comment,{withCredentials: true});
+        const { data } = await axios.post(`${url}/posts/${post_id}/comments`, comment,{withCredentials: true});
         return data;
     }catch(err){console.log(err);}
 }
 
-export async function deleteComment(message_id, comment_id){
+export async function deleteComment(post_id, comment_id){
     try{
-        const { data } = await axios.delete(`${url}/messages/${message_id}/comments/${comment_id}`,{withCredentials: true});
+        const { data } = await axios.delete(`${url}/posts/${post_id}/comments/${comment_id}`,{withCredentials: true});
         return data;
     }catch(err){console.log(err);}
 }
 
-export async function editMessage(message_id, message){
+export async function editPost(post_id, post){
     try{
-        const { data } = await axios.put(`${url}/messages/${message_id}`, message,{withCredentials: true});
+        const { data } = await axios.put(`${url}/posts/${post_id}`, post,{withCredentials: true});
         return data;
     }catch(err){console.log(err);}
 }
 
-export async function editComment(message_id, comment_id, comment){
+export async function editComment(post_id, comment_id, comment){
     try{
-        const { data } = await axios.put(`${url}/messages/${message_id}/comments/${comment_id}`, comment,{withCredentials: true});
+        const { data } = await axios.put(`${url}/posts/${post_id}/comments/${comment_id}`, comment,{withCredentials: true});
         return data;
     }catch(err){console.log(err);}
 }   

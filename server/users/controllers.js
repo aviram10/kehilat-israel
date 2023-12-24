@@ -1,6 +1,6 @@
 const servises = require('./servises');
 const accessData = require('./accessData');
-const messages = require('../messages/servises');
+const posts = require('../posts/servises');
 const { handleError } = require('../utils/errors');
 
 
@@ -24,16 +24,16 @@ async function getUser(req, res) {
     } catch (err) { handleError(err, res) }
 }
 
-async function getMessages(req, res) {
+async function getPosts(req, res) {
     try{
         let result = {};
         if(req.params.type === "my" )
-            result = await messages.getMessages({user_id: req.params.user_id}, req.user);
+            result = await posts.getPosts({user_id: req.params.user_id}, req.user);
         else if(req.params.type === "saved")
-            result = await messages.getMessages({liked: true}, req.user);
+            result = await posts.getPosts({liked: true}, req.user);
         else if(!req.params.type){
-        result.myMessages = await messages.getMessages({user_id: req.params.user_id}, req.user);
-        result.savedMessages = await messages.getMessages({liked: true}, req.user);
+        result.myPosts = await posts.getPosts({user_id: req.params.user_id}, req.user);
+        result.savedPosts = await posts.getPosts({liked: true}, req.user);
         }
         else throw new Error("invalid type");
         res.send(result);
@@ -50,4 +50,4 @@ async function updateUser(req, res){
 
 
 
-module.exports = { login, register, getUser, getMessages, updateUser }
+module.exports = { login, register, getUser, getPosts, updateUser }

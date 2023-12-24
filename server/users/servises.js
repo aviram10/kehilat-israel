@@ -1,6 +1,6 @@
 const accessData = require( './accessData')
 const util = require('../utils/accessData');
-const messages = require('../messages/servises');
+const posts = require('../posts/servises');
 
 
 

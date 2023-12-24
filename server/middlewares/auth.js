@@ -1,6 +1,6 @@
 const cookie = require('cookie');
 const users = require('../users/accessData');
-const messages = require('../messages/servises');
+const posts = require('../posts/servises');
 const { handleError } = require('../utils/errors')
 
 async function identification(req, res, next) {
@@ -42,8 +42,8 @@ async function ownerAuth(req, res, next) {
         console.log("ownerAuth...");
         if (!req.user) return res.status(401).send('unidentified');
         let data;
-        if (req.params.message_id) [data] = await messages.getMessages({ message_id: req.params.message_id });
-        else if (req.params.comment_id) [data] = await messages.getComments(req.params.comment_id);
+        if (req.params.post_id) [data] = await posts.getPosts({ post_id: req.params.post_id });
+        else if (req.params.comment_id) [data] = await posts.getComments(req.params.comment_id);
         if (!data) return res.status(404).send('not found');
         console.log("data: ", data.user_id, "req.user: ", req.user.user_id);
         if (data.user_id !== req.user.user_id) return res.status(401).send('unauthorized');

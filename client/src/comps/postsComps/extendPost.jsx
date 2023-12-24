@@ -1,36 +1,35 @@
-import React from 'react';
-import { Accordion, Typography } from '@mui/joy';
+import { useState } from 'react';
+import { Accordion } from '@mui/joy';
 import '../../styles/message.css';
 import CommentForm from './commentForm';
 import AccordionDetails, { accordionDetailsClasses } from '@mui/joy/AccordionDetails';
 import AccordionSummary, { accordionSummaryClasses } from '@mui/joy/AccordionSummary';
 import axios from 'axios';
 import { url } from '../../config/server';
-import Message from './message';
+import Post from './post';
+import Comment from './comment';
 
-async function getComments(message_id, setComments) {
-    const { data } = await axios.get(url + `/messages/${message_id}`);
+async function getComments(post_id, setComments) {
+    const { data } = await axios.get(url + `/posts/${post_id}`);
     console.log(data);
     setComments(data.comments);
 }
 
-
-export default function ExtendMessage({ message, handleMessage }) {
-    const [comments, setComments] = React.useState([]);
-    const [expanded, setExpanded] = React.useState(false);
+export default function ExtebdPost({ post, handlePosts }) {
+    console.log(handlePosts, post);
+    const [comments, setComments] = useState([]);
+    const [extend, setExtend] = useState(false);
 
     const handleChange = () => {
-        getComments(message.message_id, setComments)
-        setExpanded(!expanded);
+        getComments(post.post_id, setComments)
+        setExtend(!extend);
     }
-
-
+    handlePosts.extend = extend;
 
     return <>
         <Accordion
             onChange={handleChange}
             sx={{
-
                 borderRadius: 'lg',
                 [`& .${accordionSummaryClasses.button}:hover`]: {
                     bgcolor: 'transparent',
@@ -44,15 +43,11 @@ export default function ExtendMessage({ message, handleMessage }) {
             }}
         >
             <AccordionSummary color='neutral'>
-                <Message params={{ handleMessage, message }} />
+                <Post {...{ post, handlePosts }} />
             </AccordionSummary>
             <AccordionDetails variant='soft' color="primary" >
                 <div className="comment">
-                    {comments.map((comment) => {
-                        comment.content = comment.comment;
-                        return <Message key={comment.comment_id} params={{ message: comment, handleMessage }} />
-                    }
-                    )}
+                    {comments.map((comment) => <Comment key={comment.comment_id} comment={comment}/>)}
                 </div>
                 <CommentForm sx={{ m: 1 }} />
 

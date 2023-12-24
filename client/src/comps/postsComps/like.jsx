@@ -3,11 +3,11 @@ import GradeSharpIcon from '@mui/icons-material/GradeSharp';
 
 
 
-export default function Like({params: { message, handleMessage }}) {
+export default function Like({message, handleMessage}) {
 
     const handleLike = async (e) => {
         e.stopPropagation();
-        handleMessage.toggleLike(message.message_id)
+        handleMessage.toggleLike(message.post_id)
     }
     const color = message.liked ? "red" : "";
  

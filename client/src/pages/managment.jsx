@@ -1,8 +1,7 @@
 import React from 'react';
 import { Stack, Typography, Tabs, TabList, Tab, TabPanel } from '@mui/joy';
 import GenericTable from '../comps/Table';
-import {users, donations, messages} from '../demoData';
-import Messages from '../comps/messagesComps/messages';
+import Posts from '../comps/postsComps/posts';
 
 export default function Managment(params) {
         const sx= {m:4, p: 4, textAlign: "center"}
@@ -23,13 +22,13 @@ export default function Managment(params) {
                 <Tab>הודעות</Tab>
             </TabList>
             <TabPanel value={0}>
-                <GenericTable data={users} />
+                {/* <GenericTable data={users} /> */}
             </TabPanel>
             <TabPanel value={1}>
-            <GenericTable data={donations} />
+            {/* <GenericTable data={donations} /> */}
             </TabPanel>
             <TabPanel value={2}>
-               <Messages times={3} />
+               {/* <Messages times={3} /> */}
             </TabPanel>
         </Tabs>
         </>
