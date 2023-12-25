@@ -13,6 +13,7 @@ export async function getPosts(filters={}) {
 export async function toggleLike( id){
     try{
         const { data } = await axios.put(`${url}/posts/${id}/likes`, {},{withCredentials: true});
+        console.log(data);
         return data;
     }catch(err){console.log(err);}
 }

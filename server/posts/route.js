@@ -16,7 +16,7 @@ router.route("/:post_id")
 router.route("/:post_id/comments")
     // .get(getComments)
 router.route("/:post_id/:field")
-    .all(ownerAuth)
+    .all(userId)
     .put(updatePost)
 
 

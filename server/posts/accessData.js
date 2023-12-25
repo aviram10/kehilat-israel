@@ -64,10 +64,11 @@ async function addLike(user_id, post_id, likes) {
 async function deleteLike(like_id, post_id, likes) {
     try {
         const [{ affectedRows }] = await db.del("likes",['like_id'], [like_id] );
+
+        console.log("delete like: ", affectedRows);
         if (affectedRows) {
-            console.log("delete like: ", affectedRows);
-            const [{ affectedRows1 }] = await db.update("posts", ['likes'], [likes - 1], ["post_id"],[post_id] );
-            return affectedRows1;
+            const [{ affectedRows }] = await db.update("posts", ['likes'], [likes - 1], ["post_id"],[post_id] );
+            return affectedRows;
         }
         return 0;
     } catch (error) {

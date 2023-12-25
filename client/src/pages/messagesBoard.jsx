@@ -26,7 +26,8 @@ export default function MessagesBoard(params) {
 
     const handlePosts = useMemo(() => ({
         toggleLike: post_id => {
-            toggleLike(post_id).then(() => {
+            toggleLike(post_id).then((data) => {
+                if(!data) return;
                 setPosts(prev => prev.map(p => {
                     if (p.post_id === post_id) {
                         return { ...p, likes: p.liked ? p.likes - 1 : p.likes + 1, liked: !p.liked }
