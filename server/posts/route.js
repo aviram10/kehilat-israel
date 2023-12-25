@@ -13,9 +13,12 @@ router.route("/:post_id")
     .all( ownerAuth)
     .delete(deletePost) //delete comments
     .put(editPost)
+router.route("/:post_id/comments")
+    // .get(getComments)
 router.route("/:post_id/:field")
     .all(ownerAuth)
     .put(updatePost)
+
 
 
 module.exports = router;

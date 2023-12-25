@@ -11,16 +11,19 @@ import FormatBold from '@mui/icons-material/FormatBold';
 import FormatItalic from '@mui/icons-material/FormatItalic';
 import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
 import Check from '@mui/icons-material/Check';
+import {postComment} from '../../functions/server'
 
-export default function CommentForm() {
+export default function CommentForm(post_id) {
   const [italic, setItalic] = React.useState(false);
   const [fontWeight, setFontWeight] = React.useState('normal');
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [comment, setComment] = React.useState('');
   return (
     <FormControl sx={{width: "80%", margin:"auto"}}>
       
       <Textarea
-
+        value={comment}
+        onChange={(event) => setComment(event.target.value)}
         placeholder=" תגובה..."
         minRows={2}
         endDecorator={
@@ -76,7 +79,7 @@ export default function CommentForm() {
             >
               <FormatItalic />
             </IconButton>
-            <Button sx={{ ml: 'auto' }}>Send</Button>
+            <Button onClick={()=>postComment(comment, post_id)} sx={{ ml: 'auto' }}>Send</Button>
           </Box>
         }
         sx={{
