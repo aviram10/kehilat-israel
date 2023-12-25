@@ -3,9 +3,11 @@ const accessData = require('../utils/accessData');
 
 async function getComments(filters) {
     try {
-        const {keys, values}= accessData.extractKeyValues(filters)
-        return await db.get("comments",['*'], keys, values)
-       ;
+        let {keys, values}= accessData.extractKeyValues(filters);
+        keys = keys.map(key => "c." + key)
+        const table = "comments c LEFT JOIN users u ON c.user_id = u.user_id";
+        const comments = await db.get(table, ['*'], keys, values);
+        return comments
     } catch (error) {
         console.log(error);
     }
@@ -29,7 +31,7 @@ async function deleteComments( filters ) {
     }
 }
 
-async function editComments( comment_id, content ) {
+async function editComments( content, comment_id ) {
     try {
         return await db.update("comments", ["content"],[content], ["comment_id"], [comment_id]);
     } catch (error) {

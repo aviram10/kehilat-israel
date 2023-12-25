@@ -8,9 +8,6 @@ router.route("/:comment_id")
     .all(ownerAuth)
     .delete(deleteComment)
     .put(editComment)
-router.route("/:post_id")
-    .get(getComments)
-    .all(userId)
-    .post(addComment)
+
 
 module.exports = router;

@@ -1,6 +1,6 @@
 const servises = require("./servises")
 const { handleError } = require("../utils/errors")
-const { DateTime } = require("luxon");
+const commantsData = require('../comments/accessData');
 
 
 async function getPosts(req, res) {
@@ -11,34 +11,18 @@ async function getPosts(req, res) {
         if (req.query.user_id) filters.user_id = req.query.user_id;
         filters.liked = req.query.liked === "true" ;
         const posts = await servises.getPosts(filters, req.user);
-        posts.forEach(post => {
-            preparPost(post);
-        });
         res.send(posts)
     } catch (err) { handleError(err, res) }
 }
 //rid of unneccesary fields to prepare post for client
-function preparPost(post) {
-    post.date = DateTime.fromSQL(post.date).toFormat('dd-MM-yyyy');
-    delete post.first_name;
-    delete post.last_name;
-    delete post.email;
-    delete post.address;
-    delete post.city;
-    delete post.state;
-    delete post.zip;
-    delete post.phone;
-    delete post.pass;
-}
+
 
 async function getPost(req, res) {
     try {
-        const [post] = await servises.getPosts({ post_id: req.params.post_id });
-        if (!post) return res.sendStatus(404);
-        if (req.query.comments == "false") return res.send(post)
-        const comments = await servises.getComments(req.params.post_id);
-        comments.forEach(comment => preparPost(comment))
-        return res.send({ post, comments })
+        const withComments = !(req.query.comments === "false");
+        console.log(withComments);
+        const post = await servises.getPost(req.params.post_id, withComments);
+        return res.send(post)
     } catch (err) { handleError(err, res) }
 }
 

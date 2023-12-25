@@ -14,7 +14,7 @@ async function getComments(post_id, setComments) {
     setComments(data.comments);
 }
 
-export default function ExtebdPost({ post, handlePosts }) {
+export default function ExtendPost({ post, handlePosts }) {
     const [comments, setComments] = useState([]);
     const [extend, setExtend] = useState(false);
 

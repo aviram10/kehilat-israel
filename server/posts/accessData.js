@@ -1,16 +1,18 @@
 const db = require('../database/db');
+const utils = require("../utils/accessData");
 
 //GET
 //------
-
 //params: keys: array of strings, values: array of values
 //return: array of sql data
 //if keys is empty return all posts
-async function getPosts(keys = [], values = []) {
+async function getPosts(filters={}) {
     try {
+        let { keys, values} = utils.extractKeyValues(filters);
+        
         //add user data to posts table
-        keys = keys.map(key => "m." + key)
-        const table = "posts m LEFT JOIN users u ON m.user_id = u.user_id";
+        keys = keys.map(key => "p." + key)
+        const table = "posts p LEFT JOIN users u ON p.user_id = u.user_id";
         const posts = await db.get(table, ['*'], keys, values);
         return posts;
     } catch (error) {
@@ -18,33 +20,22 @@ async function getPosts(keys = [], values = []) {
     }
 }
 
-async function getComments(post_id) {
-    try {
-        const table = "comments c JOIN users u ON c.user_id = u.user_id";
-        const comments = await db.get(table, ['*'], ['post_id'], [post_id]);
-        return comments;
-    } catch (error) {
-        console.log(error)
-
-    }
-}
-
 //params: keys: array of strings, values: array of strings
 //return: array of sql data
-async function getLikes(keys = [], values = []) {
+async function getLikes(filters ={}) {
     try {
+        const{keys, values} = utils.extractKeyValues(filters);
         const likes = await db.get("likes", ['*'], keys, values);
         return likes;
     } catch (error) {
 console.log(error);    }
 }
-
 //================================================
 //ADD
-
-async function createPost(cols, values) {
+async function createPost(post) {
     try {
-        return await db.add("posts", cols, values);
+        const {keys, values} = utils.extractKeyValues(post);
+        return await db.add("posts", keys, values);
     } catch (error) {
         console.log(error);
     }
@@ -52,7 +43,9 @@ async function createPost(cols, values) {
 
 async function addLike(user_id, post_id, likes) {
     try {
-        const [like] = await db.add("likes", ['post_id', 'user_id'], [post_id, user_id]);
+        const keys = ["post_id", "user_id"];
+        const values = [post_id, user_id];
+        const [like] = await db.add("likes", keys, values);
 
         if (like.affectedRows) {
             console.log("add like: ", like.affectedRows);
@@ -82,23 +75,15 @@ async function deleteLike(like_id, post_id, likes) {
     }
 }
 
-
-async function deletePost(post_id) {
+async function deletePosts(filters={}) {
+     //todo: create transaction to delete all the comments and likes of the post 
     try {
-        let [data] = await db.del("posts", ['post_id'], [post_id]);
+        const{keys, values} = utils.extractKeyValues(filters);
+        let [data] = await db.del("posts", keys, values);
         if(data.affectedRows)
-            data = await deletePostLikes(post_id);
+            data = await deletePostLikes(filters.post_id);
         if(data)
-            data = await deletePostComments(post_id);
-        return data;
-    } catch (error) {
-        console.log(error)
-    }
-}
-
-async function deleteComments(keys = [], values = []) {
-    try {
-        const data = await db.del("comments", keys, values);
+            data = await deletePostComments(filters.post_id);
         return data;
     } catch (error) {
         console.log(error)
@@ -126,7 +111,6 @@ async function deletePostComments(post_id) {
 
 async function editPost(post_id, data) {
     try {
-        console.log(data);
         const cols = Object.keys(data);
         const values = Object.values(data);
         const [status] = await db.update("posts", cols, values, ["post_id"], [post_id]);
@@ -136,6 +120,4 @@ async function editPost(post_id, data) {
     }
 }
 
-module.exports = { editPost, createPost, getPosts, getComments, getLikes, addLike, deleteLike, deletePost, deleteComments, deletePostLikes }
-
-
+module.exports = { editPost, createPost, getPosts, getLikes, addLike, deleteLike, deletePosts, deletePostLikes }

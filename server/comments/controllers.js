@@ -15,9 +15,8 @@ async function getComments(req, res) {
 async function getComment(req, res) {
     try {
         const { comment_id } = req.params;
-        const [[comment]] = await accessData.getComments({ comment_id });
-        
-        res.json(comment);
+        const [comment] = await servises.getComments({ comment_id });
+        res.send(comment);
     } catch (error) {
         console.log(error)
     }
@@ -28,10 +27,10 @@ async function addComment(req, res) {
         const { post_id } = req.params;
         const { user_id } = req.user.user_id;
         const { content } = req.body.comment;
-        const newComment = await servises.addComment({ post_id, user_id, content });
-        res.json(newComment);
+        const newComment = await servises.addComment({ content, post_id, user_id });
+        res.send(newComment);
     } catch (error) {
-        next(error);
+        console.log(error);
     }
 }
 
@@ -39,7 +38,7 @@ async function deleteComment(req, res) {
     try {
         const { comment_id } = req.params;
         const [{affectedRows}] = await accessData.deleteComments({ comment_id});
-        res.json(affectedRows);
+        res.send('deleted');
     } catch (error) {
         console.log(error);
     }
@@ -48,11 +47,12 @@ async function deleteComment(req, res) {
 async function editComment(req, res) {
     try {
         const { comment_id } = req.params;
-        const { content } = req.body.content;
-        const comment = await servises.editComment({ comment_id, content});
-        res.json(comment);
+        const { content } = req.body;
+        console.log("content: ", content, "comment_id: ", comment_id);
+        const comment = await servises.editComment( content, comment_id);
+        res.send(comment);
     } catch (error) {
-        next(error);
+        console.log(error);
     }
 }
 

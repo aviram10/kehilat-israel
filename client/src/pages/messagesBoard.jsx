@@ -6,7 +6,7 @@ import axios from 'axios';
 import { url } from '../config/server';
 import { getPosts } from '../functions/server';
 import PostForm from '../comps/postsComps/postForm';
-import {toggleLike} from '../functions/server';
+import { toggleLike } from '../functions/server';
 import SelectIndicator from '../comps/postsComps/select';
 import { Card } from '@mui/joy';
 
@@ -24,22 +24,19 @@ export default function MessagesBoard(params) {
         }
     }
 
-    const handlePosts = useMemo(() =>
-    ({
-        toggleLike: async post_id => {
-            try{
-                await toggleLike(post_id);
-                setPosts(prev => {
-                    const post = prev.find(p => p.post_id === post_id);
-                    post.liked = !post.liked;
-                    post.liked ? post.likes++ : post.likes--; 
-                    return [...prev]
-                })
-            }catch(e){
-                console.log(e)
-            }
+    const handlePosts = useMemo(() => ({
+        toggleLike: post_id => {
+            toggleLike(post_id).then(() => {
+                setPosts(prev => prev.map(p => {
+                    if (p.post_id === post_id) {
+                        return { ...p, likes: p.liked ? p.likes - 1 : p.likes + 1, liked: !p.liked }
+                    }
+                    return p;
+                }));
+            })
         }
-    }),[])
+    }), [])
+
 
     useEffect(() => {
         getPosts().then((data) => {
@@ -52,10 +49,10 @@ export default function MessagesBoard(params) {
         <Stack m="auto" maxWidth={600} alignItems="center" spacing={2}>
             <h1>לוח המודעות הקהילתי</h1>
             <PostForm handleSubmit={handleSubmit} />
-            <Card variant='soft' sx={{width: "100%", m: 0}} orientation='horizontal'  >
+            <Card variant='soft' sx={{ width: "100%", m: 0 }} orientation='horizontal'  >
                 <SelectIndicator />
-                <SelectIndicator />                
-                <SelectIndicator />                
+                <SelectIndicator />
+                <SelectIndicator />
             </Card>
             <Posts posts={posts} handlePosts={handlePosts} />
         </Stack>

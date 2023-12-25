@@ -39,8 +39,8 @@ VALUES
 
 INSERT INTO comments (post_id, user_id, content, date)
 VALUES
-    (1, 1007, "נהדר להיות כאן!", DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY)),
-    (1, 1008, "מצפה לאירועים!", DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY)),
+    (1, 1000, "נהדר להיות כאן!", DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY)),
+    (1, 1000, "מצפה לאירועים!", DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY)),
     (1, 1009, "ברוכים הבאים לקהילה!", DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY)),
     (2, 1007, "מתרגש לראות מה עתיד להגיע!", DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY)),
     (2, 1008, "ספרו עליי!", DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY)),

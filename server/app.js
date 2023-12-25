@@ -1,7 +1,7 @@
 const timesRoter = require('./times/route');
 const postsRoute = require("./posts/route")
 const usersRoute = require("./users/route")
-const commentsRoute = require("./comments/routes")
+const commentsRoute = require("./comments/route")
 const { identification } = require("./middlewares/auth")
 const cors = require('cors');
 const express = require('express');

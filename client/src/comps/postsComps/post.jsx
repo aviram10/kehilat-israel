@@ -22,7 +22,7 @@ export default function Post({ post, handlePosts }) {
     return <>
         <Message {...{message: post, handleMessage: handlePosts}}>
             {mode === 'edit' ? <Input fullWidth value={input.title} name='title' onChange={({target}) => setInput({...input, [target.name]: target.value})} /> :
-            <Typography fullWidth level='title-md'>{post.title}</Typography>}
+            <Typography  level='title-md'>{post.title}</Typography>}
             {mode === 'edit'? <Textarea  value={input.content} name='content' onChange={({target}) => setInput({...input, [target.name]: target.value})} /> :
              <Typography level='body-sm'>{contentSlice(post.content, handlePosts.extend)}</Typography>}
         </Message>
