@@ -11,9 +11,8 @@ import FormatBold from '@mui/icons-material/FormatBold';
 import FormatItalic from '@mui/icons-material/FormatItalic';
 import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
 import Check from '@mui/icons-material/Check';
-import {postComment} from '../../functions/server'
 
-export default function CommentForm(post_id) {
+export default function CommentForm({ handleComment}) {
   const [italic, setItalic] = React.useState(false);
   const [fontWeight, setFontWeight] = React.useState('normal');
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -79,7 +78,7 @@ export default function CommentForm(post_id) {
             >
               <FormatItalic />
             </IconButton>
-            <Button onClick={()=>postComment(comment, post_id)} sx={{ ml: 'auto' }}>Send</Button>
+            <Button onClick={()=>handleComment.addComment(comment)} sx={{ ml: 'auto' }}>Send</Button>
           </Box>
         }
         sx={{

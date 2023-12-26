@@ -4,6 +4,7 @@ const util = require('../utils/accessData');
 
 async function getUsers(filters) {
     try {
+        console.log("filters: ", filters);
         const { keys, values } = util.extractKeyValues(filters);
         return await db.get("users", ['*'], keys, values);
     } catch (err) { console.log(err); }

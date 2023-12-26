@@ -27,6 +27,7 @@ export default function MessagesBoard(params) {
     const handlePosts = useMemo(() => ({
         toggleLike: post_id => {
             toggleLike(post_id).then((data) => {
+                console.log("post toggle", data);
                 if(!data) return;
                 setPosts(prev => prev.map(p => {
                     if (p.post_id === post_id) {

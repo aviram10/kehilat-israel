@@ -1,7 +1,6 @@
 const express = require("express");
-const { getPosts, getPost, createPost, deletePost, editPost, updatePost } = require("./controller");
+const { getPosts, getPost, createPost, deletePost, editPost, toggleLike, addComment } = require("./controller");
 const {  userId, ownerAuth } = require("../middlewares/auth");
-
 const router = express.Router();
 
 router.route("/")
@@ -14,10 +13,11 @@ router.route("/:post_id")
     .delete(deletePost) //delete comments
     .put(editPost)
 router.route("/:post_id/comments")
-    // .get(getComments)
-router.route("/:post_id/:field")
     .all(userId)
-    .put(updatePost)
+    .post(addComment)
+router.route("/:post_id/likes")
+    .all(userId)
+    .put(toggleLike)
 
 
 

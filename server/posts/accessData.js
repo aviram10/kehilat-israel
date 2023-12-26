@@ -41,15 +41,15 @@ async function createPost(post) {
     }
 }
 
-async function addLike(user_id, post_id, likes) {
+async function addLike(user_id, entry, likes) {
     try {
-        const keys = ["post_id", "user_id"];
-        const values = [post_id, user_id];
+        const keys = [entry[0], "user_id"];
+        const values = [entry[1], user_id];
         const [like] = await db.add("likes", keys, values);
-
+        const table = entry[0] === "post_id" ? "posts" : "comments";
         if (like.affectedRows) {
             console.log("add like: ", like.affectedRows);
-            const [{ affectedRows }] = await db.update("posts", ['likes'], [likes + 1],["post_id"], [post_id]);
+            const [{ affectedRows }] = await db.update(table, ['likes'], [likes + 1],[entry[0]], [entry[1]]);
             return affectedRows;
         }
         return 0;
@@ -61,13 +61,13 @@ async function addLike(user_id, post_id, likes) {
 //DELETE
 //================
 //params: post_id: number, user_id: number
-async function deleteLike(like_id, post_id, likes) {
+async function deleteLike(like_id, entry, likes) {
     try {
         const [{ affectedRows }] = await db.del("likes",['like_id'], [like_id] );
-
+        const table = entry[0] === "post_id" ? "posts" : "comments";
         console.log("delete like: ", affectedRows);
         if (affectedRows) {
-            const [{ affectedRows }] = await db.update("posts", ['likes'], [likes - 1], ["post_id"],[post_id] );
+            const [{ affectedRows }] = await db.update(table, ['likes'], [likes - 1], [entry[0]],[entry[1]] );
             return affectedRows;
         }
         return 0;

@@ -15,8 +15,8 @@ async function getComments(filters) {
 
 async function addComment( comment ) {
     try {
-        const {keys, values}= accessData.extractKeyValues(filters)
-        return await db.add("comments", { post_id, keys, values });
+        const {keys, values}= accessData.extractKeyValues(comment)
+        return await db.add("comments", keys, values);
     } catch (error) {
         console.log(error);
     }
@@ -38,5 +38,7 @@ async function editComments( content, comment_id ) {
         console.log(error);
     }
 }
+
+
 
 module.exports = { getComments, addComment, deleteComments, editComments };

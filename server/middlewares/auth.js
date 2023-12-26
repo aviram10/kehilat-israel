@@ -7,6 +7,7 @@ const { handleError } = require('../utils/errors')
 async function identification(req, res, next) {
     try {
         //get autintication datafrom cookie or body
+        console.log("identification...", req.headers.cookie);
         let data = cookie.parse(req.headers.cookie || '');
         if (!data.username || !data.pass) data = req.body;
         if (!data || !data.username || !data.pass) return next();

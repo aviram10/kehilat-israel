@@ -48,6 +48,7 @@ export default function Profile() {
     const handleSavedPosts = useMemo(() => ({
       toggleLike: async post_id => {
         try {
+          console.log("post toggle");
           await toggleLike(post_id);
           //copy the message and change the liked property
           setSavedPosts(prev => prev.filter(post => post.post_id !== post_id))

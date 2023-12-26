@@ -18,12 +18,17 @@ export default function Post({ post, handlePosts }) {
         }
         setMode(mode === 'edit' ?  'view' : 'edit' );
     }
+    const handleChanges = (e) => {
+        e.stopPropagation();
+        setInput({...input, [e.target.name]: e.target.value});
+    }
+
 
     return <>
         <Message {...{message: post, handleMessage: handlePosts}}>
-            {mode === 'edit' ? <Input fullWidth value={input.title} name='title' onChange={({target}) => setInput({...input, [target.name]: target.value})} /> :
+            {mode === 'edit' ? <Input fullWidth onClick={(e => e.stopPropagation())} value={input.title} name='title' onChange={handleChanges} /> :
             <Typography  level='title-md'>{post.title}</Typography>}
-            {mode === 'edit'? <Textarea  value={input.content} name='content' onChange={({target}) => setInput({...input, [target.name]: target.value})} /> :
+            {mode === 'edit'? <Textarea onClick={(e => e.stopPropagation())} value={input.content} name='content' onChange={handleChanges} /> :
              <Typography level='body-sm'>{contentSlice(post.content, handlePosts.extend)}</Typography>}
         </Message>
     </>

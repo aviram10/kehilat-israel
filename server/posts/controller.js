@@ -1,6 +1,6 @@
 const servises = require("./servises")
 const { handleError } = require("../utils/errors")
-const commantsData = require('../comments/accessData');
+const commants = require("../comments/servises")
 
 
 async function getPosts(req, res) {
@@ -10,7 +10,8 @@ async function getPosts(req, res) {
         if (req.query.category) filters.category = req.query.category;
         if (req.query.user_id) filters.user_id = req.query.user_id;
         filters.liked = req.query.liked === "true" ;
-        const posts = await servises.getPosts(filters, req.user);
+        console.log("getPosts: ", req.user.user_id);
+        const posts = await servises.getPosts(filters, req.user.user_id);
         res.send(posts)
     } catch (err) { handleError(err, res) }
 }
@@ -20,8 +21,9 @@ async function getPosts(req, res) {
 async function getPost(req, res) {
     try {
         const withComments = !(req.query.comments === "false");
-        console.log(withComments);
-        const post = await servises.getPost(req.params.post_id, withComments);
+        const user_id = req.user && req.user.user_id;
+        console.log("user_id: ", req.user);
+        const post = await servises.getPost(req.params.post_id, withComments, user_id);
         return res.send(post)
     } catch (err) { handleError(err, res) }
 }
@@ -62,31 +64,21 @@ async function editPost(req, res) {
     } catch (err) { handleError(err, res) }
 }
 
-async function deleteAllPosts(req, res) {
-}
-
-async function editAllposts(req, res) {
-}
-
-async function updatePost(req, res) {
+async function toggleLike(req, res) {
     console.log("updateposts  ", req.params);
-    try {
-        let data;
-        switch (req.params.field) {
-            case "likes":
-                data = await servises.toggleLike(req.params.post_id, req.user.user_id);
-                break;
-            default:
-                return res.sendStatus(400);
-        }
+        try{
+            const data = await servises.toggleLike({post_id: req.params.post_id}, req.user.user_id);
         return res.send(data > 0);
     } catch (err) { handleError(err, res) }
 }
 
+async function addComment(req, res) {
+    console.log("addComment: ", req.params.post_id);
+    try {
+        const comment = {post_id: req.params.post_id, content: req.body.content, user_id: req.user.user_id}
+        const newComment = await commants.addComment(comment);
+        return res.status(201).send(newComment);
+    } catch (err) { handleError(err, res) }
+}
 
-
-
-
-
-
-module.exports = { getPosts, getPost, createPost, deletePost, editPost, deleteAllPosts, editAllposts, updatePost }
+module.exports = { getPosts, getPost, createPost, deletePost, editPost, toggleLike, addComment }

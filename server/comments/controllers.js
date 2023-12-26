@@ -1,6 +1,7 @@
 
 const servises = require ( "./servises");
 const accessData = require ("./accessData") ;
+const posts = require("../posts/servises");
 
 async function getComments(req, res) {
     try {
@@ -19,18 +20,6 @@ async function getComment(req, res) {
         res.send(comment);
     } catch (error) {
         console.log(error)
-    }
-}
-
-async function addComment(req, res) {
-    try {
-        const { post_id } = req.params;
-        const { user_id } = req.user.user_id;
-        const { content } = req.body.comment;
-        const newComment = await servises.addComment({ content, post_id, user_id });
-        res.send(newComment);
-    } catch (error) {
-        console.log(error);
     }
 }
 
@@ -56,4 +45,13 @@ async function editComment(req, res) {
     }
 }
 
-module.exports = { getComments, getComment, addComment, deleteComment, editComment };
+async function toggleLike(req, res) {
+    console.log("updateCommenst  ", req.params);
+        try{
+            const data = await posts.toggleLike({comment_id: req.params.comment_id}, req.user.user_id);
+        return res.send(data);
+    } catch (err) { handleError(err, res) }
+}
+
+
+module.exports = {toggleLike, getComments, getComment, deleteComment, editComment };

@@ -10,9 +10,9 @@ export async function getPosts(filters={}) {
     } catch (err) { console.log(err); }
 }
 
-export async function toggleLike( id){
+export async function toggleLike( id, type = 'posts'){
     try{
-        const { data } = await axios.put(`${url}/posts/${id}/likes`, {},{withCredentials: true});
+        const { data } = await axios.put(`${url}/${type}/${id}/likes`, {},{withCredentials: true});
         console.log(data);
         return data;
     }catch(err){console.log(err);}
@@ -32,9 +32,9 @@ export async function postPost(post){
     }catch(err){console.log(err);}
 }
 
-export async function postComment(post_id, comment){
+export async function postComment( comment, post_id){
     try{
-        const { data } = await axios.post(`${url}/posts/${post_id}/comments`, comment,{withCredentials: true});
+        const { data } = await axios.post(`${url}/posts/${post_id}/comments`, {content: comment},{withCredentials: true});
         return data;
     }catch(err){console.log(err);}
 }

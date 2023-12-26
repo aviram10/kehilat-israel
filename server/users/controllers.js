@@ -28,12 +28,12 @@ async function getPosts(req, res) {
     try{
         let result = {};
         if(req.params.type === "my" )
-            result = await posts.getPosts({user_id: req.params.user_id}, req.user);
+            result = await posts.getPosts({user_id: req.params.user_id}, req.user.user_id);
         else if(req.params.type === "saved")
-            result = await posts.getPosts({liked: true}, req.user);
+            result = await posts.getPosts({liked: true}, req.user.user_id);
         else if(!req.params.type){
-        result.myPosts = await posts.getPosts({user_id: req.params.user_id}, req.user);
-        result.savedPosts = await posts.getPosts({liked: true}, req.user);
+        result.myPosts = await posts.getPosts({user_id: req.params.user_id}, req.user.user_id);
+        result.savedPosts = await posts.getPosts({liked: true}, req.user.user_id);
         }
         else throw new Error("invalid type");
         res.send(result);

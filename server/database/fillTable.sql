@@ -222,7 +222,7 @@ VALUES
     (100, 8);
 
     INSERT INTO likes (user_id, comment_id) VALUES
-    (1000, 1),
+    
     (1001, 1),
     (1002, 1),
     (1003, 1),

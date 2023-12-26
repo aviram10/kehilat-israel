@@ -6,6 +6,7 @@ const { identification } = require("./middlewares/auth")
 const cors = require('cors');
 const express = require('express');
 const app = express();
+app.listen(3010, () => console.log("listen on port 3010..."))
 
 let visitors = 0;
 app.use(cors({ origin: "http://localhost:3000", credentials: true }))
@@ -21,5 +22,3 @@ app.use("/api/users", usersRoute);
 app.use("/api/times", timesRoter);
 app.use("/api/posts", postsRoute);
 app.use("/api/comments", commentsRoute);
-
-app.listen(3010, () => console.log("listen on port 3010..."))

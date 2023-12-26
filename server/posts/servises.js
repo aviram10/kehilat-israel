@@ -7,14 +7,15 @@ const comments = require('../comments/servises');
 
 //params: filters: object {key: value} empty object by default, user: object optional
 //return: array of objects
-async function getPosts(filters = {}, user) {
+async function getPosts(filters = {}, user_id) {
+    console.lo;
     try {
         const LikedByUser = filters.liked;
         delete filters.liked;
         let [posts] = await dataAccess.getPosts(filters);
         utils.preparPosts(posts);
-        if (!user) return posts;
-        const [likes] = await dataAccess.getLikes({ user_id: user.user_id });
+        if (!user_id) return posts;
+        const [likes] = await dataAccess.getLikes({ user_id });
         likes.forEach(like => {
             if (like.post_id) {
                 const post = posts.find(m => m.post_id == like.post_id);
@@ -26,22 +27,16 @@ async function getPosts(filters = {}, user) {
     } catch (err) { console.log(err); }
 }
 
-async function getPost(post_id, withComments = true) {
+async function getPost(post_id, withComments = true, user_id) {
     try {
         const [post] = await getPosts({ post_id });
         if (!post) return res.sendStatus(404);
         if (!withComments) return post;
-        const comments = await getPostComments(post_id);
-        return { post, comments }
+        const data = await comments.getComments({post_id}, user_id);
+        return { post, comments: data }
     } catch (err) {console.log(err); }
 }
 
-async function getPostComments(post_id) {
-    try {
-        const data = await comments.getComments({ post_id });
-        return data;
-    } catch (err) { console.log(err); }
-}
 
 //params: post: object {title: string, content: string, category: string, user_id: number}
 //return: post object
@@ -72,15 +67,17 @@ async function editPost(post_id, data) {
 }
 
 
-async function toggleLike(post_id, user_id) {
+async function toggleLike(id, user_id) {
     try {
-        console.log("service togglelike");
-        const [postLikes] = await dataAccess.getLikes({ post_id });
-        const [like] = postLikes.filter(l => l.user_id == user_id);
+        console.log("service togglelike", id);
+        const [entry] = Object.entries(id)
+        console.log(entry);
+        const [likes] = await dataAccess.getLikes({ [entry[0]]: entry[1] });
+        const [like] = likes.filter(l => l.user_id == user_id);
         const data = like ?
-            await dataAccess.deleteLike(like.like_id, post_id, postLikes.length) :
-            await dataAccess.addLike(user_id, post_id, postLikes.length);
-        return data
+            await dataAccess.deleteLike(like.like_id, entry, likes.length) :
+            await dataAccess.addLike(user_id, entry, likes.length);
+        return like ? {liked: false} : {liked: true};
     } catch (error) {
         console.log(error);
     }

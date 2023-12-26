@@ -1,6 +1,7 @@
 import React from "react";  
 import { NavLink, Outlet } from "react-router-dom";
 import "../styles/navbar.css";
+import Cookies from "js-cookie";
 
 export default function Navbar() {
     return  <>
@@ -16,7 +17,7 @@ export default function Navbar() {
         </div>
 
         <div className="account">
-            <NavLink to={sessionStorage.user_id ? "profile" : "login"}>  אזור אישי </NavLink>
+            <NavLink to={Cookies.get("user_id") ? "profile" : "login"}>  אזור אישי </NavLink>
         </div>
     </div>
     <Outlet/>
