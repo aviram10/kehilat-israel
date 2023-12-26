@@ -7,8 +7,7 @@ import { url } from '../config/server';
 import { getPosts } from '../functions/server';
 import PostForm from '../comps/postsComps/postForm';
 import { toggleLike } from '../functions/server';
-import SelectIndicator from '../comps/postsComps/select';
-import { Card } from '@mui/joy';
+import PostsFilters from '../comps/postsComps/PostsFilters';
 
 
 export default function MessagesBoard(params) {
@@ -28,21 +27,18 @@ export default function MessagesBoard(params) {
         toggleLike: post_id => {
             toggleLike(post_id).then((data) => {
                 console.log("post toggle", data);
-                if(!data) return;
+                if (!data) return;
                 setPosts(prev => prev.map(p => {
-                    if (p.post_id === post_id) {
+                    if (p.post_id === post_id)
                         return { ...p, likes: p.liked ? p.likes - 1 : p.likes + 1, liked: !p.liked }
-                    }
                     return p;
                 }));
             })
         }
     }), [])
 
-
     useEffect(() => {
         getPosts().then((data) => {
-            console.log(data);
             setPosts(data);
         })
     }, [])
@@ -51,11 +47,7 @@ export default function MessagesBoard(params) {
         <Stack m="auto" maxWidth={600} alignItems="center" spacing={2}>
             <h1>לוח המודעות הקהילתי</h1>
             <PostForm handleSubmit={handleSubmit} />
-            <Card variant='soft' sx={{ width: "100%", m: 0 }} orientation='horizontal'  >
-                <SelectIndicator />
-                <SelectIndicator />
-                <SelectIndicator />
-            </Card>
+            <PostsFilters />
             <Posts posts={posts} handlePosts={handlePosts} />
         </Stack>
     </>
