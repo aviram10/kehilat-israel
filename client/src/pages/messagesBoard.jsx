@@ -72,5 +72,5 @@ export default function MessagesBoard(params) {
             <Posts posts={filteredPosts} handlePosts={handlePosts} />
         </Stack>
     </>
-        ;
+    ;
 }
