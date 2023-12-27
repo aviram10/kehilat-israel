@@ -15,9 +15,10 @@ export default function MessagesBoard(params) {
     const [posts, setPosts] = React.useState([]);
     const [filters, setFilters] = React.useState({ category: [], username: [], content: '' });
 
-    const handleFilters = (v, key) => {
-        console.log("filtering", key,);
-        setFilters({ ...filters, [key]:v })
+    const handleFilters = (key, value) => {
+        console.log(value, key);
+        if (key === "content") return setFilters({ ...filters, [key]: value.target.value })
+        setFilters({ ...filters, [key]: value })
     }
     const handleSubmit = async (input) => {
         try {
@@ -31,11 +32,10 @@ export default function MessagesBoard(params) {
     }
 
     const filteredPosts = useMemo(() => {
-        console.log("filtering", filters);
         let filtered = [...posts];
         if (filters.category.length > 0) filtered = filtered.filter(p => Object.values(filters.category).includes(p.category));
         if (filters.username.length > 0) filtered = filtered.filter(p => Object.values(filters.username).includes(p.username));
-        if (filters.content) filtered = filtered.filter(p => p.content.includes(filters.content));
+        if (filters.content) filtered = filtered.filter(p => p.content.includes(filters.content) || p.title.includes(filters.content));
         return filtered;
     }, [filters, posts])
 
@@ -66,8 +66,8 @@ export default function MessagesBoard(params) {
         <Stack m="auto" maxWidth={600} alignItems="center" spacing={0}>
             <h1>לוח המודעות הקהילתי</h1>
             <Card variant='soft' >
-            <PostForm handleSubmit={handleSubmit} />
-            <PostsFilters posts={posts} handleFilters={handleFilters} />
+                <PostForm handleSubmit={handleSubmit} />
+                <PostsFilters posts={posts} handleFilters={handleFilters} />
             </Card>
             <Posts posts={filteredPosts} handlePosts={handlePosts} />
         </Stack>
