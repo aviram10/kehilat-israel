@@ -68,7 +68,7 @@ async function toggleLike(req, res) {
     console.log("updateposts  ", req.params);
         try{
             const data = await servises.toggleLike({post_id: req.params.post_id}, req.user.user_id);
-        return res.send(data > 0);
+        return res.send(data);
     } catch (err) { handleError(err, res) }
 }
 

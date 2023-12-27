@@ -13,7 +13,7 @@ import { Card } from '@mui/joy';
 
 export default function MessagesBoard(params) {
     const [posts, setPosts] = React.useState([]);
-    const [filters, setFilters] = React.useState({ category: [], username: '', content: '' });
+    const [filters, setFilters] = React.useState({ category: [], username: [], content: '' });
 
     const handleFilters = (v, key) => {
         console.log("filtering", key,);
@@ -34,7 +34,7 @@ export default function MessagesBoard(params) {
         console.log("filtering", filters);
         let filtered = [...posts];
         if (filters.category.length > 0) filtered = filtered.filter(p => Object.values(filters.category).includes(p.category));
-        if (filters.username) filtered = filtered.filter(p => p.username === filters.username);
+        if (filters.username.length > 0) filtered = filtered.filter(p => Object.values(filters.username).includes(p.username));
         if (filters.content) filtered = filtered.filter(p => p.content.includes(filters.content));
         return filtered;
     }, [filters, posts])
