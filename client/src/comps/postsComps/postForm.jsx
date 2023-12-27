@@ -3,7 +3,8 @@ import { Grid, Input, Textarea, Button } from '@mui/joy';
 
 
 
-export default function MessageForm({ handleSubmit }) {
+
+export default function PostForm({ handleSubmit }) {
     const [input, setInput] = React.useState({ title: '', category: '', content: '' });
     const handleChange = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value })
@@ -11,7 +12,8 @@ export default function MessageForm({ handleSubmit }) {
 
 
     return <>
-        <Grid container spacing={1}>
+
+        <Grid sx={{m:2}} container spacing={1}>
             <Grid xs={12} sm={6} >
                 <Input name='category' onChange={handleChange} placeholder="נושא" value={input.category} required />
             </Grid>
@@ -24,5 +26,6 @@ export default function MessageForm({ handleSubmit }) {
             </Grid>
             <Button fullWidth type="submit" onClick={() => { handleSubmit(input).then(() => setInput({ title: '', category: '', content: '' })) }}  >פרסם</Button>
         </Grid>
+
     </>
 };

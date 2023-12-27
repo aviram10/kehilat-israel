@@ -1,12 +1,14 @@
 import React from 'react';
-import Card from '@mui/joy/Card';
-import { Autocomplete, Select } from '@mui/joy';
+import { Autocomplete, Input, Option, Select, Stack } from '@mui/joy';
 
-export default function PostsFilters(params) {
-    return <>
-        <Card variant='soft' sx={{ width: "100%", m: 0 }} orientation='horizontal'  >
-            <Autocomplete options={[]} />
-            <Select sx={{width:"500px"}} /> 
-        </Card>
-    </>
+export default function PostsFilters({ posts, handleFilters }) {
+
+    return <Stack direction={"row"} justifyContent={"space-evenly"} spacing={1} useFlexGap>
+        <Input onChange={e => handleFilters(e, "content")} placeholder={"חיפוש"} />
+        <Autocomplete onChange={e => handleFilters(e, "username")} placeholder='חבר קהילה' options={[...new Set(posts.map(p => p.username))]} />
+        <Select multiple onChange={(e, v) => handleFilters(v, "category")} sx={{ width: "150px" }} placeholder={"נושא"}   >
+            {posts && [...new Set(posts.map(p => p.category))].map(c => <Option key={c} value={c}>{c}</Option>)}
+        </Select>
+
+    </Stack>
 };

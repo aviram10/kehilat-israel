@@ -8,10 +8,17 @@ import { getPosts } from '../functions/server';
 import PostForm from '../comps/postsComps/postForm';
 import { toggleLike } from '../functions/server';
 import PostsFilters from '../comps/postsComps/PostsFilters';
+import { Card } from '@mui/joy';
 
 
 export default function MessagesBoard(params) {
     const [posts, setPosts] = React.useState([]);
+    const [filters, setFilters] = React.useState({ category: [], username: '', content: '' });
+
+    const handleFilters = (v, key) => {
+        console.log("filtering", key,);
+        setFilters({ ...filters, [key]:v })
+    }
     const handleSubmit = async (input) => {
         try {
             //todo: get only the new message
@@ -22,6 +29,15 @@ export default function MessagesBoard(params) {
             console.log(error);
         }
     }
+
+    const filteredPosts = useMemo(() => {
+        console.log("filtering", filters);
+        let filtered = [...posts];
+        if (filters.category.length > 0) filtered = filtered.filter(p => Object.values(filters.category).includes(p.category));
+        if (filters.username) filtered = filtered.filter(p => p.username === filters.username);
+        if (filters.content) filtered = filtered.filter(p => p.content.includes(filters.content));
+        return filtered;
+    }, [filters, posts])
 
     const handlePosts = useMemo(() => ({
         toggleLike: post_id => {
@@ -37,18 +53,23 @@ export default function MessagesBoard(params) {
         }
     }), [])
 
+
     useEffect(() => {
         getPosts().then((data) => {
             setPosts(data);
         })
     }, [])
 
+
+
     return <>
-        <Stack m="auto" maxWidth={600} alignItems="center" spacing={2}>
+        <Stack m="auto" maxWidth={600} alignItems="center" spacing={0}>
             <h1>לוח המודעות הקהילתי</h1>
+            <Card variant='soft' >
             <PostForm handleSubmit={handleSubmit} />
-            <PostsFilters />
-            <Posts posts={posts} handlePosts={handlePosts} />
+            <PostsFilters posts={posts} handleFilters={handleFilters} />
+            </Card>
+            <Posts posts={filteredPosts} handlePosts={handlePosts} />
         </Stack>
     </>
         ;
