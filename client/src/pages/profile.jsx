@@ -60,22 +60,22 @@ export default function Profile() {
 
     return <>
       <h1>חשבון</h1>
-      <Sheet sx={{ m: 2, minHeight: "100vh" }}>
+      <Sheet variant=''  sx={{ m: 2, minHeight: "100vh" }}>
 
-        <Grid container >
+        <Grid container spacing={2}>
           <Grid xs={12} md={5}>
             <UserDetailsForm  />
            
             <Typography sx={{ mt: 1 }} color='danger' variant='solid' level='title-lg'>סה"כ חובות: 350 ש"ח <Button color='warning'>שלם</Button></Typography>
           </Grid>
           <Grid xs={12} md={7}>
-            <Tabs variant='outlined' sx={{ minHeight: "50vh" }} aria-label="Basic tabs" defaultValue={0}>
+            <Tabs variant='soft' sx={{ minHeight: "50vh" }} aria-label="Basic tabs" defaultValue={0}>
               <TabList >
-                <Tab sx={{ width: "50%" }}>ההודעות שלי</Tab>
-                <Tab sx={{ width: "50%" }}>הודעות שמורות </Tab>
+                <Tab variant='soft' color='primary' sx={{ width: "50%" }}>ההודעות שלי</Tab>
+                <Tab variant='soft' color='primary' sx={{ width: "50%" }}>הודעות שמורות </Tab>
 
               </TabList>
-              <TabPanel sx={{ m: "auto" }} value={0}>
+              <TabPanel  sx={{ m: "auto" }} value={0}>
                 <Posts handlePosts={handleMyPosts} posts={myPosts} />
               </TabPanel>
               <TabPanel sx={{ m: "auto" }} value={1}>

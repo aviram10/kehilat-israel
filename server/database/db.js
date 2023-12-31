@@ -29,7 +29,7 @@ async function update(table, cols, values, keys, keysValues) {
 
 //params: table: string, col: array, key_value: array, key: array
 //if keys and values are empty, will return all the rows.
-async function get(table, col, keys = [], values = []) {
+async function get(table, col=['*'], keys = [], values = []) {
     try {
         //where you need all the rows add -- to comment the where condition.
         if (!values[0] || values[0] === '*') table += "--";
@@ -59,15 +59,16 @@ async function add(table, cols, values) {
 async function query(sql, values) {
     return await pool.query(sql, values)
 }
-// async function main() {
+async function main() {
+    console.log(await get("prayersTimes"))
 //     // console.log("get user => \n"+await get("users", ['*'], "1000"));
 //     // console.log("get users => \n"+await get("users--", ['*'], "1000"));
 //     // console.log("update user => \n"+await update("users", ["first_name","last_name"],["change", "me"], "1000"));
 //     // console.log("add users => \n"+await add("users", ['*'], "1000"));
 //     console.log(await pool.query('INS users SET last_name = "cohen"'));
 // console.log(await get("messages", ['*'], ['1000', "ברכות"],[ 'user_id', 'category']));
-// }
-// main()
+}
+main()
 
 
 

@@ -285,3 +285,16 @@ VALUES
     (1000, 7),
     (1001, 7),
     (100, 8);
+
+    INSERT INTO prayersTimes (prayer_name, fixed, category)
+    VALUES
+        ("שחרית", "7:00", "weekday"),
+        ("שחרית של שבת", "7:30", "shabat");
+
+    INSERT INTO prayersTimes (prayer_name, dependency,minutes ,category)
+    VALUES
+        ("מנחה", "sunset", -20, "weekday"),
+        ("ערבית", "sunset",30, "weekday"),
+        ("מנחה של שבת", "sunset", -50, "shabat"),
+        ("ערבית של שבת", "sunset", 50, "shabat");
+        

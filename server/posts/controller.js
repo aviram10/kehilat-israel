@@ -10,8 +10,7 @@ async function getPosts(req, res) {
         if (req.query.category) filters.category = req.query.category;
         if (req.query.user_id) filters.user_id = req.query.user_id;
         filters.liked = req.query.liked === "true" ;
-        console.log("getPosts: ", req.user.user_id);
-        const posts = await servises.getPosts(filters, req.user.user_id);
+        const posts = await servises.getPosts(filters, req.user && req.user.user_id);
         res.send(posts)
     } catch (err) { handleError(err, res) }
 }

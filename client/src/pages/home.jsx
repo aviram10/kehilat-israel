@@ -3,6 +3,8 @@ import { Grid } from "@mui/joy";
 import PrayersTimes from "../comps/prayersTimes";
 import MyGallery from "../comps/galleryImages";
 import DayTimes from "../comps/dayTimes";
+import { Typography } from "@mui/joy";
+import { DateTime } from "luxon";
 
 
 
@@ -18,6 +20,7 @@ export default function Home({ times}) {
             <MyGallery />
         </Grid>
         <Grid  lg={3} md={5} xs={10} style={{ border: "1px solid black" }} >
+            <Typography level="title-lg">{DateTime.now().setLocale('he').weekdayLong} {times &&times.hebrewDate} {times.items && times.items.find(t=>t.category === "parashat").hebrew} </Typography>
             <PrayersTimes isDaily={true} times={times && times.prayers}/>
             <DayTimes times={times} />
         </Grid>

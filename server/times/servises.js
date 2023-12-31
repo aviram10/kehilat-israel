@@ -1,5 +1,6 @@
 const { DateTime } = require("luxon")
 const axios = require('axios');
+const accessData = require('./accessData');
 const dayTimes = {};
 const hebrewDate = { hebrew: "" };
 const weekTimes = [];
@@ -7,7 +8,8 @@ const prayersTimes = []
 
 async function getTimesEveryMidnight() {
     try {
-        let data  = await getDayTimes();
+        console.log('getTimesEveryMidnight');
+        let data = await getDayTimes();
         copyToGlobalVar(data, dayTimes);
         const dateTime = DateTime.now();
         const tommorow = dateTime.plus({ days: 1 }).toISODate();
@@ -18,29 +20,30 @@ async function getTimesEveryMidnight() {
 
 async function getWeekTimesEverySunday() {
     try {
-        const dateTime = DateTime.now();
-        let nextSunday = dateTime.plus({ days: 7 - dateTime.weekday }).toISODate();
-        nextSunday = DateTime.fromISO(nextSunday);
-        let data = await getWeekTimes(dateTime.toISODate(), nextSunday);
+        console.log('getWeekTimesEverySunday');
+        let now = DateTime.now();
+        now = now.plus({ days: 1 });
+        if (now.weekday === 7) now = now.plus({ days: 1 });
+        const nextSunday = now.plus({ days: 7 }).startOf('week').minus({ days: 1 });
+        let data = await getWeekTimes(now.toISODate(), nextSunday.toISODate());
         weekTimes.splice(0, weekTimes.length)
-       data.forEach(t => weekTimes.push(t))
-        data =await getPrayersTimes()
+        data.forEach(t => weekTimes.push(t))
+        data = await getPrayersTimes()
         prayersTimes.splice(0, prayersTimes.length)
         data.forEach(p => prayersTimes.push(p))
-        setTimeout(getWeekTimesEverySunday, nextSunday - dateTime);// get the times every midnight
+        setTimeout(getWeekTimesEverySunday, nextSunday - now);// get the times every midnight
     } catch (err) { console.log(err); }
 }
 
 async function getHebrewDateEverySunset() {
     try {
+        console.log('getHebrewDateEverySunset');
         hebrewDate.hebrew = await getHebrewDate();
-        const data = await getPrayersTimes();
-        copyToGlobalVar(data, prayersTimes)
-        const dateTime = DateTime.now();
-        
+        const now = DateTime.now();
         let sunset = dayTimes.sunset || (await getDayTimes()).sunset; // if timesData.sunset is undefined, getTimes() will be called
         sunset = DateTime.fromISO(sunset);
-        setTimeout(getHebrewDateEverySunset, sunset - dateTime);// get the times every midnight
+        const tommorow = now.plus({ days: 1 }).startOf('day');
+        setTimeout(getHebrewDateEverySunset, sunset - now > 0 ? sunset - now : tommorow - now);// get the times every sunset
     } catch (err) { console.log(err); }
 }
 
@@ -48,21 +51,34 @@ async function getDayTimes() {
     try {
         const dateTime = DateTime.now();
         const date = dateTime.toISODate();
-        const { data: { times } } = await axios.get(`https://www.hebcal.com/zmanim?cfg=json&geonameid=3448439&date=${date}`)
+        const { data: { times } } = await axios.get(`https://www.hebcal.com/zmanim?cfg=json&geonameid=295514&date=${date}`)
         return times;
     } catch (err) { console.log(err); }
 }
 
 async function getPrayersTimes() {
-    return  [
-        {name: "שחרית", time:"7:30", category: "shabat"},
-        {name: "מנחה", time:"4:30", category:"shabat"},
-        {name: "ערבית", time:"7:30", category: "shabat"}
-    ] 
+    const prayersTimes = await accessData.getPrayersTimes();
+    prayersTimes.map(p => {
+        return {name: p.name,
+            time: p.fixed ? p.fixed : calculateTime(p.dependency, p.minutes),
+            category: p.category
+        }
+    })
+}
+
+async function calculateTime(dependency, minutes) {
+    console.log('calculateTime', dependency, minutes);
+    const times = dayTimes || await getDayTimes();
+    let time = DateTime.fromISO(times[dependency]).plus({ minutes: minutes }).toISOTime();
+    console.log(time);
+    return time;
 }
 
 async function getWeekTimes(now, nextSunday) {
+    console.log('getWeekTimes');
+    console.log(now, nextSunday);
     const { data: { items } } = await axios.get(`https://www.hebcal.com/hebcal?v=1&cfg=json&maj=on&i=on&M=on&min=on&nx=on&year=now&month=x&start=${now}&end=${nextSunday}&ss=on&mf=on&c=on&geo=geoname&geonameid=295514&M=on&s=on&leyning=off`);
+    console.log(items);
     return items;
 }
 

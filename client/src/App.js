@@ -17,6 +17,7 @@ import { DateTime } from 'luxon';
 async function getTimes(setTimes) {
     try {
         const { data} = await axios.get(`${server.url}/times`);
+        console.log(data);
         setTimes(data);
     } catch (error) {
         setTimeout(() => {
@@ -27,17 +28,28 @@ async function getTimes(setTimes) {
 
 function App() {
   const [times, setTimes] = useState({});
+  
   useEffect(() => {
     getTimes(setTimes)
+    //update times every day at 00:00
+    const tommorow = DateTime.now().plus({days: 1}).startOf('day');
+    console.log(tommorow.diffNow().as('hours'));
+    setTimeout(() => {
+      getTimes(setTimes)
+    }, tommorow.diffNow().milliseconds);
   }, []);
 
+
+  //update hebrew date every sunset
   useEffect(() => {
     if(!times.dayTimes) return;
     const sunset = DateTime.fromISO(times.dayTimes.sunset)
+    if(sunset.diffNow().milliseconds <= 0) return;
     setTimeout(() => {
       getTimes(setTimes)
-    }, sunset.diffNow());
+    }, sunset.diffNow().milliseconds);
   }, [times])
+
 
   return <div className='cont'>
   <BrowserRouter>
