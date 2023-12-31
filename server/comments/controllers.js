@@ -1,7 +1,7 @@
 
-const servises = require ( "./servises");
+const services = require ( "./services");
 const accessData = require ("./accessData") ;
-const posts = require("../posts/servises");
+const posts = require("../posts/services");
 
 async function getComments(req, res) {
     try {
@@ -16,7 +16,7 @@ async function getComments(req, res) {
 async function getComment(req, res) {
     try {
         const { comment_id } = req.params;
-        const [comment] = await servises.getComments({ comment_id });
+        const [comment] = await services.getComments({ comment_id });
         res.send(comment);
     } catch (error) {
         console.log(error)
@@ -37,7 +37,7 @@ async function editComment(req, res) {
     try {
         const { comment_id } = req.params;
         const { content } = req.body;
-        const comment = await servises.editComment( content, comment_id);
+        const comment = await services.editComment( content, comment_id);
         res.send(comment);
     } catch (error) {
         console.log(error);

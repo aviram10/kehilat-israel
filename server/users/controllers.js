@@ -1,6 +1,6 @@
-const servises = require('./servises');
+const services = require('./services');
 const accessData = require('./accessData');
-const posts = require('../posts/servises');
+const posts = require('../posts/services');
 const { handleError } = require('../utils/errors');
 
 
@@ -19,7 +19,7 @@ async function register(req, res) {
 
 async function getUser(req, res) {
     try {
-        const [user] = await servises.getUsers({user_id: req.params.user_id});
+        const [user] = await services.getUsers({user_id: req.params.user_id});
         res.send(user);
     } catch (err) { handleError(err, res) }
 }
@@ -43,7 +43,7 @@ async function getPosts(req, res) {
 
 async function updateUser(req, res){
     try{
-        const result = await servises.updateUser(req.params.user_id, req.body);
+        const result = await services.updateUser(req.params.user_id, req.body);
     }catch(err){handleError(err, res)}
 }
 

@@ -6,9 +6,10 @@ import Time from "./time";
 import { DateTime } from "luxon";
 
 export default function PrayersTimes({ times, isDaily }) {
+    console.log("prayer ", times);
     let prayers;
     if(times && isDaily){
-    const category = DateTime.now().day < 6 ? "hol" : "shabat";
+    const category = (DateTime.now().day + 1) % 7 < 6 ? "weekday" : "shabat";
     prayers = times.filter(t => t.category === category);
     
     }

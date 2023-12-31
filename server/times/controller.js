@@ -1,4 +1,4 @@
-const services = require('./servises');
+const services = require('./services');
 
 async function getTimes(req, res) {
     try {

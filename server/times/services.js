@@ -12,8 +12,8 @@ async function getTimesEveryMidnight() {
         let data = await getDayTimes();
         copyToGlobalVar(data, dayTimes);
         const dateTime = DateTime.now();
-        const tommorow = dateTime.plus({ days: 1 }).toISODate();
-        const midnight = DateTime.fromISO(tommorow);
+        const tomorrow = dateTime.plus({ days: 1 }).toISODate();
+        const midnight = DateTime.fromISO(tomorrow);
         setTimeout(getTimesEveryMidnight, midnight - dateTime);// get the times every midnight 
     } catch (err) { console.log(err) }
 }
@@ -31,6 +31,7 @@ async function getWeekTimesEverySunday() {
         weekTimes.splice(0, weekTimes.length)
         data.forEach(t => weekTimes.push(t))
         data = await getPrayersTimes()
+        console.log(data);
         prayersTimes.splice(0, prayersTimes.length)
         data.forEach(p => prayersTimes.push(p))
         setTimeout(getWeekTimesEverySunday, nextSunday - now);// get the times every midnight
@@ -44,8 +45,8 @@ async function getHebrewDateEverySunset() {
         const now = DateTime.now();
         let sunset = dayTimes.sunset || (await getDayTimes()).sunset; // if timesData.sunset is undefined, getTimes() will be called
         sunset = DateTime.fromISO(sunset);
-        const tommorow = now.plus({ days: 1 }).startOf('day');
-        setTimeout(getHebrewDateEverySunset, sunset - now > 0 ? sunset - now : tommorow - now);// get the times every sunset
+        const tomorrow = now.plus({ days: 1 }).startOf('day');
+        setTimeout(getHebrewDateEverySunset, sunset - now > 0 ? sunset - now : tomorrow - now);// get the times every sunset
     } catch (err) { console.log(err); }
 }
 

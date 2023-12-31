@@ -1,6 +1,6 @@
 const accessData = require('./accessData');
 const utils = require("../utils/posts");
-const posts = require('../posts/servises');
+const posts = require('../posts/services');
 const {getLikes} = require('../posts/accessData');
 
 async function addComment({ content, post_id, user_id }) {

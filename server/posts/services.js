@@ -2,7 +2,7 @@ const { DateTime } = require('luxon');
 const db = require("../database/db");
 const dataAccess = require("./accessData");
 const utils = require("../utils/posts");
-const comments = require('../comments/servises');
+const comments = require('../comments/services');
 
 
 //params: filters: object {key: value} empty object by default, user: object optional
