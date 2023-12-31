@@ -1,9 +1,10 @@
 import { List, ListItem, ListItemText } from '@mui/material';
 import React from 'react';
 import "../styles/dayTimes.css"
+import { Typography } from '@mui/joy';
 export default function DayTimes({times}) {
     return<div className='dayTimes'>
-        <h2>זמני היום</h2>
+       <Typography variant='soft' level="h3"> זמני היום</Typography>
     <List>
         <ListItem>
             <ListItemText> שקיעת החמה</ListItemText>

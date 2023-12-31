@@ -12,9 +12,8 @@ async function getTimesEveryMidnight() {
         let data = await getDayTimes();
         copyToGlobalVar(data, dayTimes);
         const dateTime = DateTime.now();
-        const tomorrow = dateTime.plus({ days: 1 }).toISODate();
-        const midnight = DateTime.fromISO(tomorrow);
-        setTimeout(getTimesEveryMidnight, midnight - dateTime);// get the times every midnight 
+        const midnight = dateTime.plus({ days: 1 }).startOf('day');
+        setTimeout(getTimesEveryMidnight, midnight.diffNow());// get the times every midnight 
     } catch (err) { console.log(err) }
 }
 
@@ -31,7 +30,6 @@ async function getWeekTimesEverySunday() {
         weekTimes.splice(0, weekTimes.length)
         data.forEach(t => weekTimes.push(t))
         data = await getPrayersTimes()
-        console.log(data);
         prayersTimes.splice(0, prayersTimes.length)
         data.forEach(p => prayersTimes.push(p))
         setTimeout(getWeekTimesEverySunday, nextSunday - now);// get the times every midnight
@@ -52,9 +50,11 @@ async function getHebrewDateEverySunset() {
 
 async function getDayTimes() {
     try {
-        const dateTime = DateTime.now();
-        const date = dateTime.toISODate();
+        console.log('getDayTimes');
+        const now = DateTime.now();
+        const date = now.toISODate();
         const { data: { times } } = await axios.get(`https://www.hebcal.com/zmanim?cfg=json&geonameid=295514&date=${date}`)
+        console.log(times.sunset);
         return times;
     } catch (err) { console.log(err); }
 }
@@ -62,7 +62,6 @@ async function getDayTimes() {
 async function getPrayersTimes() {
     const data = await accessData.getPrayersTimes();
     const dayTimes = global.dayTimes || await getDayTimes();
-    console.log("data", data);
     const prayersTimes = data.map( p => {
          return {name: p.prayer_name,
             time: p.fixed ? p.fixed :  calculateTime(p.dependency, p.minutes, dayTimes),
@@ -86,8 +85,9 @@ async function getWeekTimes(now, nextSunday) {
 
 async function getHebrewDate() {
     try {
-        const dateTime = DateTime.now();
-        const date = dateTime.toISODate();
+        console.log('getHebrewDate');
+        const now = DateTime.now();
+        const date = now.toISODate();
         const { data } = await axios.get(`https://www.hebcal.com/converter?cfg=json&date=${date}&g2h=1${await isAfterSunset() && '&gs=on'}`)
         return data.hebrew;
     } catch (err) { console.log(err); }
@@ -96,9 +96,10 @@ async function getHebrewDate() {
 
 
 async function isAfterSunset() {
-    const sunset = dayTimes.sunset || (await getDayTimes()).sunset; // if timesData.sunset is undefined, getTimes() will be called
-    const dateTime = DateTime.now();
-    const isAfterSunset = dateTime > DateTime.fromISO(sunset);// if it's after sunset, we need to add gs=on to the url
+    let sunset = DateTime.fromISO(dayTimes.sunset || (await getDayTimes()).sunset); // if timesData.sunset is undefined, getTimes() will be called
+    const now = DateTime.now();
+    if(sunset.day !== now.day) sunset = (await getDayTimes()).sunset;
+    const isAfterSunset = now > DateTime.fromISO(sunset);// if it's after sunset, we need to add gs=on to the url
     return isAfterSunset;
 }
 

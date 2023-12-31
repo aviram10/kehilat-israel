@@ -1,5 +1,5 @@
 import "../styles/home.css";
-import { Grid } from "@mui/joy";
+import { Divider, Grid } from "@mui/joy";
 import PrayersTimes from "../comps/prayersTimes";
 import MyGallery from "../comps/galleryImages";
 import DayTimes from "../comps/dayTimes";
@@ -22,6 +22,7 @@ export default function Home({ times}) {
         <Grid  lg={3} md={5} xs={10} style={{ border: "1px solid black" }} >
             <Typography level="title-lg">{DateTime.now().setLocale('he').weekdayLong} {times &&times.hebrewDate} {times.items && times.items.find(t=>t.category === "parashat").hebrew} </Typography>
             <PrayersTimes isDaily={true} times={times && times.prayers}/>
+            <Divider sx={{m:1}} />
             <DayTimes times={times} />
         </Grid>
         <Grid xs={12} border={"1px solid black"}>
