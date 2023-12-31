@@ -37,7 +37,6 @@ async function editComment(req, res) {
     try {
         const { comment_id } = req.params;
         const { content } = req.body;
-        console.log("content: ", content, "comment_id: ", comment_id);
         const comment = await servises.editComment( content, comment_id);
         res.send(comment);
     } catch (error) {

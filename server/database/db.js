@@ -60,7 +60,6 @@ async function query(sql, values) {
     return await pool.query(sql, values)
 }
 async function main() {
-    console.log(await get("prayersTimes"))
 //     // console.log("get user => \n"+await get("users", ['*'], "1000"));
 //     // console.log("get users => \n"+await get("users--", ['*'], "1000"));
 //     // console.log("update user => \n"+await update("users", ["first_name","last_name"],["change", "me"], "1000"));

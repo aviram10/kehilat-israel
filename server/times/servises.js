@@ -22,9 +22,11 @@ async function getWeekTimesEverySunday() {
     try {
         console.log('getWeekTimesEverySunday');
         let now = DateTime.now();
+        //calc next sunday
         now = now.plus({ days: 1 });
         if (now.weekday === 7) now = now.plus({ days: 1 });
         const nextSunday = now.plus({ days: 7 }).startOf('week').minus({ days: 1 });
+        
         let data = await getWeekTimes(now.toISODate(), nextSunday.toISODate());
         weekTimes.splice(0, weekTimes.length)
         data.forEach(t => weekTimes.push(t))
@@ -57,28 +59,27 @@ async function getDayTimes() {
 }
 
 async function getPrayersTimes() {
-    const prayersTimes = await accessData.getPrayersTimes();
-    prayersTimes.map(p => {
-        return {name: p.name,
-            time: p.fixed ? p.fixed : calculateTime(p.dependency, p.minutes),
+    const data = await accessData.getPrayersTimes();
+    const dayTimes = global.dayTimes || await getDayTimes();
+    console.log("data", data);
+    const prayersTimes = data.map( p => {
+         return {name: p.prayer_name,
+            time: p.fixed ? p.fixed :  calculateTime(p.dependency, p.minutes, dayTimes),
             category: p.category
         }
     })
+    return prayersTimes;
 }
 
-async function calculateTime(dependency, minutes) {
-    console.log('calculateTime', dependency, minutes);
-    const times = dayTimes || await getDayTimes();
-    let time = DateTime.fromISO(times[dependency]).plus({ minutes: minutes }).toISOTime();
-    console.log(time);
+ function calculateTime(dependency, minutes, dayTimes) {
+    let time = DateTime.fromISO(dayTimes[dependency]).plus({ minutes: minutes }).toISOTime();
+    time = time.slice(0, 5);
     return time;
 }
 
 async function getWeekTimes(now, nextSunday) {
     console.log('getWeekTimes');
-    console.log(now, nextSunday);
     const { data: { items } } = await axios.get(`https://www.hebcal.com/hebcal?v=1&cfg=json&maj=on&i=on&M=on&min=on&nx=on&year=now&month=x&start=${now}&end=${nextSunday}&ss=on&mf=on&c=on&geo=geoname&geonameid=295514&M=on&s=on&leyning=off`);
-    console.log(items);
     return items;
 }
 
