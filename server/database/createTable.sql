@@ -48,12 +48,13 @@ CREATE TABLE comments(
 
 );
 
-CREATE TABLE dedictions(
+CREATE TABLE deductions(
     deduction_id INT NOT NULL AUTO_INCREMENT,
     donation_id INT NOT NULL,
     user_id INT NOT NULL,
     date DATE NOT NULL,
     name VARCHAR(255) NOT NULL,
+    category VARCHAR(255) NOT NULL,
     PRIMARY KEY (deduction_id)
 );
 

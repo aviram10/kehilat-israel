@@ -116,18 +116,18 @@ VALUES
     (25, 1009, "אני מעוניין!", DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY));
 
     -- Insert 10 rows into the deductions table
-    INSERT INTO dedictions (donation_id, user_id, date, name)
+    INSERT INTO dedictions (donation_id, user_id, date, name, category)
     VALUES
-        (1, 1007, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY), "אביב"),
-        (2, 1008, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY), "נועה"),
-        (3, 1009, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY), "יעל"),
-        (4, 1010, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY), "איתן"),
-        (5, 1011, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY), "מיה"),
-        (6, 1012, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY), "אדם"),
-        (7, 1013, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY), "שירה"),
-        (8, 1014, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY), "אורי"),
-        (9, 1015, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY), "תמר"),
-        (10, 1016, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY), "אילן");
+        (1, 1007, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY), "אביב", "רפואה"),
+        (2, 1008, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY), "נועה", "הצלחה"),
+        (3, 1009, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY), "יעל", "פרנס היום"),
+        (4, 1010, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY), "איתן", "אזכרה"),
+        (5, 1011, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY), "מיה", "רפואה"),
+        (6, 1012, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY), "אדם", "הצלחה"),
+        (7, 1013, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY), "שירה", "פרנס היום"),
+        (8, 1014, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY), "אורי", "אזכרה"),
+        (9, 1015, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY), "תמר", "רפואה"),
+        (10, 1016, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY), "אילן", "הצלחה");
 
     -- Insert 10 rows into the donations table
     INSERT INTO donations (donation_id, user_id, amount, date)
