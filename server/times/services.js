@@ -71,8 +71,8 @@ async function getPrayersTimes() {
     return prayersTimes;
 }
 
- function calculateTime(dependency, minutes, dayTimes) {
-    let time = DateTime.fromISO(dayTimes[dependency]).plus({ minutes: minutes }).toISOTime();
+ function calculateTime(dependency, minutes, dt) {
+    let time = DateTime.fromISO(dt[dependency]).plus({ minutes: minutes }).toISOTime();
     time = time.slice(0, 5);
     return time;
 }

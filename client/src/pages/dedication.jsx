@@ -1,4 +1,4 @@
-import { Button, CssBaseline, Grid, Input, Typography } from '@mui/joy';
+import { Box, Button, Input, Card, Stack, Typography } from '@mui/joy';
 import React from 'react';
 import UserDetailsForm from '../comps/userDetailsForm';
 import IconlessRadio from '../comps/radioFrom';
@@ -8,24 +8,31 @@ import '../styles/dedication.css';
 
 export default function Dedication(params) {
     return <>
-        <Grid container minHeight={"70vh"} spacing={1} sx={{ m: 2, alignContent: "space-between", justifyContent: "center" }} >
+        <Box display={'flex'} alignItems={'center'} justifyContent={"center"}>
+            <Typography alignItems={'center'} level='h1' >דף הנצחה </Typography>
+            <img src={dedicationBoard} alt="dedication board" width={150} height={150} />
+        </Box>
 
-            <Grid alignItems={"center"} justifyContent={"center"} display={"flex"} xs={12}>
-                <Typography level='h1' textAlign={"center"}>   דף הנצחה </Typography>
-                <img src={dedicationBoard} alt="dedication board" width={150} height={150} />
-            </Grid>
-            <Grid lg={7} md={6} xs={8} >
-                <UserDetailsForm />
-            </Grid>
-            <Grid  >
+        <Stack  direction={"column"} width={{ md: "95%", lg: "80%" }} margin={"auto"} spacing={2}>
+            <Stack
+                direction={{ xs: "column", md: "row" }}
+                spacing={{ xs: 1, md: 2 }}
+                useFlexGap
+                margin={"auto"}
+            >
+                <UserDetailsForm update={false} />
                 <IconlessRadio values={['לרפואה', 'פרנס היום', 'אזכרה']} />
-            </Grid>
-            <Grid justifyContent={"center"} display={'flex'}  xs={10}> 
-                <Input sx={{m:1}}></Input>
-                <Input sx={{m:1}}></Input>
-                <Button sx={{m:1}}>תרום</Button>
-            </Grid>
-        </Grid >
+
+            </Stack>
+            <Card orientation='horizontal' sx={{ justifyContent: "center" }} variant='outlined' color="primary" >
+                <Input sx={{ m: 1 }}></Input>
+                <Input sx={{ m: 1 }}></Input>
+                <Button color='success' sx={{ m: 1 }}>תרום</Button>
+            </Card>
+        </Stack>
+
+
+
     </>
 
 };

@@ -19,7 +19,7 @@ CREATE TABLE users (
 
 CREATE TABLE donations (
     donation_id INT NOT NULL AUTO_INCREMENT,
-    user_id INT NOT NULL,
+    donor_id INT NOT NULL,
     amount INT UNSIGNED NOT NULL,
     date DATE NOT NULL,
     PRIMARY KEY (donation_id)
@@ -48,14 +48,14 @@ CREATE TABLE comments(
 
 );
 
-CREATE TABLE deductions(
-    deduction_id INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE dedication(
+    dedication_id INT NOT NULL AUTO_INCREMENT,
     donation_id INT NOT NULL,
     user_id INT NOT NULL,
     date DATE NOT NULL,
     name VARCHAR(255) NOT NULL,
     category VARCHAR(255) NOT NULL,
-    PRIMARY KEY (deduction_id)
+    PRIMARY KEY (dedication_id)
 );
 
 CREATE TABLE debts (
@@ -82,6 +82,19 @@ CREATE TABLE likes(
     comment_id INT ,
     CHECK (post_id IS NOT NULL OR comment_id IS NOT NULL),
     PRIMARY KEY (like_id)
+);
+
+CREATE TABLE donors(
+    donor_id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL ,
+    email VARCHAR(255) NOT NULL,
+    phone VARCHAR(255) NOT NULL,
+    address VARCHAR(255)NOT NULL ,
+    city VARCHAR(255) NOT NULL,
+    state VARCHAR(255),
+    zip VARCHAR(255),
+    CONSTRAINT 
+    PRIMARY KEY (donor_id)
 );
       
 

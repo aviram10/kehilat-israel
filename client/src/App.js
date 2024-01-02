@@ -17,7 +17,7 @@ import { DateTime } from 'luxon';
 async function getTimes(setTimes) {
     try {
         const { data} = await axios.get(`${server.url}/times`);
-        console.log(data);
+        console.log("times",data);
         setTimes(data);
     } catch (error) {
         setTimeout(() => {
@@ -32,11 +32,11 @@ function App() {
   useEffect(() => {
     getTimes(setTimes)
     //update times every day at 00:00
-    const tommorow = DateTime.now().plus({days: 1}).startOf('day');
-    console.log(tommorow.diffNow().as('hours'));
+    const tomorrow = DateTime.now().plus({days: 1}).startOf('day');
+    console.log(tomorrow.diffNow().as('hours'));
     setTimeout(() => {
       getTimes(setTimes)
-    }, tommorow.diffNow().milliseconds);
+    }, tomorrow.diffNow().milliseconds);
   }, []);
 
 

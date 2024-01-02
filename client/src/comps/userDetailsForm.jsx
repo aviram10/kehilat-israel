@@ -6,10 +6,9 @@ import Cookies from 'js-cookie';
 import { url } from '../config/server';
 import {Button} from '@mui/joy';
 
-export default function UserDetailsForm() {
+export default function UserDetailsForm({update = true}) {
     const [user, setUser] = useState({first_name: '', last_name: '', phone: '', email: ''})
     useEffect(() => {
-        console.log("useeffect");
         axios.get(`${url}/users/${Cookies.get('user_id')}`, { withCredentials: true })
         .then(({data})=>{
             console.log(data);
@@ -33,13 +32,13 @@ export default function UserDetailsForm() {
     
    
     return (
-        <Sheet  variant='soft'>
+        <Sheet  variant='soft' color='primary'>
                 <Stack >
                     <Typography level='title-lg' textAlign={"center"}>
                         פרטים אישיים
                     </Typography>
                     <Grid container sx={{m: 2}} spacing={2} >
-                        <Grid xs={4}>
+                        <Grid xs={3}>
                             <Typography level='body-lg'>
                                 שם פרטי
                             </Typography>
@@ -47,7 +46,7 @@ export default function UserDetailsForm() {
                         <Grid xs={8}>
                           <Input name='first_name' onChange={handleChange} value={user.first_name} required></Input>
                         </Grid>
-                        <Grid xs={4}>
+                        <Grid xs={3}>
                             <Typography level='body-lg'>
                                 שם משפחה
                             </Typography>
@@ -55,7 +54,7 @@ export default function UserDetailsForm() {
                         <Grid xs={8}>
                          <Input name='last_name' onChange={handleChange} value={user.last_name} required></Input> 
                         </Grid>
-                        <Grid xs={4}>
+                        <Grid xs={3}>
                             <Typography level='body-lg'>
                                 פלאפון
                             </Typography>
@@ -63,7 +62,7 @@ export default function UserDetailsForm() {
                         <Grid xs={8}>
                          <Input name='phone' onChange={handleChange} value={user.phone} required></Input>
                         </Grid>
-                        <Grid xs={4}>
+                        <Grid xs={3}>
                             <Typography level='body-lg'>
                                 אימייל
                             </Typography>
@@ -71,8 +70,32 @@ export default function UserDetailsForm() {
                         <Grid xs={8}>
                          <Input name='email' onChange={handleChange} value={user.email} required></Input> 
                         </Grid>
+                        <Grid xs={3}>
+                            <Typography level='body-lg'>
+                                address
+                            </Typography>
+                        </Grid>
+                        <Grid xs={8}>
+                         <Input name='address' onChange={handleChange} value={user.address} required></Input> 
+                        </Grid>
+                        <Grid xs={3}>
+                            <Typography level='body-lg'>
+                                עיר
+                            </Typography>
+                        </Grid>
+                        <Grid xs={3}>
+                         <Input name='address' onChange={handleChange} value={user.city} required></Input> 
+                        </Grid>
+                        <Grid xs={2}>
+                            <Typography level='body-lg'>
+                                מדינה
+                            </Typography>
+                        </Grid>
+                        <Grid xs={3}>
+                         <Input name='address' onChange={handleChange} value={user.state || "ישראל"} required></Input> 
+                        </Grid>
                     </Grid>
-                    <Button onClick={handleSubmit} fullWidth >עדכן</Button>
+                    {update &&<Button onClick={handleSubmit} fullWidth >עדכן</Button>}
                 </Stack>
             </Sheet>
     );

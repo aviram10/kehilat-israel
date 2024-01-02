@@ -115,8 +115,8 @@ VALUES
     (25, 1008, "מצפה לזה!", DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY)),
     (25, 1009, "אני מעוניין!", DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY));
 
-    -- Insert 10 rows into the deductions table
-    INSERT INTO deductions (donation_id, user_id, date, name, category)
+    -- Insert 10 rows into the dedication table
+    INSERT INTO dedication (donation_id, user_id, date, name, category)
     VALUES
         (1, 1007, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY), "אביב", "רפואה"),
         (2, 1008, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY), "נועה", "הצלחה"),
@@ -130,7 +130,7 @@ VALUES
         (10, 1016, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY), "אילן", "הצלחה");
 
     -- Insert 10 rows into the donations table
-    INSERT INTO donations (donation_id, user_id, amount, date)
+    INSERT INTO donations (donation_id, donor_id, amount, date)
     VALUES
         (1, 1007, 100, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY)),
         (2, 1008, 200, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY)),
@@ -297,4 +297,18 @@ VALUES
         ("ערבית", "sunset",30, "weekday"),
         ("מנחה של שבת", "sunset", -50, "shabat"),
         ("ערבית של שבת", "sunset", 50, "shabat");
+
+    
         
+INSERT INTO donors (name, email, phone, address, city, state, zip)
+VALUES
+    ('Donor 1', 'donor1@example.com', '1234567890', 'Address 1', 'City 1', 'State 1', 'Zip 1'),
+    ('Donor 2', 'donor2@example.com', '2345678901', 'Address 2', 'City 2', 'State 2', 'Zip 2'),
+    ('Donor 3', 'donor3@example.com', '3456789012', 'Address 3', 'City 3', 'State 3', 'Zip 3'),
+    ('Donor 4', 'donor4@example.com', '4567890123', 'Address 4', 'City 4', 'State 4', 'Zip 4'),
+    ('Donor 5', 'donor5@example.com', '5678901234', 'Address 5', 'City 5', 'State 5', 'Zip 5'),
+    ('Donor 6', 'donor6@example.com', '6789012345', 'Address 6', 'City 6', 'State 6', 'Zip 6'),
+    ('Donor 7', 'donor7@example.com', '7890123456', 'Address 7', 'City 7', 'State 7', 'Zip 7'),
+    ('Donor 8', 'donor8@example.com', '8901234567', 'Address 8', 'City 8', 'State 8', 'Zip 8'),
+    ('Donor 9', 'donor9@example.com', '9012345678', 'Address 9', 'City 9', 'State 9', 'Zip 9'),
+    ('Donor 10', 'donor10@example.com', '0123456789', 'Address 10', 'City 10', 'State 10', 'Zip 10');

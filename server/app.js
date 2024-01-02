@@ -3,6 +3,7 @@ const postsRoute = require("./posts/route")
 const usersRoute = require("./users/route")
 const commentsRoute = require("./comments/route")
 const { identification } = require("./middlewares/auth")
+require("dotenv").config();
 const cors = require('cors');
 const express = require('express');
 const app = express();
