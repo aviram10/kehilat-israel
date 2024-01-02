@@ -61,10 +61,10 @@ async function getDayTimes() {
 
 async function getPrayersTimes() {
     const data = await accessData.getPrayersTimes();
-    const dayTimes = global.dayTimes || await getDayTimes();
+    const dt = dayTimes || await getDayTimes();
     const prayersTimes = data.map( p => {
          return {name: p.prayer_name,
-            time: p.fixed ? p.fixed :  calculateTime(p.dependency, p.minutes, dayTimes),
+            time: p.fixed ? p.fixed :  calculateTime(p.dependency, p.minutes, dt),
             category: p.category
         }
     })

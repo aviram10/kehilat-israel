@@ -116,7 +116,7 @@ VALUES
     (25, 1009, "אני מעוניין!", DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY));
 
     -- Insert 10 rows into the deductions table
-    INSERT INTO dedictions (donation_id, user_id, date, name, category)
+    INSERT INTO deductions (donation_id, user_id, date, name, category)
     VALUES
         (1, 1007, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY), "אביב", "רפואה"),
         (2, 1008, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY), "נועה", "הצלחה"),

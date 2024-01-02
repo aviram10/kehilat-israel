@@ -27,7 +27,7 @@ async function getTimes(setTimes) {
 }
 
 function App() {
-  const [times, setTimes] = useState({});
+  const [times, setTimes] = useState({prayers: [], dayTimes: [], items:[]});
   
   useEffect(() => {
     getTimes(setTimes)
