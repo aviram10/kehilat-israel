@@ -118,16 +118,16 @@ VALUES
     -- Insert 10 rows into the dedication table
     INSERT INTO dedication (donation_id, user_id, date, name, category)
     VALUES
-        (1, 1007, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY), "אביב", "רפואה"),
-        (2, 1008, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY), "נועה", "הצלחה"),
-        (3, 1009, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY), "יעל", "פרנס היום"),
-        (4, 1010, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY), "איתן", "אזכרה"),
-        (5, 1011, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY), "מיה", "רפואה"),
-        (6, 1012, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY), "אדם", "הצלחה"),
-        (7, 1013, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY), "שירה", "פרנס היום"),
-        (8, 1014, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY), "אורי", "אזכרה"),
-        (9, 1015, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY), "תמר", "רפואה"),
-        (10, 1016, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY), "אילן", "הצלחה");
+        (1, 1007, 'כא כסליו תשפ"ב', "אביב", "רפואה"),
+        (2, 1008, 'כג תשרי תשפ"ד', "נועה", "הצלחה"),
+        (3, 1009, 'כג תשרי תשפ"ד', "יעל", "פרנס היום"),
+        (4, 1010, 'כג תשרי תשפ"ד', "איתן", "אזכרה"),
+        (5, 1011, 'כג תשרי תשפ"ד', "מיה", "רפואה"),
+        (6, 1012, 'כג תשרי תשפ"ד', "אדם", "הצלחה"),
+        (7, 1013, 'כג חשוון תשפ"ד', "שירה", "פרנס היום"),
+        (8, 1014, 'כג תשרי תשפ"ד', "אורי", "אזכרה"),
+        (9, 1015, 'כג תשרי תשפ"ד', "תמר", "רפואה"),
+        (10, 1016, 'כג תשרי תשפ"ד', "אילן", "הצלחה");
 
     -- Insert 10 rows into the donations table
     INSERT INTO donations (donation_id, donor_id, amount, date)

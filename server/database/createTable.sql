@@ -52,7 +52,7 @@ CREATE TABLE dedication(
     dedication_id INT NOT NULL AUTO_INCREMENT,
     donation_id INT NOT NULL,
     user_id INT NOT NULL,
-    date DATE NOT NULL,
+    date VARCHAR(255) NOT NULL,
     name VARCHAR(255) NOT NULL,
     category VARCHAR(255) NOT NULL,
     PRIMARY KEY (dedication_id)
