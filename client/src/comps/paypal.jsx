@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import { url } from "../config/server";
 
 // Renders errors or successfull transactions on the screen.
 function Message({ content }) {
@@ -26,7 +27,7 @@ function Paypal() {
           }}
           createOrder={async () => {
             try {
-              const response = await fetch("/api/orders", {
+              const response = await fetch(url+"/orders", {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
@@ -63,7 +64,7 @@ function Paypal() {
           onApprove={async (data, actions) => {
             try {
               const response = await fetch(
-                `/api/orders/${data.orderID}/capture`,
+                url+`/orders/${data.orderID}/capture`,
                 {
                   method: "POST",
                   headers: {

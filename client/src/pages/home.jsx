@@ -23,7 +23,7 @@ export default function Home({ times}) {
             <Typography level="title-lg">{DateTime.now().setLocale('he').weekdayLong} {times &&times.hebrewDate} {times.items.length >0 && times.items.find(t=>t.category === "parashat").hebrew} </Typography>
             <PrayersTimes isDaily={true} times={times && times.prayers}/>
             <Divider sx={{m:1}} />
-            <DayTimes times={times} />
+            <DayTimes times={times.dayTimes} />
         </Grid>
         <Grid xs={12} border={"1px solid black"}>
             <h2>פרנס היום: בעילום שם לעילוי נשמת כל הנרצחים  </h2>

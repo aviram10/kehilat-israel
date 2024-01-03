@@ -5,6 +5,7 @@ import IconlessRadio from '../comps/radioFrom';
 import dedicationBoard from '../assets/dedicationBoard.png';
 
 import '../styles/dedication.css';
+import Paypal from '../comps/paypal';
 
 export default function Dedication(params) {
     return <>
@@ -27,7 +28,7 @@ export default function Dedication(params) {
             <Card orientation='horizontal' sx={{ justifyContent: "center" }} variant='outlined' color="primary" >
                 <Input sx={{ m: 1 }}></Input>
                 <Input sx={{ m: 1 }}></Input>
-                <Button color='success' sx={{ m: 1 }}>תרום</Button>
+                <Paypal />
             </Card>
         </Stack>
 
