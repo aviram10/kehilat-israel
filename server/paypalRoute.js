@@ -1,5 +1,6 @@
 const express = require("express");
-const axios = require ("axios");
+const axios = require("axios");
+const qs = require("qs");
 // import "dotenv/config";
 
 const { PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET, PORT = 8888 } = process.env;
@@ -25,17 +26,17 @@ const generateAccessToken = async () => {
     const auth = Buffer.from(
       PAYPAL_CLIENT_ID + ":" + PAYPAL_CLIENT_SECRET,
     ).toString("base64");
-    const {data} = await  axios.post(`${base}/v1/oauth2/token`, {
-      body: "grant_type=client_credentials"} ,{
-      headers: {
-        Authorization: `Basic ${auth}`,
-      },
-    });
-
+    const { data } = await axios.post(`${base}/v1/oauth2/token`, qs.stringify({ 'grant_type': 'client_credentials' }),
+      {
+        headers: {
+          Authorization: `Basic ${auth}`,
+        },
+      });
+    console.log("data1: ", data.access_token);
     // const data = await response.json();
     return data.access_token;
   } catch (error) {
-    console.error("Failed to generate Access Token:", error);
+    console.error("Failed to generate Access Token:");
   }
 };
 
@@ -64,7 +65,7 @@ const createOrder = async (cart) => {
     ],
   };
 
-  const {data} = await axios.post(url, payload, {
+  const  response  = await axios.post(url, JSON.stringify(payload), {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken}`,
@@ -74,10 +75,11 @@ const createOrder = async (cart) => {
       // "PayPal-Mock-Response": '{"mock_application_codes": "PERMISSION_DENIED"}'
       // "PayPal-Mock-Response": '{"mock_application_codes": "INTERNAL_SERVER_ERROR"}'
     },
-   
-  });
 
-  return handleResponse(data);
+  });
+  console.log("data2: ", response.data);
+
+  return handleResponse(response);
 };
 
 /**
@@ -88,7 +90,7 @@ const captureOrder = async (orderID) => {
   const accessToken = await generateAccessToken();
   const url = `${base}/v2/checkout/orders/${orderID}/capture`;
 
-  const response = await axios.post(url,{}, {
+  const response = await axios.post(url, {}, {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken}`,
@@ -103,9 +105,10 @@ const captureOrder = async (orderID) => {
   return handleResponse(response);
 };
 
-async function handleResponse(jsonResponse) {
+async function handleResponse(response) {
   try {
     // const jsonResponse = await response.json();
+    const jsonResponse = response.data;
     return {
       jsonResponse,
       httpStatusCode: response.status,
