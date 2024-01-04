@@ -13,11 +13,11 @@ async function offer(data){
     return { status: "available" };
 }
 
-async function main(){
-    console.log(await offer({date: "2024-01-02", category: "פרנס היום"}));
-    console.log(pendingDates);
-    console.log(await offer({date: "2024-01-01", category: "commissioner"}));
-}
-main();
+// async function main(){
+//     console.log(await offer({date: "2024-01-02", category: "פרנס היום"}));
+//     console.log(pendingDates);
+//     console.log(await offer({date: "2024-01-01", category: "commissioner"}));
+// }
+// main();
 
 module.exports = {offer}
