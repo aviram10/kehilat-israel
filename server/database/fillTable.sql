@@ -116,18 +116,18 @@ VALUES
     (25, 1009, "אני מעוניין!", DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY));
 
     -- Insert 10 rows into the dedication table
-    INSERT INTO dedication (donation_id, user_id, date, name, category)
+    INSERT INTO dedications (donation_id, donor_id, date, name, category)
     VALUES
-        (1, 1007, 'כא כסליו תשפ"ב', "אביב", "רפואה"),
-        (2, 1008, 'כג תשרי תשפ"ד', "נועה", "הצלחה"),
-        (3, 1009, 'כג תשרי תשפ"ד', "יעל", "פרנס היום"),
-        (4, 1010, 'כג תשרי תשפ"ד', "איתן", "אזכרה"),
-        (5, 1011, 'כג תשרי תשפ"ד', "מיה", "רפואה"),
-        (6, 1012, 'כג תשרי תשפ"ד', "אדם", "הצלחה"),
-        (7, 1013, 'כג חשוון תשפ"ד', "שירה", "פרנס היום"),
-        (8, 1014, 'כג תשרי תשפ"ד', "אורי", "אזכרה"),
-        (9, 1015, 'כג תשרי תשפ"ד', "תמר", "רפואה"),
-        (10, 1016, 'כג תשרי תשפ"ד', "אילן", "הצלחה");
+        (1, 1007, "2024-01-01", "אביב", "רפואה"),
+        (2, 1008, "2024-01-10" , "נועה", "הצלחה"),
+        (3, 1009, "2024-01-02" , "יעל", "פרנס היום"),
+        (4, 1010, "2024-01-03" , "איתן", "אזכרה"),
+        (5, 1011, "2024-01-04" , "מיה", "רפואה"),
+        (6, 1012, "2024-01-05" , "אדם", "הצלחה"),
+        (7, 1013, "2024-01-06", "שירה", "פרנס היום"),
+        (8, 1014, "2024-01-07" , "אורי", "אזכרה"),
+        (9, 1015, "2024-01-08" , "תמר", "רפואה"),
+        (10, 1016, "2024-01-09" , "אילן", "הצלחה");
 
     -- Insert 10 rows into the donations table
     INSERT INTO donations (donation_id, donor_id, amount, date)
@@ -143,18 +143,18 @@ VALUES
         (9, 1015, 900, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY)),
         (10, 1016, 1000, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY));
 -- Insert 10 rows into the debts table
-INSERT INTO debts (debt_id, user_id, amount, date)
+INSERT INTO debts (debt_id, user_id, amount)
 VALUES
-    (1, 1000, 1000, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY)),
-    (2, 1001, 2000, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY)),
-    (3, 1002, 3000, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY)),
-    (4, 1003, 4000, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY)),
-    (5, 1004, 5000, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY)),
-    (6, 1005, 6000, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY)),
-    (7, 1006, 7000, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY)),
-    (8, 1007, 8000, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY)),
-    (9, 1008, 9000, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY)),
-    (10, 1009, 10000, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY));
+    (1, 1000, 1000),
+    (2, 1001, 2000),
+    (3, 1002, 3000),
+    (4, 1003, 4000),
+    (5, 1004, 5000),
+    (6, 1005, 6000),
+    (7, 1006, 7000),
+    (8, 1007, 8000),
+    (9, 1008, 9000),
+    (10, 1009, 10000);
 
     INSERT INTO likes (user_id, post_id) VALUES
     (1000, 1),

@@ -96,9 +96,9 @@ async function getHebrewDate() {
 
 
 async function isAfterSunset() {
-    let sunset = DateTime.fromISO(dayTimes.sunset || (await getDayTimes()).sunset); // if timesData.sunset is undefined, getTimes() will be called
+    let sunset = DateTime.fromISO(dayTimes.sunset || (await getDayTimes())?.sunset); // if timesData.sunset is undefined, getTimes() will be called
     const now = DateTime.now();
-    if(sunset.day !== now.day) sunset = (await getDayTimes()).sunset;
+    if(sunset.day !== now.day) sunset = (await getDayTimes())?.sunset;
     const isAfterSunset = now > DateTime.fromISO(sunset);// if it's after sunset, we need to add gs=on to the url
     return isAfterSunset;
 }

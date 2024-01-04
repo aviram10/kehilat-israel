@@ -51,8 +51,8 @@ CREATE TABLE comments(
 CREATE TABLE dedication(
     dedication_id INT NOT NULL AUTO_INCREMENT,
     donation_id INT NOT NULL,
-    user_id INT NOT NULL,
-    date VARCHAR(255) NOT NULL,
+    donor_id INT NOT NULL,
+    date DATE NOT NULL,
     name VARCHAR(255) NOT NULL,
     category VARCHAR(255) NOT NULL,
     PRIMARY KEY (dedication_id)
@@ -62,7 +62,6 @@ CREATE TABLE debts (
     debt_id INT NOT NULL AUTO_INCREMENT,
     user_id INT NOT NULL,
     amount INT UNSIGNED NOT NULL,
-    date DATE NOT NULL,
     PRIMARY KEY (debt_id)
 );
 

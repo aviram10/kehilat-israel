@@ -1,12 +1,12 @@
-const express = require('express');
-const { add } = require('../database/db');
-const router = express.Router();
+// const express = require('express');
+// const router = express.Router();
+// const controllers = require('./controllers');
 
-router.get("/", availableDate);
+// router.get("/", controllers.addDedication);
 
 
 
-module.exports = router;
+// module.exports = router;
 
 
 

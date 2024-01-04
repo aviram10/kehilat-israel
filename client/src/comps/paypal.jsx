@@ -27,6 +27,7 @@ function Paypal() {
           }}
           createOrder={async () => {
             try {
+              
               const response = await fetch(url+"/orders", {
                 method: "POST",
                 headers: {
@@ -37,7 +38,7 @@ function Paypal() {
                 body: JSON.stringify({
                   cart: [
                     {
-                      id: "YOUR_PRODUCT_ID",
+                      id: "UR_PROYODUCT_ID",
                       quantity: "YOUR_PRODUCT_QUANTITY",
                     },
                   ],

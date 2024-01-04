@@ -1,6 +1,7 @@
 const express = require("express");
 const axios = require("axios");
 const qs = require("qs");
+const services = require("../dedications/services");
 // import "dotenv/config";
 
 const { PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET, PORT = 8888 } = process.env;
@@ -45,6 +46,8 @@ const generateAccessToken = async () => {
  * @see https://developer.paypal.com/docs/api/orders/v2/#orders_create
  */
 const createOrder = async (cart) => {
+  if(cart.type === "commissioner" && (await services.offer(cart)).status === "unavailable") 
+    return res.status(400).json({ message: 'Unavailable date' });
   // use the cart information passed from the front-end to calculate the purchase unit details
   console.log(
     "shopping cart information passed from the frontend createOrder() callback:",
