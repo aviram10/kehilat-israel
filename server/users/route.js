@@ -11,6 +11,7 @@ router.route("/:user_id")
     .put(controllers.updateUser)
 
 router.get("/:user_id/posts", controllers.getPosts)
-// router.get("/:user_id/debts", controllers.getDebts)
+router.get("/:user_id/data",userAuth, controllers.getUserData)
+router.get("/:user_id/debt",userAuth, controllers.getDebt)
 
 module.exports = router;

@@ -1,6 +1,8 @@
 DROP DATABASE IF EXISTS kehilat_israel;
 CREATE DATABASE kehilat_israel;
 USE kehilat_israel;
+
+
 CREATE TABLE users (
     user_id INT NOT NULL AUTO_INCREMENT,
     username VARCHAR(255) NOT NULL UNIQUE,
@@ -17,14 +19,7 @@ CREATE TABLE users (
     PRIMARY KEY (user_id)
 );
 
-CREATE TABLE donations (
-    donation_id INT NOT NULL AUTO_INCREMENT,
-    donor_id INT NOT NULL,
-    amount INT UNSIGNED NOT NULL,
-    date DATE NOT NULL,
-    PRIMARY KEY (donation_id)
-   
-);
+
 
 CREATE TABLE posts(
     post_id INT NOT NULL AUTO_INCREMENT,
@@ -48,22 +43,6 @@ CREATE TABLE comments(
 
 );
 
-CREATE TABLE dedication(
-    dedication_id INT NOT NULL AUTO_INCREMENT,
-    donation_id INT NOT NULL,
-    donor_id INT NOT NULL,
-    date DATE NOT NULL,
-    name VARCHAR(255) NOT NULL,
-    category VARCHAR(255) NOT NULL,
-    PRIMARY KEY (dedication_id)
-);
-
-CREATE TABLE debts (
-    debt_id INT NOT NULL AUTO_INCREMENT,
-    user_id INT NOT NULL,
-    amount INT UNSIGNED NOT NULL,
-    PRIMARY KEY (debt_id)
-);
 
 CREATE TABLE prayersTimes(
     prayer_name VARCHAR(255) NOT NULL ,
@@ -91,9 +70,34 @@ CREATE TABLE donors(
     address VARCHAR(255)NOT NULL ,
     city VARCHAR(255) NOT NULL,
     state VARCHAR(255),
-    zip VARCHAR(255),
-    CONSTRAINT 
+    zip VARCHAR(255), 
     PRIMARY KEY (donor_id)
+);
+
+CREATE TABLE dedications(
+    dedication_id INT NOT NULL AUTO_INCREMENT,
+    donation_id INT NOT NULL,
+    donor_id INT NOT NULL,
+    date DATE NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    category VARCHAR(255) NOT NULL,
+    PRIMARY KEY (dedication_id)
+);
+
+CREATE TABLE debts (
+    debt_id INT NOT NULL AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    debt INT UNSIGNED NOT NULL,
+    PRIMARY KEY (debt_id)
+);
+
+CREATE TABLE donations (
+    donation_id INT NOT NULL AUTO_INCREMENT,
+    donor_id INT NOT NULL,
+    amount INT UNSIGNED NOT NULL,
+    date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+    PRIMARY KEY (donation_id)
+   
 );
       
 

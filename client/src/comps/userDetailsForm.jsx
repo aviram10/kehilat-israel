@@ -6,15 +6,12 @@ import Cookies from 'js-cookie';
 import { url } from '../config/server';
 import {Button} from '@mui/joy';
 
-export default function UserDetailsForm({update = true}) {
-    const [user, setUser] = useState({first_name: '', last_name: '', phone: '', email: ''})
+export default function UserDetailsForm({userDetail,update = true}) {
+    console.log(userDetail);
+    const [user, setUser] = useState({ first_name: '', last_name: '', phone: '', email: '', address: '', city: '', state: ''})
     useEffect(() => {
-        axios.get(`${url}/users/${Cookies.get('user_id')}`, { withCredentials: true })
-        .then(({data})=>{
-            console.log(data);
-            setUser(data)
-        }).catch(error => console.log(error))
-    },[])
+        setUser(userDetail)
+    }, [userDetail])
 
     const handleChange = ({target}) =>{
         setUser({...user,[target.name]: target.value })

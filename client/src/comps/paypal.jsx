@@ -7,7 +7,7 @@ function Message({ content }) {
   return <p>{content}</p>;
 }
 
-function Paypal() {
+function Paypal({ details, success}) {
   const initialOptions = {
     "client-id": "Afgnr4u04HGd4lrqQjBNkd9tjx3xyc1ZBvZ8cYHOR81CT_8im1Tw2N31Z_TyIHdDQymuapou6od5UFLi",
     "enable-funding": "venmo,card",
@@ -38,6 +38,7 @@ function Paypal() {
                 body: JSON.stringify({
                   cart: [
                     {
+                      ...details,
                       id: "UR_PROYODUCT_ID",
                       quantity: "YOUR_PRODUCT_QUANTITY",
                     },
@@ -75,6 +76,7 @@ function Paypal() {
               );
 
               const orderData = await response.json();
+              success(orderData);
               // Three cases to handle:
               //   (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
               //   (2) Other non-recoverable errors -> Show a failure message

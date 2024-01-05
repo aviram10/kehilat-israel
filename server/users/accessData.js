@@ -24,6 +24,13 @@ async function updateUser(user_id, data) {
     } catch (err) { console.log(err); }
 }
 
+async function getDebt(filters) {
+    try {
+        const { keys, values } = util.extractKeyValues(filters);
+        return await db.get("debts", ['*'], keys, values);
+    } catch (err) { console.log(err); }
+}
 
 
-module.exports = { getUsers, addUser, updateUser }
+
+module.exports = { getUsers, addUser, updateUser, getDebt }

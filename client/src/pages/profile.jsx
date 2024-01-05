@@ -5,86 +5,97 @@ import { url } from '../config/server';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import Posts from '../comps/postsComps/posts';
-import {toggleLike, deletePost} from '../functions/server';
+import { toggleLike, deletePost } from '../functions/server';
+import Paypal from '../comps/paypal';
 
 
 export default function Profile() {
   const [myPosts, setMyPosts] = useState([])
   const [savedPosts, setSavedPosts] = useState([])
+  const [debt, setDebt] = useState()
+  const [user, setUser] = useState({ first_name: '', last_name: '', phone: '', email: '', address: '', city: '', state: '' })
   useEffect(() => {
-    axios.get(`${url}/users/${Cookies.get('user_id')}/posts?type=all`, { withCredentials: true })
+    axios.get(`${url}/users/${Cookies.get('user_id')}/data`, { withCredentials: true })
       .then(({ data }) => {
-        console.log(data);
         setMyPosts(data.myPosts);
         setSavedPosts(data.savedPosts);
+        setDebt(data.debt)
+        setUser(data.user)
       })
       .catch(e => console.log(e))
-    }, [])
+  }, [])
 
-    const handleMyPosts = useMemo(() => ({
-      save: async (input, post_id) => {
-        try{
-          const { data} = await axios.put(`${url}/posts/${post_id}`,  input , { withCredentials: true })
-          console.log(data);
-          setMyPosts(prev => prev.map(post => post.post_id === post_id ? data : post))
-        }catch(e){
-          console.log(e)
-        }
-      },
-      delete: async (post_id, event) => {
-        try {
-          event.stopPropagation();
-          await deletePost(post_id)
-          setMyPosts(prev => prev.filter(post => post.post_id !== post_id))
-        } catch (e) {
-          console.log(e)
-        }
-      },
-      toggleLike: () => { },
-      
-      edit: true
-    }), [])
+   function success(data){
+    console.log("dfdf", data);
+  }
 
-    const handleSavedPosts = useMemo(() => ({
-      toggleLike: async post_id => {
-        try {
-          console.log("post toggle");
-          await toggleLike(post_id);
-          //copy the message and change the liked property
-          setSavedPosts(prev => prev.filter(post => post.post_id !== post_id))
-        } catch (e) {
-          console.log(e)
-        }
+  const handleMyPosts = useMemo(() => ({
+    save: async (input, post_id) => {
+      try {
+        const { data } = await axios.put(`${url}/posts/${post_id}`, input, { withCredentials: true })
+        console.log(data);
+        setMyPosts(prev => prev.map(post => post.post_id === post_id ? data : post))
+      } catch (e) {
+        console.log(e)
       }
-    }), [])
+    },
+    delete: async (post_id, event) => {
+      try {
+        event.stopPropagation();
+        await deletePost(post_id)
+        setMyPosts(prev => prev.filter(post => post.post_id !== post_id))
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    //todo: use ? to make it optional
+    toggleLike: () => { },
 
-    return <>
-      <h1>חשבון</h1>
-      <Sheet variant=''  sx={{ m: 2, minHeight: "100vh" }}>
+    edit: true
+  }), [])
 
-        <Grid container spacing={2}>
-          <Grid xs={12} md={5}>
-            <UserDetailsForm  />
-           
-            <Typography sx={{ mt: 1 }} color='danger' variant='solid' level='title-lg'>סה"כ חובות: 350 ש"ח <Button color='warning'>שלם</Button></Typography>
-          </Grid>
-          <Grid xs={12} md={7}>
-            <Tabs variant='soft' sx={{ minHeight: "50vh" }} aria-label="Basic tabs" defaultValue={0}>
-              <TabList >
-                <Tab variant='soft' color='primary' sx={{ width: "50%" }}>ההודעות שלי</Tab>
-                <Tab variant='soft' color='primary' sx={{ width: "50%" }}>הודעות שמורות </Tab>
+  const handleSavedPosts = useMemo(() => ({
+    toggleLike: async post_id => {
+      try {
+        console.log("post toggle");
+        await toggleLike(post_id);
+        //copy the message and change the liked property
+        setSavedPosts(prev => prev.filter(post => post.post_id !== post_id))
+      } catch (e) {
+        console.log(e)
+      }
+    }
+  }), [])
 
-              </TabList>
-              <TabPanel  sx={{ m: "auto" }} value={0}>
-                <Posts handlePosts={handleMyPosts} posts={myPosts} />
-              </TabPanel>
-              <TabPanel sx={{ m: "auto" }} value={1}>
-                <Posts posts={savedPosts} handlePosts={handleSavedPosts} />
-              </TabPanel>
+  return <>
+    <h1>חשבון</h1>
+    <Sheet sx={{ m: 2, minHeight: "100vh" }}>
 
-            </Tabs>
-          </Grid>
+      <Grid container spacing={2}>
+        <Grid xs={12} md={5} spacing={2} >
+          <UserDetailsForm userDetail={user} />
+
+          <Typography sx={{ mt: 1 }} color='danger' variant='solid' level='title-lg'>סה"כ חובות: {debt && debt}
+          </Typography>
+            <Paypal details={{amount: debt, type: "debt", user}} success={success} />
         </Grid>
-      </Sheet>
-    </>
-  };
+        <Grid xs={12} md={7}>
+          <Tabs variant='soft' sx={{ minHeight: "50vh" }} aria-label="Basic tabs" defaultValue={0}>
+            <TabList >
+              <Tab variant='soft' color='primary' sx={{ width: "50%" }}>ההודעות שלי</Tab>
+              <Tab variant='soft' color='primary' sx={{ width: "50%" }}>הודעות שמורות </Tab>
+
+            </TabList>
+            <TabPanel sx={{ m: "auto" }} value={0}>
+              <Posts handlePosts={handleMyPosts} posts={myPosts} />
+            </TabPanel>
+            <TabPanel sx={{ m: "auto" }} value={1}>
+              <Posts posts={savedPosts} handlePosts={handleSavedPosts} />
+            </TabPanel>
+
+          </Tabs>
+        </Grid>
+      </Grid>
+    </Sheet>
+  </>
+};

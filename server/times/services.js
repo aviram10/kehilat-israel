@@ -61,7 +61,7 @@ async function getDayTimes() {
 
 async function getPrayersTimes() {
     const data = await accessData.getPrayersTimes();
-    const dt = dayTimes || await getDayTimes();
+    const dt = Object.keys(dayTimes).length === 0 ? await getDayTimes(): dayTimes;
     const prayersTimes = data.map( p => {
          return {name: p.prayer_name,
             time: p.fixed ? p.fixed :  calculateTime(p.dependency, p.minutes, dt),
@@ -71,8 +71,9 @@ async function getPrayersTimes() {
     return prayersTimes;
 }
 
- function calculateTime(dependency, minutes, dt) {
-    let time = DateTime.fromISO(dt[dependency]).plus({ minutes: minutes }).toISOTime();
+ function calculateTime(dependency, mins, dt) {
+    console.log(dt.sunset);
+    let time = DateTime.fromISO(dt[dependency]).plus({ minutes: mins }).toISOTime();
     time = time.slice(0, 5);
     return time;
 }

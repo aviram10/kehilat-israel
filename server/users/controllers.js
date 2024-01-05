@@ -47,7 +47,22 @@ async function updateUser(req, res){
     }catch(err){handleError(err, res)}
 }
 
+async function getDebt(req, res) {
+    try {
+        const debt = await services.getDebt(req.params.user_id);
+        res.send(debt);
+    } catch (err) { handleError(err, res) }
+}
+
+async function getUserData(req, res) {
+    try{
+        const data = await services.getUserData(req.params.user_id);
+        return res.send(data);
+    }catch(err){console.log(err);}
+
+}
 
 
 
-module.exports = { login, register, getUser, getPosts, updateUser }
+
+module.exports = { login, register, getUser, getPosts, updateUser, getDebt, getUserData }

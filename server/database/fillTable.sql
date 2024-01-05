@@ -143,7 +143,7 @@ VALUES
         (9, 1015, 900, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY)),
         (10, 1016, 1000, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY));
 -- Insert 10 rows into the debts table
-INSERT INTO debts (debt_id, user_id, amount)
+INSERT INTO debts (debt_id, user_id, debt)
 VALUES
     (1, 1000, 1000),
     (2, 1001, 2000),
