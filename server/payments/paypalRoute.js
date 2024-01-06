@@ -1,7 +1,7 @@
 const express = require("express");
 const axios = require("axios");
 const qs = require("qs");
-const services = require("../payments/services");
+const controllers = require("../payments/controllers");
 // import "dotenv/config";
 
 const { PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET, PORT = 8888 } = process.env;
@@ -46,15 +46,10 @@ const generateAccessToken = async () => {
  * @see https://developer.paypal.com/docs/api/orders/v2/#orders_create
  */
 const createOrder = async (cart) => {
-  // if(cart.type === "commissioner" && (await services.offer(cart)).status === "unavailable") 
-  //   return res.status(400).json({ message: 'Unavailable date' });
-
-
-
   // use the cart information passed from the front-end to calculate the purchase unit details
   console.log(
     "shopping cart information passed from the frontend createOrder() callback:",
-    cart, cart[0].amount+".00"
+    cart
   );
 
   const accessToken = await generateAccessToken();
@@ -65,7 +60,7 @@ const createOrder = async (cart) => {
       {
         amount: {
           currency_code: "USD",
-          value: cart[0].amount,
+          value: cart[0].a,
         },
       },
     ],
@@ -139,10 +134,11 @@ router.post("/", async (req, res) => {
 
 router.post("/:orderID/capture", async (req, res) => {
   try {
-    const debt = await services.debtPayed(req.body.amount, req.body.user_id);
     const { orderID } = req.params;
     const { jsonResponse, httpStatusCode } = await captureOrder(orderID);
-    jsonResponse.debt = debt;
+    const amount = jsonResponse.purchase_units[0].payments.captures[0].amount.value * 1;
+    await controllers.handlePayment(req ,amount, jsonResponse)
+    console.log("jsonResponse: ", jsonResponse);
     res.status(httpStatusCode).json(jsonResponse);
   } catch (error) {
     console.error("Failed to create order:", error);
@@ -152,9 +148,6 @@ router.post("/:orderID/capture", async (req, res) => {
 
 module.exports = router;
 
-// serve index.html
-// router.get("/", (req, res) => {
-//   res.sendFile(path.resolve("./client/dist/index.html"));
-// });
+
 
 

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { url } from "../config/server";
+// import Cookies from "js-cookie";
 
 // Renders errors or successfull transactions on the screen.
 function Message({ content }) {
@@ -68,9 +69,12 @@ function Paypal({ details, success}) {
               const response = await fetch(
                 url+`/orders/${data.orderID}/capture`,
                 {
+                  body: JSON.stringify({type: details.type}),
                   method: "POST",
+                  credentials: 'include' ,
                   headers: {
-                    "Content-Type": "application/json",
+                    "cookie": document.cookie,
+                    "Content-Type": "application/json"
                   },
                 },
               );
@@ -101,11 +105,11 @@ function Paypal({ details, success}) {
                 setMessage(
                   `Transaction ${transaction.status}: ${transaction.id}. See console for all available details`,
                 );
-                console.log(
-                  "Capture result",
-                  orderData,
-                  JSON.stringify(orderData, null, 2),
-                );
+                // console.log(
+                //   "Capture result",
+                //   orderData,
+                //   JSON.stringify(orderData, null, 2),
+                // );
               }
             } catch (error) {
               console.error(error);

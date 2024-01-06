@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
 import UserDetailsForm from '../comps/userDetailsForm';
-import { Button, Grid, Sheet, Tab, TabList, TabPanel, Tabs, Typography } from '@mui/joy';
+import {  Grid, Sheet, Tab, TabList, TabPanel, Tabs, Typography } from '@mui/joy';
 import { url } from '../config/server';
 import axios from 'axios';
 import Cookies from 'js-cookie';
@@ -10,6 +10,7 @@ import Paypal from '../comps/paypal';
 
 
 export default function Profile() {
+  console.log(document.cookie);
   const [myPosts, setMyPosts] = useState([])
   const [savedPosts, setSavedPosts] = useState([])
   const [debt, setDebt] = useState()
@@ -26,7 +27,8 @@ export default function Profile() {
   }, [])
 
    function success(data){
-    console.log("dfdf", data);
+    console.log("success", data);
+    setDebt( data.data)
   }
 
   const handleMyPosts = useMemo(() => ({
@@ -75,9 +77,9 @@ export default function Profile() {
         <Grid xs={12} md={5} spacing={2} >
           <UserDetailsForm userDetail={user} />
 
-          <Typography sx={{ mt: 1 }} color='danger' variant='solid' level='title-lg'>סה"כ חובות: {debt && debt}
+          <Typography sx={{ mt: 1 }} color='danger' variant='solid' level='title-lg'>סה"כ חובות: {debt || 0}
           </Typography>
-            <Paypal details={{amount: debt, type: "debt", user}} success={success} />
+            <Paypal details={{a: 100, type: "debt"}} success={success} />
         </Grid>
         <Grid xs={12} md={7}>
           <Tabs variant='soft' sx={{ minHeight: "50vh" }} aria-label="Basic tabs" defaultValue={0}>

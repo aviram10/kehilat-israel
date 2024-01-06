@@ -18,6 +18,7 @@ app.use((req, res, next) => {
     visitors++;
     console.log("visitors: ", visitors);
     console.log("req.url: ", req.url);
+    console.log("req.body: ", req.body);
     next();
 });
 app.use(identification)
