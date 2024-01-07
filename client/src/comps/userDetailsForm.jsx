@@ -5,29 +5,30 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { url } from '../config/server';
 import {Button} from '@mui/joy';
+import { getUser } from '../functions/server';
 
-export default function UserDetailsForm({userDetail,update = true}) {
-    console.log(userDetail);
+export default function UserDetailsForm({handleUser, update = true}) {
     const [user, setUser] = useState({ first_name: '', last_name: '', phone: '', email: '', address: '', city: '', state: ''})
-    useEffect(() => {
-        setUser(userDetail)
-    }, [userDetail])
+    
+    useEffect(()=>{
+        getUser().then((data)=>{
+            setUser(data)
+        })
+    },[])
+    useEffect(()=>{
+        handleUser(user)
+    },[user, handleUser])
 
-    const handleChange = ({target}) =>{
-        setUser({...user,[target.name]: target.value })
-    }
+    const handleChange = ({target}) => setUser({...user, [target.name]: target.value})
 
     async function handleSubmit(e){
         try{
-            const {data} = await axios.put(`${url}/users/${Cookies.get('user_id')}`, user, { withCredentials: true })
-            console.log(data);
+            await axios.put(`${url}/users/${Cookies.get('user_id')}`, user, { withCredentials: true })
         }catch(error){
             console.log(error);
         }
     }
 
-    
-   
     return (
         <Sheet  variant='soft' color='primary'>
                 <Stack >

@@ -48,7 +48,7 @@ async function addLike(user_id, entry, likes) {
         const [like] = await db.add("likes", keys, values);
         const table = entry[0] === "post_id" ? "posts" : "comments";
         if (like.affectedRows) {
-            console.log("add like: ", like.affectedRows);
+            console.log("add like: ");
             const [{ affectedRows }] = await db.update(table, ['likes'], [likes + 1],[entry[0]], [entry[1]]);
             return affectedRows;
         }

@@ -54,7 +54,6 @@ async function getDayTimes() {
         const now = DateTime.now();
         const date = now.toISODate();
         const { data: { times } } = await axios.get(`https://www.hebcal.com/zmanim?cfg=json&geonameid=295514&date=${date}`)
-        console.log(times.sunset);
         return times;
     } catch (err) { console.log(err); }
 }
@@ -72,7 +71,6 @@ async function getPrayersTimes() {
 }
 
  function calculateTime(dependency, mins, dt) {
-    console.log(dt.sunset);
     let time = DateTime.fromISO(dt[dependency]).plus({ minutes: mins }).toISOTime();
     time = time.slice(0, 5);
     return time;

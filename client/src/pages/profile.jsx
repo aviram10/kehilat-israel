@@ -7,15 +7,18 @@ import Cookies from 'js-cookie';
 import Posts from '../comps/postsComps/posts';
 import { toggleLike, deletePost } from '../functions/server';
 import Paypal from '../comps/paypal';
+const {useNavigate} = require('react-router-dom')
 
 
 export default function Profile() {
+  const navigate = useNavigate()
   console.log(document.cookie);
   const [myPosts, setMyPosts] = useState([])
   const [savedPosts, setSavedPosts] = useState([])
   const [debt, setDebt] = useState()
   const [user, setUser] = useState({ first_name: '', last_name: '', phone: '', email: '', address: '', city: '', state: '' })
   useEffect(() => {
+    if(!sessionStorage.user_id) navigate('/login');
     axios.get(`${url}/users/${Cookies.get('user_id')}/data`, { withCredentials: true })
       .then(({ data }) => {
         setMyPosts(data.myPosts);
@@ -77,9 +80,9 @@ export default function Profile() {
         <Grid xs={12} md={5} spacing={2} >
           <UserDetailsForm userDetail={user} />
 
-          <Typography sx={{ mt: 1 }} color='danger' variant='solid' level='title-lg'>סה"כ חובות: {debt || 0}
+          <Typography sx={{ mt: 1 }} color={debt ?'danger' : "success"} variant='solid' level='title-lg'>סה"כ חובות: {debt || 0}
           </Typography>
-            <Paypal details={{a: 100, type: "debt"}} success={success} />
+            <Paypal details={{amount: debt, type: "debt"}} success={success} />
         </Grid>
         <Grid xs={12} md={7}>
           <Tabs variant='soft' sx={{ minHeight: "50vh" }} aria-label="Basic tabs" defaultValue={0}>

@@ -14,7 +14,7 @@ const nextSunday = now.plus({days: 7}).startOf('week').minus({days: 1});
 
   
   const date = new Date("2023-05-09");
-  console.log(formatJewishDateInHebrew(toJewishDate(date)));
+  // console.log(formatJewishDateInHebrew(toJewishDate(date)));
 
 
 

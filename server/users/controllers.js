@@ -5,15 +5,15 @@ const { handleError } = require('../utils/errors');
 
 
 async function login(req, res) {
-    console.log("login: ", req.user);
-    req.user ? res.send({ user_id: req.user.user_id }) : res.status(401).send("unidentified")
+    req.user ? res.send(req.user) : res.status(401).send("unidentified")
 }
 async function register(req, res) {
     try {
         //todo: validate req.body
         delete req.body.remember;
         const [{ insertId }] = await accessData.addUser(req.body);
-        res.status(201).send({ user_id: insertId });
+        const user = await services.getUser(insertId);
+        res.status(201).send(user);
     } catch (err) { handleError(err, res) }
 }
 

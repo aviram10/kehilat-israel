@@ -1,18 +1,18 @@
 import * as React from 'react';
-import Box from '@mui/joy/Box';
-import FormLabel from '@mui/joy/FormLabel';
+
 import Radio from '@mui/joy/Radio';
 import RadioGroup from '@mui/joy/RadioGroup';
 import Sheet from '@mui/joy/Sheet';
 import { Card, Typography } from '@mui/joy';
 
-export default function IconlessRadio({values}) {
+export default function IconlessRadio({ values, handleChange }) {
   return (
-    <Card variant='soft' color={"primary"}  sx={{ width: "100%", direction: "ltr", textAlign: "center"}} >
+    <Card variant='soft' color={"primary"} sx={{ width: "100%", direction: "ltr", textAlign: "center" }} >
       <Typography level='title-md' >
-        בחרו סוג תרומה
+        בחרו סוג הקדשה
       </Typography>
-      <RadioGroup 
+      <RadioGroup
+        onChange={e => handleChange(e)}
         aria-labelledby="choose-label"
         defaultValue="dedicate"
         size="lg"
@@ -20,8 +20,8 @@ export default function IconlessRadio({values}) {
       >
         {values.map((value) => (
           <Sheet
-          color='primary'
-          variant='outlined'
+            color='primary'
+            variant='outlined'
             key={value}
             sx={{
               p: 2,
@@ -29,7 +29,7 @@ export default function IconlessRadio({values}) {
               boxShadow: 'sm',
             }}
           >
-            <Radio 
+            <Radio
               label={value}
               overlay
               disableIcon
@@ -45,7 +45,7 @@ export default function IconlessRadio({values}) {
                 action: ({ checked }) => ({
                   sx: (theme) => ({
                     ...(checked && {
-                        bgcolor: "lightblue",
+                      bgcolor: "lightblue",
                       '--variant-borderWidth': '2px',
                       '&&': {
                         // && to increase the specificity to win the base :hover styles

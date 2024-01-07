@@ -11,18 +11,17 @@
     color: white;
 }
 .login{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
     height: fit-content;
     width: 50%;
    text-align: center;
-   background-color:whitesmoke;
+ 
 }
-.login h1{
-    color: goldenrod;
-    margin-top: 5%;
-    text-align: center;
-    font-size: 3em;
-    margin-bottom: 0px;
-}
+
 .form h2{
     color: blue;
     text-align: center;
@@ -34,10 +33,10 @@
     text-align: center;
     margin-top: 5px;
 }
+
 .form{
-   margin:  20px auto;
-   height: 400px;
-   max-height: 35%;
+   height: fit-content  ;
+  margin: auto;
     max-width: 700px;
     width: 50%;
     background-color: rgba(255, 255, 255, 0.784);
@@ -50,7 +49,14 @@
     box-shadow: 0 0 10px #ccc;
 }
 #signup{
-  height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+   
+
 }
 
 

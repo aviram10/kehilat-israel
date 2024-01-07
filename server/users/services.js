@@ -35,17 +35,7 @@ async function getUserData(user_id){
 }
 
 
-async function main() {
-    // Call your functions here
-    // const users = await getUsers();
-    // console.log(users);
-    // const affectedRows = await updateUser(1, {name: 'John Doe'});
-    // console.log(affectedRows);
-    const debt = await getDebt(1000);
-    console.log(debt);
-}
 
-main();
 
 
 

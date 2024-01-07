@@ -58,7 +58,14 @@ export async function editComment(post_id, comment_id, comment){
         const { data } = await axios.put(`${url}/posts/${post_id}/comments/${comment_id}`, comment,{withCredentials: true});
         return data;
     }catch(err){console.log(err);}
-}   
+} 
+
+export async function getUser(user_id){
+    try{
+        const { data } = await axios.get(`${url}/users/${user_id || sessionStorage.user_id}`,{withCredentials: true});
+        return data;
+    }catch(err){console.log(err);}
+}
 
 
 

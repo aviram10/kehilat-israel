@@ -45,7 +45,7 @@ async function editComment(req, res) {
 }
 
 async function toggleLike(req, res) {
-    console.log("updateCommenst  ", req.params);
+    console.log("updateCommenst  ");
         try{
             const data = await posts.toggleLike({comment_id: req.params.comment_id}, req.user.user_id);
         return res.send(data);

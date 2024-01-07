@@ -4,9 +4,7 @@ const pendingDates = [];
 async function offer(data){
     if(pendingDates.includes(data.date)) return { status: "pending" };
     const [dedications] = await accessData.getDedications({date: data.date});
-    console.log(dedications);
     dedications.forEach(dedication => {
-        console.log(dedication);
         if(dedication.category === data.category) return { status: "unavailable" };
     });
     pendingDates.push(data.date);

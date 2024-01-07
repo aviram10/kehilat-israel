@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { url } from "../config/server";
-// import Cookies from "js-cookie";
 
 // Renders errors or successfull transactions on the screen.
 function Message({ content }) {
@@ -19,7 +18,7 @@ function Paypal({ details, success}) {
   const [message, setMessage] = useState("");
 
   return (
-    <div className="App">
+    <div className="App" style={{margin: "5px auto"}}>
       <PayPalScriptProvider options={initialOptions}>
         <PayPalButtons
           style={{

@@ -27,19 +27,17 @@ async function editComment( content, comment_id ) {
 
 async function getComments( filters, user_id ) {
     try{
-        console.log("getComments: ", user_id);
+        console.log("getComments: ");
         const [comments] = await accessData.getComments( filters );
         utils.preparPosts(comments);
         if (!user_id) return comments;
         const [likes] = await getLikes({ user_id });
-        console.log(likes);
         likes.forEach(like => {
             if (like.comment_id) {
                 const comment = comments.find(c => c.comment_id == like.comment_id);
                 if (comment) comment.liked = true;
             }
         })
-        console.log(comments);
         return comments;
     }catch(error){ 
        console.log(error);

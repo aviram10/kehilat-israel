@@ -71,7 +71,6 @@ async function toggleLike(id, user_id) {
     try {
         console.log("service togglelike", id);
         const [entry] = Object.entries(id)
-        console.log(entry);
         const [likes] = await dataAccess.getLikes({ [entry[0]]: entry[1] });
         const [like] = likes.filter(l => l.user_id == user_id);
         const data = like ?

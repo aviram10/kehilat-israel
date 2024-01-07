@@ -33,7 +33,6 @@ const generateAccessToken = async () => {
           Authorization: `Basic ${auth}`,
         },
       });
-    console.log("data1: ", data.access_token);
     // const data = await response.json();
     return data.access_token;
   } catch (error) {
@@ -60,7 +59,7 @@ const createOrder = async (cart) => {
       {
         amount: {
           currency_code: "USD",
-          value: cart[0].a,
+          value: cart[0].amount,
         },
       },
     ],
@@ -78,7 +77,6 @@ const createOrder = async (cart) => {
     },
 
   });
-  console.log("data2: ", response.data);
 
   return handleResponse(response);
 };
@@ -138,7 +136,6 @@ router.post("/:orderID/capture", async (req, res) => {
     const { jsonResponse, httpStatusCode } = await captureOrder(orderID);
     const amount = jsonResponse.purchase_units[0].payments.captures[0].amount.value * 1;
     await controllers.handlePayment(req ,amount, jsonResponse)
-    console.log("jsonResponse: ", jsonResponse);
     res.status(httpStatusCode).json(jsonResponse);
   } catch (error) {
     console.error("Failed to create order:", error);

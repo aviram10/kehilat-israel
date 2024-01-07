@@ -42,6 +42,7 @@ function App() {
 
   //update hebrew date every sunset
   useEffect(() => {
+    if(localStorage.user_id) sessionStorage.setItem('user_id', localStorage.user_id);
     if(!times.dayTimes) return;
     const sunset = DateTime.fromISO(times.dayTimes.sunset)
     if(sunset.diffNow().milliseconds <= 0) return;
