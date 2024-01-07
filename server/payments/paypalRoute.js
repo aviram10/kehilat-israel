@@ -50,7 +50,7 @@ const createOrder = async (cart) => {
     "shopping cart information passed from the frontend createOrder() callback:",
     cart
   );
-
+    cart = cart[0];
   const accessToken = await generateAccessToken();
   const url = `${base}/v2/checkout/orders`;
   const payload = {
@@ -59,12 +59,12 @@ const createOrder = async (cart) => {
       {
         amount: {
           currency_code: "USD",
-          value: cart[0].amount,
+          value: cart.amount,
         },
       },
     ],
   };
-
+  console.log(payload);
   const  response  = await axios.post(url, JSON.stringify(payload), {
     headers: {
       "Content-Type": "application/json",
@@ -121,7 +121,10 @@ async function handleResponse(response) {
 router.post("/", async (req, res) => {
   try {
     // use the cart information passed from the front-end to calculate the order amount detals
-    controllers.checkPayment(req, res)
+    const result = await controllers.checkPayment(req)
+    if(result.status  >= 400) return res.status(result.status).send(result.message)
+    const {cart} = req.body
+
     const { jsonResponse, httpStatusCode } = await createOrder(cart);
     res.status(httpStatusCode).json(jsonResponse);
   } catch (error) {

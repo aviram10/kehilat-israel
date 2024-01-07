@@ -28,7 +28,7 @@ export default function Dedication(params) {
 
     return <>
         <Typography alignItems={'center'} level='h1' >דף הנצחה </Typography>
-        {!sessionStorage.user_id ? <LoginForm />
+        {!sessionStorage.user_id ? <LoginForm set={setMessage} />
             : <> <Box display={'flex'} alignItems={'center'} justifyContent={"center"}>
                 <img src={dedicationBoard} alt="dedication board" width={150} height={150} />
             </Box>

@@ -28,7 +28,13 @@ async function addDonation(amount, donor_id){
     }
 }
 
-module.exports = { getDebts, updateDebt, addDonation };
+async function getDate(date){
+    try{
+    return await db.get("dedication", ['*'], ["date"], [date])
+    }catch(err){console.log(err)}
+}
+
+module.exports = { getDebts, updateDebt, addDonation, getDate };
 
 
 

@@ -9,10 +9,15 @@ async function handlePayment(req, amount, jsonResponse){
     }
 }
 
-async function checkPayment(req, res){
-    const { cart } = req.body;
+async function checkPayment(req){
+    try{
+    let { cart } = req.body;
+    cart = cart[0];
+    cart.user_id = req.user.user_id;
+    return await services.checkPayment(cart)
+    }catch(err){console.log(err);}
     
 
 }
 
-module.exports = { handlePayment };
+module.exports = { handlePayment, checkPayment };

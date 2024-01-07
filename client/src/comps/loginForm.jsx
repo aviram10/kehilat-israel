@@ -35,7 +35,8 @@ export default function LoginForm({set}) {
             setMessage(`${mode} success`)
             setTimeout(() => {
                 if(location.pathname === '/login') navigate('/profile')
-                else set(data)
+                else set("hello")
+                setTimeout(()=>{set("")},[2000])
             }, 1000);
 
         } catch (error) {

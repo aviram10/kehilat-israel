@@ -18,7 +18,7 @@ function Paypal({ details, success}) {
   };
 
   const [message, setMessage] = useState("");
-  if(details?.amount) return;
+  if(!details?.amount) return;
 
   return (
     <div className="App" style={{margin: "5px auto"}}>
@@ -33,7 +33,9 @@ function Paypal({ details, success}) {
               
               const response = await fetch(url+"/orders", {
                 method: "POST",
+                credentials: 'include' ,
                 headers: {
+                  "cookie": document.cookie,
                   "Content-Type": "application/json",
                 },
                 // use the "body" param to optionally pass additional order information
