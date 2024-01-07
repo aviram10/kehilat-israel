@@ -8,6 +8,8 @@ function Message({ content }) {
 }
 
 function Paypal({ details, success}) {
+  console.log("details ", details);
+  
   const initialOptions = {
     "client-id": "Afgnr4u04HGd4lrqQjBNkd9tjx3xyc1ZBvZ8cYHOR81CT_8im1Tw2N31Z_TyIHdDQymuapou6od5UFLi",
     "enable-funding": "venmo,card",
@@ -16,6 +18,7 @@ function Paypal({ details, success}) {
   };
 
   const [message, setMessage] = useState("");
+  if(details?.amount) return;
 
   return (
     <div className="App" style={{margin: "5px auto"}}>

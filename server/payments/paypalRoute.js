@@ -121,7 +121,7 @@ async function handleResponse(response) {
 router.post("/", async (req, res) => {
   try {
     // use the cart information passed from the front-end to calculate the order amount detals
-    const { cart } = req.body;
+    controllers.checkPayment(req, res)
     const { jsonResponse, httpStatusCode } = await createOrder(cart);
     res.status(httpStatusCode).json(jsonResponse);
   } catch (error) {

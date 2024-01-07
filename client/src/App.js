@@ -20,9 +20,9 @@ async function getTimes(setTimes) {
         console.log("times",data);
         setTimes(data);
     } catch (error) {
-        setTimeout(() => {
-            getTimes(setTimes)
-        }, 500000);
+        // setTimeout(() => {
+        //     getTimes(setTimes)
+        // }, 500000);
     }
 }
 

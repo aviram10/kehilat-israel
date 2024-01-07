@@ -4,12 +4,13 @@ import { ReactJewishDatePicker, BasicJewishDay } from "react-jewish-datepicker";
 import "react-jewish-datepicker/dist/index.css";
 import "../styles/calender.css"
 
-export default function JewishCalender({handleChange}) {
+export default function JewishCalender({ handleChange }) {
   const [basicJewishDay, setBasicJewishDay] = useState();
-  useEffect(()=>{
-    handleChange(basicJewishDay?.date)
-  },[basicJewishDay])
-  
+  useEffect(() => {
+    if (basicJewishDay)
+      handleChange(basicJewishDay?.date)
+  }, [basicJewishDay])
+
   return (
     <ReactJewishDatePicker
       value={new Date()}

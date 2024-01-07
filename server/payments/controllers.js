@@ -9,4 +9,10 @@ async function handlePayment(req, amount, jsonResponse){
     }
 }
 
+async function checkPayment(req, res){
+    const { cart } = req.body;
+    
+
+}
+
 module.exports = { handlePayment };

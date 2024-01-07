@@ -16,10 +16,13 @@ export default function Dedication(params) {
     const [type, setType] = useState("");
     const [details, setDetails] = useState({})
     const [date, setDate] = useState("");
+    const [amount, setAmount] = useState(0)
+    const [message, setMessage] = useState();
 
     useEffect(() => {
-        console.log(name, type, details, date);
-    }, [name, type, details, date])
+        console.log(type);
+       setAmount(type  === "פרנס היום"? 250: 100)
+    }, [ type])
 
     const handleUser = useCallback(user => setDetails({ ...user }), [])
 
@@ -29,7 +32,6 @@ export default function Dedication(params) {
             : <> <Box display={'flex'} alignItems={'center'} justifyContent={"center"}>
                 <img src={dedicationBoard} alt="dedication board" width={150} height={150} />
             </Box>
-
                 <Stack justifyItems={"center"} direction={"column"} width={{ md: "95%", lg: "80%" }} margin={"auto"} spacing={2}>
                     <Stack
                         direction={{ xs: "column", md: "row" }}
@@ -39,26 +41,25 @@ export default function Dedication(params) {
                     >
                         <UserDetailsForm
                             handleUser={handleUser}
-                            update={false}
                         />
                         <IconlessRadio
                             values={['לרפואה', 'פרנס היום', 'אזכרה']}
                             handleChange={({ target }) => setType(target.value)}
                         />
-
                     </Stack>
-                    <Card orientation='horizontal' sx={{ justifyContent: "center" }} variant='outlined' color="primary" >
+                    <Card orientation='horizontal' sx={{ justifyContent: "center", alignItems: "center" }} variant='outlined' color="primary" >
+                        <Typography level='h3' > {type}</Typography>
                         <Input
                             placeholder='שם להקדשה'
                             name='name'
                             onChange={({ target }) => { setName(target.value) }}
                             value={name}
                             sx={{ m: 1 }}>
-
                         </Input>
                         <JewishCalender handleChange={(date) => setDate(DateTime.fromISO(new Date(date).toISOString()).toISODate())} />
+                        <Input type='number' name='amount' value={amount}></Input>
                     </Card>
-                    <Paypal />
+                    <Paypal details={{amount, type, date, name, details}}/>
                 </Stack>
             </>}
     </>

@@ -62,22 +62,11 @@ CREATE TABLE likes(
     PRIMARY KEY (like_id)
 );
 
-CREATE TABLE donors(
-    donor_id INT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(255) NOT NULL ,
-    email VARCHAR(255) NOT NULL,
-    phone VARCHAR(255) NOT NULL,
-    address VARCHAR(255)NOT NULL ,
-    city VARCHAR(255) NOT NULL,
-    state VARCHAR(255),
-    zip VARCHAR(255), 
-    PRIMARY KEY (donor_id)
-);
 
 CREATE TABLE dedications(
     dedication_id INT NOT NULL AUTO_INCREMENT,
     donation_id INT NOT NULL,
-    donor_id INT NOT NULL,
+    user_id INT NOT NULL,
     date DATE NOT NULL,
     name VARCHAR(255) NOT NULL,
     category VARCHAR(255) NOT NULL,
@@ -93,7 +82,7 @@ CREATE TABLE debts (
 
 CREATE TABLE donations (
     donation_id INT NOT NULL AUTO_INCREMENT,
-    donor_id INT NOT NULL,
+    user_id INT NOT NULL,
     amount INT UNSIGNED NOT NULL,
     date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
     PRIMARY KEY (donation_id)

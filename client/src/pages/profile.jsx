@@ -1,6 +1,6 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, useCallback } from 'react';
 import UserDetailsForm from '../comps/userDetailsForm';
-import {  Grid, Sheet, Tab, TabList, TabPanel, Tabs, Typography } from '@mui/joy';
+import { Button, Grid, Sheet, Tab, TabList, TabPanel, Tabs, Typography } from '@mui/joy';
 import { url } from '../config/server';
 import axios from 'axios';
 import Cookies from 'js-cookie';
@@ -12,7 +12,6 @@ const {useNavigate} = require('react-router-dom')
 
 export default function Profile() {
   const navigate = useNavigate()
-  console.log(document.cookie);
   const [myPosts, setMyPosts] = useState([])
   const [savedPosts, setSavedPosts] = useState([])
   const [debt, setDebt] = useState()
@@ -27,7 +26,9 @@ export default function Profile() {
         setUser(data.user)
       })
       .catch(e => console.log(e))
-  }, [])
+  }, [navigate])
+
+  const handleUser = useCallback(user =>setUser({...user}),[])
 
    function success(data){
     console.log("success", data);
@@ -58,7 +59,13 @@ export default function Profile() {
 
     edit: true
   }), [])
-
+  async function handleSubmit(e){
+    try{
+        await axios.put(`${url}/users/${sessionStorage.user_id}`, user, { withCredentials: true })
+    }catch(error){
+        console.log(error);
+    }
+}
   const handleSavedPosts = useMemo(() => ({
     toggleLike: async post_id => {
       try {
@@ -78,7 +85,8 @@ export default function Profile() {
 
       <Grid container spacing={2}>
         <Grid xs={12} md={5} spacing={2} >
-          <UserDetailsForm userDetail={user} />
+          <UserDetailsForm handleUser={handleUser} />
+          <Button onClick={handleSubmit} fullWidth >עדכן</Button>
 
           <Typography sx={{ mt: 1 }} color={debt ?'danger' : "success"} variant='solid' level='title-lg'>סה"כ חובות: {debt || 0}
           </Typography>

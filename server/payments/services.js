@@ -3,7 +3,6 @@ const accessData = require('./accessData');
 
 async function debtPayed(amount, user_id) {
     try {
-        if (amount <= 0) throw new Error("Amount must be greater than 0");
        let debt = await getDebt(user_id);
        if(!debt[0]) throw new Error("debt not found");
        debt = debt[0]
@@ -26,7 +25,6 @@ async function getDebt(id){
 
 async function handlePayment(type, amount, user_id) {
     try {
-        if (amount <= 0) throw new Error("Amount must be greater than 0");
         switch (type) {
             case "donation":
                 await accessData.addDonation(amount, user_id);

@@ -25,7 +25,7 @@ async function getWeekTimesEverySunday() {
         now = now.plus({ days: 1 });
         if (now.weekday === 7) now = now.plus({ days: 1 });
         const nextSunday = now.plus({ days: 7 }).startOf('week').minus({ days: 1 });
-        
+
         let data = await getWeekTimes(now.toISODate(), nextSunday.toISODate());
         weekTimes.splice(0, weekTimes.length)
         data.forEach(t => weekTimes.push(t))
