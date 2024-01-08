@@ -23,7 +23,6 @@ export default function LoginForm({set}) {
     }
     async function handleClick() {
         try {
-            console.log(mode);
             let { data } = await axios.post(`${url}/users/${mode}`, input);
             console.log(data);
             //todo: check expire date of cookie 
@@ -35,8 +34,8 @@ export default function LoginForm({set}) {
             setMessage(`${mode} success`)
             setTimeout(() => {
                 if(location.pathname === '/login') navigate('/profile')
-                else {set && set("hello")}
-                setTimeout(()=>set && set(""),[2000])
+                else { set?.("hello")}
+                setTimeout(()=> set?.(""),[2000])
             }, 1000);
 
         } catch (error) {

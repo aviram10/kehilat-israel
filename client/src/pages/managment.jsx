@@ -27,6 +27,10 @@ export default function Managment(params) {
         getDebts().then(res=>setDebts(res))
     },[])
 
+    useEffect(()=>{
+        console.log(users, donations, dedications, prayers, posts, debts)
+    },[users, donations, dedications, prayers, posts, debts])
+
     const sx = { m: 4, p: 4, textAlign: "center" }
 
     return <>

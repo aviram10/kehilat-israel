@@ -25,6 +25,7 @@ export default function Profile() {
         setSavedPosts(data.savedPosts);
         setDebt(data.debt)
         setUser(data.user)
+        setPaypal(prev => prev + 1)
       })
       .catch(e => console.log(e))
   }, [navigate])
@@ -93,7 +94,7 @@ export default function Profile() {
 
           <Typography sx={{ mt: 1 }} color={debt ?'danger' : "success"} variant='solid' level='title-lg'>סה"כ חובות: {debt || 0}
           </Typography>
-            <Paypal key={paypal} paymentsDetails={{amount: debt, type: "debt"}} success={success} handleError={handleError} />
+            <Paypal key={paypal} amount={debt} type={"debt"} success={success} handleError={handleError} />
         </Grid>
         <Grid xs={12} md={7}>
           <Tabs variant='soft' sx={{ minHeight: "50vh" }} aria-label="Basic tabs" defaultValue={0}>

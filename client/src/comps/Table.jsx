@@ -15,19 +15,17 @@ export default function GenericTable({ data, heads }) {
                 stripe="odd"
                 hoverRow
                 noWrap
-                
                 size='small'
                 sx={{margin: "auto" ,width: 'max-content', '& td, th': {p:1, m: 1}, '& th': {textAlign: 'center', backgroundColor: 'black', color: 'white'}}}
-
             >
                 <thead v>
                     <tr >
-                        {heads.map((head) => <th key={head}  >{head}</th>)}
+                        {heads?.map((head) => <th key={head}  >{head}</th>)}
                     </tr>
                 </thead>
                 <tbody>
                   
-                        {data.map((row) =>{
+                        {data?.map((row) =>{
                             return <tr key={row.id}>
                             {Object.values(row).map((cell) => <td key={cell} >{cell}</td>)}
                             <td>

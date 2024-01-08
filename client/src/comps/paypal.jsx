@@ -47,16 +47,12 @@ function Paypal({ name, amount, date,type,details, success, handleError} ) {
                   ]
                 }),
               });
-
-
               const orderData =  await response.json();
-               
-
               if (orderData.id) {
                 return orderData.id;
               } else {
                 console.error(handleError);
-                handleError()
+                // handleError()
                 const errorDetail = orderData?.details?.[0];
                 const errorMessage = errorDetail
                   ? `${errorDetail.issue} ${errorDetail.description} (${orderData.debug_id})`
@@ -66,8 +62,8 @@ function Paypal({ name, amount, date,type,details, success, handleError} ) {
               }
             } catch (error) {
               console.log("error");
-              handleError()
-              // setMessage(`Could not initiate PayPal Checkout...${error}`);
+              // handleError()
+              setMessage(`Could not initiate PayPal Checkout...${error}`);
             }
           }}
           onApprove={async (data, actions) => {
