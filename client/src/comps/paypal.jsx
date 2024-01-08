@@ -7,8 +7,9 @@ function Message({ content }) {
   return <p>{content}</p>;
 }
 
-function Paypal({ name, amount, date,type,details, success} ) {
+function Paypal({ name, amount, date,type,details, success, handleError} ) {
   console.log("details ", amount);
+
   
   const initialOptions = {
     "client-id": "Afgnr4u04HGd4lrqQjBNkd9tjx3xyc1ZBvZ8cYHOR81CT_8im1Tw2N31Z_TyIHdDQymuapou6od5UFLi",
@@ -18,7 +19,7 @@ function Paypal({ name, amount, date,type,details, success} ) {
   };
 
   const [message, setMessage] = useState("");
-  if(!amount) return;
+  // if(!amount) return;
 
   return (
     <div className="App" style={{margin: "5px auto"}}>
@@ -49,15 +50,13 @@ function Paypal({ name, amount, date,type,details, success} ) {
 
 
               const orderData =  await response.json();
-              if(orderData.status >= 400){
-                
-              }
+               
 
-              if(orderData.httpStatusCode >= 400) return "sadasd";
               if (orderData.id) {
                 return orderData.id;
               } else {
-                console.error("unsucce");
+                console.error(handleError);
+                handleError()
                 const errorDetail = orderData?.details?.[0];
                 const errorMessage = errorDetail
                   ? `${errorDetail.issue} ${errorDetail.description} (${orderData.debug_id})`
@@ -67,7 +66,7 @@ function Paypal({ name, amount, date,type,details, success} ) {
               }
             } catch (error) {
               console.log("error");
-              
+              handleError()
               // setMessage(`Could not initiate PayPal Checkout...${error}`);
             }
           }}

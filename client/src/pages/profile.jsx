@@ -16,6 +16,7 @@ export default function Profile() {
   const [savedPosts, setSavedPosts] = useState([])
   const [debt, setDebt] = useState()
   const [user, setUser] = useState({ first_name: '', last_name: '', phone: '', email: '', address: '', city: '', state: '' })
+  const [paypal, setPaypal] = useState(1)
   useEffect(() => {
     if(!sessionStorage.user_id) navigate('/login');
     axios.get(`${url}/users/${Cookies.get('user_id')}/data`, { withCredentials: true })
@@ -34,7 +35,9 @@ export default function Profile() {
     console.log("success", data);
     setDebt( data.data)
   }
-
+  const handleError = () => {
+    console.log("handleError");
+    setPaypal(prev => prev + 1)}
   const handleMyPosts = useMemo(() => ({
     save: async (input, post_id) => {
       try {
@@ -90,7 +93,7 @@ export default function Profile() {
 
           <Typography sx={{ mt: 1 }} color={debt ?'danger' : "success"} variant='solid' level='title-lg'>סה"כ חובות: {debt || 0}
           </Typography>
-            <Paypal paymentsDetails={{amount: debt, type: "debt"}} success={success} />
+            <Paypal key={paypal} paymentsDetails={{amount: debt, type: "debt"}} success={success} handleError={handleError} />
         </Grid>
         <Grid xs={12} md={7}>
           <Tabs variant='soft' sx={{ minHeight: "50vh" }} aria-label="Basic tabs" defaultValue={0}>
