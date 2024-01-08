@@ -22,9 +22,10 @@ export default function Dedication(params) {
     useEffect(() => {
         console.log(type);
        setAmount(type  === "פרנס היום"? 250: 100)
-    }, [ type])
+    }, [ type, name, details, date])
 
     const handleUser = useCallback(user => setDetails({ ...user }), [])
+    const success = data =>{}
 
     return <>
         <Typography alignItems={'center'} level='h1' >דף הנצחה </Typography>
@@ -59,7 +60,7 @@ export default function Dedication(params) {
                         <JewishCalender handleChange={(date) => setDate(DateTime.fromISO(new Date(date).toISOString()).toISODate())} />
                         <Input type='number' name='amount' value={amount}></Input>
                     </Card>
-                    <Paypal details={{amount, type, date, name, details}}/>
+                    <Paypal key={date+amount+name+details+type} date={date} amount={amount} name={name} details={details} type={type} success={success}/>
                 </Stack>
             </>}
     </>

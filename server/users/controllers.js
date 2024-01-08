@@ -17,6 +17,14 @@ async function register(req, res) {
     } catch (err) { handleError(err, res) }
 }
 
+async function getUsers(req, res) {
+    try{
+    const users = await services.getUsers();
+    return res.send(users);
+    }
+    catch(err){console.log(err);}
+}
+
 async function getUser(req, res) {
     try {
         const [user] = await services.getUsers({user_id: req.params.user_id});
@@ -65,4 +73,4 @@ async function getUserData(req, res) {
 
 
 
-module.exports = { login, register, getUser, getPosts, updateUser, getDebt, getUserData }
+module.exports = { getUsers, login, register, getUser, getPosts, updateUser, getDebt, getUserData }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Sheet, Table } from '@mui/joy';
 
-export default function GenericTable({ data}) {
+export default function GenericTable({ data, heads }) {
 
     const [editMode, setEditMode] = React.useState(false);
 
@@ -14,6 +14,7 @@ export default function GenericTable({ data}) {
                 stickyFooter
                 stripe="odd"
                 hoverRow
+                noWrap
                 
                 size='small'
                 sx={{margin: "auto" ,width: 'max-content', '& td, th': {p:1, m: 1}, '& th': {textAlign: 'center', backgroundColor: 'black', color: 'white'}}}
@@ -21,7 +22,7 @@ export default function GenericTable({ data}) {
             >
                 <thead v>
                     <tr >
-                        {Object.keys(data[0]).map((head) => <th key={head}  >{head}</th>)}
+                        {heads.map((head) => <th key={head}  >{head}</th>)}
                     </tr>
                 </thead>
                 <tbody>

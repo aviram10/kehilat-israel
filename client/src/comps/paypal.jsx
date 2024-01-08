@@ -7,8 +7,8 @@ function Message({ content }) {
   return <p>{content}</p>;
 }
 
-function Paypal({ details, success}) {
-  console.log("details ", details);
+function Paypal({ name, amount, date,type,details, success} ) {
+  console.log("details ", amount);
   
   const initialOptions = {
     "client-id": "Afgnr4u04HGd4lrqQjBNkd9tjx3xyc1ZBvZ8cYHOR81CT_8im1Tw2N31Z_TyIHdDQymuapou6od5UFLi",
@@ -18,7 +18,7 @@ function Paypal({ details, success}) {
   };
 
   const [message, setMessage] = useState("");
-  if(!details?.amount) return;
+  if(!amount) return;
 
   return (
     <div className="App" style={{margin: "5px auto"}}>
@@ -42,20 +42,22 @@ function Paypal({ details, success}) {
                 // like product ids and quantities
                 body: JSON.stringify({
                   cart: [
-                    {
-                      ...details,
-                      id: "UR_PROYODUCT_ID",
-                      quantity: "YOUR_PRODUCT_QUANTITY",
-                    },
-                  ],
+                    {name, amount, date, details, type}
+                  ]
                 }),
               });
 
-              const orderData = await response.json();
 
+              const orderData =  await response.json();
+              if(orderData.status >= 400){
+                
+              }
+
+              if(orderData.httpStatusCode >= 400) return "sadasd";
               if (orderData.id) {
                 return orderData.id;
               } else {
+                console.error("unsucce");
                 const errorDetail = orderData?.details?.[0];
                 const errorMessage = errorDetail
                   ? `${errorDetail.issue} ${errorDetail.description} (${orderData.debug_id})`
@@ -64,8 +66,9 @@ function Paypal({ details, success}) {
                 throw new Error(errorMessage);
               }
             } catch (error) {
-              console.error(error);
-              setMessage(`Could not initiate PayPal Checkout...${error}`);
+              console.log("error");
+              
+              // setMessage(`Could not initiate PayPal Checkout...${error}`);
             }
           }}
           onApprove={async (data, actions) => {
@@ -73,7 +76,7 @@ function Paypal({ details, success}) {
               const response = await fetch(
                 url+`/orders/${data.orderID}/capture`,
                 {
-                  body: JSON.stringify({type: details.type}),
+                  body: JSON.stringify({amount, date, name, details, type}),
                   method: "POST",
                   credentials: 'include' ,
                   headers: {

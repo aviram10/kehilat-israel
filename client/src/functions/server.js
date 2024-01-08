@@ -67,6 +67,43 @@ export async function getUser(user_id){
     }catch(err){console.log(err);}
 }
 
+export async function getUsers(){
+    try{
+        const { data } = await axios.get(`${url}/users`,{withCredentials: true});
+        return data;
+    }catch(err){console.log(err);}
+}
+
+export async function getTimes(){
+    try{
+        const { data } = await axios.get(`${url}/times`,{withCredentials: true});
+        return data;
+    }catch(err){console.log(err);}
+}
+
+export async function getDedications(){
+    try{
+        const { data } = await axios.get(`${url}/dedications`,{withCredentials: true});
+        return data;
+    }catch(err){console.log(err);}
+}
+
+export async function getDonations(){
+    try{
+        const { data } = await axios.get(`${url}/donations`,{withCredentials: true});
+        return data;
+    }catch(err){console.log(err);}
+}
+
+export async function getDebts(){
+    try{
+        const { data } = await axios.get(`${url}/debts`,{withCredentials: true});
+        return data;
+    }catch(err){console.log(err);}
+}
+
+
+
 
 
 

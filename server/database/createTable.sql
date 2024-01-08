@@ -69,7 +69,7 @@ CREATE TABLE dedications(
     user_id INT NOT NULL,
     date DATE NOT NULL,
     name VARCHAR(255) NOT NULL,
-    category VARCHAR(255) NOT NULL,
+    type VARCHAR(255) NOT NULL,
     PRIMARY KEY (dedication_id)
 );
 

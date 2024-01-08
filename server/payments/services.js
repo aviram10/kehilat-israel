@@ -24,14 +24,19 @@ async function getDebt(id) {
 
 }
 
-async function handlePayment(type, amount, user_id) {
+async function handlePayment(details) {
     try {
-        switch (type) {
+        console.log(details);
+        switch (details.type) {
             case "debt":
-                const debt = await debtPayed(amount, user_id);
+                const debt = await debtPayed(details.amount, details.user_id);
                 return debt;
             default:
-                await accessData.addDonation(amount, user_id);
+               const [{insertId}] = await accessData.addDonation(details.amount, details.user_id);
+               details.donation_id = insertId
+               delete details.details;
+               delete details.amount;
+                await accessData.addDedication(details)
                 break;
         }
     } catch (err) { console.log(err); }
@@ -45,10 +50,10 @@ async function checkPayment(cart) {
                 const debt = getDebt(cart.user_id);
                 if (debt < cart.amount) return { status: 400, message: "amount not match" }
                 return { status: 200 }
-            case "commissioner":
+            case "פרנס היום":
                 if (cart.amount < FEES.commissioner) return { status: 400, message: "the amount is under the minimum" }
-                return await checkAvialableDate(cart.date) ? { status: 400, message: "date unavialable" } : {status: 200};
-            default: return cart.amount < 100 ? {status:400, message: "the amount is under the minimun"}: {status:200}
+                return await checkAvialableDate(cart.date) ? { status: 400, message: "date unavailable" } : {status: 200};
+            default: return cart.amount < 100 ? {status:400, message: "the amount is under the minimum"}: {status:200}
     }
     } catch (err) { return {status: 500} }
 
@@ -56,7 +61,7 @@ async function checkPayment(cart) {
 
 async function checkAvialableDate(date) {
     let [dates] = await accessData.getDate(date);
-    return dates.find(d => d.type === "commissioner")
+    return dates.find(d => d.type === "פרנס היום")
 }
 
 // async function main(){

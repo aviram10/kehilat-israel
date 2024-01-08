@@ -90,7 +90,7 @@ export default function Profile() {
 
           <Typography sx={{ mt: 1 }} color={debt ?'danger' : "success"} variant='solid' level='title-lg'>סה"כ חובות: {debt || 0}
           </Typography>
-            <Paypal details={{amount: debt, type: "debt"}} success={success} />
+            <Paypal paymentsDetails={{amount: debt, type: "debt"}} success={success} />
         </Grid>
         <Grid xs={12} md={7}>
           <Tabs variant='soft' sx={{ minHeight: "50vh" }} aria-label="Basic tabs" defaultValue={0}>

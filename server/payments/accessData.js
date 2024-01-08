@@ -1,7 +1,7 @@
 const db  = require('../database/db');
 const util = require('../utils/accessData');
 
-async function getDebts(filters){
+async function getDebts(filters={}){
     try{
         const {keys, values} = util.extractKeyValues(filters);
         return await db.get("debts", ['*'], keys, values);
@@ -9,6 +9,24 @@ async function getDebts(filters){
         throw err;
     }
 }
+
+async function getDonations(filters={}){
+    try{
+        const {keys, values} = util.extractKeyValues(filters);
+        return await db.get("donations", ['*'], keys, values);
+    }catch(err){
+        throw err;
+    }
+}
+async function getDedications(filters={}){
+    try{
+        const {keys, values} = util.extractKeyValues(filters);
+        return await db.get("dedications", ['*'], keys, values);
+    }catch(err){
+        throw err;
+    }
+}
+
 
 
 
@@ -20,9 +38,9 @@ async function updateDebt(id, debt){
     }
 }
 
-async function addDonation(amount, donor_id){
+async function addDonation(amount, user_id){
     try{
-        return await db.add("donations", ["amount", "donor_id"], [amount, donor_id]);
+        return await db.add("donations", ["amount", "user_id"], [amount, user_id]);
     }catch(err){
         throw err;
     }
@@ -30,11 +48,17 @@ async function addDonation(amount, donor_id){
 
 async function getDate(date){
     try{
-    return await db.get("dedication", ['*'], ["date"], [date])
+    return await db.get("dedications", ['*'], ["date"], [date])
     }catch(err){console.log(err)}
 }
 
-module.exports = { getDebts, updateDebt, addDonation, getDate };
+async function addDedication(details){
+    const {keys, values} = util.extractKeyValues(details);
+    console.log(keys, values);
+    return await db.add("dedications", keys, values);
+}
+
+module.exports = { getDebts, updateDebt, addDonation, getDate, addDedication, getDedications, getDonations };
 
 
 

@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const controllers = require("./controllers.js");
-const { userAuth } = require("../middlewares/auth.js");
+const { userAuth,adminAuth  } = require("../middlewares/auth.js");
 
 router.post("/login", controllers.login)
 router.post("/register", controllers.register)
+router.get("/", adminAuth, controllers.getUsers)
 router.route("/:user_id")
     .all(userAuth)
     .get(controllers.getUser)

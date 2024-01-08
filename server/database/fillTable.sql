@@ -116,7 +116,7 @@ VALUES
     (25, 1009, "אני מעוניין!", DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY));
 
     -- Insert 10 rows into the dedication table
-    INSERT INTO dedications (donation_id, user_id, date, name, category)
+    INSERT INTO dedications (donation_id, user_id, date, name, type)
     VALUES
         (1, 1007, "2024-01-01", "אביב", "רפואה"),
         (2, 1008, "2024-01-10" , "נועה", "הצלחה"),

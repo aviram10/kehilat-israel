@@ -23,7 +23,7 @@ async function identification(req, res, next) {
 
 async function adminAuth(req, res, next) {
     if (!req.user) return res.status(401).send('unidentified');
-    if (req.user.role != "admin") return res.status(401).send('unauthorized');
+    if (req.user.role != "מנהל") return res.status(401).send('unauthorized');
     return next();
 }
 
