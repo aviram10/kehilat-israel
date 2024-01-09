@@ -2,11 +2,7 @@ const services = require('./services');
 
 async function getTimes(req, res) {
     try {
-        const times= {}
-        times.dayTimes = services.dayTimes || await services.getDayTimes();
-        times.hebrewDate = services.hebrewDate.hebrew || await services.getHebrewDate();
-        times.prayers =services.prayersTimes || await services.getPrayersTimes();
-        times.items= services.weekTimes || await services.getWeekTimes();
+        const times = services.getTimes();
         res.json(times);
     } catch (err) { console.log(err); }
 }

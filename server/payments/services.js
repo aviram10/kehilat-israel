@@ -1,4 +1,5 @@
 const accessData = require('./accessData');
+const { DateTime } = require('luxon');
 const FEES = { commissioner: 250, other: 100 }
 
 
@@ -36,6 +37,7 @@ async function handlePayment(details) {
                details.donation_id = insertId
                delete details.details;
                delete details.amount;
+               details.date = DateTime.now().toISODate().slice(0,10);
                 await accessData.addDedication(details)
                 break;
         }

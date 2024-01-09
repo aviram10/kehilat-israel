@@ -39,7 +39,9 @@ async function getWeekTimesEverySunday() {
 async function getHebrewDateEverySunset() {
     try {
         console.log('getHebrewDateEverySunset');
-        hebrewDate.hebrew = await getHebrewDate();
+        data = await getHebrewDate();
+        data.hebrew = removeNikkud(data.hebrew);
+        copyToGlobalVar(data, hebrewDate);
         const now = DateTime.now();
         let sunset = dayTimes.sunset || (await getDayTimes()).sunset; // if timesData.sunset is undefined, getTimes() will be called
         sunset = DateTime.fromISO(sunset);
@@ -60,17 +62,18 @@ async function getDayTimes() {
 
 async function getPrayersTimes() {
     const data = await accessData.getPrayersTimes();
-    const dt = Object.keys(dayTimes).length === 0 ? await getDayTimes(): dayTimes;
-    const prayersTimes = data.map( p => {
-         return {name: p.prayer_name,
-            time: p.fixed ? p.fixed :  calculateTime(p.dependency, p.minutes, dt),
+    const dt = Object.keys(dayTimes).length === 0 ? await getDayTimes() : dayTimes;
+    const prayersTimes = data.map(p => {
+        return {
+            name: p.prayer_name,
+            time: p.fixed ? p.fixed : calculateTime(p.dependency, p.minutes, dt),
             category: p.category
         }
     })
     return prayersTimes;
 }
 
- function calculateTime(dependency, mins, dt) {
+function calculateTime(dependency, mins, dt) {
     let time = DateTime.fromISO(dt[dependency]).plus({ minutes: mins }).toISOTime();
     time = time.slice(0, 5);
     return time;
@@ -84,24 +87,48 @@ async function getWeekTimes(now, nextSunday) {
 
 async function getHebrewDate() {
     try {
-        console.log('getHebrewDate');
         const now = DateTime.now();
         const date = now.toISODate();
         const { data } = await axios.get(`https://www.hebcal.com/converter?cfg=json&date=${date}&g2h=1${await isAfterSunset() && '&gs=on'}`)
-        return data.hebrew;
+        return data;
     } catch (err) { console.log(err); }
 }
 
-
+function removeNikkud(text) {
+    return text.replace(/[\u05B0-\u05C4]/g, '');
+}
 
 async function isAfterSunset() {
     let sunset = DateTime.fromISO(dayTimes.sunset || (await getDayTimes())?.sunset); // if timesData.sunset is undefined, getTimes() will be called
     const now = DateTime.now();
-    if(sunset.day !== now.day) sunset = (await getDayTimes())?.sunset;
+    if (sunset.day !== now.day) sunset = (await getDayTimes())?.sunset;
     const isAfterSunset = now > DateTime.fromISO(sunset);// if it's after sunset, we need to add gs=on to the url
     return isAfterSunset;
 }
 
+async function getTimes() {
+    try {
+        const times = {}
+        times.dayTimes = dayTimes || await getDayTimes();
+        times.hebrewDate = hebrewDate.hebrew || await getHebrewDate();
+        console.log(times.hebrewDate);
+        times.prayers = prayersTimes || await getPrayersTimes();
+        times.items = weekTimes || await services.getWeekTimes();
+        times.commissioner = await accessData.getCommissioner(await hebToGreg(times.hebrewDate));
+        console.log(times.commissioner);
+        return times;
+    } catch (err) { console.log(err) }
+}
+
+async function hebToGreg(hebDate) {
+    console.log('hebToGreg');
+    console.log(hebDate);
+    const { data } = await axios.get(`https://www.hebcal.com/converter?cfg=json&hy=${hebDate.hy}&hm=${hebDate.hm}&hd=${hebDate.hd}&h2g=1`)
+    console.log("greg ", data);
+    return data.gy+"-"+data.gm+"-"+data.gd;
+    
+}
+getTimes();
 // 
 // This code copies all the properties of the obj object to the global object.
 // This is done to make the properties of obj can be export to another file.
@@ -117,5 +144,5 @@ function copyToGlobalVar(obj, global) {
 getTimesEveryMidnight();
 getHebrewDateEverySunset();
 getWeekTimesEverySunday();
-module.exports = { dayTimes, hebrewDate, weekTimes, prayersTimes, getDayTimes, getHebrewDate, getPrayersTimes, getWeekTimes, getWeekTimesEverySunday }
+module.exports = { dayTimes, hebrewDate, weekTimes, prayersTimes, getTimes, getDayTimes, getHebrewDate, getPrayersTimes, getWeekTimes, getWeekTimesEverySunday }
 

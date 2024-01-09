@@ -10,4 +10,12 @@ async function getPrayersTimes() {
     }
 }
 
-module.exports = {getPrayersTimes};
+
+
+async function getCommissioner(date){
+    console.log(date);
+    const [commissioner] = await db.get('dedications',['*'],["date", "type"], [date, "פרנס היום"]);
+    console.log(commissioner);
+}
+
+module.exports = {getPrayersTimes, getCommissioner};

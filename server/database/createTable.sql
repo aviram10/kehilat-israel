@@ -86,7 +86,6 @@ CREATE TABLE donations (
     amount INT UNSIGNED NOT NULL,
     date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
     PRIMARY KEY (donation_id)
-   
 );
       
 
