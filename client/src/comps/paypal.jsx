@@ -8,7 +8,6 @@ function Message({ content }) {
 }
 
 function Paypal({ name, amount, date,type,details, success, handleError} ) {
-  console.log("details ", amount);
 
   
   const initialOptions = {

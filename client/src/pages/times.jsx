@@ -4,7 +4,6 @@ import PrayersTimes from '../comps/prayersTimes';
 import "../styles/times.css"
 
 export default function Times({times}) {
-    console.log("times ", times);
     
     
     return <div className=''>

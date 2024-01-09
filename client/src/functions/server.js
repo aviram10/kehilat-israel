@@ -5,7 +5,6 @@ import { url } from '../config/server';
 export async function getPosts(filters={}) {
     try {
         const { data } = await axios.get(`${url}/posts`,{withCredentials: true});
-        console.log(data);
         return data;
     } catch (err) { console.log(err); }
 }
@@ -13,7 +12,6 @@ export async function getPosts(filters={}) {
 export async function toggleLike( id, type = 'posts'){
     try{
         const { data } = await axios.put(`${url}/${type}/${id}/likes`, {},{withCredentials: true});
-        console.log(data);
         return data;
     }catch(err){console.log(err);}
 }
@@ -61,6 +59,7 @@ export async function editComment(post_id, comment_id, comment){
 } 
 
 export async function getUser(user_id){
+    console.log("getUser", user_id);
     try{
         const { data } = await axios.get(`${url}/users/${user_id || sessionStorage.user_id}`,{withCredentials: true});
         return data;

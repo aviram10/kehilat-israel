@@ -17,23 +17,23 @@ export default function Profile() {
   const [debt, setDebt] = useState()
   const [user, setUser] = useState({ first_name: '', last_name: '', phone: '', email: '', address: '', city: '', state: '' })
   const [paypal, setPaypal] = useState(1)
+  
   useEffect(() => {
-    if(!sessionStorage.user_id) navigate('/login');
-    axios.get(`${url}/users/${Cookies.get('user_id')}/data`, { withCredentials: true })
-      .then(({ data }) => {
-        setMyPosts(data.myPosts);
-        setSavedPosts(data.savedPosts);
-        setDebt(data.debt)
-        setUser(data.user)
-        setPaypal(prev => prev + 1)
-      })
-      .catch(e => console.log(e))
+    if (!sessionStorage.user_id) return  navigate('/login');
+    axios.get(`${url}/users/${sessionStorage.user_id}/data`, { withCredentials: true })
+    .then(({ data }) => {
+      setMyPosts(data.myPosts);
+      setSavedPosts(data.savedPosts);
+      setDebt(data.debt)
+      setUser(data.user)
+      setPaypal(prev => prev + 1)
+    })
+    .catch(e => console.log(e))
   }, [navigate])
-
+  
   const handleUser = useCallback(user =>setUser({...user}),[])
 
    function success(data){
-    console.log("success", data);
     setDebt( data.data)
   }
   const handleError = () => {
@@ -43,7 +43,6 @@ export default function Profile() {
     save: async (input, post_id) => {
       try {
         const { data } = await axios.put(`${url}/posts/${post_id}`, input, { withCredentials: true })
-        console.log(data);
         setMyPosts(prev => prev.map(post => post.post_id === post_id ? data : post))
       } catch (e) {
         console.log(e)
@@ -83,13 +82,14 @@ export default function Profile() {
     }
   }), [])
 
+
   return <>
     <h1>חשבון</h1>
     <Sheet sx={{ m: 2, minHeight: "100vh" }}>
 
       <Grid container spacing={2}>
         <Grid xs={12} md={5} spacing={2} >
-          <UserDetailsForm handleUser={handleUser} />
+          <UserDetailsForm user={user} handleUser={ handleUser} />
           <Button onClick={handleSubmit} fullWidth >עדכן</Button>
 
           <Typography sx={{ mt: 1 }} color={debt ?'danger' : "success"} variant='solid' level='title-lg'>סה"כ חובות: {debt || 0}

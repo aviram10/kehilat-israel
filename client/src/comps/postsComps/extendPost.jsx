@@ -13,7 +13,6 @@ import { postComment, toggleLike } from '../../functions/server'
 
 async function getComments(post_id, setComments) {
     const { data } = await axios.get(url + `/posts/${post_id}`, { withCredentials: true });
-    console.log(data);
     setComments(data.comments);
 }
 
@@ -38,7 +37,6 @@ export default function ExtendPost({ post, handlePosts }) {
             try{
              toggleLike(comment_id, "comments")
             .then(data =>{
-                console.log(data);
                 setComments(prev => prev.map(comment => comment.comment_id === comment_id ? {...comment, ...data} : comment))
             })
 

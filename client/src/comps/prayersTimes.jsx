@@ -7,7 +7,6 @@ import { DateTime } from "luxon";
 import { Typography } from "@mui/joy";
 
 export default function PrayersTimes({ times, isDaily }) {
-    console.log("prayer ", times);
     let prayers = times ? times : [];
     if ( isDaily) {
         const category = (DateTime.now().day + 1) % 7 < 6 ? "weekday" : "shabat";

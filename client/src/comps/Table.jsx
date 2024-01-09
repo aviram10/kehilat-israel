@@ -14,20 +14,21 @@ export default function GenericTable({ data, heads }) {
                 stickyFooter
                 stripe="odd"
                 hoverRow
-                noWrap
+                
+            
                 size='small'
-                sx={{margin: "auto" ,width: 'max-content', '& td, th': {p:1, m: 1}, '& th': {textAlign: 'center', backgroundColor: 'black', color: 'white'}}}
+                sx={{margin: "auto" ,maxWidth: "100vw", width:"max-content",minWidth:"60vw", '& td, th': {p:1, m: 1}, '& th': {textAlign: 'right', backgroundColor: 'black', color: 'white'}}}
             >
-                <thead v>
+                <thead >
                     <tr >
-                        {heads?.map((head) => <th key={head}  >{head}</th>)}
+                        {heads?.map(head => <th key={Math.random()}>{head}</th>)}
                     </tr>
                 </thead>
                 <tbody>
                   
                         {data?.map((row) =>{
-                            return <tr key={row.id}>
-                            {Object.values(row).map((cell) => <td key={cell} >{cell}</td>)}
+                            return <tr key={Math.random()}>
+                            {Object.values(row).map((cell) => <td key={Math.random()} >{cell}</td>)}
                             <td>
                                 <Button variant='outlined' >{editMode ? "שמור" : "ערוך"}</Button>
                                 <Button color='danger' variant='outlined' >מחק</Button>

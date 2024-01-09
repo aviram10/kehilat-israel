@@ -1,27 +1,15 @@
 import React, { useEffect } from 'react';
 import { Grid, Stack, Sheet, Typography, Input } from '@mui/joy';
 import { useState } from 'react';
-// import axios from 'axios';
-// import Cookies from 'js-cookie';
-// import { url } from '../config/server';
-// import {Button} from '@mui/joy';
-import { getUser } from '../functions/server';
 
-export default function UserDetailsForm({handleUser}) {
-    const [user, setUser] = useState({ first_name: '', last_name: '', phone: '', email: '', address: '', city: '', state: ''})
-    
+export default function UserDetailsForm({user, handleUser}) {
+    const [input, setInput] = useState(user)
+   
     useEffect(()=>{
-        getUser().then((data)=>{
-            setUser(data)
-        })
-    },[])
-    useEffect(()=>{
-        handleUser(user)
-    },[user, handleUser])
+        handleUser(input)
+    },[input, handleUser])
 
-    const handleChange = ({target}) => setUser({...user, [target.name]: target.value})
-
-    
+    const handleChange = ({target}) => setInput({...input, [target.name]: target.value})
 
     return (
         <Sheet  variant='soft' color='primary'>
@@ -36,7 +24,7 @@ export default function UserDetailsForm({handleUser}) {
                             </Typography>
                         </Grid>
                         <Grid xs={8}>
-                          <Input name='first_name' onChange={handleChange} value={user.first_name} required></Input>
+                          <Input name='first_name' onChange={handleChange} value={input?.first_name} required></Input>
                         </Grid>
                         <Grid xs={3}>
                             <Typography level='body-lg'>
@@ -44,7 +32,7 @@ export default function UserDetailsForm({handleUser}) {
                             </Typography>
                         </Grid>
                         <Grid xs={8}>
-                         <Input name='last_name' onChange={handleChange} value={user.last_name} required></Input> 
+                         <Input name='last_name' onChange={handleChange} value={input?.last_name} required></Input> 
                         </Grid>
                         <Grid xs={3}>
                             <Typography level='body-lg'>
@@ -52,7 +40,7 @@ export default function UserDetailsForm({handleUser}) {
                             </Typography>
                         </Grid>
                         <Grid xs={8}>
-                         <Input name='phone' onChange={handleChange} value={user.phone} required></Input>
+                         <Input name='phone' onChange={handleChange} value={input?.phone} required></Input>
                         </Grid>
                         <Grid xs={3}>
                             <Typography level='body-lg'>
@@ -60,7 +48,7 @@ export default function UserDetailsForm({handleUser}) {
                             </Typography>
                         </Grid>
                         <Grid xs={8}>
-                         <Input name='email' onChange={handleChange} value={user.email} required></Input> 
+                         <Input name='email' onChange={handleChange} value={input?.email} required></Input> 
                         </Grid>
                         <Grid xs={3}>
                             <Typography level='body-lg'>
@@ -68,7 +56,7 @@ export default function UserDetailsForm({handleUser}) {
                             </Typography>
                         </Grid>
                         <Grid xs={8}>
-                         <Input name='address' onChange={handleChange} value={user.address} required></Input> 
+                         <Input name='address' onChange={handleChange} value={input?.address} required></Input> 
                         </Grid>
                         <Grid xs={3}>
                             <Typography level='body-lg'>
@@ -76,7 +64,7 @@ export default function UserDetailsForm({handleUser}) {
                             </Typography>
                         </Grid>
                         <Grid xs={3}>
-                         <Input name='address' onChange={handleChange} value={user.city} required></Input> 
+                         <Input name='address' onChange={handleChange} value={input?.city} required></Input> 
                         </Grid>
                         <Grid xs={2}>
                             <Typography level='body-lg'>
@@ -84,7 +72,7 @@ export default function UserDetailsForm({handleUser}) {
                             </Typography>
                         </Grid>
                         <Grid xs={3}>
-                         <Input name='address' onChange={handleChange} value={user.state || "ישראל"} required></Input> 
+                         <Input name='address' onChange={handleChange} value={input?.state || "ישראל"} required></Input> 
                         </Grid>
                     </Grid>
                     

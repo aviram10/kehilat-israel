@@ -13,7 +13,6 @@ export default function Post({ post, handlePosts }) {
     handlePosts.handleEdit = (e) => {
         e.stopPropagation();
         if(mode === 'edit'){
-            console.log(input);
             handlePosts.save(input, post.post_id);
         }
         setMode(mode === 'edit' ?  'view' : 'edit' );

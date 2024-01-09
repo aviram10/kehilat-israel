@@ -16,7 +16,6 @@ export default function MessagesBoard(params) {
     const [filters, setFilters] = React.useState({ category: [], username: [], content: '' });
 
     const handleFilters = (key, value) => {
-        console.log(value, key);
         if (key === "content") return setFilters({ ...filters, [key]: value.target.value })
         setFilters({ ...filters, [key]: value })
     }
@@ -24,7 +23,6 @@ export default function MessagesBoard(params) {
         try {
             //todo: get only the new message
             const { data } = await axios.post(`${url}/posts`, input, { withCredentials: true });
-            console.log(data);
             setPosts([data, ...posts]);
         } catch (error) {
             console.log(error);
@@ -42,7 +40,6 @@ export default function MessagesBoard(params) {
     const handlePosts = useMemo(() => ({
         toggleLike: post_id => {
             toggleLike(post_id).then((data) => {
-                console.log("post toggle", data);
                 if (!data) return;
                 setPosts(prev => prev.map(p => {
                     if (p.post_id === post_id)
