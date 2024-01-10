@@ -6,8 +6,13 @@ export default function UserDetailsForm({user, handleUser}) {
     const [input, setInput] = useState(user)
    
     useEffect(()=>{
-        handleUser(input)
+        handleUser(input)   
     },[input, handleUser])
+
+    useEffect(()=>{
+        if(user.user_id === input.user_id) return;
+        setInput(user)
+    },[user])
 
     const handleChange = ({target}) => setInput({...input, [target.name]: target.value})
 

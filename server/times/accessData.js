@@ -14,8 +14,8 @@ async function getPrayersTimes() {
 
 async function getCommissioner(date){
     console.log(date);
-    const [commissioner] = await db.get('dedications',['*'],["date", "type"], [date, "פרנס היום"]);
-    console.log(commissioner);
+    const [[commissioner]] = await db.get('dedications',['*'],["date", "type"], [date, "פרנס היום"]);
+    return commissioner;    
 }
 
 module.exports = {getPrayersTimes, getCommissioner};

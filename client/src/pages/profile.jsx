@@ -3,7 +3,6 @@ import UserDetailsForm from '../comps/userDetailsForm';
 import { Button, Grid, Sheet, Tab, TabList, TabPanel, Tabs, Typography } from '@mui/joy';
 import { url } from '../config/server';
 import axios from 'axios';
-import Cookies from 'js-cookie';
 import Posts from '../comps/postsComps/posts';
 import { toggleLike, deletePost } from '../functions/server';
 import Paypal from '../comps/paypal';

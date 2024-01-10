@@ -20,13 +20,13 @@ export default function Home({ times}) {
             <MyGallery />
         </Grid>
         <Grid  lg={3} md={5} xs={10} style={{ border: "1px solid black" }} >
-            <Typography level="title-lg">{DateTime.now().setLocale('he').weekdayLong} {times &&times.hebrewDate} {times.items.length >0 && times.items.find(t=>t.category === "parashat").hebrew} </Typography>
+            <Typography level="title-lg">{DateTime.now().setLocale('he').weekdayLong} {times?.hebrewDate?.hebrew} { times.items.find?.(t=>t.category === "parashat")?.hebrew} </Typography>
             <PrayersTimes isDaily={true} times={times && times.prayers}/>
             <Divider sx={{m:1}} />
             <DayTimes times={times.dayTimes} />
         </Grid>
         <Grid xs={12} border={"1px solid black"}>
-            <h2>פרנס היום: בעילום שם לעילוי נשמת כל הנרצחים  </h2>
+            <h2>פרנס היום:  {times?.commissioner?.name || "תרום עוד היום"}  </h2>
         </Grid>
     </Grid>
 }   

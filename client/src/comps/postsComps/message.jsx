@@ -8,7 +8,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import Budge from './budge';
 
 
-export default function Message({message, handleMessage, children}) {
+export default function Message({message, handleMessage, children, likes=true}) {
     return <>
    <Card variant='soft' orientation='horizontal' sx={{ bgcolor: "transparent", p: 2,width:"100%", maxWidth: 600 }}>
         <CardOverflow >
@@ -19,7 +19,7 @@ export default function Message({message, handleMessage, children}) {
         <CardContent>
             {children}
         <CardActions >
-                <Like {...{ message, handleMessage }} />
+               {likes && <Like {...{ message, handleMessage }} />}
                 {handleMessage.edit && <EditIcon onClick={handleMessage.handleEdit} sx={{ border: "1px solid blue" }} color='primary' />}
                 {handleMessage.edit && <DeleteIcon onClick={(e) => { handleMessage.delete(message.post_id, e) }} sx={{ color: "red" }} />}
             </CardActions>

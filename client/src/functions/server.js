@@ -101,6 +101,13 @@ export async function getDebts(){
     }catch(err){console.log(err);}
 }
 
+export async function deleteUser(user_id){
+    try{
+        const { data } = await axios.delete(`${url}/users/${user_id}`,{withCredentials: true});
+        return data;
+    }catch(err){console.log(err);}
+}
+
 
 
 

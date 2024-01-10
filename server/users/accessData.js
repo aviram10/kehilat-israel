@@ -31,6 +31,12 @@ async function getDebt(filters) {
     } catch (err) { console.log(err); }
 }
 
+async function deleteUser(user_id) {
+    try {
+        return await db.update("users", ["role"], ["inactive"], ["user_id"], [user_id]);
+    } catch (err) { console.log(err); }
+}
 
 
-module.exports = { getUsers, addUser, updateUser, getDebt }
+
+module.exports = {deleteUser, getUsers, addUser, updateUser, getDebt }

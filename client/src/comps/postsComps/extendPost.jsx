@@ -10,7 +10,6 @@ import Post from './post';
 import Comment from './comment';
 import { postComment, toggleLike } from '../../functions/server'
 
-
 async function getComments(post_id, setComments) {
     const { data } = await axios.get(url + `/posts/${post_id}`, { withCredentials: true });
     setComments(data.comments);
@@ -19,35 +18,29 @@ async function getComments(post_id, setComments) {
 export default function ExtendPost({ post, handlePosts }) {
     const [comments, setComments] = useState([]);
     const [extend, setExtend] = useState(false);
-     // to handle the amount of text in the post
+    // to handle the amount of text in the post
     handlePosts.extend = extend;
 
     const handleChange = () => {
         getComments(post.post_id, setComments)
         setExtend(!extend);
     }
-   
+
     const handleComment = {
-        addComment: async  comment =>{
+        addComment: async comment => {
             const newComment = await postComment(comment, post.post_id);
             console.log(newComment);
             setComments([...comments, newComment]);
         },
-        toggleLike: async comment_id =>{
-            try{
-             toggleLike(comment_id, "comments")
-            .then(data =>{
-                setComments(prev => prev.map(comment => comment.comment_id === comment_id ? {...comment, ...data} : comment))
-            })
-
-            
-            }catch(err){
-                console.log(err);
-            }
-            
+        toggleLike: async comment_id => {
+            try {
+                toggleLike(comment_id, "comments")
+                    .then(data => {
+                        setComments(prev => prev.map(comment => comment.comment_id === comment_id ? { ...comment, ...data } : comment))
+                    })
+            } catch (err) { console.log(err); }
         }
     }
-
 
     return <>
         <Accordion
@@ -72,14 +65,8 @@ export default function ExtendPost({ post, handlePosts }) {
                 <div className="comment">
                     {comments.map((comment) => <Comment key={comment.comment_id} handleComment={handleComment} comment={comment} />)}
                 </div>
-                <CommentForm  handleComment={handleComment} sx={{ m: 1 }} />
-
+                <CommentForm handleComment={handleComment} sx={{ m: 1 }} />
             </AccordionDetails>
         </Accordion>
-
-
     </>
 }
-
-
-

@@ -6,7 +6,7 @@ const mw = require('../middlewares/auth');
 router.get('/', controller.getTimes);
 router.get('/hebrewDate', controller.getHebrewDate);
 // router.get('/timesDay', controller.getTimesData);
-// router.get('/prayersTimes')
+// router.get('/prayersTimes', controller.getTimesData)
 //     // .get("/:category", controller.getPrayersTimes)
 //     .route("/")
 //     .get(controller.getPrayersTimes)

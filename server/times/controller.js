@@ -2,7 +2,7 @@ const services = require('./services');
 
 async function getTimes(req, res) {
     try {
-        const times = services.getTimes();
+        const times = await services.getTimes();
         res.json(times);
     } catch (err) { console.log(err); }
 }

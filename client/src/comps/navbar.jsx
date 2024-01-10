@@ -17,12 +17,12 @@ export default function Navbar() {
             <NavLink to="/times" >   זמני היום </NavLink>|    
             <NavLink to="/times" >   זמני התפילות  </NavLink>|    
             <NavLink to="/board">   לוח הקהילה  </NavLink> |    
-            <NavLink to="/dedication">  הקדשות  </NavLink>    
+            <NavLink to= {user.user_id ? "/dedication" : "/login"}>  הקדשות  </NavLink>    
             {user?.role === "מנהל" && <NavLink to="/managment">  ניהול  </NavLink> }   
         </div>
 
         <div className="account">
-            <NavLink to={user ? "profile" : "login"}>  {user?.username ||"התחבר" }</NavLink>
+            <NavLink to={user.user_id ? "/profile" : "/login"}>  {user?.username ||"התחבר" }</NavLink>
         </div>
     </div>
     <Outlet/>

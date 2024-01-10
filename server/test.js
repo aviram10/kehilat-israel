@@ -16,6 +16,7 @@ const {
   
 //   const date = new Date("2023-05-09");
   // console.log(formatJewishDateInHebrew(toJewishDate(date)));
+  console.log(DateTime.now().toFormat("yyyy-MM"))
 
 
   async function getHebrewDate() {

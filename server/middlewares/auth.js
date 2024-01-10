@@ -1,5 +1,5 @@
 const cookie = require('cookie');
-const users = require('../users/accessData');
+const users = require('../users/services');
 const posts = require('../posts/services');
 const comments = require('../comments/services');
 const { handleError } = require('../utils/errors')
@@ -12,8 +12,8 @@ async function identification(req, res, next) {
         if (!data.username || !data.pass) data = req.body;
         if (!data || !data.username || !data.pass) return next();
         //check if user exist and password is correct
-        const [[user]] = await users.getUsers({ username: data.username });
-        if (!user || user.pass != data.pass) return next();
+        const [user] = await users.getUsers({ username: data.username });
+        if (!user|| user.role === "inactive" || user.pass != data.pass) return next();
         req.user = user;
         console.log("identification: ", user.user_id);
         return next();
@@ -57,5 +57,17 @@ async function ownerAuth(req, res, next) {
     return next();
 }
 
+async function adminORownerAuth(req, res, next) {
+    try {
+        console.log("adminORownerAuth...");
+        if (!req.user) return res.status(401).send('unidentified');
+        if(req.user.role == "מנהל") return next();
+        ownerAuth(req, res, next);
+    } catch (err) {
+        handleError(err, res)
+    }
+    return next();
+}
 
-module.exports = { identification, adminAuth, userId, ownerAuth, userAuth }
+
+module.exports = { identification, adminAuth, userId, ownerAuth, userAuth, adminORownerAuth }

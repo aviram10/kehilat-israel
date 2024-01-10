@@ -2,7 +2,7 @@ const { DateTime } = require("luxon")
 const axios = require('axios');
 const accessData = require('./accessData');
 const dayTimes = {};
-const hebrewDate = { hebrew: "" };
+const hebrewDate = {  };
 const weekTimes = [];
 const prayersTimes = []
 
@@ -110,12 +110,10 @@ async function getTimes() {
     try {
         const times = {}
         times.dayTimes = dayTimes || await getDayTimes();
-        times.hebrewDate = hebrewDate.hebrew || await getHebrewDate();
-        console.log(times.hebrewDate);
+        times.hebrewDate = hebrewDate || await getHebrewDate();
         times.prayers = prayersTimes || await getPrayersTimes();
         times.items = weekTimes || await services.getWeekTimes();
         times.commissioner = await accessData.getCommissioner(await hebToGreg(times.hebrewDate));
-        console.log(times.commissioner);
         return times;
     } catch (err) { console.log(err) }
 }
@@ -128,8 +126,7 @@ async function hebToGreg(hebDate) {
     return data.gy+"-"+data.gm+"-"+data.gd;
     
 }
-getTimes();
-// 
+//
 // This code copies all the properties of the obj object to the global object.
 // This is done to make the properties of obj can be export to another file.
 //and not overwrite the object itself.

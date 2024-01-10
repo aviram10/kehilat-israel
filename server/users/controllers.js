@@ -70,7 +70,15 @@ async function getUserData(req, res) {
 
 }
 
+async function deleteUser(req, res) {
+    try {
+        console.log("deleteUser", req.params.user_id);
+        await services.deleteUser(req.params.user_id);
+        res.sendStatus(204);
+    } catch (err) { handleError(err, res) }
+}
 
 
 
-module.exports = { getUsers, login, register, getUser, getPosts, updateUser, getDebt, getUserData }
+
+module.exports = {deleteUser, getUsers, login, register, getUser, getPosts, updateUser, getDebt, getUserData }

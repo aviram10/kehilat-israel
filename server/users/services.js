@@ -34,12 +34,19 @@ async function getUserData(user_id){
     }catch(err){console.log(err);}
 }
 
+async function deleteUser(user_id){
+    try{
+        const [{affectedRows}] = await accessData.deleteUser(user_id);
+        return affectedRows;
+    }catch(err){console.log(err);}
+}
 
 
 
 
 
-module.exports = {getUsers, updateUser, getDebt, getUserData}
+
+module.exports = {deleteUser,getUsers, updateUser, getDebt, getUserData}
 
 
 

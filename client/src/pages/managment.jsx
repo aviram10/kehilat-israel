@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Stack, Typography, Tabs, TabList, Tab, TabPanel } from '@mui/joy';
-import { getDebts, getDedications, getDonations, getPosts, getUsers, getTimes } from '../functions/server';
+import { getDebts, getDedications, getDonations, getPosts, getUsers, getTimes, deletePost, deleteUser } from '../functions/server';
 import GenericTable from '../comps/Table';
+import { DateTime } from 'luxon';
+import { Button } from '@mui/joy';
 
 export default function Managment(params) {
     const [users, setUsers] = useState([])
@@ -25,13 +27,34 @@ export default function Managment(params) {
         getDebts().then(res => setDebts(res))
     }, [])
 
+    const handle = async (e, data) => {
+        try {
+            switch (e.target.name) {
+                case "deletePost":
+                    await deletePost(data.post_id)
+                    setPosts(posts.filter(post => post.post_id !== data.post_id))
+                    break;
+                case "deleteUser":
+                    await deleteUser(data.user_id)
+                    setUsers(users.map(user => {
+                        if (user.user_id === data.user_id) user.role = "inactive"
+                        return user;
+                    }))
+                    break;
+                default:
+                    break;
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
 
 
     const sx = { m: 4, p: 4, textAlign: "center" }
-
     return <>
         <Stack direction={"row"} justifyContent={'center'}>
-            <Typography sx={sx} color='success' variant='outlined' level='title-lg'> סה"כ תרומות החודש: 10,000 ש"ח</Typography>
+            <Typography sx={sx} color='success' variant='outlined' level='title-lg'>סה"כ תרומות החודש: {donations.reduce((a, b) => { return b.date.slice(0, 7) === DateTime.now().toFormat("yyyy-MM") ? a + b.amount : 0 }, 1000)} </Typography>
             <Typography sx={sx} color='success' variant='outlined' level='title-lg'> סה"כ משתמשים חודשיים: 250</Typography>
         </Stack>
         <Tabs aria-label="Basic tabs" defaultValue={0}>
@@ -44,8 +67,10 @@ export default function Managment(params) {
                 <Tab>פוסטים</Tab>
             </TabList>
             <TabPanel value={0}>
-                <GenericTable data={users}
-                    heads={["ID", "שם משתמש", "שם פרטי", "שם משפחה", "סיסמא", "מייל", "פלאפון", "רחוב", "עיר", "מדינה", "מיקוד", "תפקיד", "פעולות"]} />
+                <GenericTable data={users} handle={handle}
+                    heads={["ID", "שם משתמש", "שם פרטי", "שם משפחה", "סיסמא", "מייל", "פלאפון", "רחוב", "עיר", "מדינה", "מיקוד", "תפקיד", "פעולות"]}>
+                    <Button color='denger' name={"deleteUser"} variant='outlined'>מחק משתמש</Button>
+                </GenericTable>
             </TabPanel>
             <TabPanel value={1}>
                 <GenericTable data={donations} heads={["ID", "מזהה משתשמש", "סכום", "תאריך", "פעולות"]} />
@@ -60,7 +85,9 @@ export default function Managment(params) {
                 <GenericTable data={prayers} heads={["ID", "שם משתמש", "סכום", "תאריך", "פעולות"]} />
             </TabPanel>
             <TabPanel value={5}>
-                <GenericTable data={posts} heads={["ID", "מזהה משתמש", "כותרת", "תוכן", "תאריך", "מעורבות", "קטגוריה", "פעולות"]} />
+                <GenericTable handle={handle} data={posts} heads={["ID", "מזהה משתמש", "כותרת", "תוכן", "תאריך", "מעורבות", "קטגוריה", "פעולות"]}>
+                    <Button color='danger' name={"deletePost"} variant='outlined'>מחק משתמש</Button>
+                </GenericTable>
             </TabPanel>
             <TabPanel value={6}>
 

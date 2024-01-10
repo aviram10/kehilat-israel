@@ -1,11 +1,12 @@
 import { Box, Input, Card, Stack, Typography } from '@mui/joy';
-import React, { useCallback, useEffect } from 'react';
+import React, {useContext, useCallback, useEffect } from 'react';
 import UserDetailsForm from '../comps/userDetailsForm';
 import IconlessRadio from '../comps/radioFrom';
 import dedicationBoard from '../assets/dedicationBoard.png';
 import { useState } from 'react';
 import { DateTime } from 'luxon';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import {UserContext} from '../App'
 
 import '../styles/dedication.css';
 import Paypal from '../comps/paypal';
@@ -19,8 +20,8 @@ export default function Dedication(params) {
     const [amount, setAmount] = useState(0)
     const [message, setMessage] = useState();
     const navigate = useNavigate();
-
-    if(!sessionStorage.user_id) navigate('/login');
+    const user = useContext(UserContext);
+    useEffect(()=> !sessionStorage.user_id && navigate("/login"),[])
 
     useEffect(() => {
         setAmount(type === "פרנס היום" ? 250 : 100)
@@ -43,6 +44,7 @@ export default function Dedication(params) {
             >
                 <UserDetailsForm
                     handleUser={handleUser}
+                    user={user}
                 />
                 <IconlessRadio
                     values={['לרפואה', 'פרנס היום', 'אזכרה']}
