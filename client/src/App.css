@@ -46,15 +46,24 @@ body{
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center; */
-  background-color: bisque;
+  background-color: gray;
+  box-sizing: border-box !important;
+  height: 100vh !important;
+  margin: 0 !important;
+  
   
 }
 .cont{
-  padding: 8px;
-  max-width: 1300px;
-  background-color: rgba(255, 255, 255, 0.8);
-  margin: auto;
+
   min-height: 100vh;
+  height: fit-content;
+  max-width: fit-content;
+  max-width: 1300px;
+  background-color: #f5f5f5;
+  margin: auto;
+  padding: 0 2rem; 
+
+
 }
  
 

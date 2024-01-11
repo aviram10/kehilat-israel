@@ -7,7 +7,7 @@ function Message({ content }) {
   return <p>{content}</p>;
 }
 
-function Paypal({ name, amount, date,type,details, success, handleError} ) {
+function Paypal({ name, amount, date,type,details, success, set} ) {
   
   const initialOptions = {
     "client-id": "Afgnr4u04HGd4lrqQjBNkd9tjx3xyc1ZBvZ8cYHOR81CT_8im1Tw2N31Z_TyIHdDQymuapou6od5UFLi",
@@ -24,7 +24,7 @@ function Paypal({ name, amount, date,type,details, success, handleError} ) {
         <PayPalButtons
           style={{
             shape: "pill",
-            layout: "vertical",
+            layout: "horizontal",
           }}
           createOrder={async () => {
             try {
@@ -48,7 +48,6 @@ function Paypal({ name, amount, date,type,details, success, handleError} ) {
               if (orderData.id) {
                 return orderData.id;
               } else {
-                handleError()
                 const errorDetail = orderData?.details?.[0];
                 const errorMessage = errorDetail
                   ? `${errorDetail.issue} ${errorDetail.description} (${orderData.debug_id})`
@@ -59,10 +58,11 @@ function Paypal({ name, amount, date,type,details, success, handleError} ) {
             } catch (error) {
               
               console.log("error");
-              handleError()
               setMessage(`Could not initiate PayPal Checkout...${error}`);
             }
           }}
+          onClick={() => console.log(name, amount, date,type,details, success)}
+          onError={(err) => {console.log(err)}}
           onApprove={async (data, actions) => {
             try {
               const response = await fetch(
