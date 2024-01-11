@@ -25,7 +25,7 @@ export default function GenericTable({ data, heads, children, handle }) {
                         return <tr key={Math.random()}>
                             {Object.values(row).map((cell) => <td key={Math.random()} >{cell}</td>)}
                             <td>
-                                {children && React.cloneElement(children, { onClick: (e) => handle(e, row) })}
+                                {children && React.Children.map(children, (child) =>React.cloneElement(child, { onClick: (e) => handle(e, row) }))}
                             </td>
                         </tr>
                     })}

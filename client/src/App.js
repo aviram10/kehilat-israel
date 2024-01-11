@@ -30,7 +30,7 @@ async function getTimes(setTimes) {
 
 function App() {
   const [times, setTimes] = useState({ prayers: [], dayTimes: [], items: [] });
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState({first_name: '', last_name: '', email: '', phone: '', address: '', city: '', country: '', zip: '', id: ''});
 
 
   useEffect(() => {
@@ -62,7 +62,7 @@ function App() {
 
 
   return <div className='cont'>
-    <UserContext.Provider value={user}>
+    <UserContext.Provider value={[user, setUser]}>
 
       <Routes>
         <Route path="/" element={<Navbar />}>

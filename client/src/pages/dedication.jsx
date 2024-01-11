@@ -1,34 +1,45 @@
 import { Box, Input, Card, Stack, Typography } from '@mui/joy';
-import React, {useContext, useCallback, useEffect } from 'react';
+import React, { useContext, useCallback, useEffect } from 'react';
 import UserDetailsForm from '../comps/userDetailsForm';
 import IconlessRadio from '../comps/radioFrom';
 import dedicationBoard from '../assets/dedicationBoard.png';
 import { useState } from 'react';
 import { DateTime } from 'luxon';
 import { useNavigate } from 'react-router-dom';
-import {UserContext} from '../App'
+import { UserContext } from '../App'
 
 import '../styles/dedication.css';
 import Paypal from '../comps/paypal';
 import JewishCalender from '../comps/jewishCalender';
 
 export default function Dedication(params) {
+    console.log("dedication");
     const [name, setName] = useState("")
     const [type, setType] = useState("");
     const [details, setDetails] = useState({})
     const [date, setDate] = useState("");
     const [amount, setAmount] = useState(0)
     const [message, setMessage] = useState();
+    const [paypal, setPaypal] = useState("")
     const navigate = useNavigate();
-    const user = useContext(UserContext);
-    useEffect(()=> !sessionStorage.user_id && navigate("/login"),[])
+    const [user] = useContext(UserContext);
+    useEffect(() => {
+        !sessionStorage.user_id && navigate("/login")
+        return
+    }, [navigate])
 
     useEffect(() => {
         setAmount(type === "פרנס היום" ? 250 : 100)
+        setPaypal(prev => prev + 1)
     }, [type, name, details, date])
 
     const handleUser = useCallback(user => setDetails({ ...user }), [])
     const success = data => { }
+
+    const handleError = () => {
+        console.log("handleError");
+        setPaypal(prev => prev + 1)
+    }
 
     return <>
         <Typography alignItems={'center'} level='h1' >דף הנצחה </Typography>
@@ -56,14 +67,15 @@ export default function Dedication(params) {
                 <Input
                     placeholder='שם להקדשה'
                     name='name'
-                    onChange={({ target }) => { setName(target.value) }}
-                    value={name}
+                    onBlur={({ target }) => { setName(target.value) }}
                     sx={{ m: 1 }}>
                 </Input>
                 <JewishCalender handleChange={(date) => setDate(DateTime.fromISO(new Date(date).toISOString()).toISODate())} />
                 <Input type='number' name='amount' value={amount}></Input>
             </Card>
-            <Paypal key={date + amount + name + details + type} date={date} amount={amount} name={name} details={details} type={type} success={success} />
+            <div onClick={()=>{console.log("onClick");}} >
+            <Paypal key={paypal}  handleError={handleError} date={date} amount={amount} name={name} details={details} type={type} success={success} />
+            </div>        
         </Stack>
     </>
 

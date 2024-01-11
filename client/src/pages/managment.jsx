@@ -41,6 +41,7 @@ export default function Managment(params) {
                         return user;
                     }))
                     break;
+                case "manager":
                 default:
                     break;
             }
@@ -54,7 +55,7 @@ export default function Managment(params) {
     const sx = { m: 4, p: 4, textAlign: "center" }
     return <>
         <Stack direction={"row"} justifyContent={'center'}>
-            <Typography sx={sx} color='success' variant='outlined' level='title-lg'>סה"כ תרומות החודש: {donations.reduce((a, b) => { return b.date.slice(0, 7) === DateTime.now().toFormat("yyyy-MM") ? a + b.amount : 0 }, 1000)} </Typography>
+            <Typography sx={sx} color='success' variant='outlined' level='title-lg'>סה"כ תרומות החודש: {donations.reduce((a, b) => { return b.date.slice(0, 7) === DateTime.now().toFormat("yyyy-MM") ? a + b.amount : 0 }, 0)} </Typography>
             <Typography sx={sx} color='success' variant='outlined' level='title-lg'> סה"כ משתמשים חודשיים: 250</Typography>
         </Stack>
         <Tabs aria-label="Basic tabs" defaultValue={0}>
@@ -82,11 +83,13 @@ export default function Managment(params) {
                 <GenericTable data={dedications} heads={["ID", "מזהה תרומה", "User ID", "תאריך", "הקדשה", "סוג", "פעולות"]} />
             </TabPanel>
             <TabPanel value={4}>
-                <GenericTable data={prayers} heads={["ID", "שם משתמש", "סכום", "תאריך", "פעולות"]} />
+                <Button color='primary' name={"addPrayer"} variant='outlined'>מחק פוסט</Button>
+                <GenericTable data={prayers} heads={["ID", "שם משתמש", "סכום", "תאריך", "פעולות"]}>
+                </GenericTable>
             </TabPanel>
             <TabPanel value={5}>
                 <GenericTable handle={handle} data={posts} heads={["ID", "מזהה משתמש", "כותרת", "תוכן", "תאריך", "מעורבות", "קטגוריה", "פעולות"]}>
-                    <Button color='danger' name={"deletePost"} variant='outlined'>מחק משתמש</Button>
+                    <Button color='danger' name={"deletePost"} variant='outlined'>מחק פוסט</Button>                    
                 </GenericTable>
             </TabPanel>
             <TabPanel value={6}>
