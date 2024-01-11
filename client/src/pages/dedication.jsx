@@ -36,10 +36,6 @@ export default function Dedication(params) {
     const handleUser = useCallback(user => setDetails({ ...user }), [])
     const success = data => { }
 
-    const handleError = () => {
-        console.log("handleError");
-        setPaypal(prev => prev + 1)
-    }
 
     return <>
         <Typography alignItems={'center'} level='h1' >דף הנצחה </Typography>
@@ -67,19 +63,15 @@ export default function Dedication(params) {
                 <Input
                     placeholder='שם להקדשה'
                     name='name'
-                    onBlur={({ target }) => { setName(target.value) }}
+                    onChange={({ target }) => { setName(target.value) }}
                     sx={{ m: 1 }}>
                 </Input>
                 <JewishCalender handleChange={(date) => setDate(DateTime.fromISO(new Date(date).toISOString()).toISODate())} />
                 <Input type='number' name='amount' value={amount}></Input>
             </Card>
-            <div onClick={()=>{console.log("onClick");}} >
-            <Paypal key={paypal}  handleError={handleError} date={date} amount={amount} name={name} details={details} type={type} success={success} />
-            </div>        
+            <Paypal key={1} set={setPaypal}  date={date} amount={amount} name={name} details={details} type={type} success={success} />
         </Stack>
     </>
-
-
 };
 
 

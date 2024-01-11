@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Stack, Typography, Tabs, TabList, Tab, TabPanel } from '@mui/joy';
+import { Stack, Typography, Tabs, TabList, Tab, TabPanel, Sheet } from '@mui/joy';
 import { getDebts, getDedications, getDonations, getPosts, getUsers, getTimes, deletePost, deleteUser } from '../functions/server';
-import GenericTable from '../comps/Table';
+import GenericTable from '../comps/muiComps/Table';
 import { DateTime } from 'luxon';
 import { Button } from '@mui/joy';
 
@@ -53,12 +53,12 @@ export default function Managment(params) {
 
 
     const sx = { m: 4, p: 4, textAlign: "center" }
-    return <>
-        <Stack direction={"row"} justifyContent={'center'}>
+    return <Sheet >
+        <Stack direction={"row"} justifyContent={'center'} height={"15%"}>
             <Typography sx={sx} color='success' variant='outlined' level='title-lg'>סה"כ תרומות החודש: {donations.reduce((a, b) => { return b.date.slice(0, 7) === DateTime.now().toFormat("yyyy-MM") ? a + b.amount : 0 }, 0)} </Typography>
             <Typography sx={sx} color='success' variant='outlined' level='title-lg'> סה"כ משתמשים חודשיים: 250</Typography>
         </Stack>
-        <Tabs aria-label="Basic tabs" defaultValue={0}>
+        <Tabs    aria-label="Basic tabs" defaultValue={0}>
             <TabList sx={{ justifyContent: "space-evenly" }}>
                 <Tab>משתמשים </Tab>
                 <Tab>תרומות</Tab>
@@ -69,27 +69,25 @@ export default function Managment(params) {
             </TabList>
             <TabPanel value={0}>
                 <GenericTable data={users} handle={handle}
-                    heads={["ID", "שם משתמש", "שם פרטי", "שם משפחה", "סיסמא", "מייל", "פלאפון", "רחוב", "עיר", "מדינה", "מיקוד", "תפקיד", "פעולות"]}>
-                    <Button color='denger' name={"deleteUser"} variant='outlined'>מחק משתמש</Button>
+                    heads={["ID", "שם משתמש", "שם פרטי", "שם משפחה", "סיסמא", "מייל", "פלאפון", "רחוב", "עיר", "מדינה", "מיקוד", "תפקיד"    ]}>
                 </GenericTable>
             </TabPanel>
             <TabPanel value={1}>
-                <GenericTable data={donations} heads={["ID", "מזהה משתשמש", "סכום", "תאריך", "פעולות"]} />
+                <GenericTable data={donations} heads={["ID", "מזהה משתשמש", "סכום", "תאריך" ]} />
             </TabPanel>
             <TabPanel value={2}>
-                <GenericTable data={debts} heads={["ID", "מזהה משתמש ", "סכום", "פעולות"]} />
+                <GenericTable data={debts} heads={["ID", "מזהה משתמש ", "סכום"  ]} />
             </TabPanel>
             <TabPanel value={3}>
-                <GenericTable data={dedications} heads={["ID", "מזהה תרומה", "User ID", "תאריך", "הקדשה", "סוג", "פעולות"]} />
+                <GenericTable data={dedications} heads={["ID", "מזהה תרומה", "User ID", "תאריך", "הקדשה", "סוג" ]} />
             </TabPanel>
             <TabPanel value={4}>
                 <Button color='primary' name={"addPrayer"} variant='outlined'>מחק פוסט</Button>
-                <GenericTable data={prayers} heads={["ID", "שם משתמש", "סכום", "תאריך", "פעולות"]}>
+                <GenericTable data={prayers} heads={["ID", "שם משתמש", "סכום", "תאריך"  ]}>
                 </GenericTable>
             </TabPanel>
             <TabPanel value={5}>
-                <GenericTable handle={handle} data={posts} heads={["ID", "מזהה משתמש", "כותרת", "תוכן", "תאריך", "מעורבות", "קטגוריה", "פעולות"]}>
-                    <Button color='danger' name={"deletePost"} variant='outlined'>מחק פוסט</Button>                    
+                <GenericTable handle={handle} data={posts} heads={["ID", "מזהה משתמש", "כותרת", "תוכן", "תאריך", "מעורבות", "קטגוריה"   ]}>
                 </GenericTable>
             </TabPanel>
             <TabPanel value={6}>
@@ -97,6 +95,6 @@ export default function Managment(params) {
             </TabPanel>
 
         </Tabs>
-    </>
+    </Sheet>
 
 };
