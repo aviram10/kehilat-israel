@@ -3,7 +3,7 @@ import { Divider, Grid } from "@mui/joy";
 import PrayersTimes from "../comps/prayersTimes";
 import MyGallery from "../comps/galleryImages";
 import DayTimes from "../comps/dayTimes";
-import { Typography } from "@mui/joy";
+import { Typography, Checkbox } from "@mui/joy";
 import { DateTime } from "luxon";
 
 
@@ -11,6 +11,7 @@ import { DateTime } from "luxon";
 export default function Home({ times}) {
 
     return <Grid container maxWidth={"100%"} margin={2}  rowSpacing={10} spacing={2}>
+        
         <Grid lg={8} md={6} xs={12}>
             <div className="info" >
                 <h1>קהילת ישראל</h1>
