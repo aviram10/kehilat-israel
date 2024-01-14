@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Stack, Typography, Tabs, TabList, Tab, TabPanel, Sheet } from '@mui/joy';
+import { Stack, Typography, Tabs, TabList, Tab, TabPanel, Sheet, Divider, Card, CardOverflow, CardActions } from '@mui/joy';
 import { getDebts, getDedications, getDonations, getPosts, getUsers, getTimes, deletePost, deleteUser } from '../functions/server';
 import GenericTable from '../comps/muiComps/Table';
 import { DateTime } from 'luxon';
@@ -50,8 +50,6 @@ export default function Managment(params) {
         }
     }
 
-
-
     const sx = { m: 4, p: 4, textAlign: "center" }
     return <Sheet >
         <Stack direction={"row"} justifyContent={'center'} height={"15%"}>
@@ -68,9 +66,14 @@ export default function Managment(params) {
                 <Tab>פוסטים</Tab>
             </TabList>
             <TabPanel value={0}>
+            
                 <GenericTable data={users} handle={handle}
                     heads={["ID", "שם משתמש", "שם פרטי", "שם משפחה", "סיסמא", "מייל", "פלאפון", "רחוב", "עיר", "מדינה", "מיקוד", "תפקיד"    ]}>
                 </GenericTable>
+                {/* <Card sx={{mt:1}} orientation='horizontal' variant='soft'>
+                <Button  color='primary' name={"deleteUser"} variant='outlined'>מחק משתמש</Button>
+                <Button color='primary' name={"manager"} variant='outlined'>מנהל</Button>
+                </Card> */}
             </TabPanel>
             <TabPanel value={1}>
                 <GenericTable data={donations} heads={["ID", "מזהה משתשמש", "סכום", "תאריך" ]} />

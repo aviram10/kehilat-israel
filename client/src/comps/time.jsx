@@ -4,9 +4,9 @@ import React from "react";
 
 export default function Time({ name, time}) {
     return <>
-    <ListItem sx={{textAlign: "center"}}>
-      <ListItemText > {name}</ListItemText>
-      <ListItemText>{time}</ListItemText>
+    <ListItem >
+      <ListItemText sx={{textAlign: "right"}}> {name}</ListItemText>
+      <ListItemText >{time}</ListItemText>
     </ListItem>
     </>
        

@@ -13,7 +13,6 @@ import server from "./config/server";
 import React, { useEffect, useState, createContext } from 'react';
 import { DateTime } from 'luxon';
 import { getUser } from "./functions/server";
-import Checkbox from '@mui/joy/Checkbox';
 
 export const UserContext = createContext(null);
 
@@ -21,6 +20,7 @@ async function getTimes(setTimes) {
   try {
     const { data } = await axios.get(`${server.url}/times`);
     console.log("app.js times", data);
+    data.prayers = data.prayers.sort((a, b) => a.sort - b.sort);
     setTimes(data);
   } catch (error) {
     setTimeout(() => {
@@ -38,7 +38,7 @@ function App() {
     if (localStorage.user_id) sessionStorage.user_id = localStorage.user_id;
     if (sessionStorage.user_id)
       getUser(sessionStorage.user_id)
-        .then(res =>{console.log(res); setUser(res)});
+        .then(res => setUser(res));
     getTimes(setTimes)
     //update times every day at 00:00
     const tomorrow = DateTime.now().plus({ days: 1 }).startOf('day');

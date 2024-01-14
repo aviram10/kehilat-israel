@@ -1,15 +1,19 @@
 import React from 'react';
-import {   Sheet, Table } from '@mui/joy';
+import { Stack, Button, Sheet, Table } from '@mui/joy';
 import Checkbox from '@mui/material/Checkbox';
 
 export default function GenericTable({ data, heads, children, handle }) {
     const [selected, setSelected] = React.useState([]);
     const [editMode, setEditMode] = React.useState(false);
     return <>
+     <Stack bgcolor={"lightgrey"} spacing={0.5} direction={"row"}  sx={{mt:1}} useFlexGap>
+    
+    <Button color='danger' name={"deleteUser"} variant='solid'>מחק משתמש</Button>
+    <Button color='primary' name={"manager"} variant='solid'>מנהל</Button>
+    
+    </Stack>
         <Sheet sx={{ height: "50vh", overflow: "auto" }} >
-        
             <Table
-
                 aria-label="table with sticky header"
                 stickyHeader
                 stickyFooter
@@ -19,6 +23,7 @@ export default function GenericTable({ data, heads, children, handle }) {
                 sx={{ margin: "auto", maxWidth: "90vw", width: "max-content", minWidth: "60vw", '& td, th': { p: 1, m: 1 }, '& th': { textAlign: 'right', backgroundColor: 'black', color: 'white' } }}
             >
                 <thead >
+                   
                     <tr >
                         <th><Checkbox style={{color: "white"}} color='primary' /></th>
                         {heads?.map(head => <th key={Math.random()}>{head}</th>)}
