@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Stack, Typography, Tabs, TabList, Tab, TabPanel, Sheet } from '@mui/joy';
-import { getDebts, getDedications, getDonations, getPosts, getUsers, getTimes, deletePost, deleteUser } from '../functions/server';
+import { Stack, Typography, Tabs, TabList, Tab, TabPanel, Sheet, MenuItem } from '@mui/joy';
+import { getDebts, getDedications, getDonations, getPosts, getUsers, getTimes, deletePosts, deleteUsers } from '../functions/server';
 import GenericTable from '../comps/muiComps/Table';
 import { DateTime } from 'luxon';
 import { Button } from '@mui/joy';
@@ -27,17 +27,19 @@ export default function Managment(params) {
         getDebts().then(res => setDebts(res))
     }, [])
 
-    const handle = async (e, data) => {
+    const handle = async ({target}, data) => {
+        console.log(data, target.getAttribute("name"));
         try {
-            switch (e.target.name) {
+            switch (target.getAttribute("name") ) {
                 case "deletePost":
-                    await deletePost(data.post_id)
+                    await deletePosts(data)
                     setPosts(posts.filter(post => post.post_id !== data.post_id))
                     break;
                 case "deleteUser":
-                    await deleteUser(data.user_id)
+                    await deleteUsers(data)
                     setUsers(users.map(user => {
-                        if (user.user_id === data.user_id) user.role = "inactive"
+                        console.log(user.user_id, data);
+                        if (data.includes(String(user.user_id))) return { ...user, role: "inactive" };
                         return user;
                     }))
                     break;
@@ -70,6 +72,8 @@ export default function Managment(params) {
             <TabPanel value={0}>
                 <GenericTable data={users} handle={handle}
                     heads={["ID", "שם משתמש", "שם פרטי", "שם משפחה", "סיסמא", "מייל", "פלאפון", "רחוב", "עיר", "מדינה", "מיקוד", "תפקיד"    ]}>
+                        <MenuItem variant='soft' color='danger' name="deleteUser" >מחק משתמש</MenuItem>
+                        <MenuItem color='success' name="manager" >הפוך למנהל</MenuItem>
                 </GenericTable>
             </TabPanel>
             <TabPanel value={1}>

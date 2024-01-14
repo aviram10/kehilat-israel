@@ -16,10 +16,14 @@ export async function toggleLike( id, type = 'posts'){
     }catch(err){console.log(err);}
 }
 
-export async function deletePost(post_id){
+export async function deletePosts(post_id){
+    if(!post_id) return console.log("No post_id");
+    if(!(post_id instanceof Array)) post_id = [post_id];
+    console.log("server deletePosts", post_id);
+
     try{
-        const data = await axios.delete(`${url}/posts/${post_id}`,{withCredentials: true});
-        return data;
+        const results = post_id.map(id =>axios.delete(`${url}/posts/${post_id}`,{withCredentials: true}));
+        Promise.allSettled(results).then(res=>console.log(res));
     }catch(err){console.log(err);}
 }
 
@@ -101,10 +105,14 @@ export async function getDebts(){
     }catch(err){console.log(err);}
 }
 
-export async function deleteUser(user_id){
+export async function deleteUsers(user_id){
+    if(!user_id) return console.log("No user_id");
+    if(!(user_id instanceof Array)) user_id = [user_id];
+    console.log("server deleteUser", user_id);
+
     try{
-        const { data } = await axios.delete(`${url}/users/${user_id}`,{withCredentials: true});
-        return data;
+        const results = user_id.map(id =>axios.delete(`${url}/users/${id}`,{withCredentials: true}));
+        Promise.allSettled(results).then(res=>console.log(res));
     }catch(err){console.log(err);}
 }
 

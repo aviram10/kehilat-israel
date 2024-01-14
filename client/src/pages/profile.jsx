@@ -4,7 +4,7 @@ import { Button, Grid, Sheet, Tab, TabList, TabPanel, Tabs, Typography } from '@
 import { url } from '../config/server';
 import axios from 'axios';
 import Posts from '../comps/postsComps/posts';
-import { toggleLike, deletePost } from '../functions/server';
+import { toggleLike, deletePosts } from '../functions/server';
 import Paypal from '../comps/paypal';
 const {useNavigate} = require('react-router-dom')
 
@@ -50,7 +50,7 @@ export default function Profile() {
     delete: async (post_id, event) => {
       try {
         event.stopPropagation();
-        await deletePost(post_id)
+        await deletePosts(post_id)
         setMyPosts(prev => prev.filter(post => post.post_id !== post_id))
       } catch (e) {
         console.log(e)
