@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Input, Sheet, Table } from '@mui/joy';
+import React,{useEffect} from 'react';
+import { Input ,Stack, Button, Sheet, Table } from '@mui/joy';
 import Checkbox from '@mui/material/Checkbox';
 import Actions from './actions';
 
@@ -13,8 +13,13 @@ export default function GenericTable({ data, heads, children, handle }) {
 
 
     return <>
+     <Stack bgcolor={"lightgrey"} spacing={0.5} direction={"row"}  sx={{mt:1}} useFlexGap>
+    
+    <Button color='danger' name={"deleteUser"} variant='solid'>מחק משתמש</Button>
+    <Button color='primary' name={"manager"} variant='solid'>מנהל</Button>
+    
+    </Stack>
         <Sheet sx={{ height: "50vh", overflow: "auto" }} >
-
             <Table
                 aria-label="table with sticky header"
                 stickyHeader
@@ -25,7 +30,7 @@ export default function GenericTable({ data, heads, children, handle }) {
                 sx={{ margin: "auto", maxWidth: "90vw", width: "max-content", minWidth: "60vw", '& td, th': { p: 1, m: 1 }, '& th': { textAlign: 'right', backgroundColor: 'black', color: 'white' } }}
             >
                 <thead >
-
+                   
                     <tr >
                         <th><Actions>{React.Children.map(children, child => React.cloneElement(child, {onClick:e => handle(e, selected)}))}</Actions></th>
                         <th><Checkbox style={{ color: "white" }} color='primary' /></th>

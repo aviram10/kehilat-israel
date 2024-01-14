@@ -67,7 +67,8 @@ async function getPrayersTimes() {
         return {
             name: p.prayer_name,
             time: p.fixed ? p.fixed : calculateTime(p.dependency, p.minutes, dt),
-            category: p.category
+            category: p.category,
+            sort: p.sort
         }
     })
     return prayersTimes;

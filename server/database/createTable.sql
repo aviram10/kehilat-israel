@@ -45,12 +45,14 @@ CREATE TABLE comments(
 
 
 CREATE TABLE prayersTimes(
+	id INT NOT NULL auto_increment,
     prayer_name VARCHAR(255) NOT NULL ,
     dependency VARCHAR(255),
     minutes INT SIGNED,
     fixed VARCHAR(255),
     category VARCHAR(255) NOT NULL,
-    PRIMARY KEY (prayer_name)
+    sort INT,
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE likes(
