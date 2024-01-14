@@ -17,12 +17,13 @@ export async function toggleLike( id, type = 'posts'){
 }
 
 export async function deletePosts(post_id){
+    console.log("deletePosts", post_id);
     if(!post_id) return console.log("No post_id");
     if(!(post_id instanceof Array)) post_id = [post_id];
     console.log("server deletePosts", post_id);
 
     try{
-        const results = post_id.map(id =>axios.delete(`${url}/posts/${post_id}`,{withCredentials: true}));
+        const results = post_id.map(id =>axios.delete(`${url}/posts/${id}`,{withCredentials: true}));
         Promise.allSettled(results).then(res=>console.log(res));
     }catch(err){console.log(err);}
 }

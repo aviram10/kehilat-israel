@@ -5,6 +5,7 @@ import MyGallery from "../comps/galleryImages";
 import DayTimes from "../comps/dayTimes";
 import { Typography, Checkbox } from "@mui/joy";
 import { DateTime } from "luxon";
+import ResponsiveTimePickers from "../comps/muiComps/timePicker";
 
 
 
@@ -17,6 +18,7 @@ export default function Home({ times}) {
                 <h1>קהילת ישראל</h1>
                 <h2>בית כנסת שהוא גם קהילה</h2>
             </div>
+            
             <p> ברוכים הבאים לאתר הבית כנסת שלנו. אנחנו קהילה חרדית שמחה ומאוחדת, שמקיימת את התורה והמצוות באהבה וביראה. באתר זה תוכלו למצוא מידע על השירותים, השיעורים, האירועים והפעילויות שאנחנו מציעים לחברי הקהילה ולכל המעוניינים. </p>
             <MyGallery />
         </Grid>

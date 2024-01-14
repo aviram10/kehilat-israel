@@ -75,14 +75,12 @@ function App() {
           <Route path='board' element={<MessagesBoard />} />
           <Route path='dedication' element={<Dedication />} />
           <Route path='profile' element={<Profile />} />
-          <Route path='managment' element={<Managment />} />
+          <Route path='managment' element={<Managment times={times} />} />
           <Route path='*' element={<h1>Not Found</h1>} />
         </Route>
       </Routes>
       {/* <TestField /> */}
-
     </UserContext.Provider>
-
   </div>
 }
 

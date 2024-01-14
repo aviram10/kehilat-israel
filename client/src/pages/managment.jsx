@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import { Stack, Typography, Tabs, TabList, Tab, TabPanel, Sheet, Divider, Card, CardOverflow, CardActions } from '@mui/joy';
+import { Stack, Typography, Tabs, TabList, Tab, TabPanel, Sheet, Modal } from '@mui/joy';
 import { getDebts, getDedications, getDonations, getPosts, getUsers, getTimes, deletePosts, deleteUsers } from '../functions/server';
 import GenericTable from '../comps/muiComps/Table';
 import { DateTime } from 'luxon';
 import { Button } from '@mui/joy';
+import ModalForm from '../comps/muiComps/modalForm';
 
-export default function Managment(params) {
+export default function Managment({ times }) {
     const [users, setUsers] = useState([])
     const [donations, setDonations] = useState([])
     const [dedications, setDedications] = useState([])
@@ -14,10 +15,10 @@ export default function Managment(params) {
     const [debts, setDebts] = useState([])
 
     useEffect(() => {
+        setPrayers(times.prayers)
         getUsers(sessionStorage.user_id).then(res => setUsers(res))
         getDonations().then(res => setDonations(res))
         getDedications().then(res => setDedications(res))
-        // getTimes().then(res=>setPrayers(res.data.prayers))
         getPosts().then(res => setPosts(res.map(post => {
             delete post.liked
             delete post.username;
@@ -25,20 +26,19 @@ export default function Managment(params) {
             return post
         })))
         getDebts().then(res => setDebts(res))
-    }, [])
+    }, [times])
 
-    const handle = async ({target}, data) => {
+    const handle = async ({ target }, data) => {
         console.log(data, target.getAttribute("name"));
         try {
-            switch (target.getAttribute("name") ) {
+            switch (target.getAttribute("name")) {
                 case "deletePost":
                     await deletePosts(data)
-                    setPosts(posts.filter(post => post.post_id !== data.post_id))
+                    setPosts(posts.filter(post => !data.includes(String(post.post_id))))
                     break;
                 case "deleteUser":
                     await deleteUsers(data)
                     setUsers(users.map(user => {
-                        console.log(user.user_id, data);
                         if (data.includes(String(user.user_id))) return { ...user, role: "inactive" };
                         return user;
                     }))
@@ -58,8 +58,8 @@ export default function Managment(params) {
             <Typography sx={sx} color='success' variant='outlined' level='title-lg'>סה"כ תרומות החודש: {donations.reduce((a, b) => { return b.date.slice(0, 7) === DateTime.now().toFormat("yyyy-MM") ? a + b.amount : 0 }, 0)} </Typography>
             <Typography sx={sx} color='success' variant='outlined' level='title-lg'> סה"כ משתמשים חודשיים: 250</Typography>
         </Stack>
-        <Tabs    aria-label="Basic tabs" defaultValue={0}>
-            <TabList sx={{ justifyContent: "space-evenly" }}>
+        <Tabs aria-label="Basic tabs" defaultValue={0}>
+            <TabList disableUnderline tabFlex="auto" sx={{ justifyContent: "space-evenly" }}>
                 <Tab>משתמשים </Tab>
                 <Tab>תרומות</Tab>
                 <Tab>חובות</Tab>
@@ -68,39 +68,35 @@ export default function Managment(params) {
                 <Tab>פוסטים</Tab>
             </TabList>
             <TabPanel value={0}>
-            
+
                 <GenericTable data={users} handle={handle}
-                    heads={["ID", "שם משתמש", "שם פרטי", "שם משפחה", "סיסמא", "מייל", "פלאפון", "רחוב", "עיר", "מדינה", "מיקוד", "תפקיד"    ]}>
-                        {/* <MenuItem variant='soft' color='danger' name="deleteUser" >מחק משתמש</MenuItem>
-                        <MenuItem color='success' name="manager" >הפוך למנהל</MenuItem> */}
+                    heads={["ID", "שם משתמש", "שם פרטי", "שם משפחה", "סיסמא", "מייל", "פלאפון", "רחוב", "עיר", "מדינה", "מיקוד", "תפקיד"]}>
+                    <Button color='success' name="manager" variant='solid'>הכגדר כמנהל</Button>
+                    <Button color='danger' name="deleteUser" variant='solid'>מחק משתמש</Button>
                 </GenericTable>
-                {/* <Card sx={{mt:1}} orientation='horizontal' variant='soft'>
-                <Button  color='primary' name={"deleteUser"} variant='outlined'>מחק משתמש</Button>
-                <Button color='primary' name={"manager"} variant='outlined'>מנהל</Button>
-                </Card> */}
             </TabPanel>
             <TabPanel value={1}>
-                <GenericTable data={donations} heads={["ID", "מזהה משתשמש", "סכום", "תאריך" ]} />
+                <GenericTable data={donations} heads={["ID", "מזהה משתשמש", "סכום", "תאריך"]} />
             </TabPanel>
             <TabPanel value={2}>
-                <GenericTable data={debts} heads={["ID", "מזהה משתמש ", "סכום"  ]} />
+                <GenericTable data={debts} heads={["ID", "מזהה משתמש ", "סכום"]} />
             </TabPanel>
             <TabPanel value={3}>
-                <GenericTable data={dedications} heads={["ID", "מזהה תרומה", "User ID", "תאריך", "הקדשה", "סוג" ]} />
+                <GenericTable data={dedications} heads={["ID", "מזהה תרומה", "User ID", "תאריך", "הקדשה", "סוג"]} />
             </TabPanel>
             <TabPanel value={4}>
-                <Button color='primary' name={"addPrayer"} variant='outlined'>מחק פוסט</Button>
-                <GenericTable data={prayers} heads={["ID", "שם משתמש", "סכום", "תאריך"  ]}>
+                <GenericTable data={prayers} heads={["ID", "תפילה", "שעה", "סדר"]}>
+                <Button color='primary' name={"addPrayer"} variant='outlined' active={true}> הוסף תפילה</Button>
+                <ModalForm   />
                 </GenericTable>
             </TabPanel>
             <TabPanel value={5}>
-                <GenericTable handle={handle} data={posts} heads={["ID", "מזהה משתמש", "כותרת", "תוכן", "תאריך", "מעורבות", "קטגוריה"   ]}>
+                <GenericTable handle={handle} data={posts} heads={["ID", "מזהה משתמש", "כותרת", "תוכן", "תאריך", "מעורבות", "קטגוריה"]}>
+                    <Button color='danger' name={"deletePost"} variant='solid'>מחק פוסט</Button>
                 </GenericTable>
             </TabPanel>
             <TabPanel value={6}>
-
             </TabPanel>
-
         </Tabs>
     </Sheet>
 
