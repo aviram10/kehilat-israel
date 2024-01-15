@@ -127,6 +127,14 @@ async function hebToGreg(hebDate) {
     return data.gy+"-"+data.gm+"-"+data.gd;
     
 }
+
+async function addPrayer(prayer) {
+    try {
+        const data = await accessData.addPrayer(prayer);
+        return data;
+    } catch (err) { console.log(err); }
+}
+
 //
 // This code copies all the properties of the obj object to the global object.
 // This is done to make the properties of obj can be export to another file.

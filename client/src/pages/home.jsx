@@ -3,9 +3,8 @@ import { Divider, Grid } from "@mui/joy";
 import PrayersTimes from "../comps/prayersTimes";
 import MyGallery from "../comps/galleryImages";
 import DayTimes from "../comps/dayTimes";
-import { Typography, Checkbox } from "@mui/joy";
+import { Typography } from "@mui/material";
 import { DateTime } from "luxon";
-import ResponsiveTimePickers from "../comps/muiComps/timePicker";
 
 
 

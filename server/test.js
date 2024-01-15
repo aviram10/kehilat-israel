@@ -16,7 +16,9 @@ const {
   
 //   const date = new Date("2023-05-09");
   // console.log(formatJewishDateInHebrew(toJewishDate(date)));
+  const now = DateTime.now();
   console.log(DateTime.now().toFormat("yyyy-MM"))
+  console.log(now.toISOTime().slice(0, 5));
 
 
   async function getHebrewDate() {
@@ -38,6 +40,6 @@ async function hebToGreg(hebDate) {
   console.log(data);
   return data;
 }
-getHebrewDate();
+// getHebrewDate();
 
 

@@ -1,18 +1,23 @@
-import React from "react";
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker';
+import * as React from 'react';
+import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import dayjs from 'dayjs';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import { renderTimeViewClock } from '@mui/x-date-pickers/timeViewRenderers';
 
-
-
-export default function ResponsiveTimePickers() {
-    return (
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-      
-        
-            <MobileTimePicker defaultValue={dayjs('2022-04-17T15:30')} />
-         
-      </LocalizationProvider>
-    );
-  }
+export default function TimePick({selectTime}) {
+  return (
+    <LocalizationProvider dateAdapter={AdapterLuxon}>
+        <TimePicker
+        closeOnSelect={false}
+        onAccept={selectTime}
+        sx={{direction: "ltr"}}
+          label="בחר זמן"
+          viewRenderers={{
+            hours: renderTimeViewClock,
+            minutes: renderTimeViewClock,
+            seconds: renderTimeViewClock,
+          }}
+        />
+    </LocalizationProvider>
+  );
+}

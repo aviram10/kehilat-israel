@@ -1,4 +1,5 @@
 const db = require('../database/db');
+const util = require('../utils/accessData');
 
 async function getPrayersTimes() {
     try {
@@ -10,7 +11,16 @@ async function getPrayersTimes() {
     }
 }
 
-
+async function addPrayer(prayer) {
+    try {
+        const {keys, values} = util.extractKeyValues(prayer);
+        const [prayerId] = await db.add('prayersTimes', keys, values);
+        return prayerId;
+    } catch (error) {
+        console.error('Error adding prayer:', error);
+        throw error;
+    }
+}
 
 async function getCommissioner(date){
     console.log(date);

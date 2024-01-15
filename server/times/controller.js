@@ -14,6 +14,13 @@ async function getHebrewDate(req, res) {
     } catch (err) { console.log(err); }
 }
 
+async function addPrayer(req, res) {
+    try {
+        const prayer = await services.addPrayer(req.body);
+        res.json(prayer);
+    } catch (err) { console.log(err); }
+}
 
 
-module.exports = { getTimes, getHebrewDate }
+
+module.exports = { getTimes, getHebrewDate, addPrayer }

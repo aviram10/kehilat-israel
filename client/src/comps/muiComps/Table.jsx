@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Input, Stack, Sheet, Table } from '@mui/joy';
+import { Input, Stack, Sheet, Table, ButtonGroup } from '@mui/joy';
 import Checkbox from '@mui/material/Checkbox';
 
 export default function GenericTable({ data, heads, children, handle }) {
@@ -12,9 +12,9 @@ export default function GenericTable({ data, heads, children, handle }) {
 
     return <>
         <Sheet sx={{ height: "50vh", overflow: "auto", margin: "auto", maxWidth: "90vw", width: "max-content", minWidth: "60vw" }} >
-        <Stack margin="auto" color="HighlightText" bgcolor={"lightgrey"} spacing={0.5} direction={"row"} sx={{ mt: 1 }} useFlexGap>
+        <ButtonGroup  direction={"row"} variant="soft" sx={{ '--ButtonGroup-radius': '0px' }}  >
             {React.Children.map(children, child => React.cloneElement(child, { onClick: e => handle(e, selected), disabled:(selected.length === 0 && !child.props.active)}))}
-        </Stack >
+        </ButtonGroup >
             <Table
                 aria-label="table with sticky header"
                 stickyHeader

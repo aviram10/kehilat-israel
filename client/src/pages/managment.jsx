@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Stack, Typography, Tabs, TabList, Tab, TabPanel, Sheet, Modal } from '@mui/joy';
+import { Stack, Button, Typography, Tabs, TabList, Tab, tabClasses, TabPanel, Sheet, Modal } from '@mui/joy';
 import { getDebts, getDedications, getDonations, getPosts, getUsers, getTimes, deletePosts, deleteUsers } from '../functions/server';
 import GenericTable from '../comps/muiComps/Table';
 import { DateTime } from 'luxon';
-import { Button } from '@mui/joy';
-import ModalForm from '../comps/muiComps/modalForm';
+import FormModal from '../comps/muiComps/formModal';
+import PrayerForm from '../comps/prayerForm';
 
 export default function Managment({ times }) {
     const [users, setUsers] = useState([])
@@ -58,21 +58,35 @@ export default function Managment({ times }) {
             <Typography sx={sx} color='success' variant='outlined' level='title-lg'>סה"כ תרומות החודש: {donations.reduce((a, b) => { return b.date.slice(0, 7) === DateTime.now().toFormat("yyyy-MM") ? a + b.amount : 0 }, 0)} </Typography>
             <Typography sx={sx} color='success' variant='outlined' level='title-lg'> סה"כ משתמשים חודשיים: 250</Typography>
         </Stack>
-        <Tabs aria-label="Basic tabs" defaultValue={0}>
-            <TabList disableUnderline tabFlex="auto" sx={{ justifyContent: "space-evenly" }}>
-                <Tab>משתמשים </Tab>
-                <Tab>תרומות</Tab>
-                <Tab>חובות</Tab>
-                <Tab>הקדשות</Tab>
-                <Tab>תפילות</Tab>
-                <Tab>פוסטים</Tab>
+        <Tabs variant='outlined' aria-label="Basic tabs"  defaultValue={0}
+        sx={{
+            [`& .${tabClasses.root}`]: {
+              fontSize: 'sm',
+              fontWeight: 'lg',
+              [`&[aria-selected="true"]`]: {
+                color: 'primary.500',
+                bgcolor: 'background.surface',
+              },
+              [`&.${tabClasses.focusVisible}`]: {
+                outlineOffset: '-4px',
+              },
+            },
+          }}
+        >
+            <TabList disableUnderline  variant='soft' color="primary" tabFlex="auto" sx={{ justifyContent: "space-evenly" }}>
+                <Tab disableIndicator>משתמשים </Tab>
+                <Tab disableIndicator>תרומות</Tab>
+                <Tab disableIndicator>חובות</Tab>
+                <Tab disableIndicator>הקדשות</Tab>
+                <Tab disableIndicator>תפילות</Tab>
+                <Tab disableIndicator>פוסטים</Tab>
             </TabList>
             <TabPanel value={0}>
 
                 <GenericTable data={users} handle={handle}
                     heads={["ID", "שם משתמש", "שם פרטי", "שם משפחה", "סיסמא", "מייל", "פלאפון", "רחוב", "עיר", "מדינה", "מיקוד", "תפקיד"]}>
-                    <Button color='success' name="manager" variant='solid'>הכגדר כמנהל</Button>
-                    <Button color='danger' name="deleteUser" variant='solid'>מחק משתמש</Button>
+                    <Button name="manager" >הכגדר כמנהל</Button>
+                    <Button color='danger' name="deleteUser">מחק משתמש</Button>
                 </GenericTable>
             </TabPanel>
             <TabPanel value={1}>
@@ -86,8 +100,9 @@ export default function Managment({ times }) {
             </TabPanel>
             <TabPanel value={4}>
                 <GenericTable data={prayers} heads={["ID", "תפילה", "שעה", "סדר"]}>
-                <Button color='primary' name={"addPrayer"} variant='outlined' active={true}> הוסף תפילה</Button>
-                <ModalForm   />
+                    <FormModal title="הוסף תפילה" buttonName={"הוסף תפילה"}>
+                        <PrayerForm />
+                    </FormModal>
                 </GenericTable>
             </TabPanel>
             <TabPanel value={5}>
