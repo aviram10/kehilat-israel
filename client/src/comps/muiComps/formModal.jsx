@@ -5,7 +5,7 @@ import ModalDialog from '@mui/joy/ModalDialog';
 import DialogTitle from '@mui/joy/DialogTitle';
 import Add from '@mui/icons-material/Add';
 
-export default function FormModal({title, children, buttonName}) {
+export default function FormModal({title, children, buttonName, disabled}) {
   const [open, setOpen] = React.useState(false);
   return (
     <React.Fragment>
@@ -14,10 +14,11 @@ export default function FormModal({title, children, buttonName}) {
         color="neutral"
         startDecorator={<Add />}
         onClick={() => setOpen(true)}
+        disabled={disabled}
       >
        {buttonName}
       </Button>
-      <Modal open={open} onClose={() => setOpen(false)}>
+      <Modal  open={open} onClose={() => setOpen(false)}>
         <ModalDialog>
           <DialogTitle>{title}</DialogTitle>
             {children}

@@ -3,7 +3,7 @@ import { Divider, Grid } from "@mui/joy";
 import PrayersTimes from "../comps/prayersTimes";
 import MyGallery from "../comps/galleryImages";
 import DayTimes from "../comps/dayTimes";
-import { Typography } from "@mui/material";
+import { Typography } from "@mui/joy";
 import { DateTime } from "luxon";
 
 

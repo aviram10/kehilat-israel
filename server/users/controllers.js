@@ -5,7 +5,7 @@ const { handleError } = require('../utils/errors');
 
 
 async function login(req, res) {
-    req.user ? res.send(req.user) : res.status(401).send("unidentified")
+   return  req.user ? res.send(req.user) : res.status(401).send("unidentified")
 }
 async function register(req, res) {
     try {
@@ -13,7 +13,7 @@ async function register(req, res) {
         delete req.body.remember;
         const [{ insertId }] = await accessData.addUser(req.body);
         const user = await services.getUser(insertId);
-        res.status(201).send(user);
+        return res.status(201).send(user);
     } catch (err) { handleError(err, res) }
 }
 
@@ -28,7 +28,7 @@ async function getUsers(req, res) {
 async function getUser(req, res) {
     try {
         const [user] = await services.getUsers({user_id: req.params.user_id});
-        res.send(user);
+        return res.send(user);
     } catch (err) { handleError(err, res) }
 }
 
@@ -52,13 +52,14 @@ async function getPosts(req, res) {
 async function updateUser(req, res){
     try{
         const result = await services.updateUser(req.params.user_id, req.body);
+        return res.json(result);
     }catch(err){handleError(err, res)}
 }
 
 async function getDebt(req, res) {
     try {
         const debt = await services.getDebt(req.params.user_id);
-        res.send(debt);
+        return res.json(debt);
     } catch (err) { handleError(err, res) }
 }
 
@@ -74,7 +75,7 @@ async function deleteUser(req, res) {
     try {
         console.log("deleteUser", req.params.user_id);
         await services.deleteUser(req.params.user_id);
-        res.sendStatus(204);
+        return res.json(req.params.user_id);
     } catch (err) { handleError(err, res) }
 }
 

@@ -8,6 +8,7 @@ function Message({ content }) {
 }
 
 function Paypal({ name, amount, date,type,details, success, set} ) {
+  console.log(name, amount, date,type,details, success, set);
   
   const initialOptions = {
     "client-id": "Afgnr4u04HGd4lrqQjBNkd9tjx3xyc1ZBvZ8cYHOR81CT_8im1Tw2N31Z_TyIHdDQymuapou6od5UFLi",
@@ -22,8 +23,9 @@ function Paypal({ name, amount, date,type,details, success, set} ) {
     <div className="App" style={{margin: "5px auto"}}>
       <PayPalScriptProvider   options={initialOptions}>
         <PayPalButtons
+        
           style={{
-            shape: "pill",
+            shape: "rect",
             layout: "horizontal",
           }}
           createOrder={async () => {

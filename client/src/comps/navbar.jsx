@@ -8,6 +8,7 @@ import "../styles/navbar.css";
 
 export default function Navbar() {
     const [user, setUser] = useContext(UserContext);
+    console.log(user);
     const navigate = useNavigate();
     const logout =() =>{
         Cookies.remove("user_id");
@@ -15,7 +16,7 @@ export default function Navbar() {
         Cookies.remove("pass");
         sessionStorage.removeItem("user_id");
         localStorage.removeItem("user_id");
-        setUser({first_name: '', last_name: '', email: '', phone: '', address: '', city: '', country: '', zip: '', id: ''})
+        setUser({first_name: '', last_name: '', email: '', phone: '', address: '', city: '', country: '', zip: '', user_id: ''})
         navigate("/");
     }
 
@@ -32,7 +33,7 @@ export default function Navbar() {
                 <NavLink to="/times" >   זמני היום </NavLink>|
                 <NavLink to="/times" >   זמני התפילות  </NavLink>|
                 <NavLink to="/board">   לוח הקהילה  </NavLink> |
-                <NavLink to={user.user_id ? "/dedication" : "/login"}>  הקדשות  </NavLink>
+                <NavLink to={user?.user_id ? "/dedication" : "/login"}>  הקדשות  </NavLink>
                 {user?.role === "מנהל" && <NavLink to="/managment">  ניהול  </NavLink>}
             </div>
 

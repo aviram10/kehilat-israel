@@ -65,10 +65,8 @@ async function getPrayersTimes() {
     const dt = Object.keys(dayTimes).length === 0 ? await getDayTimes() : dayTimes;
     const prayersTimes = data.map(p => {
         return {
-            name: p.prayer_name,
+            ...p,
             time: p.fixed ? p.fixed : calculateTime(p.dependency, p.minutes, dt),
-            category: p.category,
-            sort: p.sort
         }
     })
     return prayersTimes;
@@ -130,7 +128,16 @@ async function hebToGreg(hebDate) {
 
 async function addPrayer(prayer) {
     try {
+        if(!prayer) throw new Error('no prayer');
         const data = await accessData.addPrayer(prayer);
+        return data;
+    } catch (err) { console.log(err); }
+}
+
+async function updatePrayer(prayer) {
+    try {
+        if(!prayer) throw new Error('no prayer');
+        const data = await accessData.updatePrayer(prayer);
         return data;
     } catch (err) { console.log(err); }
 }
@@ -150,5 +157,5 @@ function copyToGlobalVar(obj, global) {
 getTimesEveryMidnight();
 getHebrewDateEverySunset();
 getWeekTimesEverySunday();
-module.exports = { dayTimes, hebrewDate, weekTimes, prayersTimes, getTimes, getDayTimes, getHebrewDate, getPrayersTimes, getWeekTimes, getWeekTimesEverySunday }
+module.exports = {updatePrayer, dayTimes, hebrewDate, weekTimes, prayersTimes,addPrayer, getTimes, getDayTimes, getHebrewDate, getPrayersTimes, getWeekTimes, getWeekTimesEverySunday }
 

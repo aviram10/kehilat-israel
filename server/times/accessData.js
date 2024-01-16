@@ -22,10 +22,21 @@ async function addPrayer(prayer) {
     }
 }
 
+async function updatePrayer(prayer) {
+    try {
+        const {keys, values} = util.extractKeyValues(prayer);
+        const [{rawsEffected}] = await db.update('prayersTimes', keys, values, ['id'], [prayer.id]);
+        return rawsEffected;
+    } catch (error) {
+        console.error('Error updating prayer:', error);
+        throw error;
+    }
+}
+
 async function getCommissioner(date){
     console.log(date);
     const [[commissioner]] = await db.get('dedications',['*'],["date", "type"], [date, "פרנס היום"]);
     return commissioner;    
 }
 
-module.exports = {getPrayersTimes, getCommissioner};
+module.exports = {getPrayersTimes, getCommissioner, addPrayer, updatePrayer};

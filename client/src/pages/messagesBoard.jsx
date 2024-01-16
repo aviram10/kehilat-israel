@@ -4,9 +4,8 @@ import "../styles/messagesBoard.css";
 import Posts from '../comps/postsComps/posts';
 import axios from 'axios';
 import { url } from '../config/server';
-import { getPosts } from '../functions/server';
 import PostForm from '../comps/postsComps/postForm';
-import { toggleLike } from '../functions/server';
+import { toggleLike, getPosts } from '../server/posts';
 import PostsFilters from '../comps/postsComps/PostsFilters';
 import { Card } from '@mui/joy';
 

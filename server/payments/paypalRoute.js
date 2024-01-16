@@ -64,7 +64,7 @@ const createOrder = async (cart) => {
       },
     ],
   };
-  console.log(payload);
+  console.log("payload",payload);
   const  response  = await axios.post(url, JSON.stringify(payload), {
     headers: {
       "Content-Type": "application/json",

@@ -13,7 +13,6 @@ import Paypal from '../comps/paypal';
 import JewishCalender from '../comps/jewishCalender';
 
 export default function Dedication(params) {
-    console.log("dedication");
     const [name, setName] = useState("")
     const [type, setType] = useState("");
     const [details, setDetails] = useState({})
@@ -30,7 +29,6 @@ export default function Dedication(params) {
 
     useEffect(() => {
         setAmount(type === "פרנס היום" ? 250 : 100)
-        setPaypal(prev => prev + 1)
     }, [type, name, details, date])
 
     const handleUser = useCallback(user => setDetails({ ...user }), [])
@@ -38,8 +36,8 @@ export default function Dedication(params) {
 
 
     return <>
-        <Typography alignItems={'center'} level='h1' >דף הנצחה </Typography>
         <Box display={'flex'} alignItems={'center'} justifyContent={"center"}>
+        <Typography alignItems={'center'} level='h1' >דף הנצחה </Typography>
             <img src={dedicationBoard} alt="dedication board" width={150} height={150} />
         </Box>
         <Stack justifyItems={"center"} direction={"column"} width={{ md: "95%", lg: "80%" }} margin={"auto"} spacing={2}>
@@ -69,7 +67,9 @@ export default function Dedication(params) {
                 <JewishCalender handleChange={(date) => setDate(DateTime.fromISO(new Date(date).toISOString()).toISODate())} />
                 <Input type='number' name='amount' value={amount}></Input>
             </Card>
-            <Paypal key={1} set={setPaypal}  date={date} amount={amount} name={name} details={details} type={type} success={success} />
+            <div style={{width:"400px"}} onMouseEnter={()=>{console.log("dffd");setPaypal(paypal +1)}}>
+                <Paypal key={paypal} set={setPaypal} date={date} amount={amount} name={name} details={details} type={type} success={success} />
+            </div>
         </Stack>
     </>
 };

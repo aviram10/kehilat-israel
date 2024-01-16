@@ -4,7 +4,7 @@ import { Button, Grid, Sheet, Tab, TabList, TabPanel, Tabs, Typography } from '@
 import { url } from '../config/server';
 import axios from 'axios';
 import Posts from '../comps/postsComps/posts';
-import { toggleLike, deletePosts } from '../functions/server';
+import { toggleLike, deletePosts } from '../server/posts';
 import Paypal from '../comps/paypal';
 const {useNavigate} = require('react-router-dom')
 
@@ -33,6 +33,7 @@ export default function Profile() {
   const handleUser = useCallback(user =>setUser({...user}),[])
 
    function success(data){
+    setPaypal(prev => prev + 1)
     setDebt( data.data)
   }
   const handleError = () => {

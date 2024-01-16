@@ -8,7 +8,7 @@ import axios from 'axios';
 import { url } from '../../config/server';
 import Post from './post';
 import Comment from './comment';
-import { postComment, toggleLike } from '../../functions/server'
+import { postComment, toggleLike } from '../../server/posts'
 
 async function getComments(post_id, setComments) {
     const { data } = await axios.get(url + `/posts/${post_id}`, { withCredentials: true });

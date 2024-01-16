@@ -5,7 +5,8 @@ const mw = require('../middlewares/auth');
 
 router.get('/', controller.getTimes);
 router.get('/hebrewDate', controller.getHebrewDate);
-router.post('/prayers', mw.adminAuth, controller.addPrayer())
+router.post('/prayers', mw.adminAuth, controller.addPrayer)
+router.put('/prayers', mw.adminAuth, controller.updatePrayer)
 // router.get('/timesDay', controller.getTimesData);
 // router.get('/prayersTimes', controller.getTimesData)
 //     // .get("/:category", controller.getPrayersTimes)

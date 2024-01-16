@@ -57,7 +57,7 @@ export default function UserDetailsForm({user, handleUser}) {
                         </Grid>
                         <Grid xs={3}>
                             <Typography level='body-lg'>
-                                address
+                                כתובת
                             </Typography>
                         </Grid>
                         <Grid xs={8}>

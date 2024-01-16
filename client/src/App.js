@@ -12,7 +12,7 @@ import axios from 'axios';
 import server from "./config/server";
 import React, { useEffect, useState, createContext } from 'react';
 import { DateTime } from 'luxon';
-import { getUser } from "./functions/server";
+import { getUser } from "./server/users";
 
 export const UserContext = createContext(null);
 
@@ -31,7 +31,7 @@ async function getTimes(setTimes) {
 
 function App() {
   const [times, setTimes] = useState({ prayers: [], dayTimes: [], items: [] });
-  const [user, setUser] = useState({first_name: '', last_name: '', email: '', phone: '', address: '', city: '', country: '', zip: '', id: ''});
+  const [user, setUser] = useState({first_name: '', last_name: '', email: '', phone: '', address: '', city: '', country: '', zip: '', user_id: ''});
 
 
   useEffect(() => {

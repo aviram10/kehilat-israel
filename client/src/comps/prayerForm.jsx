@@ -1,10 +1,11 @@
 import { Button, Card, CardActions, Input, Option, Radio, Select, Stack } from '@mui/joy';
 import React, { useEffect } from 'react';
 import TimePick from './muiComps/timePicker';
-import { addPrayer, editPrayer } from '../functions/prayer';
+import { addPrayer, editPrayer } from '../server/prayer';
 
-export default function PrayerForm(mode, prayer_id) {
-    const [prayer, setPrayer] = React.useState({ name: "", time: "", mode: "fixed", category: "", depend: "", minutes: 0 })
+export default function PrayerForm({mode, pray}) {
+  
+    const [prayer, setPrayer] = React.useState({ name: pray ?pray.name : "", time: pray ? pray.time : "", mode:( pray && pray.dependency )? "depend" :"fixed", category: "", depend: "", minutes: 0 })
     const [message, setMessage] = React.useState("");
     const handleChange = ({target}) => { setPrayer({ ...prayer, [target.name]: target.value}) };
     const selectTime = (time) => setPrayer({ ...prayer, time: time.toISOTime().slice(0, 5) });
@@ -14,12 +15,12 @@ export default function PrayerForm(mode, prayer_id) {
             prayer.depend = null;
         }
         else prayer.time = null;
-        mode === "edit" ? addPrayer(prayer) : editPrayer(prayer, prayer_id)
+        mode === "edit" ? addPrayer(prayer) : editPrayer(prayer, prayer.id)
     }
     return <>
         <form onSubmit={handleSubmit}>
             <Card variant='plain'>
-                <Input required name="name" onChange={handleChange} placeholder='שם התפילה'></Input>
+                <Input required name="name" value={prayer.name} onChange={handleChange} placeholder='שם התפילה'></Input>
                 <Radio
                     name='mode'
                     value={"fixed"}
@@ -48,10 +49,13 @@ export default function PrayerForm(mode, prayer_id) {
                 </>
 
                 }
-                <Select required name='category' onChange={handleChange} placeholder="קטגוריה">
+                <Stack direction='row' justifyContent={"space-between"} >
+                < Select required name='category' onChange={handleChange} placeholder="קטגוריה">
                     <Option value="weekdays">ימות חול</Option>
                     <Option value="shabat">שבת ומועדים</Option>
                 </Select>
+                <Input sx={{width:"50%"}} type='number' required name="sort" onChange={handleChange} placeholder='מספר סידורי'></Input>
+                </Stack>
                 <CardActions>
                     <Button type='submit' variant='solid' color='primary'>שמור</Button>
                 </CardActions>
