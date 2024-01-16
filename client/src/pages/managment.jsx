@@ -112,7 +112,7 @@ export default function Managment({ times }) {
             <GenericTable data={dedications} heads={["ID", "מזהה תרומה", "User ID", "תאריך", "הקדשה", "סוג"]} />
         </TabPanel>
         <TabPanel value={4}>
-            <GenericTable data={prayers} selected={selected} handleChange={handleChange} heads={["ID", "תפילה", "שעה", "סדר"]}>
+            <GenericTable data={prayers} selected={selected} handleChange={handleChange} heads={["ID", "תפילה", "זמן היום", "דקות", "קבוע","קבוצה","סדר", "שעה"]}>
                 <FormModal title="הוסף תפילה" buttonName={"הוסף תפילה"}>
                     <PrayerForm />
                 </FormModal>

@@ -19,7 +19,7 @@ export default function PrayersTimes({ times, isDaily }) {
     return <div className="prayersTimes">
         <Typography textAlign={"center"} variant='soft' level="h3"> זמני התפילות</Typography>
         <List>
-            {prayers.map(t => <Time key={t.name} {...t} />)}
+            {prayers.map(t => <Time key={Math.random()} {...t} />)}
         </List>
     </div>
 }
