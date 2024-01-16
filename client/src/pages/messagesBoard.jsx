@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect } from 'react';
+import React, { useMemo, useEffect, useContext } from 'react';
 import Stack from '@mui/joy/Stack';
 import "../styles/messagesBoard.css";
 import Posts from '../comps/postsComps/posts';
@@ -7,12 +7,14 @@ import { url } from '../config/server';
 import PostForm from '../comps/postsComps/postForm';
 import { toggleLike, getPosts } from '../server/posts';
 import PostsFilters from '../comps/postsComps/PostsFilters';
-import { Card } from '@mui/joy';
+import { Card, Typography } from '@mui/joy';
+import { UserContext } from '../App';
 
 
 export default function MessagesBoard(params) {
     const [posts, setPosts] = React.useState([]);
     const [filters, setFilters] = React.useState({ category: [], username: [], content: '' });
+    const [user, setUser] = useContext(UserContext);
 
     const handleFilters = (key, value) => {
         if (key === "content") return setFilters({ ...filters, [key]: value.target.value })
@@ -49,20 +51,17 @@ export default function MessagesBoard(params) {
         }
     }), [])
 
-
     useEffect(() => {
         getPosts().then((data) => {
             setPosts(data);
         })
     }, [])
 
-
-
     return <>
         <Stack m="auto" maxWidth={600} alignItems="center" spacing={0}>
             <h1>לוח המודעות הקהילתי</h1>
-            <Card variant='soft' >
-                <PostForm handleSubmit={handleSubmit} />
+            <Card variant='soft' sx={{maxWidth: "500px"}}>
+                <PostForm disabled={!user?.user_id} handleSubmit={handleSubmit} />
                 <PostsFilters posts={posts} handleFilters={handleFilters} />
             </Card>
             <Posts posts={filteredPosts} handlePosts={handlePosts} />

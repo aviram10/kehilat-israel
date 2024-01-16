@@ -42,7 +42,6 @@ function App() {
     getTimes(setTimes)
     //update times every day at 00:00
     const tomorrow = DateTime.now().plus({ days: 1 }).startOf('day');
-    console.log(tomorrow.diffNow().as('hours'));
     setTimeout(() => {
       getTimes(setTimes)
     }, tomorrow.diffNow().milliseconds);

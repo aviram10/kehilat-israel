@@ -123,7 +123,7 @@ export default function Managment({ times }) {
         </TabPanel>
         <TabPanel value={5}>
             <GenericTable data={posts} heads={["ID", "מזהה משתמש", "כותרת", "תוכן", "תאריך", "מעורבות", "קטגוריה"]}>
-                <Button color='danger' name={"deletePost"} variant='solid'>מחק פוסט</Button>
+                <Button color='danger' name={"deletePost"} variant='solid' onClick={()=>deletePosts(selected)}>מחק פוסט</Button>
             </GenericTable>
         </TabPanel>
         <TabPanel value={6}>

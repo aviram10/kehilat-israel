@@ -37,7 +37,6 @@ export default function Profile() {
     setDebt( data.data)
   }
   const handleError = () => {
-    console.log("handleError");
     setPaypal(prev => prev + 1)}
   const handleMyPosts = useMemo(() => ({
     save: async (input, post_id) => {

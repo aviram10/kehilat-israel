@@ -27,6 +27,7 @@ export default function Post({ post, handlePosts }) {
         <Message {...{message: post, handleMessage: handlePosts}}>
             {mode === 'edit' ? <Input fullWidth onClick={(e => e.stopPropagation())} value={input.title} name='title' onChange={handleChanges} /> :
             <Typography  level='title-md'>{post.title}</Typography>}
+            <Typography level='body-sm'>{post.username}</Typography>
             {mode === 'edit'? <Textarea onClick={(e => e.stopPropagation())} value={input.content} name='content' onChange={handleChanges} /> :
              <Typography level='body-sm'>{contentSlice(post.content, handlePosts.extend)}</Typography>}
         </Message>

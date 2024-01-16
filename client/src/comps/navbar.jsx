@@ -8,7 +8,6 @@ import "../styles/navbar.css";
 
 export default function Navbar() {
     const [user, setUser] = useContext(UserContext);
-    console.log(user);
     const navigate = useNavigate();
     const logout =() =>{
         Cookies.remove("user_id");

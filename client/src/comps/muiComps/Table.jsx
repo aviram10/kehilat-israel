@@ -37,8 +37,8 @@ export default function GenericTable({ data, heads, children, selected, handleCh
                                 onChange={handleChange}
                               checked={selected?.includes(""+ Object.values(row)[0])}
                             /> </td>
-                            {Object.entries(row).map(cell => {
-                                return <td key={Math.random()} >{cell[1]}</td>
+                            {Object.values(row).map(cell => {
+                                return <td key={Math.random()} >{cell}</td>
                             })}
                         </tr>
                     })}
