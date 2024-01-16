@@ -33,12 +33,11 @@ function App() {
   const [times, setTimes] = useState({ prayers: [], dayTimes: [], items: [] });
   const [user, setUser] = useState({first_name: '', last_name: '', email: '', phone: '', address: '', city: '', country: '', zip: '', user_id: ''});
 
-
   useEffect(() => {
     if (localStorage.user_id) sessionStorage.user_id = localStorage.user_id;
     if (sessionStorage.user_id)
       getUser(sessionStorage.user_id)
-        .then(res => setUser(res));
+        .then(res =>  res && setUser(res));
     getTimes(setTimes)
     //update times every day at 00:00
     const tomorrow = DateTime.now().plus({ days: 1 }).startOf('day');

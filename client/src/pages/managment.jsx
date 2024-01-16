@@ -122,8 +122,8 @@ export default function Managment({ times }) {
             </GenericTable>
         </TabPanel>
         <TabPanel value={5}>
-            <GenericTable data={posts} heads={["ID", "מזהה משתמש", "כותרת", "תוכן", "תאריך", "מעורבות", "קטגוריה"]}>
-                <Button color='danger' name={"deletePost"} variant='solid' onClick={()=>deletePosts(selected)}>מחק פוסט</Button>
+            <GenericTable handleChange={handleChange} selected={selected} data={posts} heads={["ID", "מזהה משתמש", "כותרת", "תוכן", "תאריך", "מעורבות", "קטגוריה"]}>
+                <Button color='danger' name={"deletePost"} variant='solid' onClick={()=>{deletePosts(selected)}}>מחק פוסט</Button>
             </GenericTable>
         </TabPanel>
         <TabPanel value={6}>
