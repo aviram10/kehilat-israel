@@ -25,18 +25,34 @@ async function updateUser(user_id, data) {
 }
 
 async function getDebt(filters) {
+    console.log("filters: ", filters);
     try {
         const { keys, values } = util.extractKeyValues(filters);
-        return await db.get("debts", ['*'], keys, values);
+        const [[debt]] = await db.get("debts", ['*'], keys, values);
+        return debt
     } catch (err) { console.log(err); }
 }
 
 async function deleteUser(user_id) {
     try {
-        return await db.update("users", ["role"], ["inactive"], ["user_id"], [user_id]);
+        return await db.update("users", ["role"], ["לא פעיל"], ["user_id"], [user_id]);
+    } catch (err) { console.log(err); }
+}
+
+async function addDebt(amount, user_id) {
+    try {
+        const [{insertId}] = await db.add("debts", ["amount", "user_id"], [amount, user_id]);
+        return {insertId};
+    } catch (err) { console.log(err); }
+}
+
+async function updateDebt(amount, debt_id) {
+    try {
+        const[{affectedRows}] = await db.update("debts", ["debt"], [amount], ["debt_id"], [debt_id]);
+        return {affectedRows};
     } catch (err) { console.log(err); }
 }
 
 
 
-module.exports = {deleteUser, getUsers, addUser, updateUser, getDebt }
+module.exports = {deleteUser, getUsers, addUser, updateUser, getDebt, updateDebt, addDebt }

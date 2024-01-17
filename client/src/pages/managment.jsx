@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Stack, Button, Typography, Tabs, TabList, Tab, tabClasses, TabPanel, Sheet, Modal } from '@mui/joy';
+import { Stack, Button, Typography, Tabs, TabList, Tab, tabClasses, TabPanel, Sheet, Modal, Input } from '@mui/joy';
 import { getDebts, getDedications, getDonations } from '../server/general';
 import { getPosts, deletePosts } from '../server/posts'
 import { getUsers, deleteUsers, manager } from '../server/users'
@@ -8,6 +8,8 @@ import GenericTable from '../comps/muiComps/Table';
 import { DateTime } from 'luxon';
 import FormModal from '../comps/muiComps/formModal';
 import PrayerForm from '../comps/prayerForm';
+import { handlePrayer } from '../server/server';
+import DebtForm from '../comps/debtForm';
 
 export default function Managment({ times }) {
     const [users, setUsers] = useState([])
@@ -53,7 +55,16 @@ export default function Managment({ times }) {
         setSelected([])
     }
 
+    const handleDeletePost = async () => {
+        const results = await deletePosts(selected)
+        results.forEach((result) => {
+            result.status === "fulfilled" &&
+                setPosts(prev => prev.filter(post => post.post_id != result.value.data))
+        })
+        setSelected([])
+    }
 
+    const tableProps = {handleChange, selected, }
 
     const sx = { m: 4, p: 4, textAlign: "center" }
     return <Sheet >
@@ -87,47 +98,55 @@ export default function Managment({ times }) {
             </TabList>
             <TabPanel value={0}>
 
-                <GenericTable handleChange={handleChange} data={users} selected={selected}
+                <GenericTable  data={users} {...tableProps}
                     heads={["ID", "שם משתמש", "שם פרטי", "שם משפחה", "סיסמא", "מייל", "פלאפון", "רחוב", "עיר", "מדינה", "מיקוד", "תפקיד"]}>
                     <Button disabled={selected?.length === 0}
                         variant='soft' color='primary' name="manager"
-                        onClick={() => {selected.forEach(user_id => manager(user_id)
-                            .then(res => setUsers(prev => prev.map(user => user.user_id == user_id ? { ...user, role: "מנהל" } : { ...user })))
-                            .catch(err => console.log(err)));
-                         setSelected([])}}
+                        onClick={() => {
+                            selected.forEach(user_id => manager(user_id)
+                                .then(res => setUsers(prev => prev.map(user => user.user_id == user_id ? { ...user, role: "מנהל" } : { ...user })))
+                                .catch(err => console.log(err)));
+                            setSelected([])
+                        }}
                     > הגדר כמנהל
-                </Button>
-                <Button disabled={selected?.length === 0} variant='soft' color='danger' name="deleteUser"
-                    onClick={handleDeleteUsers}
-                >מחק משתמש</Button>
-            </GenericTable>
-        </TabPanel>
-        <TabPanel value={1}>
-            <GenericTable data={donations} heads={["ID", "מזהה משתשמש", "סכום", "תאריך"]} />
-        </TabPanel>
-        <TabPanel value={2}>
-            <GenericTable data={debts} heads={["ID", "מזהה משתמש ", "סכום"]} />
-        </TabPanel>
-        <TabPanel value={3}>
-            <GenericTable data={dedications} heads={["ID", "מזהה תרומה", "User ID", "תאריך", "הקדשה", "סוג"]} />
-        </TabPanel>
-        <TabPanel value={4}>
-            <GenericTable data={prayers} selected={selected} handleChange={handleChange} heads={["ID", "תפילה", "זמן היום", "דקות", "קבוע","קבוצה","סדר", "שעה"]}>
-                <FormModal title="הוסף תפילה" buttonName={"הוסף תפילה"}>
-                    <PrayerForm />
+                    </Button>
+                    <Button disabled={selected?.length === 0} variant='soft' color='danger' name="deleteUser"
+                        onClick={handleDeleteUsers}
+                    >מחק משתמש</Button>
+                </GenericTable>
+            </TabPanel>
+            <TabPanel value={1}>
+                <GenericTable {...tableProps} data={donations} heads={["ID", "מזהה משתשמש", "סכום", "תאריך"]} />
+            </TabPanel>
+            <TabPanel value={2}>
+                <GenericTable data={debts}  {...tableProps} disabled={selected?.length === 0} heads={["ID", "מזהה משתמש ", "סכום"]} >
+                <FormModal disabled={!(selected?.length === 1)} title="הוספת חוב" buttonName={"הוספת חוב"}>
+                  <DebtForm user_id={debts.find(d => d.debt_id == selected[0])?.user_id} />
                 </FormModal>
-                <FormModal disabled={!selected?.length === 1}  title="עדכן תפילה" buttonName={"עדכן תפילה "}>
-                    <PrayerForm mode="edit" pray={prayers.find(p => p.id == selected[0])} />
-                </FormModal>
-            </GenericTable>
-        </TabPanel>
-        <TabPanel value={5}>
-            <GenericTable handleChange={handleChange} selected={selected} data={posts} heads={["ID", "מזהה משתמש", "כותרת", "תוכן", "תאריך", "מעורבות", "קטגוריה"]}>
-                <Button color='danger' name={"deletePost"} variant='solid' onClick={()=>{deletePosts(selected)}}>מחק פוסט</Button>
-            </GenericTable>
-        </TabPanel>
-        <TabPanel value={6}>
-        </TabPanel>
-    </Tabs>
+                </GenericTable>
+            </TabPanel>
+            <TabPanel value={3}>
+                <GenericTable  data={dedications}  {...tableProps} heads={["ID", "מזהה תרומה", "User ID", "תאריך", "הקדשה", "סוג"]} />
+            </TabPanel>
+            <TabPanel value={4}>
+                <GenericTable data={prayers} {...tableProps} heads={["ID", "תפילה", "זמן היום", "דקות", "קבוע", "קבוצה", "סידורי", "שעה"]}>
+                    <FormModal title="הוסף תפילה" buttonName={"הוסף תפילה"}>
+                        <PrayerForm />
+                    </FormModal>
+                    <FormModal disabled={!(selected?.length === 1)} title="עדכן תפילה" buttonName={"עדכן תפילה "}>
+                        <PrayerForm pray={prayers.find(p => p.id == selected[0])} />
+                    </FormModal>
+                    <Button disabled={selected?.length === 0} variant='outlined' color='danger' name="delete Prayer"
+                        onClick={() => { handlePrayer(3, selected); setSelected([]) }}> מחק תפילה</Button>
+                </GenericTable>
+            </TabPanel>
+            <TabPanel value={5}>
+                <GenericTable data={posts} {...tableProps} heads={["ID", "מזהה משתמש", "כותרת", "תוכן", "תאריך", "לייקים", "קטגוריה"]}>
+                    <Button color='danger' name={"deletePost"} variant='outlined' onClick={handleDeletePost}>מחק פוסט</Button>
+                </GenericTable>
+            </TabPanel>
+            <TabPanel value={6}>
+            </TabPanel>
+        </Tabs>
     </Sheet >
 }

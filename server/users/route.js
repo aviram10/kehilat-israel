@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const controllers = require("./controllers.js");
-const { userAuth,adminAuth, adminORownerAuth  } = require("../middlewares/auth.js");
+const { userAuth, adminAuth, adminORownerAuth } = require("../middlewares/auth.js");
 
 router.post("/login", controllers.login)
 router.post("/register", controllers.register)
@@ -11,9 +11,14 @@ router.route("/:user_id")
     .delete(controllers.deleteUser)
     .get(controllers.getUser)
     .put(controllers.updateUser)
+router.post("/debts", adminAuth, controllers.addDebt)
+router.get("/:user_id/data", userAuth, controllers.getUserData)
+router.route("/:user_id/debt")
+    .all(adminORownerAuth)
+    .get(controllers.getDebt)
+    .all(adminAuth)
+    .post(controllers.addDebt)
 
-router.get("/:user_id/posts", controllers.getPosts)
-router.get("/:user_id/data",userAuth, controllers.getUserData)
-router.get("/:user_id/debt",userAuth, controllers.getDebt)
+
 
 module.exports = router;

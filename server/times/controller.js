@@ -23,11 +23,18 @@ async function addPrayer(req, res) {
 
 async function updatePrayer(req, res) {
     try {
-        const prayer = await services.updatePrayer(req.body);
+        const prayer = await services.updatePrayer(req.body, req.params.prayer_id);
         return res.json(prayer);
+    } catch (err) { console.log(err); }
+}
+
+async function deletePrayer(req, res) {
+    try {
+        const data = await services.deletePrayer(Number(req.params.prayer_id));
+        return res.json(data);
     } catch (err) { console.log(err); }
 }
 
 
 
-module.exports = { getTimes, getHebrewDate, addPrayer, updatePrayer }
+module.exports = { getTimes, getHebrewDate, addPrayer, updatePrayer, deletePrayer }

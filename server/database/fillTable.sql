@@ -223,13 +223,13 @@ VALUES
 
    
 
-    INSERT INTO prayersTimes (prayer_name, fixed, category, sort)
+    INSERT INTO prayersTimes (prayer_name, fixed, category, serial)
     VALUES
-        ("שחרית", "7:00", "weekday",1),
-        ("שחרית (יום שישי)", "7:00", "shabat",4),
-        ("שחרית של שבת", "7:30", "shabat",6);
+        ("שחרית", "07:00", "weekday",1),
+        ("שחרית (יום שישי)", "07:00", "shabat",5),
+        ("שחרית של שבת", "07:30", "shabat",6);
 
-    INSERT INTO prayersTimes (prayer_name, dependency,minutes ,category,sort)
+    INSERT INTO prayersTimes (prayer_name, dependency,minutes ,category,serial)
     VALUES
         ("מנחה", "sunset", -20, "weekday",2),
         ("ערבית", "sunset",30, "weekday",3),

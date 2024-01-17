@@ -6,6 +6,7 @@ import DialogTitle from '@mui/joy/DialogTitle';
 import Add from '@mui/icons-material/Add';
 
 export default function FormModal({title, children, buttonName, disabled}) {
+  console.log(disabled);
   const [open, setOpen] = React.useState(false);
   return (
     <React.Fragment>

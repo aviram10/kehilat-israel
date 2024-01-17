@@ -52,8 +52,8 @@ async function createPost(post) {
 
 async function deletePost(post_id) {
     try {
-        const data = await dataAccess.deletePosts({ post_id });
-        return true;
+        await dataAccess.deletePosts({ post_id });
+        return post_id;
     } catch (err) { console.log(err); }
 }
 

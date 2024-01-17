@@ -41,12 +41,16 @@ async function deleteUser(user_id){
     }catch(err){console.log(err);}
 }
 
+async function addDebt(amount, user_id){
+    try{
+        const debt = await accessData.getDebt({user_id});
+        const data = debt ? accessData.updateDebt(amount + debt.debt, debt.debt_id) : accessData.addDebt(amount, user_id);
+        return data;
+    }catch(err){console.log(err);}
+}
 
 
-
-
-
-module.exports = {deleteUser,getUsers, updateUser, getDebt, getUserData}
+module.exports = {addDebt, deleteUser,getUsers, updateUser, getDebt, getUserData}
 
 
 

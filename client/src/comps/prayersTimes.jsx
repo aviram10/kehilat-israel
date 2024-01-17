@@ -16,7 +16,7 @@ export default function PrayersTimes({ times, isDaily }) {
     return <div className='dayTimes'>
         <Typography textAlign={"center"} variant='soft' level="h3"> זמני התפילות</Typography>
         <List>
-            {prayers.map(t =>  <ListItem>
+            {prayers.map(t =>  <ListItem key={Math.random()}>
                 <ListItemText>{t.prayer_name}</ListItemText>
                 <ListItemText>{ t.time}</ListItemText>
             </ListItem> )}

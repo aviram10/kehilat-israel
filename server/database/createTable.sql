@@ -40,9 +40,7 @@ CREATE TABLE comments(
     date DATE NOT NULL,
     likes INT UNSIGNED  DEFAULT 0,
     PRIMARY KEY (comment_id)    
-
 );
-
 
 CREATE TABLE prayersTimes(
 	id INT NOT NULL auto_increment,
@@ -51,7 +49,7 @@ CREATE TABLE prayersTimes(
     minutes INT SIGNED,
     fixed VARCHAR(255),
     category VARCHAR(255) NOT NULL,
-    sort INT,
+    serial INT,
     PRIMARY KEY (id)
 );
 

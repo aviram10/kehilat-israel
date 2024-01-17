@@ -31,7 +31,7 @@ function Paypal({ name, amount, date,type,details, success, set} ) {
           createOrder={async () => {
             try {
               
-              const response = await fetch(url+"/orders", {
+              const response = await fetch(url+"/payments", {
                 method: "POST",
                 credentials: 'include' ,
                 headers: {

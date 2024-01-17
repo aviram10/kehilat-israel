@@ -2,7 +2,7 @@ const { DateTime } = require("luxon")
 const axios = require('axios');
 const accessData = require('./accessData');
 const dayTimes = {};
-const hebrewDate = {  };
+const hebrewDate = {};
 const weekTimes = [];
 const prayersTimes = []
 
@@ -39,8 +39,8 @@ async function getWeekTimesEverySunday() {
 async function getHebrewDateEverySunset() {
     try {
         console.log('getHebrewDateEverySunset');
-        data = await getHebrewDate();
-        data.hebrew = removeNikkud(data.hebrew);
+        let data = await getHebrewDate();
+        data.hebrew = removeNikkud(data?.hebrew);
         copyToGlobalVar(data, hebrewDate);
         const now = DateTime.now();
         let sunset = dayTimes.sunset || (await getDayTimes()).sunset; // if timesData.sunset is undefined, getTimes() will be called
@@ -74,7 +74,7 @@ async function getPrayersTimes() {
 
 function calculateTime(dependency, mins, dt) {
     let time = DateTime.fromISO(dt[dependency]).plus({ minutes: mins }).toISOTime();
-    time = time.slice(0, 5);
+    time = time?.slice(0, 5);
     return time;
 }
 
@@ -122,22 +122,28 @@ async function hebToGreg(hebDate) {
     console.log(hebDate);
     const { data } = await axios.get(`https://www.hebcal.com/converter?cfg=json&hy=${hebDate.hy}&hm=${hebDate.hm}&hd=${hebDate.hd}&h2g=1`)
     console.log("greg ", data);
-    return data.gy+"-"+data.gm+"-"+data.gd;
-    
+    return data.gy + "-" + data.gm + "-" + data.gd;
+
 }
 
 async function addPrayer(prayer) {
     try {
-        if(!prayer) throw new Error('no prayer');
+        if (!prayer) throw new Error('no prayer');
         const data = await accessData.addPrayer(prayer);
-        return data;
+        prayer = await accessData.getPrayer(data);
+        prayersTimes.push(prayer);
+        return prayer;
     } catch (err) { console.log(err); }
 }
 
-async function updatePrayer(prayer) {
+async function updatePrayer(prayer, id) {
     try {
-        if(!prayer) throw new Error('no prayer');
-        const data = await accessData.updatePrayer(prayer);
+        console.log("updatePrayer", prayer, id);
+        if (!prayer) throw new Error('no prayer');
+        const data = await accessData.updatePrayer(prayer, id);
+        prayer = await accessData.getPrayer(Number(id));
+        console.log("prayer", prayer);
+        prayersTimes.splice(Number(id) - 1, 1, prayer)
         return data;
     } catch (err) { console.log(err); }
 }
@@ -153,9 +159,17 @@ function copyToGlobalVar(obj, global) {
     })// add the times to the timesData without overwriting the timesData object itself (so that the reference to timesData in the router doesn't change)
 }
 
+ async function deletePrayer(prayer_id) {
+    try {
+        const data = await accessData.deletePrayer(prayer_id);
+        prayersTimes.splice(prayer_id - 1, 1);
+        return data;
+    } catch (err) { console.log(err); }
+}
+
 
 getTimesEveryMidnight();
 getHebrewDateEverySunset();
 getWeekTimesEverySunday();
-module.exports = {updatePrayer, dayTimes, hebrewDate, weekTimes, prayersTimes,addPrayer, getTimes, getDayTimes, getHebrewDate, getPrayersTimes, getWeekTimes, getWeekTimesEverySunday }
+module.exports = { updatePrayer, dayTimes, hebrewDate, weekTimes, prayersTimes,deletePrayer, addPrayer, getTimes, getDayTimes, getHebrewDate, getPrayersTimes, getWeekTimes, getWeekTimesEverySunday }
 

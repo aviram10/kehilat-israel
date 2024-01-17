@@ -49,7 +49,7 @@ async function deletePost(req, res) {
     console.log("deletePost: ", req.params.post_id);
     try {
         const data = await services.deletePost(req.params.post_id);
-        return res.sendStatus(204);
+        return res.json(req.params.post_id);
     } catch (err) { handleError(err, res) }
 
 }

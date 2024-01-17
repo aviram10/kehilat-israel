@@ -1,7 +1,7 @@
 const db = require('../database/db');
 const util = require('../utils/accessData');
 
-async function getPrayersTimes() {
+async function getPrayersTimes(id) {
     try {
         const [prayersTimes] = await db.get('prayersTimes');
         return prayersTimes;
@@ -11,25 +11,45 @@ async function getPrayersTimes() {
     }
 }
 
+async function getPrayer(id) {
+    try {
+        const [[prayer]] = await db.get('prayersTimes', ['*'], ['id'], [id]);
+        return prayer;
+    } catch (error) {
+        console.error('Error retrieving prayer:', error);
+    }
+}
+
 async function addPrayer(prayer) {
     try {
         const {keys, values} = util.extractKeyValues(prayer);
-        const [prayerId] = await db.add('prayersTimes', keys, values);
-        return prayerId;
+        const [insertId] = await db.add('prayersTimes', keys, values);
+        console.log(insertId);
+        return insertId;
     } catch (error) {
         console.error('Error adding prayer:', error);
         throw error;
     }
 }
 
-async function updatePrayer(prayer) {
+async function updatePrayer(prayer, prayer_id) {
     try {
         const {keys, values} = util.extractKeyValues(prayer);
-        const [{rawsEffected}] = await db.update('prayersTimes', keys, values, ['id'], [prayer.id]);
+        console.log(keys, values);
+        const [{rawsEffected}] = await db.update('prayersTimes', keys, values, ['id'], [prayer_id]);
         return rawsEffected;
     } catch (error) {
         console.error('Error updating prayer:', error);
         throw error;
+    }
+}
+
+async function deletePrayer(prayer_id) {
+    try {
+        const [{rawsEffected}] = await db.del('prayersTimes', ['id'], [prayer_id]);
+        return rawsEffected;
+    } catch (error) {
+        console.error('Error deleting prayer:', error);
     }
 }
 
@@ -39,4 +59,4 @@ async function getCommissioner(date){
     return commissioner;    
 }
 
-module.exports = {getPrayersTimes, getCommissioner, addPrayer, updatePrayer};
+module.exports = {getPrayersTimes, getCommissioner, addPrayer, updatePrayer, getPrayer, deletePrayer};

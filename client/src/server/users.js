@@ -1,6 +1,6 @@
 import axios from "axios";
 import { url } from "../config/server";
-
+import {get, post} from "../server/server"
 export async function getUser(user_id){
     console.log("getUser", user_id);
     try{
@@ -34,5 +34,12 @@ export async function manager(user_id){
         console.log("success");
         return data;
     }catch(err){console.log("zzzz");}
+}
+
+export async function addDebt(amount, user_id){
+    console.log("addDebt", amount, user_id);
+    const data = await post(`/users/${user_id}/debt`, {debt: amount});
     
 }
+    
+

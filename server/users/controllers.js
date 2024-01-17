@@ -79,7 +79,14 @@ async function deleteUser(req, res) {
     } catch (err) { handleError(err, res) }
 }
 
+async function addDebt(req, res) {
+    try {
+        const data = await services.addDebt(Number(req.body.debt), Number(req.params.user_id));
+        return res.json(data);
+    } catch (err) { handleError(err, res) }
+}
 
 
 
-module.exports = {deleteUser, getUsers, login, register, getUser, getPosts, updateUser, getDebt, getUserData }
+
+module.exports = {addDebt, deleteUser, getUsers, login, register, getUser, getPosts, updateUser, getDebt, getUserData }
