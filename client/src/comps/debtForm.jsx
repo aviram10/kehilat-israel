@@ -6,7 +6,7 @@ export default function DebtForm({user_id}) {
     const amount = useInput(0);
     return<>
     <Input required type="number" {...amount} />
-    <Button onClick={() => addDebt(amount.value, user_id)}>הוסף חוב</Button>
+    <Button onClick={() => addDebt(amount.value, user_id)}>עדכן חוב</Button>
     
     </>
 };

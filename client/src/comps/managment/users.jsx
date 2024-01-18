@@ -1,11 +1,16 @@
 
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { deleteUsers, manager } from '../../server/users'
 import { Button } from "@mui/joy";
+import GenericTable from "../muiComps/Table";
+import { getUsers } from "../../server/users";
 
 
-export default function HandleUsers({ users, setUsers, selected, setSelected }) {
-    
+export default function HandleUsers({  selected, setSelected, tableProps }) {
+    const [users, setUsers] = useState([])
+        
+    useEffect(()=>{getUsers().then(res => setUsers(res))},[])
+
 
     const handleDeleteUsers = async () => {
         console.log("deleteUsers");
@@ -13,13 +18,16 @@ export default function HandleUsers({ users, setUsers, selected, setSelected }) 
         results.forEach((result) => {
             console.log(result);
             result.status === "fulfilled" &&
-                setUsers(prev => prev.map(user => user.user_id == result.value.data ? { ...user, role: "לא פעיל" } : { ...user })
-                .sort((a, b) => a.role === "לא פעיל" ? 1 : -1)
-                .sort((a, b) => a.role === "מנהל" ? -1 : 1))
+                setUsers(prev => prev.map(user => user.user_id == result.value.data ? { ...user, role: "לא פעיל" } : { ...user }))
         })
         setSelected([])
     }
+    const data = useMemo(()=>  users.sort((a, b) => a.role === "לא פעיל" ? 1 : -1)
+    .sort((a, b) => a.role === "מנהל" ? -1 : 1) ,[users])
     return <>
+      <GenericTable data={data} {...tableProps}
+                    heads={["ID", "שם משתמש", "שם פרטי", "שם משפחה", "מייל", "פלאפון", "רחוב", "עיר", "מדינה", "מיקוד", "תפקיד"]}>
+                    
         <Button disabled={selected?.length === 0}
             variant='soft' color='primary' name="manager"
             onClick={() => {
@@ -33,6 +41,7 @@ export default function HandleUsers({ users, setUsers, selected, setSelected }) 
         <Button disabled={selected?.length === 0} variant='soft' color='danger' name="deleteUser"
             onClick={handleDeleteUsers}
         >השהה משתמש</Button>
+        </GenericTable>
     </>
 
 }

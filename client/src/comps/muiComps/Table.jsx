@@ -3,6 +3,7 @@ import {  Stack, Sheet, Table, ButtonGroup } from '@mui/joy';
 import Checkbox from '@mui/material/Checkbox';
 
 export default function GenericTable({ data, heads, children, selected, handleChange }) {
+    console.log(data);
 
     return <Stack sx={{ p: 1, margin: "auto" }} width={"max-content"}>
         <ButtonGroup direction={"row"} variant="soft" sx={{ '--ButtonGroup-radius': '0px' }}  >

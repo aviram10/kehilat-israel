@@ -130,9 +130,10 @@ async function addPrayer(prayer) {
     try {
         if (!prayer) throw new Error('no prayer');
         const data = await accessData.addPrayer(prayer);
-        prayer = await accessData.getPrayer(data);
-        prayersTimes.push(prayer);
-        return prayer;
+        copyToGlobalVar((await getPrayersTimes()), prayersTimes)
+       
+        
+        return prayersTimes.find(p => p.id === data);
     } catch (err) { console.log(err); }
 }
 
@@ -141,10 +142,8 @@ async function updatePrayer(prayer, id) {
         console.log("updatePrayer", prayer, id);
         if (!prayer) throw new Error('no prayer');
         const data = await accessData.updatePrayer(prayer, id);
-        prayer = await accessData.getPrayer(Number(id));
-        console.log("prayer", prayer);
-        prayersTimes.splice(Number(id) - 1, 1, prayer)
-        return data;
+        copyToGlobalVar((await getPrayersTimes()), prayersTimes)
+        return prayersTimes.find(p => p.id === id);
     } catch (err) { console.log(err); }
 }
 

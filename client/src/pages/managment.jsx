@@ -8,7 +8,6 @@ import FormModal from '../comps/muiComps/formModal';
 import PrayerForm from '../comps/prayerForm';
 import { handlePrayer } from '../server/server';
 import DebtForm from '../comps/debtForm';
-import { getUsers } from '../server/users'
 import HandleUsers from '../comps/managment/users';
 
 
@@ -20,14 +19,11 @@ export default function Managment({ times }) {
     const [posts, setPosts] = useState([])
     const [debts, setDebts] = useState([])
     const [selected, setSelected] = useState([])
-    const [users, setUsers] = useState([])
 
     useEffect(() => {
         setPrayers(times.prayers)
         getDonations().then(res => setDonations(res))
         getDedications().then(res => setDedications(res))
-        getUsers().then(res => setUsers(res.sort((a, b) => a.role === "לא פעיל" ? 1 : -1)
-            .sort((a, b) => a.role === "מנהל" ? -1 : 1)))
         getPosts().then(res => setPosts(res.map(post => {
             delete post.liked
             delete post.username;
@@ -85,11 +81,7 @@ export default function Managment({ times }) {
                 <Tab disableIndicator>פוסטים</Tab>
             </TabList>
             <TabPanel value={0}>
-
-                <GenericTable data={users} {...tableProps}
-                    heads={["ID", "שם משתמש", "שם פרטי", "שם משפחה", "מייל", "פלאפון", "רחוב", "עיר", "מדינה", "מיקוד", "תפקיד"]}>
-                    <HandleUsers {...{ users, setUsers, selected, setSelected }} />
-                </GenericTable>
+              <HandleUsers {...{  selected, setSelected, tableProps }} />
             </TabPanel>
             <TabPanel value={1}>
                 <GenericTable {...tableProps} data={donations} heads={["ID", "מזהה משתשמש", "סכום", "תאריך"]} />

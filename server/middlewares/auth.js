@@ -13,7 +13,7 @@ async function identification(req, res, next) {
         if (!data || !data.username || !data.pass) return next();
         //check if user exist and password is correct
         const [user] = await users.getUsers({ username: data.username });
-        if (!user|| user.role === "inactive" || user.pass != data.pass) return next();
+        if (!user|| user.role === "לא פעיל" || user.pass != data.pass) return next();
         req.user = user;
         console.log("identification: ", user.user_id);
         return next();
