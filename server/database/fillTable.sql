@@ -225,14 +225,14 @@ VALUES
 
     INSERT INTO prayersTimes (prayer_name, fixed, category, serial)
     VALUES
-        ("שחרית", "07:00", "weekday",1),
+        ("שחרית", "07:00", "weekdays",1),
         ("שחרית (יום שישי)", "07:00", "shabat",5),
         ("שחרית של שבת", "07:30", "shabat",6);
 
     INSERT INTO prayersTimes (prayer_name, dependency,minutes ,category,serial)
     VALUES
-        ("מנחה", "sunset", -20, "weekday",2),
-        ("ערבית", "sunset",30, "weekday",3),
+        ("מנחה", "sunset", -20, "weekdays",2),
+        ("ערבית", "sunset",30, "weekdays",3),
         ("מנחה של שבת", "sunset", -50, "shabat",7),
         ("מנחה של ערב שבת", "sunset", -30, "shabat",4),
         ("ערבית של מוצאי שבת", "sunset",40, "shabat",8);
