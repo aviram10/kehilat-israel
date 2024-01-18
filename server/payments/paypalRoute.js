@@ -122,7 +122,7 @@ router.post("/", async (req, res) => {
   try {
     // use the cart information passed from the front-end to calculate the order amount detals
     const result = await controllers.checkPayment(req)
-    if(result.status  >= 400) return res.status(result.status).send(result.message)
+    if(result.status  >= 400) return res.status(result.status).json(result.message)
     const {cart} = req.body
 
     const { jsonResponse, httpStatusCode } = await createOrder(cart);

@@ -9,7 +9,7 @@ import { Card, Typography } from '@mui/joy';
 
 export default function IconlessRadio({ values, handleChange }) {
   return (
-    <Card variant='soft' color={"primary"} sx={{ width: "100%", direction: "ltr", textAlign: "center" }} >
+    <Card variant='soft' color={"primary"} sx={{ width:"50%", direction: "ltr", textAlign: "center" }} >
       <Typography level='title-md' >
         בחרו סוג הקדשה
       </Typography>

@@ -20,6 +20,7 @@ async function register(req, res) {
 async function getUsers(req, res) {
     try{
     const users = await services.getUsers();
+    users.forEach(user => delete user.pass)
     return res.send(users);
     }
     catch(err){console.log(err);}

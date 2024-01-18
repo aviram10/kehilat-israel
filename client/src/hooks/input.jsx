@@ -5,9 +5,6 @@ export const useInput = (initialValue) => {
     const handleChange = (event) => {
         setValue(event.target.value);
     };
-
-    
-
     return {
         value,
         onChange: handleChange

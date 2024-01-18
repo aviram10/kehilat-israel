@@ -46,16 +46,16 @@ async function handlePayment(details) {
 
 async function checkPayment(cart) {
     try {
-        if (cart.amount <= 0) return { status: 400, message: "illigal amount" };
+        if (cart.amount <= 0) return { status: 400, message: "תשלום אי חוקי" };
         switch (cart.type) {
             case "debt":
                 const debt = getDebt(cart.user_id);
-                if (debt < cart.amount) return { status: 400, message: "amount not match" }
+                if (debt < cart.amount) return { status: 400, message: "תשלום אינו תואם" }
                 return { status: 200 }
             case "פרנס היום":
-                if (cart.amount < FEES.commissioner) return { status: 400, message: "the amount is under the minimum" }
-                return await checkAvialableDate(cart.date) ? { status: 400, message: "date unavailable" } : {status: 200};
-            default: return cart.amount < 100 ? {status:400, message: "the amount is under the minimum"}: {status:200}
+                if (cart.amount < FEES.commissioner) return { status: 400, message: "התשלום אינו מתאים " }
+                return await checkAvialableDate(cart.date) ? { status: 400, message: "תאריך אינו פנוי" } : {status: 200};
+            default: return cart.amount < 100 ? {status:400, message: "הסכום אינו מתאים"}: {status:200}
     }
     } catch (err) { return {status: 500} }
 

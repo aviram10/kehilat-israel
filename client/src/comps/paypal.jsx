@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { url } from "../config/server";
+import { Alert } from "@mui/joy";
 
 // Renders errors or successfull transactions on the screen.
 function Message({ content }) {
-  return <p>{content}</p>;
+  return <>{content}</>;
 }
 
 function Paypal({ name, amount, date,type,details, success, set} ) {
-  console.log(name, amount, date,type,details, success, set);
+  // console.log(name, amount, date,type,details, success, set);
   
   const initialOptions = {
     "client-id": "Afgnr4u04HGd4lrqQjBNkd9tjx3xyc1ZBvZ8cYHOR81CT_8im1Tw2N31Z_TyIHdDQymuapou6od5UFLi",
@@ -47,23 +48,23 @@ function Paypal({ name, amount, date,type,details, success, set} ) {
                 }),
               });
               const orderData =  await response.json();
+              console.log("order", orderData);
               if (orderData.id) {
                 return orderData.id;
               } else {
+                setMessage(orderData)
                 const errorDetail = orderData?.details?.[0];
                 const errorMessage = errorDetail
                   ? `${errorDetail.issue} ${errorDetail.description} (${orderData.debug_id})`
                   : JSON.stringify(orderData);
 
-                throw new Error(errorMessage);
+                throw new Error(orderData);
               }
             } catch (error) {
               
-              console.log("error");
-              setMessage(`Could not initiate PayPal Checkout...${error}`);
+              console.log("error", error);
             }
           }}
-          onClick={() => console.log(name, amount, date,type,details, success)}
           onError={(err) => {console.log(err)}}
           onApprove={async (data, actions) => {
             try {
@@ -104,7 +105,9 @@ function Paypal({ name, amount, date,type,details, success, set} ) {
                 const transaction =
                   orderData.purchase_units[0].payments.captures[0];
                 setMessage(
-                  `Transaction ${transaction.status}: ${transaction.id}. See console for all available details`,
+                  <Alert variant="success">
+                    `התשלום בוצע בהצלחה! קוד אישור: ${transaction?.id}`
+                    </Alert>
                 );
                 // console.log(
                 //   "Capture result",
@@ -115,7 +118,7 @@ function Paypal({ name, amount, date,type,details, success, set} ) {
             } catch (error) {
               console.error(error);
               setMessage(
-                `Sorry, your transaction could not be processed...${error}`,
+                `Sorry, your transaction could not be processed...`,
               );
             }
           }}

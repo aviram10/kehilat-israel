@@ -4,7 +4,7 @@ import { ReactJewishDatePicker, BasicJewishDay } from "react-jewish-datepicker";
 import "react-jewish-datepicker/dist/index.css";
 import "../styles/calender.css"
 
-export default function JewishCalender({ handleChange }) {
+export default function JewishCalender({ handleChange, date }) {
   const [basicJewishDay, setBasicJewishDay] = useState();
   useEffect(() => {
     if (basicJewishDay)
@@ -13,7 +13,7 @@ export default function JewishCalender({ handleChange }) {
 
   return (
     <ReactJewishDatePicker
-      value={new Date()}
+      value={date}
       isHebrew
       onClick={(day) => {
         setBasicJewishDay(day);

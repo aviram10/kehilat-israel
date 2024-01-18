@@ -47,7 +47,8 @@ async function checkPayment(req){
     let { cart } = req.body;
     cart = cart[0];
     cart.user_id = req.user.user_id;
-    return await services.checkPayment(cart)
+    const data =  await services.checkPayment(cart)
+    return data;
     }catch(err){console.log(err);}
     
 

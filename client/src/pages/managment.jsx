@@ -99,7 +99,7 @@ export default function Managment({ times }) {
             <TabPanel value={0}>
 
                 <GenericTable  data={users} {...tableProps}
-                    heads={["ID", "שם משתמש", "שם פרטי", "שם משפחה", "סיסמא", "מייל", "פלאפון", "רחוב", "עיר", "מדינה", "מיקוד", "תפקיד"]}>
+                    heads={["ID", "שם משתמש", "שם פרטי", "שם משפחה", "מייל", "פלאפון", "רחוב", "עיר", "מדינה", "מיקוד", "תפקיד"]}>
                     <Button disabled={selected?.length === 0}
                         variant='soft' color='primary' name="manager"
                         onClick={() => {
@@ -112,7 +112,7 @@ export default function Managment({ times }) {
                     </Button>
                     <Button disabled={selected?.length === 0} variant='soft' color='danger' name="deleteUser"
                         onClick={handleDeleteUsers}
-                    >מחק משתמש</Button>
+                    >השהה משתמש</Button>
                 </GenericTable>
             </TabPanel>
             <TabPanel value={1}>
