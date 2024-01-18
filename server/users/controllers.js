@@ -30,7 +30,7 @@ async function getUser(req, res) {
     try {
         const [user] = await services.getUsers({user_id: req.params.user_id});
         return res.send(user);
-    } catch (err) { handleError(err, res) }
+    } catch (err) { return handleError(err, res) }
 }
 
 async function getPosts(req, res) {

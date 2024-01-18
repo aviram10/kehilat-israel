@@ -2,30 +2,32 @@ import { useEffect, useState } from 'react';
 import { Stack, Button, Typography, Tabs, TabList, Tab, tabClasses, TabPanel, Sheet, Modal, Input } from '@mui/joy';
 import { getDebts, getDedications, getDonations } from '../server/general';
 import { getPosts, deletePosts } from '../server/posts'
-import { getUsers, deleteUsers, manager } from '../server/users'
-import { getTimes } from '../server/time';
 import GenericTable from '../comps/muiComps/Table';
 import { DateTime } from 'luxon';
 import FormModal from '../comps/muiComps/formModal';
 import PrayerForm from '../comps/prayerForm';
 import { handlePrayer } from '../server/server';
 import DebtForm from '../comps/debtForm';
+import { getUsers } from '../server/users'
+import HandleUsers from '../comps/managment/users';
+
+
 
 export default function Managment({ times }) {
-    const [users, setUsers] = useState([])
     const [donations, setDonations] = useState([])
     const [dedications, setDedications] = useState([])
     const [prayers, setPrayers] = useState([])
     const [posts, setPosts] = useState([])
     const [debts, setDebts] = useState([])
     const [selected, setSelected] = useState([])
+    const [users, setUsers] = useState([])
 
     useEffect(() => {
-        console.log(times);
         setPrayers(times.prayers)
-        getUsers(sessionStorage.user_id).then(res => setUsers(res))
         getDonations().then(res => setDonations(res))
         getDedications().then(res => setDedications(res))
+        getUsers().then(res => setUsers(res.sort((a, b) => a.role === "לא פעיל" ? 1 : -1)
+            .sort((a, b) => a.role === "מנהל" ? -1 : 1)))
         getPosts().then(res => setPosts(res.map(post => {
             delete post.liked
             delete post.username;
@@ -34,25 +36,11 @@ export default function Managment({ times }) {
         })))
         getDebts().then(res => setDebts(res))
     }, [times])
-    useEffect(() => {
-        console.log(selected);
-    }, [selected])
 
     const handleChange = ({ target }) => {
         setSelected(selected.includes("" + target.name)
             ? selected.filter(s => s !== target.name)
             : [...selected, target.name])
-    }
-
-    const handleDeleteUsers = async () => {
-        console.log("deleteUsers");
-        const results = await deleteUsers(selected)
-        results.forEach((result) => {
-            console.log(result);
-            result.status === "fulfilled" &&
-                setUsers(prev => prev.map(user => user.user_id == result.value.data ? { ...user, role: "Inactive" } : { ...user }))
-        })
-        setSelected([])
     }
 
     const handleDeletePost = async () => {
@@ -64,7 +52,7 @@ export default function Managment({ times }) {
         setSelected([])
     }
 
-    const tableProps = {handleChange, selected, }
+    const tableProps = { handleChange, selected, }
 
     const sx = { m: 4, p: 4, textAlign: "center" }
     return <Sheet >
@@ -98,21 +86,9 @@ export default function Managment({ times }) {
             </TabList>
             <TabPanel value={0}>
 
-                <GenericTable  data={users} {...tableProps}
+                <GenericTable data={users} {...tableProps}
                     heads={["ID", "שם משתמש", "שם פרטי", "שם משפחה", "מייל", "פלאפון", "רחוב", "עיר", "מדינה", "מיקוד", "תפקיד"]}>
-                    <Button disabled={selected?.length === 0}
-                        variant='soft' color='primary' name="manager"
-                        onClick={() => {
-                            selected.forEach(user_id => manager(user_id)
-                                .then(res => setUsers(prev => prev.map(user => user.user_id == user_id ? { ...user, role: "מנהל" } : { ...user })))
-                                .catch(err => console.log(err)));
-                            setSelected([])
-                        }}
-                    > הגדר כמנהל
-                    </Button>
-                    <Button disabled={selected?.length === 0} variant='soft' color='danger' name="deleteUser"
-                        onClick={handleDeleteUsers}
-                    >השהה משתמש</Button>
+                    <HandleUsers {...{ users, setUsers, selected, setSelected }} />
                 </GenericTable>
             </TabPanel>
             <TabPanel value={1}>
@@ -120,13 +96,13 @@ export default function Managment({ times }) {
             </TabPanel>
             <TabPanel value={2}>
                 <GenericTable data={debts}  {...tableProps} disabled={selected?.length === 0} heads={["ID", "מזהה משתמש ", "סכום"]} >
-                <FormModal disabled={!(selected?.length === 1)} title="הוספת חוב" buttonName={"הוספת חוב"}>
-                  <DebtForm user_id={debts.find(d => d.debt_id == selected[0])?.user_id} />
-                </FormModal>
+                    <FormModal disabled={!(selected?.length === 1)} title="הוספת חוב" buttonName={"הוספת חוב"}>
+                        <DebtForm user_id={debts.find(d => d.debt_id == selected[0])?.user_id} />
+                    </FormModal>
                 </GenericTable>
             </TabPanel>
             <TabPanel value={3}>
-                <GenericTable  data={dedications}  {...tableProps} heads={["ID", "מזהה תרומה", "User ID", "תאריך", "הקדשה", "סוג"]} />
+                <GenericTable data={dedications}  {...tableProps} heads={["ID", "מזהה תרומה", "User ID", "תאריך", "הקדשה", "סוג"]} />
             </TabPanel>
             <TabPanel value={4}>
                 <GenericTable data={prayers} {...tableProps} heads={["ID", "תפילה", "זמן היום", "דקות", "קבוע", "קבוצה", "סידורי", "שעה"]}>
