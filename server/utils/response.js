@@ -1,11 +1,11 @@
 
-function handleError(err, res) {
+function handleError(res, error) {
     console.log(err);
-    return res.sendStatus(400)
+    return res.status(400).send(error.message);
 }
 
-function handleResponse(result, res){
-   return result instanceof Error ? res.status(400).json(result) : res.send(result)
+function handleResponse(res, data){
+   return data instanceof Error ?handleError(res, data) : res.send(data)
 }
 
-module.exports ={handleError}
+module.exports ={handleError, handleResponse}

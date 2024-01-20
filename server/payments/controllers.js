@@ -8,10 +8,6 @@ async function getData(req, res) {
     handleResponse(res, result);
 }
 
-async function payment(req, res) {
-    const result = await services.pay();
-    handleResponse(res, result);
-}
 
 
 

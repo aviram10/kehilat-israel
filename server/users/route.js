@@ -17,7 +17,7 @@ router.route("/:user_id/debt")
     .all(adminORownerAuth)
     .get(controllers.getDebt)
     .all(adminAuth)
-    .post(controllers.addDebt)
+    .post(controllers.handleDebt)
 
 
 

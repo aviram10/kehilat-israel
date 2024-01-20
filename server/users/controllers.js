@@ -1,7 +1,7 @@
 const services = require('./services');
 const accessData = require('./accessData');
 const posts = require('../posts/services');
-const { handleError } = require('../utils/response');
+const { handleError, handleResponse } = require('../utils/response');
 
 
 async function login(req, res) {
@@ -80,14 +80,18 @@ async function deleteUser(req, res) {
     } catch (err) { handleError(err, res) }
 }
 
-async function addDebt(req, res) {
-    try {
-        const data = await services.addDebt(Number(req.body.debt), Number(req.params.user_id));
-        return res.json(data);
-    } catch (err) { handleError(err, res) }
+async function handleDebt(req, res) {
+        const action = req.query?.action;
+        if(!action) return handleError(new Error("invalid action"),res);
+        let data; 
+        switch(action){
+            case "add": data = await services.addDebt(req, res); break;
+            case "pay": data = await payDebt(req, res); break;
+            default: return handleError(new Error("invalid action"),res);
+        }   
+        handleResponse(res, data);
 }
 
 
 
-
-module.exports = {addDebt, deleteUser, getUsers, login, register, getUser, getPosts, updateUser, getDebt, getUserData }
+module.exports = {handleDebt, deleteUser, getUsers, login, register, getUser, getPosts, updateUser, getDebt, getUserData }
