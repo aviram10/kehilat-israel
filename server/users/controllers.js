@@ -1,7 +1,7 @@
 const services = require('./services');
 const accessData = require('./accessData');
 const posts = require('../posts/services');
-const { handleError } = require('../utils/errors');
+const { handleError } = require('../utils/response');
 
 
 async function login(req, res) {

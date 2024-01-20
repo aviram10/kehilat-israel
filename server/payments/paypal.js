@@ -1,7 +1,7 @@
 const express = require("express");
 const axios = require("axios");
 const qs = require("qs");
-const controllers = require("../payments/controllers");
+const controllers = require("./controllers");
 // import "dotenv/config";
 
 const { PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET, PORT = 8888 } = process.env;

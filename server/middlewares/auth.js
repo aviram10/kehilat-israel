@@ -2,7 +2,7 @@ const cookie = require('cookie');
 const users = require('../users/services');
 const posts = require('../posts/services');
 const comments = require('../comments/services');
-const { handleError } = require('../utils/errors')
+const { handleError } = require('../utils/response')
 
 async function identification(req, res, next) {
     try {

@@ -1,5 +1,5 @@
 const services = require("./services")
-const { handleError } = require("../utils/errors")
+const { handleError } = require("../utils/response")
 const commands = require("../comments/services")
 
 
