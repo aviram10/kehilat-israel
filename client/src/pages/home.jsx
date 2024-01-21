@@ -25,7 +25,7 @@ export default function Home({ times}) {
         <Grid  lg={3} md={5} xs={10} >
            
             <Typography level="title-lg">{DateTime.now().setLocale('he').weekdayLong} {times?.hebrewDate?.hebrew} { times.items.find?.(t=>t.category === "parashat")?.hebrew} </Typography>
-            <PrayersTimes isDaily={true} times={times && times.prayers}/>
+            <PrayersTimes isDaily={true} times={ times?.prayers}/>
             <DayTimes times={times.dayTimes} />
         </Grid>
         <Grid xs={12}>
