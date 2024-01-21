@@ -1,7 +1,7 @@
 const express = require("express");
 const axios = require("axios");
 const qs = require("qs");
-const controllers = require("./controllers");
+const services = require("./services");
 // import "dotenv/config";
 
 const { PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET, PORT = 8888 } = process.env;
@@ -12,6 +12,7 @@ const router = express.Router();
 
 // host static files
 router.use(express.static("client/dist"));
+
 
 
 
@@ -64,7 +65,6 @@ const createOrder = async (cart) => {
       },
     ],
   };
-  console.log("payload",payload);
   const  response  = await axios.post(url, JSON.stringify(payload), {
     headers: {
       "Content-Type": "application/json",
@@ -121,7 +121,7 @@ async function handleResponse(response) {
 router.post("/", async (req, res) => {
   try {
     // use the cart information passed from the front-end to calculate the order amount detals
-    const result = await controllers.checkPayment(req)
+    const result = await services.checkPayment(req.body.cart[0])
     if(result.status  >= 400) return res.status(result.status).json(result.message)
     const {cart} = req.body
 
@@ -138,7 +138,11 @@ router.post("/:orderID/capture", async (req, res) => {
     const { orderID } = req.params;
     const { jsonResponse, httpStatusCode } = await captureOrder(orderID);
     const amount = jsonResponse.purchase_units[0].payments.captures[0].amount.value * 1;
-    await controllers.handlePayment(req ,amount, jsonResponse)
+    const payment_method = "paypal";
+    const confirmation = jsonResponse.purchase_units[0].payments.captures[0].id;
+    const user_id = req.user.user_id;
+    const data = await services.handlePayment({amount, date: req.body.date,name:req.body.name, confirmation, payment_method, user_id, type: req.body.type});
+    jsonResponse.data = data;
     res.status(httpStatusCode).json(jsonResponse);
   } catch (error) {
     console.error("Failed to create order:", error);

@@ -49,7 +49,7 @@ async function toggleLike(req, res) {
         try{
             const data = await posts.toggleLike({comment_id: req.params.comment_id}, req.user.user_id);
         return res.send(data);
-    } catch (err) { handleError(err, res) }
+    } catch (err) { console.log(err); }
 }
 
 

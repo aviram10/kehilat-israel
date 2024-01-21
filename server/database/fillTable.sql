@@ -114,35 +114,34 @@ VALUES
     (25, 1007, "מתרגש להצטרף!", DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY)),
     (25, 1008, "מצפה לזה!", DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY)),
     (25, 1009, "אני מעוניין!", DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY));
+    
+     INSERT INTO donations (donation_id, user_id, amount, date)
+    VALUES
+        (1, 1007, 100, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY)),
+        (2, 1008, 200, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY)),
+        (3, 1009, 300, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY)),
+        (4, 1000, 400, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY)),
+        (5, 1001, 500, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY)),
+        (6, 1002, 600, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY)),
+        (7, 1003, 700, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY)),
+        (8, 1004, 800, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY)),
+        (9, 1005, 900, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY)),
+        (10, 1006, 1000, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY));
 
-    -- Insert 10 rows into the dedication table
     INSERT INTO dedications (donation_id, user_id, date, name, type)
     VALUES
         (1, 1007, "2024-01-01", "אביב", "רפואה"),
         (2, 1008, "2024-01-10" , "נועה", "פרנס היום"),
         (3, 1009, "2024-01-02" , "יעל", "פרנס היום"),
-        (4, 1010, "2024-01-03" , "איתן", "אזכרה"),
-        (5, 1011, "2024-01-04" , "מיה", "רפואה"),
-        (6, 1012, "2024-01-05" , "אדם", "הצלחה"),
-        (7, 1013, "2024-01-06", "שירה", "פרנס היום"),
-        (8, 1014, "2024-01-07" , "אורי", "אזכרה"),
-        (9, 1015, "2024-01-08" , "תמר", "רפואה"),
-        (10, 1016, "2024-01-09" , "אילן", "הצלחה");
+        (4, 1000, "2024-01-03" , "איתן", "אזכרה"),
+        (5, 1001, "2024-01-04" , "מיה", "רפואה"),
+        (6, 1002, "2024-01-05" , "אדם", "הצלחה"),
+        (7, 1003, "2024-01-06", "שירה", "פרנס היום"),
+        (8, 1004, "2024-01-07" , "אורי", "אזכרה"),
+        (9, 1005, "2024-01-08" , "תמר", "רפואה"),
+        (10, 1006, "2024-01-09" , "אילן", "הצלחה");
 
-    -- Insert 10 rows into the donations table
-    INSERT INTO donations (donation_id, user_id, amount, date)
-    VALUES
-        (1, 1007, 100, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY)),
-        (2, 1008, 200, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY)),
-        (3, 1009, 300, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY)),
-        (4, 1010, 400, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY)),
-        (5, 1011, 500, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY)),
-        (6, 1012, 600, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY)),
-        (7, 1013, 700, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY)),
-        (8, 1014, 800, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY)),
-        (9, 1015, 900, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY)),
-        (10, 1016, 1000, DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY));
--- Insert 10 rows into the debts table
+   
 INSERT INTO debts (debt_id, user_id, debt)
 VALUES
     (1, 1000, 1000),
@@ -219,9 +218,7 @@ VALUES
     (1009, 6),
     (1000, 7),
     (1001, 7),
-    (100, 8);
-
-   
+    (1000, 8);
 
     INSERT INTO prayersTimes (prayer_name, fixed, category, serial)
     VALUES

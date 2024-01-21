@@ -6,7 +6,7 @@ const usersRoute = require("./users/route")
 const paymentRoute = require("./payments/routes");
 const controllers = require("./payments/controllers");
 // const dedicationRoute = require("./dedication/route");
-const { identification, adminAuth } = require("./middlewares/auth")
+const { identification, adminAuth, userAuth, userId } = require("./middlewares/auth")
 const cors = require('cors');
 const express = require('express');
 const app = express();
@@ -23,8 +23,8 @@ app.use((req, res, next) => {
     next();
 });
 app.use(identification)
-app.use("/api/orders",paypal );
-app.use("/api/payments", paymentRoute)
+app.use("/api/orders", userId, paypal );
+app.use("/api/payments",userId, paymentRoute)
 app.use("/api/users", usersRoute);
 app.use("/api/times", timesRoter);
 app.use("/api/posts", postsRoute);

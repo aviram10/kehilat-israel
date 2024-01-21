@@ -33,13 +33,11 @@ export async function manager(user_id){
         const { data } = await axios.put(`${url}/users/${user_id}`, {role: "מנהל"},{withCredentials: true});
         console.log("success");
         return data;
-    }catch(err){console.log("zzzz");}
+    }catch(err){console.log(err);}
 }
 
 export async function addDebt(amount, user_id){
-    console.log("addDebt", amount, user_id);
-    const data = await post(`/users/${user_id}/debt`, {debt: amount});
-    
+    return await post(`/users/${user_id}/debt?action=add`, { amount});
 }
     
 

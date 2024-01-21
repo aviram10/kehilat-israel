@@ -2,6 +2,7 @@ const db = require('../database/db');
 const util = require('../utils/accessData');
 
 async function get(table, filters = {}) {
+    console.log(table, filters);
     const { keys, values } = util.extractKeyValues(filters);
     const [data] = await db.get(table, ['*'], keys, values);
     return data;
@@ -14,7 +15,6 @@ async function updateDebt(id, debt) {
 async function insert(table, details={}){
     const { keys, values } = util.extractKeyValues(details);
     return await db.add(table, keys, values);
-
 }
 
 module.exports = { updateDebt, insert, get };

@@ -1,15 +1,12 @@
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, {  useMemo } from "react";
 import { deleteUsers, manager } from '../../server/users'
 import { Button } from "@mui/joy";
 import GenericTable from "../muiComps/Table";
-import { getUsers } from "../../server/users";
 
 
-export default function HandleUsers({  selected, setSelected, tableProps }) {
-    const [users, setUsers] = useState([])
+export default function HandleUsers({ setUsers, users, selected, setSelected, tableProps }) {
         
-    useEffect(()=>{getUsers().then(res => setUsers(res))},[])
 
 
     const handleDeleteUsers = async () => {

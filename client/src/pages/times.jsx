@@ -3,8 +3,6 @@ import DayTimes from '../comps/dayTimes';
 import PrayersTimes from '../comps/prayersTimes';
 import "../styles/times.css"
 import { Divider, Grid, Modal } from '@mui/joy';
-import Prayer from '../comps/prayerForm';
-import BasicModalDialog from '../comps/muiComps/formModal';
 
 export default function Times({ times }) {
 

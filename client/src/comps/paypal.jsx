@@ -5,12 +5,13 @@ import { Alert } from "@mui/joy";
 
 // Renders errors or successfull transactions on the screen.
 function Message({ content }) {
-  return <>{content}</>;
+  return <div>{content}</div>;
 }
 
-function Paypal({ name, amount, date,type,details, success, set} ) {
+function Paypal({ name, amount, date, type, details, success }) {
   // console.log(name, amount, date,type,details, success, set);
-  
+  console.log(date);
+
   const initialOptions = {
     "client-id": "Afgnr4u04HGd4lrqQjBNkd9tjx3xyc1ZBvZ8cYHOR81CT_8im1Tw2N31Z_TyIHdDQymuapou6od5UFLi",
     "enable-funding": "venmo,card",
@@ -18,23 +19,23 @@ function Paypal({ name, amount, date,type,details, success, set} ) {
     "data-sdk-integration-source": "integrationbuilder_sc",
   };
 
-  const [message, setMessage] = useState("");
+  const [content, setContent] = useState("");
 
   return (
-    <div className="App" style={{margin: "5px auto"}}>
-      <PayPalScriptProvider   options={initialOptions}>
+    <div className="App" style={{ margin: "5px auto" }}>
+      <PayPalScriptProvider options={initialOptions}>
         <PayPalButtons
-        
+
           style={{
             shape: "rect",
             layout: "horizontal",
           }}
           createOrder={async () => {
             try {
-              
-              const response = await fetch(url+"/payments/paypal", {
+
+              const response = await fetch(url + "/payments/paypal", {
                 method: "POST",
-                credentials: 'include' ,
+                credentials: 'include',
                 headers: {
                   "cookie": document.cookie,
                   "Content-Type": "application/json",
@@ -43,16 +44,16 @@ function Paypal({ name, amount, date,type,details, success, set} ) {
                 // like product ids and quantities
                 body: JSON.stringify({
                   cart: [
-                    {name, amount, date, details, type}
+                    { name, amount, date, type }
                   ]
                 }),
               });
-              const orderData =  await response.json();
+              const orderData = await response.json();
               console.log("order", orderData);
               if (orderData.id) {
                 return orderData.id;
               } else {
-                setMessage(orderData)
+                setContent(orderData)
                 const errorDetail = orderData?.details?.[0];
                 const errorMessage = errorDetail
                   ? `${errorDetail.issue} ${errorDetail.description} (${orderData.debug_id})`
@@ -61,19 +62,19 @@ function Paypal({ name, amount, date,type,details, success, set} ) {
                 throw new Error(orderData);
               }
             } catch (error) {
-              
+
               console.log("error", error);
             }
           }}
-          onError={(err) => {console.log(err)}}
+          onError={(err) => { console.log(err) }}
           onApprove={async (data, actions) => {
             try {
               const response = await fetch(
-                url+`/orders/${data.orderID}/capture`,
+                url + `/orders/${data.orderID}/capture`,
                 {
-                  body: JSON.stringify({amount, date, name, details, type}),
+                  body: JSON.stringify({ amount, date, name, details, type }),
                   method: "POST",
-                  credentials: 'include' ,
+                  credentials: 'include',
                   headers: {
                     "cookie": document.cookie,
                     "Content-Type": "application/json"
@@ -104,7 +105,8 @@ function Paypal({ name, amount, date,type,details, success, set} ) {
                 // Or go to another URL:  actions.redirect('thank_you.html');
                 const transaction =
                   orderData.purchase_units[0].payments.captures[0];
-                setMessage(
+                setContent(
+                 
                   <Alert variant="success">
                     `התשלום בוצע בהצלחה! קוד אישור: ${transaction?.id}`
                     </Alert>
@@ -117,14 +119,15 @@ function Paypal({ name, amount, date,type,details, success, set} ) {
               }
             } catch (error) {
               console.error(error);
-              setMessage(
+              setContent(
                 `Sorry, your transaction could not be processed...`,
               );
             }
           }}
         />
       </PayPalScriptProvider>
-      <Message content={message} />
+      <Message content={content} />
+
     </div>
   );
 }

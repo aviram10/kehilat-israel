@@ -1,7 +1,7 @@
 import { Box, Input, Card, Stack, Typography } from '@mui/joy';
 import React, { useContext, useCallback, useEffect } from 'react';
-import UserDetailsForm from '../comps/userDetailsForm';
-import IconlessRadio from '../comps/radioFrom';
+import UserDetailsForm from '../comps/forms/userDetailsForm';
+import IconlessRadio from '../comps/forms/radioFrom';
 import dedicationBoard from '../assets/dedicationBoard.png';
 import { useState } from 'react';
 import { DateTime } from 'luxon';

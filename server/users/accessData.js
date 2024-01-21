@@ -25,7 +25,6 @@ async function updateUser(user_id, data) {
 }
 
 async function getDebt(filters) {
-    console.log("filters: ", filters);
     try {
         const { keys, values } = util.extractKeyValues(filters);
         const [[debt]] = await db.get("debts", ['*'], keys, values);
@@ -39,20 +38,20 @@ async function deleteUser(user_id) {
     } catch (err) { console.log(err); }
 }
 
-async function addDebt(amount, user_id) {
+async function newDebt({amount, user_id}) {
     try {
-        const [{insertId}] = await db.add("debts", ["amount", "user_id"], [amount, user_id]);
-        return {insertId};
+        const [{insertId}] = await db.add("debts", ["debt", "user_id"], [amount, user_id]);
+        return insertId;
+    } catch (err) { console.log(err);return err }
+}
+
+async function updateDebt({amount, user_id}) {
+    try {
+        const[{affectedRows}] = await db.update("debts", ["debt"], [amount], ["user_id"], [user_id]);
+        return affectedRows;
     } catch (err) { console.log(err); }
 }
 
-async function updateDebt(amount, debt_id) {
-    try {
-        const[{affectedRows}] = await db.update("debts", ["debt"], [amount], ["debt_id"], [debt_id]);
-        return {affectedRows};
-    } catch (err) { console.log(err); }
-}
 
 
-
-module.exports = {deleteUser, getUsers, addUser, updateUser, getDebt, updateDebt, addDebt }
+module.exports = {deleteUser, getUsers, addUser, updateUser, getDebt, updateDebt, newDebt }

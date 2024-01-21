@@ -94,7 +94,7 @@ async function getHebrewDate() {
 }
 
 function removeNikkud(text) {
-    return text.replace?.(/[\u05B0-\u05C4]/g, '');
+    return text?.replace?.(/[\u05B0-\u05C4]/g, '');
 }
 
 async function isAfterSunset() {

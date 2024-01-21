@@ -2,7 +2,7 @@ import React from 'react';
 import {  Stack, Sheet, Table, ButtonGroup } from '@mui/joy';
 import Checkbox from '@mui/material/Checkbox';
 
-export default function GenericTable({ data, heads, children, selected, handleChange }) {
+export default function GenericTable({ data, heads, children, selected, handleChange, selectBy }) {
     console.log(data);
 
     return <Stack sx={{ p: 1, margin: "auto" }} width={"max-content"}>
@@ -33,10 +33,10 @@ export default function GenericTable({ data, heads, children, selected, handleCh
                     {data?.map((row) => {
                         return <tr key={Math.random()}>
                             <td><Checkbox
-                                name={"" + Object.values(row)[0]}
+                                name={selectBy ? ""+row[selectBy] : ""+Object.values(row)[0]}
                                 color='primary'
                                 onChange={handleChange}
-                              checked={selected?.includes(""+ Object.values(row)[0])}
+                              checked={selected?.includes(selectBy ? ""+row[selectBy] : ""+ Object.values(row)[0])}
                             /> </td>
                             {Object.values(row).map(cell => {
                                 return <td key={Math.random()} >{cell}</td>

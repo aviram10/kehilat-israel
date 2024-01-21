@@ -5,14 +5,17 @@ import { getPosts, deletePosts } from '../server/posts'
 import GenericTable from '../comps/muiComps/Table';
 import { DateTime } from 'luxon';
 import FormModal from '../comps/muiComps/formModal';
-import PrayerForm from '../comps/prayerForm';
+import PrayerForm from '../comps/forms/prayerForm';
 import { handlePrayer } from '../server/server';
-import DebtForm from '../comps/debtForm';
+import DebtForm from '../comps/forms/debtForm';
 import HandleUsers from '../comps/managment/users';
+import { getUsers } from '../server/users';
+import HandleDebts from '../comps/managment/debts';
 
 
 
 export default function Managment({ times }) {
+    const [users, setUsers] = useState([])
     const [donations, setDonations] = useState([])
     const [dedications, setDedications] = useState([])
     const [prayers, setPrayers] = useState([])
@@ -21,6 +24,7 @@ export default function Managment({ times }) {
     const [selected, setSelected] = useState([])
 
     useEffect(() => {
+        getUsers().then(res => setUsers(res))
         setPrayers(times.prayers)
         getDonations().then(res => setDonations(res))
         getDedications().then(res => setDedications(res))
@@ -34,6 +38,7 @@ export default function Managment({ times }) {
     }, [times])
 
     const handleChange = ({ target }) => {
+        console.log(target.name);
         setSelected(selected.includes("" + target.name)
             ? selected.filter(s => s !== target.name)
             : [...selected, target.name])
@@ -81,17 +86,18 @@ export default function Managment({ times }) {
                 <Tab disableIndicator>פוסטים</Tab>
             </TabList>
             <TabPanel value={0}>
-              <HandleUsers {...{  selected, setSelected, tableProps }} />
+              <HandleUsers {...{  users, setUsers, selected, setSelected, tableProps }} />
             </TabPanel>
             <TabPanel value={1}>
                 <GenericTable {...tableProps} data={donations} heads={["ID", "מזהה משתשמש", "סכום", "תאריך"]} />
             </TabPanel>
             <TabPanel value={2}>
-                <GenericTable data={debts}  {...tableProps} disabled={selected?.length === 0} heads={["ID", "מזהה משתמש ", "סכום"]} >
+                <HandleDebts {...{ debts, setDebts, selected, setSelected, tableProps }} />
+                {/* <GenericTable data={debts}  {...tableProps} disabled={selected?.length === 0} heads={["ID", "מזהה משתמש ", "סכום"]} >
                     <FormModal disabled={!(selected?.length === 1)} title="הוספת חוב" buttonName={"הוספת חוב"}>
                         <DebtForm user_id={debts.find(d => d.debt_id == selected[0])?.user_id} />
                     </FormModal>
-                </GenericTable>
+                </GenericTable> */}
             </TabPanel>
             <TabPanel value={3}>
                 <GenericTable data={dedications}  {...tableProps} heads={["ID", "מזהה תרומה", "User ID", "תאריך", "הקדשה", "סוג"]} />

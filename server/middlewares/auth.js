@@ -2,7 +2,6 @@ const cookie = require('cookie');
 const users = require('../users/services');
 const posts = require('../posts/services');
 const comments = require('../comments/services');
-const { handleError } = require('../utils/response')
 
 async function identification(req, res, next) {
     try {
@@ -17,7 +16,7 @@ async function identification(req, res, next) {
         req.user = user;
         console.log("identification: ", user.user_id);
         return next();
-    } catch (error) { handleError(error, res) }
+    } catch (error) { console.log(error); }
 
 }
 
@@ -33,10 +32,12 @@ async function userId(req, res, next) {
 
 async function userAuth(req, res, next) {
     try{
+        console.log("userAuth...");
         if(!req.user) return res.status(401).send('unidentified');
         if(req.user.user_id != req.params.user_id) return res.status(401).send('unauthorized');
+        console.log("authorized users");
         return next();
-    }catch(err){handleError(err, res)}
+    }catch(err){console.log(err);}
 }
 
 async function ownerAuth(req, res, next) {
@@ -44,6 +45,7 @@ async function ownerAuth(req, res, next) {
         console.log("ownerAuth...");
         if (!req.user) return res.status(401).send('unidentified');
         let data;
+        if(req.params.user_id) return userAuth(req, res, next);
         if (req.params.post_id) [data] = await posts.getPosts({ post_id: req.params.post_id });
         else if (req.params.comment_id) [data] = await comments.getComments({comment_id :req.params.comment_id});
         if (!data) return res.status(404).send('not found');
@@ -52,7 +54,7 @@ async function ownerAuth(req, res, next) {
         console.log("authorized");
         return next();
     } catch (err) {
-        handleError(err, res)
+        console.log(err);
     }
     return next();
 }
@@ -62,9 +64,9 @@ async function adminORownerAuth(req, res, next) {
         console.log("adminORownerAuth...");
         if (!req.user) return res.status(401).send('unidentified');
         if(req.user.role == "מנהל") return next();
-        ownerAuth(req, res, next);
+        return ownerAuth(req, res, next);
     } catch (err) {
-        handleError(err, res)
+        console.log(err);
     }
     return next();
 }

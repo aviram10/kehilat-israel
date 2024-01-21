@@ -54,7 +54,7 @@ export default function Login({updateUser}) {
             <div className='login'>
                 <h2>Login</h2>
                 <input type="text" onChange={handleChange} placeholder='username' name='username' value={input.username} />
-                <input type="text" onChange={handleChange} placeholder='password' name='pass' value={input.pass} />
+                <input type="password" onChange={handleChange} placeholder='password' name='pass' value={input.pass} />
                 <label><input type="checkbox" name="remember" checked={input.remember} onChange={handleCheck} /> remeber me</label>
                 <button onClick={handleClick} >Login</button>
             </div> :
@@ -64,7 +64,7 @@ export default function Login({updateUser}) {
                 <input type="text" onChange={handleChange} placeholder='first name' name='first_name' value={input.first_name} />
                 <input type="text" onChange={handleChange} placeholder='last name' name='last_name' value={input.last_name} />
                 <input type="text" onChange={handleChange} placeholder='username' name='username' value={input.username} />
-                <input type="text" onChange={handleChange} placeholder='password' name='pass' value={input.pass} />
+                <input type="password" onChange={handleChange} placeholder='password' name='pass' value={input.pass} />
                 <input type="text" onChange={handleChange} placeholder='email' name='email' value={input.email} />
                 <input type="text" onChange={handleChange} placeholder='phone' name='phone' value={input.phone} />
                 <label><input type="checkbox" name="remember" checked={input.remember} onChange={handleCheck} /> remeber me</label>

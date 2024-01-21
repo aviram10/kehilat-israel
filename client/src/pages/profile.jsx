@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo, useCallback } from 'react';
-import UserDetailsForm from '../comps/userDetailsForm';
+import UserDetailsForm from '../comps/forms/userDetailsForm';
 import { Button, Grid, Sheet, Tab, TabList, TabPanel, Tabs, Typography } from '@mui/joy';
 import { url } from '../config/server';
 import axios from 'axios';
@@ -23,7 +23,7 @@ export default function Profile() {
     .then(({ data }) => {
       setMyPosts(data.myPosts);
       setSavedPosts(data.savedPosts);
-      setDebt(data.debt)
+      setDebt(data.debt.debt)
       setUser(data.user)
       setPaypal(prev => prev + 1)
     })
@@ -34,7 +34,8 @@ export default function Profile() {
 
    function success(data){
     setPaypal(prev => prev + 1)
-    setDebt( data.data)
+    setDebt( data.data[0].debt)
+    console.log(data);
   }
   const handleError = () => {
     setPaypal(prev => prev + 1)}
