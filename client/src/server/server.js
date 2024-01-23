@@ -37,9 +37,9 @@ export async function get(endPoint){
 }
 
 export async function post(endPoint, data){
-    try{
-        const {data: res} = await axios.post(url+endPoint, data, {withCredentials: true});
-        return res;
-    }catch(err){console.log(err);}
+   
+        const result = await axios.post(url+endPoint, data, {withCredentials: true});
+        return result;
+    
 }
 

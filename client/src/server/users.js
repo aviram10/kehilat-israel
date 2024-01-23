@@ -37,7 +37,17 @@ export async function manager(user_id){
 }
 
 export async function addDebt(amount, user_id){
+    if(!amount || !user_id) throw new Error("No amount or user_id")
     return await post(`/users/${user_id}/debt?action=add`, { amount});
+}
+
+export async function newDebt(amount, user_id){
+   
+    if(!amount || !user_id) throw new Error("No amount or user_id")
+    const data =  await post(`/users/${user_id}/debt?action=new`, { amount});
+    console.log("users", data);
+    return data
+    
 }
     
 

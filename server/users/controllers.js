@@ -91,6 +91,7 @@ async function handleDebt(req, res) {
         switch (action) {
             case "add": data = await services.addDebt(req.body, req.params.user_id); break;
             case "pay": data = await payments.payDebt(req.body, req.params.user_id); break;
+            case "new": return await newDebt(req, res);
             default: throw new Error("invalid action");
         }
         handleResponse(res, data);
@@ -101,11 +102,12 @@ async function handleDebt(req, res) {
 
 async function newDebt(req, res) {
     try {
+        if(req.params.user_id) req.body.user_id  = req.params.user_id
         if (!req.body) throw new Error("no details sent");
         const result = await services.newDebt(req.body);
         if (result instanceof Error) throw result;
         return res.json(result);
-    } catch (err) { console.log(err); }
+    } catch (err) { console.log(err); res.status(400).send(err); }
 }
 
 module.exports = { newDebt, handleDebt, deleteUser, getUsers, login, register, getUser, getPosts, updateUser, getDebt, getUserData }

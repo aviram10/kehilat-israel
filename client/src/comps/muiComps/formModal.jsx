@@ -4,10 +4,12 @@ import Modal from '@mui/joy/Modal';
 import ModalDialog from '@mui/joy/ModalDialog';
 import DialogTitle from '@mui/joy/DialogTitle';
 import Add from '@mui/icons-material/Add';
+import { useState } from 'react';
+import Alert from '@mui/joy/Alert';
 
-export default function FormModal({title, children, buttonName, disabled}) {
-  console.log(disabled);
-  const [open, setOpen] = React.useState(false);
+export default function FormModal({title,message, setInput, children, disabled}) {
+  const [open, setOpen] = useState(false);
+
   return (
     <React.Fragment>
       <Button
@@ -17,12 +19,14 @@ export default function FormModal({title, children, buttonName, disabled}) {
         onClick={() => setOpen(true)}
         disabled={disabled}
       >
-       {buttonName}
+       {title}
       </Button>
-      <Modal  open={open} onClose={() => setOpen(false)}>
+      <Modal  open={open} onClose={() =>{ setOpen(false); setInput({})}}>
         <ModalDialog>
           <DialogTitle>{title}</DialogTitle>
             {children}
+           {message && <Alert color='primary' variant='soft'>{message}</Alert>}
+            <Button color='danger' variant='solid' onClick={() => setOpen(false)}>סגור</Button>
         </ModalDialog>
       </Modal>
     </React.Fragment>
