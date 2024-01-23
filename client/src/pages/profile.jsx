@@ -34,6 +34,7 @@ export default function Profile() {
 
    function success(data){
     setPaypal(prev => prev + 1)
+    console.log(data);
     setDebt( data.data[0].debt)
     console.log(data);
   }
@@ -91,7 +92,6 @@ export default function Profile() {
         <Grid xs={12} md={5} spacing={2} >
           <UserDetailsForm user={user} handleUser={ handleUser} />
           <Button onClick={handleSubmit} fullWidth >עדכן</Button>
-
           <Typography sx={{ mt: 1 }} color={debt ?'danger' : "success"} variant='solid' level='title-lg'>סה"כ חובות: {debt || 0}
           </Typography>
             <Paypal key={paypal} amount={debt} type={"debt"} success={success} handleError={handleError} />

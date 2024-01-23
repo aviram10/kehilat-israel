@@ -143,6 +143,7 @@ router.post("/:orderID/capture", async (req, res) => {
     const user_id = req.user.user_id;
     const data = await services.handlePayment({amount, date: req.body.date,name:req.body.name, confirmation, payment_method, user_id, type: req.body.type});
     jsonResponse.data = data;
+    console.log("jsonResponse", jsonResponse);
     res.status(httpStatusCode).json(jsonResponse);
   } catch (error) {
     console.error("Failed to create order:", error);

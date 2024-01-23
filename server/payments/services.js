@@ -4,14 +4,14 @@ const FEES = { commissioner: 250, other: 100 }
 
 
 
-async function payDebt({ amount, current, user_id}) {
+async function payDebt({ amount, user_id}) {
     try {
         let [debt] = await accessData.get("debts", { user_id });
         if (!debt) throw new Error("debt not found");
         if (amount < 0) throw new Error("amount must be positive");
        debt.debt = debt.debt - amount;
         await accessData.updateDebt(debt.debt_id, debt.debt);
-        return [debt]
+        return debt
     } catch (err) { console.log(err); }
 }
 
@@ -28,15 +28,16 @@ const dedicationPayment = async ({ name, date, type, user_id, donation_id }) => 
 async function handlePayment(details) {
     console.log("handlePayment", details);
     try {
-        const name  = details.name
+        const {name, type, date}  = details
+        delete details.date;
+        delete details.type;
         delete details.name;   
-
         let result=[];
-        if (details.type === "debt") result =  result.push(await payDebt(details)[0]);
+        if (type === "debt") {result.push(await payDebt(details));}
         const [{ insertId }] = await accessData.insert("donations", details);
         const donation_id = insertId
          result?.push(await accessData.get("donations", {donation_id})[0])
-         if (details.type !== "debt") result?.push(await dedicationPayment({...details, donation_id,name})[0]);
+         if (type !== "debt") result?.push(await dedicationPayment({...details, donation_id,name, date})[0]);
          console.log("result", result);
         return result
         
