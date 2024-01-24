@@ -45,12 +45,7 @@ async function updatePrayer(prayer, prayer_id) {
 }
 
 async function deletePrayer(prayer_id) {
-    try {
-        const [{rawsEffected}] = await db.del('prayersTimes', ['id'], [prayer_id]);
-        return rawsEffected;
-    } catch (error) {
-        console.error('Error deleting prayer:', error);
-    }
+       await db.del('prayersTimes', ['id'], [prayer_id]);
 }
 
 async function getCommissioner(date){

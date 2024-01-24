@@ -43,9 +43,9 @@ export default function PrayerForm({ pray}) {
                 {prayer.mode === "depend" && <>
                     <Input onChange={handleChange} required type='number' placeholder='דקות' value={pray?.minutes}></Input>
                     <Select defaultValue={pray?.dependency}   name='dependency' onChange={handleChange} placeholder="לפי זמן">
-                        <Option value="sunrise">זריחה</Option>
-                        <Option value="sunset">נץ החמה</Option>
-                        <Option value="miday">חצות היום</Option>
+                        <Option value="dawn ">זריחה</Option>
+                        <Option value="sunrise">נץ החמה</Option>
+                        <Option value="chatzot ">חצות היום</Option>
                         <Option value="sunset">שקיעה</Option>
                         <Option value="midnight">חצות לילה</Option>
                     </Select>

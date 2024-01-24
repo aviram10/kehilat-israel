@@ -159,11 +159,8 @@ function copyToGlobalVar(obj, global) {
 }
 
  async function deletePrayer(prayer_id) {
-    try {
-        const data = await accessData.deletePrayer(prayer_id);
+        await accessData.deletePrayer(prayer_id);
         prayersTimes.splice(prayer_id - 1, 1);
-        return data;
-    } catch (err) { console.log(err); }
 }
 
 

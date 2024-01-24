@@ -19,4 +19,8 @@ export const editPrayer = async (data, prayer_id) => {
   }) 
     return await axios.put(`${url}/times/prayers/${prayer_id}`, data, {withCredentials: true})
    }
+
+export const deletePrayer = async (prayer_id) => {
+   return await axios.delete(`${url}/times/prayers/${prayer_id}`, {withCredentials: true})
+}
     

@@ -4,13 +4,10 @@ import { getDebts, getDedications, getDonations } from '../server/general';
 import { getPosts, deletePosts } from '../server/posts'
 import GenericTable from '../comps/muiComps/Table';
 import { DateTime } from 'luxon';
-import FormModal from '../comps/muiComps/formModal';
-import PrayerForm from '../comps/forms/prayerForm';
-import { handlePrayer } from '../server/server';
-import DebtForm from '../comps/forms/debtForm';
 import HandleUsers from '../comps/managment/users';
 import { getUsers } from '../server/users';
 import HandleDebts from '../comps/managment/debts';
+import HandlePrayers from '../comps/managment/prayers';
 
 
 
@@ -86,33 +83,19 @@ export default function Managment({ times }) {
                 <Tab disableIndicator>פוסטים</Tab>
             </TabList>
             <TabPanel value={0}>
-              <HandleUsers {...{  users, setUsers, selected, setSelected, tableProps }} />
+                <HandleUsers {...{ users, setUsers, selected, setSelected, tableProps }} />
             </TabPanel>
             <TabPanel value={1}>
                 <GenericTable {...tableProps} data={donations} heads={["ID", "מזהה משתשמש", "סכום", "תאריך"]} />
             </TabPanel>
             <TabPanel value={2}>
                 <HandleDebts {...{ debts, setDebts, selected, setSelected, tableProps }} />
-                {/* <GenericTable data={debts}  {...tableProps} disabled={selected?.length === 0} heads={["ID", "מזהה משתמש ", "סכום"]} >
-                    <FormModal disabled={!(selected?.length === 1)} title="הוספת חוב" buttonName={"הוספת חוב"}>
-                        <DebtForm user_id={debts.find(d => d.debt_id == selected[0])?.user_id} />
-                    </FormModal>
-                </GenericTable> */}
             </TabPanel>
             <TabPanel value={3}>
                 <GenericTable data={dedications}  {...tableProps} heads={["ID", "מזהה תרומה", "User ID", "תאריך", "הקדשה", "סוג"]} />
             </TabPanel>
             <TabPanel value={4}>
-                <GenericTable data={prayers} {...tableProps} heads={["ID", "תפילה", "זמן היום", "דקות", "קבוע", "קבוצה", "סידורי", "שעה"]}>
-                    <FormModal title="הוסף תפילה" buttonName={"הוסף תפילה"}>
-                        <PrayerForm />
-                    </FormModal>
-                    <FormModal disabled={!(selected?.length === 1)} title="עדכן תפילה" buttonName={"עדכן תפילה "}>
-                        <PrayerForm pray={prayers.find(p => p.id == selected[0])} />
-                    </FormModal>
-                    <Button disabled={selected?.length === 0} variant='outlined' color='danger' name="delete Prayer"
-                        onClick={() => { handlePrayer(3, selected); setSelected([]) }}> מחק תפילה</Button>
-                </GenericTable>
+                <HandlePrayers {...{ prayers, setPrayers, selected, setSelected, tableProps }} />
             </TabPanel>
             <TabPanel value={5}>
                 <GenericTable data={posts} {...tableProps} heads={["ID", "מזהה משתמש", "כותרת", "תוכן", "תאריך", "לייקים", "קטגוריה"]}>
