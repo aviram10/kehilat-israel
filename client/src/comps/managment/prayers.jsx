@@ -32,6 +32,13 @@ export default function HandlePrayers({ tableProps, prayers, setPrayers, selecte
                             setTimeout(() => setMessage([]), 5000)
                     })
                 break;
+            case "addPrayer":
+                
+
+                break;
+            case "updatePrayer":
+                    
+                    break;
             default:
                 break;
         }
@@ -41,10 +48,10 @@ export default function HandlePrayers({ tableProps, prayers, setPrayers, selecte
     {message[0] && <GenericAlert title={message[0]} body={message[1]} setMessage= {setMessage}   />}
         <GenericTable data={prayers} {...tableProps} heads={["ID", "תפילה", "זמן היום", "דקות", "קבוע", "קבוצה", "סידורי", "שעה"]}>
             <FormModal title="הוסף תפילה" >
-                <PrayerForm />
+                <PrayerForm handlePrayer={handlePrayer} />
             </FormModal>
             <FormModal disabled={!(selected?.length === 1)} title="עדכן תפילה" >
-                <PrayerForm pray={prayers.find(p => p.id == selected[0])} />
+                <PrayerForm pray={prayers.find(p => p.id == selected[0])} handlePrayer ={handlePrayer} />
             </FormModal>
             <Button disabled={selected?.length === 0} variant='outlined' color='danger' name="delete Prayer"
                 onClick={() => handlePrayer("deletePrayer", selected)}> מחק תפילה</Button>
