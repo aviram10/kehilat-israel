@@ -2,12 +2,16 @@ import GenericTable from "../muiComps/Table";
 import FormModal from "../muiComps/formModal";
 import PrayerForm from "../forms/prayerForm";
 import { Button } from "@mui/joy";
-const { deletePrayer } = require("../../server/prayer");
+import { deletePrayer } from "../../server/prayer";
+import { useState } from "react";
+import GenericAlert from "../muiComps/Alert";
 
 
 
 
 export default function HandlePrayers({ tableProps, prayers, setPrayers, selected, setSelected }) {
+    console.log("prayers", prayers);
+    const [message, setMessage] = useState([]);
     const handlePrayer = async (action, prayer) => {
         switch (action) {
             case "deletePrayer":
@@ -22,8 +26,10 @@ export default function HandlePrayers({ tableProps, prayers, setPrayers, selecte
                                 rejected.push(result)
                         })
                         setSelected(rejected)
-                        const message = rejected.length > 0 ? "לא ניתן למחוק את התפילות הבאות:" + rejected.join(", ") : "התפילות נמחקו בהצלחה"
-                        alert(message)
+                        setMessage(rejected.length > 0 ? 
+                            ["error", " לא כל התפילות נמחקו בהצלחה! נסה שוב מאוחר יותר"] 
+                            : ["success", "התפילות נמחקו בהצלחה!"])
+                            setTimeout(() => setMessage([]), 5000)
                     })
                 break;
             default:
@@ -32,6 +38,7 @@ export default function HandlePrayers({ tableProps, prayers, setPrayers, selecte
     }
 
     return <>
+    {message[0] && <GenericAlert title={message[0]} body={message[1]} setMessage= {setMessage}   />}
         <GenericTable data={prayers} {...tableProps} heads={["ID", "תפילה", "זמן היום", "דקות", "קבוע", "קבוצה", "סידורי", "שעה"]}>
             <FormModal title="הוסף תפילה" >
                 <PrayerForm />

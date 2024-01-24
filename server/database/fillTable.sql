@@ -1,4 +1,4 @@
-USE kehilat_israel;
+	USE kehilat_israel;
 
 INSERT INTO users (user_id, username, first_name, last_name, pass, email, phone, address, city, state, zip, role)
 VALUES (1000, 'david', 'יוחנן', 'דויד', 'password1', 'john.doe@example.com', '1234567890', '123 Main St', 'City1', 'State1', '12345', "מנהל"),
