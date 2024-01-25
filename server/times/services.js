@@ -129,10 +129,9 @@ async function hebToGreg(hebDate) {
 async function addPrayer(prayer) {
     try {
         if (!prayer) throw new Error('no prayer');
+        prayer.minutes = Number(prayer.minutes);
         const data = await accessData.addPrayer(prayer);
         copyToGlobalVar((await getPrayersTimes()), prayersTimes)
-       
-        
         return prayersTimes.find(p => p.id === data);
     } catch (err) { console.log(err); }
 }

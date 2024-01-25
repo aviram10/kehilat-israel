@@ -2,7 +2,7 @@ import GenericTable from "../muiComps/Table";
 import FormModal from "../muiComps/formModal";
 import PrayerForm from "../forms/prayerForm";
 import { Button } from "@mui/joy";
-import { deletePrayer } from "../../server/prayer";
+import { deletePrayer, addPrayer } from "../../server/prayer";
 import { useState } from "react";
 import GenericAlert from "../muiComps/Alert";
 
@@ -10,7 +10,6 @@ import GenericAlert from "../muiComps/Alert";
 
 
 export default function HandlePrayers({ tableProps, prayers, setPrayers, selected, setSelected }) {
-    console.log("prayers", prayers);
     const [message, setMessage] = useState([]);
     const handlePrayer = async (action, prayer) => {
         switch (action) {
@@ -33,7 +32,15 @@ export default function HandlePrayers({ tableProps, prayers, setPrayers, selecte
                     })
                 break;
             case "addPrayer":
-                
+                const result  = await addPrayer(prayer);
+                if (result.status === 200) {
+                    setPrayers(prev => [...prev, result.data])
+                    setMessage(["success", "התפילה נוספה בהצלחה!"])
+                }
+                else {
+                    setMessage(["error", "התפילה לא נוספה! נסה שוב מאוחר יותר"])
+                }
+
 
                 break;
             case "updatePrayer":

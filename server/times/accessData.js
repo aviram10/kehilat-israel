@@ -23,7 +23,7 @@ async function getPrayer(id) {
 async function addPrayer(prayer) {
     try {
         const {keys, values} = util.extractKeyValues(prayer);
-        const [insertId] = await db.add('prayersTimes', keys, values);
+        const [{insertId}] = await db.add('prayersTimes', keys, values);
         console.log(insertId);
         return insertId;
     } catch (error) {

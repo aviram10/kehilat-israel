@@ -4,12 +4,17 @@ import{url} from '../config/server'
 const keys = ["fixed", "prayer_name", "dependecy", "minutes", "serial", "id", "category"]
 
 export const addPrayer = async (data) => {
-   const prayer = {};
-   keys.forEach(key => {
-      prayer[key] = data[key];
-   }) 
-   console.log(prayer);
-   return await axios.post(`${url}/times/prayers`, prayer, {withCredentials: true})
+   try {
+      console.log(data);
+      const prayer = {};
+      keys.forEach(key => {
+         prayer[key] = data[key];
+      }) 
+      const result =  await axios.post(`${url}/times/prayers`, prayer, {withCredentials: true});
+      return result;
+   } catch (error) {
+      console.error(error);
+   }
 }
 
 export const editPrayer = async (data, prayer_id) => {

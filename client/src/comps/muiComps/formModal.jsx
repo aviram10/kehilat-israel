@@ -21,7 +21,7 @@ export default function FormModal({title,message, setInput, children, disabled})
       >
        {title}
       </Button>
-      <Modal  open={open} onClose={() =>{ setOpen(false); setInput({})}}>
+      <Modal  open={open} onClose={() =>{ setOpen(false); setInput?.({})}}>
         <ModalDialog>
           <DialogTitle>{title}</DialogTitle>
             {children}

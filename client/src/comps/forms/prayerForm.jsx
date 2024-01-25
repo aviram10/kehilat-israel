@@ -2,11 +2,10 @@ import { Button, Card, CardActions, Input, Option, Radio, Select, Stack } from '
 import React from 'react';
 import TimePick from '../muiComps/timePicker';
 export default function PrayerForm({ pray, handlePrayer }) {
-    console.log("prayerForm", pray);
     const action = pray ? "updatePrayer" : "addPrayer";
     const [prayer, setPrayer] = React.useState(pray ? { ...pray, mode: pray.fixed ? "fixed" : "depend" } : { prayer_name: "", mode: "fixed", time: "", minutes: "", depend: "", category: "weekdays", serial: "" })
     const [message, setMessage] = React.useState("");
-    const handleChange = ({ target }) => { setPrayer({ ...prayer, [target?.name]: target?.value }) };
+    const handleChange = ({target}) => {console.log(target); setPrayer({ ...prayer, [target.name]: target.value })};
     const selectTime = (time) => setPrayer({ ...prayer, fixed: time.toISOTime().slice(0, 5) });
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -39,7 +38,7 @@ export default function PrayerForm({ pray, handlePrayer }) {
                 {prayer.mode === "fixed" && <TimePick selectTime={selectTime} time={pray?.time} />}
                 {prayer.mode === "depend" && <>
                     <Input onChange={handleChange} required type='number' placeholder='דקות' value={pray?.minutes}></Input>
-                    <Select defaultValue={pray?.dependency} name='dependency' onChange={handleChange} placeholder="לפי זמן">
+                    <Select defaultValue={pray?.dependency} name='dependency' onChange={(e, value)=>{e.target.value = value; e.target.name = "dependency"; handleChange(e)}} placeholder="לפי זמן">
                         <Option value="dawn ">זריחה</Option>
                         <Option value="sunrise">נץ החמה</Option>
                         <Option value="chatzot ">חצות היום</Option>
@@ -50,7 +49,7 @@ export default function PrayerForm({ pray, handlePrayer }) {
 
                 }
                 <Stack direction='row' justifyContent={"space-between"} >
-                    < Select required name='category' onChange={handleChange} placeholder="קטגוריה">
+                    < Select required name='category' onChange={(e, value)=>{e.target.value = value; e.target.name = "category";handleChange(e)}} placeholder="קטגוריה">
                         <Option value="weekdays">ימות חול</Option>
                         <Option value="shabat">שבת ומועדים</Option>
                     </Select>
