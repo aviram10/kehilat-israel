@@ -1,7 +1,7 @@
 import axios from "axios";
 import{url} from '../config/server'
 
-const keys = ["fixed", "prayer_name", "dependecy", "minutes", "serial", "id", "category"]
+const keys = ["fixed", "prayer_name", "dependency", "minutes", "serial", "id", "category"]
 
 export const addPrayer = async (data) => {
    try {
@@ -17,12 +17,12 @@ export const addPrayer = async (data) => {
    }
 }
 
-export const editPrayer = async (data, prayer_id) => {
+export const updatePrayer = async (data) => {
    const prayer = {};
    keys.forEach(key => {
      prayer[key] = data[key];
   }) 
-    return await axios.put(`${url}/times/prayers/${prayer_id}`, data, {withCredentials: true})
+    return await axios.put(`${url}/times/prayers/${data.id}`, data, {withCredentials: true})
    }
 
 export const deletePrayer = async (prayer_id) => {

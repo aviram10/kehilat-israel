@@ -24,6 +24,8 @@ async function addPrayer(req, res) {
 
 async function updatePrayer(req, res) {
     try {
+        console.log("controllers" , req.params);
+        console.log("updatePrayer", req.params.prayer_id);
         const prayer = await services.updatePrayer(req.body, req.params.prayer_id);
         return res.json(prayer);
     } catch (err) { handleError }

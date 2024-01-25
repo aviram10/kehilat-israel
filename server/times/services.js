@@ -138,7 +138,7 @@ async function addPrayer(prayer) {
 
 async function updatePrayer(prayer, id) {
     try {
-        console.log("updatePrayer", prayer, id);
+        console.log("updatePrayer", id);
         if (!prayer) throw new Error('no prayer');
         const data = await accessData.updatePrayer(prayer, id);
         copyToGlobalVar((await getPrayersTimes()), prayersTimes)

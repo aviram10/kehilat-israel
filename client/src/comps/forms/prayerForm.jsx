@@ -1,21 +1,27 @@
 import { Button, Card, CardActions, Input, Option, Radio, Select, Stack } from '@mui/joy';
-import React from 'react';
+import React, { useEffect } from 'react';
 import TimePick from '../muiComps/timePicker';
 export default function PrayerForm({ pray, handlePrayer }) {
     const action = pray ? "updatePrayer" : "addPrayer";
-    const [prayer, setPrayer] = React.useState(pray ? { ...pray, mode: pray.fixed ? "fixed" : "depend" } : { prayer_name: "", mode: "fixed", time: "", minutes: "", depend: "", category: "weekdays", serial: "" })
+    const [prayer, setPrayer] = React.useState(pray ? { ...pray, mode: pray.fixed ? "fixed" : "depend" } : { prayer_name: "", dependency:"", mode: "fixed", time: "", minutes: "",  category: "weekdays", serial: "" })
     const [message, setMessage] = React.useState("");
-    const handleChange = ({target}) => {console.log(target); setPrayer({ ...prayer, [target.name]: target.value })};
+    const handleChange = ({ target }, value) => {  setPrayer({ ...prayer, [target.name]: value || target.value }) };
     const selectTime = (time) => setPrayer({ ...prayer, fixed: time.toISOTime().slice(0, 5) });
     const handleSubmit = (e) => {
         e.preventDefault()
+        console.log(prayer);
         if (prayer.mode === "fixed") {
             prayer.minutes = null;
             prayer.depend = null;
-        }
+        }   
         else prayer.fixed = null;
+        delete prayer.mode;
         handlePrayer(action, prayer)
     }
+
+    useEffect(() => {
+        console.log(prayer);
+    }, [prayer]);
     return <>
         <form onSubmit={handleSubmit}>
             <Card variant='plain'>
@@ -37,8 +43,8 @@ export default function PrayerForm({ pray, handlePrayer }) {
 
                 {prayer.mode === "fixed" && <TimePick selectTime={selectTime} time={pray?.time} />}
                 {prayer.mode === "depend" && <>
-                    <Input onChange={handleChange} required type='number' placeholder='דקות' value={pray?.minutes}></Input>
-                    <Select defaultValue={pray?.dependency} name='dependency' onChange={(e, value)=>{e.target.value = value; e.target.name = "dependency"; handleChange(e)}} placeholder="לפי זמן">
+                    <Input onChange={handleChange} required type='number'  name={"minutes"} placeholder='דקות' value={prayer?.minutes || 0}></Input>
+                    <Select defaultValue={prayer?.dependency} name='dependency' onChange={(e, value) => { e.target.name = "dependency"; handleChange(e, value) }} placeholder="לפי זמן">
                         <Option value="dawn ">זריחה</Option>
                         <Option value="sunrise">נץ החמה</Option>
                         <Option value="chatzot ">חצות היום</Option>
@@ -49,7 +55,7 @@ export default function PrayerForm({ pray, handlePrayer }) {
 
                 }
                 <Stack direction='row' justifyContent={"space-between"} >
-                    < Select required name='category' onChange={(e, value)=>{e.target.value = value; e.target.name = "category";handleChange(e)}} placeholder="קטגוריה">
+                    < Select required name='category' onChange={(e, value) => { e.target.name = "category"; handleChange(e, value) }} value={prayer?.category || ""} placeholder="קטגוריה">
                         <Option value="weekdays">ימות חול</Option>
                         <Option value="shabat">שבת ומועדים</Option>
                     </Select>
