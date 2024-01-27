@@ -138,11 +138,12 @@ async function addPrayer(prayer) {
 
 async function updatePrayer(prayer, id) {
     try {
-        console.log("updatePrayer", id);
+        delete prayer.time
+        delete prayer.depend;
         if (!prayer) throw new Error('no prayer');
-        const data = await accessData.updatePrayer(prayer, id);
+        await accessData.updatePrayer(prayer, id);
         copyToGlobalVar((await getPrayersTimes()), prayersTimes)
-        return prayersTimes.find(p => p.id === id);
+        return prayersTimes.find(p => p.id == id);
     } catch (err) { console.log(err); }
 }
 

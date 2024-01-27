@@ -43,7 +43,7 @@ export default function PrayerForm({ pray, handlePrayer }) {
 
                 {prayer.mode === "fixed" && <TimePick selectTime={selectTime} time={pray?.time} />}
                 {prayer.mode === "depend" && <>
-                    <Input onChange={handleChange} required type='number'  name={"minutes"} placeholder='דקות' value={prayer?.minutes || 0}></Input>
+                    <Input onChange={handleChange} required type='number'  name={"minutes"} placeholder='דקות' value={prayer?.minutes || ""}></Input>
                     <Select defaultValue={prayer?.dependency} name='dependency' onChange={(e, value) => { e.target.name = "dependency"; handleChange(e, value) }} placeholder="לפי זמן">
                         <Option value="dawn ">זריחה</Option>
                         <Option value="sunrise">נץ החמה</Option>

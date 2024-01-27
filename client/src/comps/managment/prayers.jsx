@@ -18,7 +18,6 @@ export default function HandlePrayers({ tableProps, prayers, setPrayers, selecte
                 Promise.allSettled(results)
                     .then(data => {
                         data.forEach((result) => {
-                            console.log(result);
                             result.status === "fulfilled" ?
                                 setPrayers(prev => prev.filter(prayer => prayer.id != result.value.data)) :
                                 rejected.push(result)
@@ -45,7 +44,7 @@ export default function HandlePrayers({ tableProps, prayers, setPrayers, selecte
     }
     const handleResponse = (result) => {
         if (result.status === 200) {
-            setPrayers(prev => [...prev, result.data])
+            setPrayers(prev => [...prev, result.data].sort((a,b )=> a.serial - b.serial))
             setMessage(["success", " הפעולה בוצעה בהצלחה!"])
         }
         else {
@@ -64,7 +63,7 @@ export default function HandlePrayers({ tableProps, prayers, setPrayers, selecte
                 <PrayerForm pray={prayers.find(p => p.id == selected[0])} handlePrayer ={handlePrayer} />
             </FormModal>
             <Button disabled={selected?.length === 0} variant='outlined' color='danger' name="delete Prayer"
-                onClick={() => handlePrayer("deletePrayer", selected)}> מחק תפילה</Button>
+                onClick={() => handlePrayer("deletePrayer")}> מחק תפילה</Button>
         </GenericTable>
     </>
 };

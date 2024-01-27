@@ -9,6 +9,7 @@ import Alert from '@mui/joy/Alert';
 
 export default function FormModal({title,message, setInput, children, disabled}) {
   const [open, setOpen] = useState(false);
+  if(message) setOpen(false);
 
   return (
     <React.Fragment>
