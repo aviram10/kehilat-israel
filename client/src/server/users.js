@@ -36,7 +36,7 @@ export async function manager(user_id){
     }catch(err){console.log(err);}
 }
 
-export async function addDebt(amount, user_id){
+export async function addDebt({amount, user_id}){
     if(!amount || !user_id) throw new Error("No amount or user_id")
     return await post(`/users/${user_id}/debt?action=add`, { amount});
 }

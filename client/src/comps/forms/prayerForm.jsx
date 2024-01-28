@@ -19,9 +19,7 @@ export default function PrayerForm({ pray, handlePrayer }) {
         handlePrayer(action, prayer)
     }
 
-    useEffect(() => {
-        console.log(prayer);
-    }, [prayer]);
+  
     return <>
         <form onSubmit={handleSubmit}>
             <Card variant='plain'>

@@ -5,14 +5,15 @@ import Warning from '@mui/icons-material/Warning';
 
 
 
-export default function GenericAlert({ title, body, setMessage}) {
+export default function GenericAlert({ message  }) {
+    const [title, body] = message;
     let icon, color;
     if (title === "success") {
         icon = <Check fontSize="xl2" />
         color = "success"
     } else if (title === "error") {
         icon = <Warning />
-        color = "error"
+        color = "danger"
     }
 
 
@@ -42,25 +43,25 @@ export default function GenericAlert({ title, body, setMessage}) {
             sx={{ margin: "auto", alignItems: 'flex-start', overflow: 'hidden', maxWidth: 400 }}
         >
             <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ width: "100%" }}>
-            <div>
-                <Typography level="title-lg">{title}</Typography>
-                <Typography level="body-sm">
-                    {body}
-                </Typography>
-            </div>
-            <div>
-                
-            <IconButton
-                onClick={() => setMessage([])}
-                    variant="plain"
-                    sx={{
-                        '--IconButton-size': '32px',
-                        transform: 'translate(0.5rem, -0.5rem)',
-                    }}
-                >
-                    <Close />
-                </IconButton>
-            </div>
+                <div>
+                    <Typography level="title-lg">{title}</Typography>
+                    <Typography level="body-sm">
+                        {body}
+                    </Typography>
+                </div>
+                <div>
+
+                    <IconButton
+                        // onClick={() => setMessage?.([])}
+                        variant="plain"
+                        sx={{
+                            '--IconButton-size': '32px',
+                            transform: 'translate(0.5rem, -0.5rem)',
+                        }}
+                    >
+                        <Close />
+                    </IconButton>
+                </div>
             </Stack>
         </Alert>
     </>

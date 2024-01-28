@@ -11,6 +11,9 @@ import HandlePrayers from '../comps/managment/prayers';
 
 
 
+
+
+
 export default function Managment({ times }) {
     const [users, setUsers] = useState([])
     const [donations, setDonations] = useState([])
@@ -20,8 +23,12 @@ export default function Managment({ times }) {
     const [debts, setDebts] = useState([])
     const [selected, setSelected] = useState([])
 
-    useEffect(() => {
-        getUsers().then(res => setUsers(res))
+    const getData = async () => {
+        let users = await getUsers()
+        setUsers(users)
+        let debts = await getDebts()
+        console.log(debts);
+        setDebts(debts.map(debt => debt.username = ({...debt, username:users.find(user => user.user_id == debt.user_id).username})))
         setPrayers(times.prayers)
         getDonations().then(res => setDonations(res))
         getDedications().then(res => setDedications(res))
@@ -31,8 +38,12 @@ export default function Managment({ times }) {
             delete post.role;
             return post
         })))
-        getDebts().then(res => setDebts(res))
-    }, [times])
+       
+    }
+
+    useEffect(() => {
+       getData();
+    }, [])
 
     const handleChange = ({ target }) => {
         console.log(target.name);

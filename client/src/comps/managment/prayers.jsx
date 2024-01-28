@@ -4,7 +4,6 @@ import PrayerForm from "../forms/prayerForm";
 import { Button } from "@mui/joy";
 import { deletePrayer, addPrayer, updatePrayer } from "../../server/prayer";
 import { useState } from "react";
-import GenericAlert from "../muiComps/Alert";
 
 
 export default function HandlePrayers({ tableProps, prayers, setPrayers, selected, setSelected }) {
@@ -54,9 +53,9 @@ export default function HandlePrayers({ tableProps, prayers, setPrayers, selecte
     }
 
     return <>
-    {message[0] && <GenericAlert title={message[0]} body={message[1]} setMessage= {setMessage}   />}
+    {/* {message[0] && <GenericAlert title={message[0]} body={message[1]} setMessage= {setMessage}   />} */}
         <GenericTable data={prayers} {...tableProps} heads={["ID", "תפילה", "זמן היום", "דקות", "קבוע", "קבוצה", "סידורי", "שעה"]}>
-            <FormModal title="הוסף תפילה" >
+            <FormModal title="הוסף תפילה" message={message} >
                 <PrayerForm handlePrayer={handlePrayer} />
             </FormModal>
             <FormModal disabled={!(selected?.length === 1)} title="עדכן תפילה" >

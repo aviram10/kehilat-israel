@@ -107,7 +107,7 @@ async function newDebt(req, res) {
         const result = await services.newDebt(req.body);
         if (result instanceof Error) throw result;
         return res.json(result);
-    } catch (err) { console.log(err); res.status(400).send(err); }
+    } catch ({message}) { console.log(message); res.status(400).json({message}); }
 }
 
 module.exports = { newDebt, handleDebt, deleteUser, getUsers, login, register, getUser, getPosts, updateUser, getDebt, getUserData }

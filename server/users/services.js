@@ -55,7 +55,7 @@ async function newDebt({ amount, user_id }) {
     try {
         if (amount < 0) throw new Error("amount must be positive");
         const data = await accessData.newDebt({ amount, user_id });
-        if(data instanceof Error) throw data;
+        if(data instanceof Error) throw new Error("בדוק אם אין כבר חוב קיים");
         return await getDebt(user_id);
     } catch (err) { console.log(err);return err }
 }

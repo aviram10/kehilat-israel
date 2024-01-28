@@ -5,11 +5,12 @@ import ModalDialog from '@mui/joy/ModalDialog';
 import DialogTitle from '@mui/joy/DialogTitle';
 import Add from '@mui/icons-material/Add';
 import { useState } from 'react';
-import Alert from '@mui/joy/Alert';
+import Alert from './Alert';
+export default function FormModal({title,message, setMessage, children, disabled}) {
 
-export default function FormModal({title,message, setInput, children, disabled}) {
+  console.log(setMessage);
   const [open, setOpen] = useState(false);
-  if(message) setOpen(false);
+  if(message[0] === "success")setTimeout(() => setOpen(false), 3000);
 
   return (
     <React.Fragment>
@@ -22,12 +23,12 @@ export default function FormModal({title,message, setInput, children, disabled})
       >
        {title}
       </Button>
-      <Modal  open={open} onClose={() =>{ setOpen(false); setInput?.({})}}>
+      <Modal  open={open} onClose={() =>{ setOpen(false); setMessage([])}}>
         <ModalDialog>
           <DialogTitle>{title}</DialogTitle>
             {children}
-           {message && <Alert color='primary' variant='soft'>{message}</Alert>}
-            <Button color='danger' variant='solid' onClick={() => setOpen(false)}>סגור</Button>
+          {  message[0] && <Alert message={message}  ></Alert>}
+            <Button color='danger' variant='solid' onClick={() => {setOpen(false); setMessage([])}}>סגור</Button>
         </ModalDialog>
       </Modal>
     </React.Fragment>
