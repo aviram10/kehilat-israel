@@ -17,7 +17,7 @@ export default function HandleDebts({ debts, setDebts, selected, setSelected, ta
             switch (action) {
                 case "add":
                     data = await addDebt(input);
-                    setDebts(prev => prev.map(debt => debt.debt_id == data.data.debt_id ? data.data : debt))
+                    setDebts(prev => prev.map(debt => debt.debt_id == data.data.debt_id ? {...data.data, username: debt.username} : debt))
                     setMessage(["success", "החוב עודכן בהצלחה!"])
                     break;
                 case "new":
@@ -35,7 +35,7 @@ export default function HandleDebts({ debts, setDebts, selected, setSelected, ta
     }
     return <>
         <GenericTable data={debts} {...tableProps} selectBy={"user_id"}
-            heads={["ID", "מזהה משתמש", "סכום"]}>
+            heads={["ID", "מזהה משתמש", "סכום", "שם משתמש"]}>
             <FormModal  message={message} setMessage={setMessage} title={"הוסף חוב"}>
                 <DebtForm handleDebt={handleDebt} debt={debts?.find(d => d.user_id == selected[0])} />
             </FormModal>
