@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Stack, Button, Typography, Tabs, TabList, Tab, tabClasses, TabPanel, Sheet, Modal, Input } from '@mui/joy';
-import { getDebts, getDedications, getDonations } from '../server/general';
+import { getDebts, getDedications, getDonations, g } from '../server/general';
 import { getPosts, deletePosts } from '../server/posts'
 import GenericTable from '../comps/muiComps/Table';
 import { DateTime } from 'luxon';
@@ -14,7 +14,7 @@ import HandlePrayers from '../comps/managment/prayers';
 
 
 
-export default function Managment({ times }) {
+export default function Managment({ times, setTimes }) {
     const [users, setUsers] = useState([])
     const [donations, setDonations] = useState([])
     const [dedications, setDedications] = useState([])
@@ -23,7 +23,7 @@ export default function Managment({ times }) {
     const [debts, setDebts] = useState([])
     const [selected, setSelected] = useState([])
     const [search, setSearch] = useState("")
-
+    if(prayers.length === 0 && times.prayers.length > 0) setPrayers(times.prayers)
     const getData = async () => {
         let users = await getUsers()
         setUsers(users)
@@ -47,6 +47,11 @@ export default function Managment({ times }) {
     useEffect(() => {
        getData();
     }, [])
+
+    useEffect(() => {
+        setTimes(prev => ({...prev, prayers}));
+    },[prayers])
+
 
     const handleSearch = ({target}) => {
         setSearch(target.value)
@@ -115,7 +120,7 @@ export default function Managment({ times }) {
                 <GenericTable data={dedications}  {...tableProps} heads={["ID", "מזהה תרומה", "User ID", "תאריך", "הקדשה", "סוג"]} />
             </TabPanel>
             <TabPanel value={4}>
-                <HandlePrayers {...{ prayers, setPrayers, selected, setSelected, tableProps }} />
+                <HandlePrayers {...{ prayers, setTimes, setPrayers, selected, setSelected, tableProps }} />
             </TabPanel>
             <TabPanel value={5}>
                 <GenericTable data={posts} {...tableProps} heads={["ID", "מזהה משתמש", "כותרת", "תוכן", "תאריך", "לייקים", "קטגוריה"]}>

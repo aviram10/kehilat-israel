@@ -8,14 +8,12 @@ import { Typography } from "@mui/joy";
 export default function PrayersTimes({ times, isDaily }) {
     let prayers = times ? times : [];
     if ( isDaily) {
-        console.log(prayers);
         const category = (DateTime.now().day + 1) % 7 < 6 ? "weekdays" : "shabat";//because monday is 1 and sunday is 7
         console.log(category);
 
         prayers = prayers.filter(t => t.category === category);
         prayers = prayers.sort((a, b) => a.sort - b.sort);
     }
-    console.log(prayers);
 
     return <div className='dayTimes'>
         <Typography textAlign={"center"} variant='soft' level="h3"> זמני התפילות</Typography>

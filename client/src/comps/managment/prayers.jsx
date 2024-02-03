@@ -6,7 +6,7 @@ import { deletePrayer, addPrayer, updatePrayer } from "../../server/prayer";
 import { useState } from "react";
 
 
-export default function HandlePrayers({ tableProps, prayers, setPrayers, selected, setSelected }) {
+export default function HandlePrayers({ tableProps, prayers, setTimes, setPrayers, selected, setSelected }) {
     const [message, setMessage] = useState([]);
     const handlePrayer = async (action, prayer) => {
         let result;
@@ -40,6 +40,7 @@ export default function HandlePrayers({ tableProps, prayers, setPrayers, selecte
             default:
                 break;
         }
+
     }
     const handleResponse = (result) => {
         if (result.status === 200) {
@@ -53,12 +54,11 @@ export default function HandlePrayers({ tableProps, prayers, setPrayers, selecte
     }
 
     return <>
-    {/* {message[0] && <GenericAlert title={message[0]} body={message[1]} setMessage= {setMessage}   />} */}
         <GenericTable data={prayers} {...tableProps} heads={["ID", "תפילה", "זמן היום", "דקות", "קבוע", "קבוצה", "סידורי", "שעה"]}>
-            <FormModal title="הוסף תפילה" message={message} >
+            <FormModal title="הוסף תפילה" message={message} setMessage={setMessage} >
                 <PrayerForm handlePrayer={handlePrayer} />
             </FormModal>
-            <FormModal disabled={!(selected?.length === 1)} title="עדכן תפילה" >
+            <FormModal disabled={!(selected?.length === 1)} setMessage={setMessage} title="עדכן תפילה" >
                 <PrayerForm pray={prayers.find(p => p.id == selected[0])} handlePrayer ={handlePrayer} />
             </FormModal>
             <Button disabled={selected?.length === 0} variant='outlined' color='danger' name="delete Prayer"

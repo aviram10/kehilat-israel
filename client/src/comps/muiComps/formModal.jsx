@@ -6,11 +6,11 @@ import DialogTitle from '@mui/joy/DialogTitle';
 import Add from '@mui/icons-material/Add';
 import { useState } from 'react';
 import Alert from './Alert';
-export default function FormModal({title,message, setMessage, children, disabled}) {
+export default function FormModal({title,message=[], setMessage, children, disabled}) {
 
   console.log(setMessage);
   const [open, setOpen] = useState(false);
-  if(message[0] === "success")setTimeout(() => setOpen(false), 3000);
+  if(message?.length > 0 && message[0] === "success")setTimeout(() => setOpen(false), 3000);
 
   return (
     <React.Fragment>

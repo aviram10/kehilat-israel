@@ -13,7 +13,6 @@ import server from "./config/server";
 import React, { useEffect, useState, createContext } from 'react';
 import { DateTime } from 'luxon';
 import { getUser } from "./server/users";
-import GameField from "./gameField";
 
 export const UserContext = createContext(null);
 
@@ -74,7 +73,7 @@ function App() {
           <Route path='board' element={<MessagesBoard />} />
           <Route path='dedication' element={<Dedication />} />
           <Route path='profile' element={<Profile />} />
-          <Route path='managment' element={<Managment times={times} />} />
+          <Route path='managment' element={<Managment times={times} setTimes={setTimes} />} />
           <Route path='*' element={<h1>Not Found</h1>} />
         </Route>
       </Routes>

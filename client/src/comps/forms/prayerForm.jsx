@@ -4,12 +4,10 @@ import TimePick from '../muiComps/timePicker';
 export default function PrayerForm({ pray, handlePrayer }) {
     const action = pray ? "updatePrayer" : "addPrayer";
     const [prayer, setPrayer] = React.useState(pray ? { ...pray, mode: pray.fixed ? "fixed" : "depend" } : { prayer_name: "", dependency:"", mode: "fixed", time: "", minutes: "",  category: "weekdays", serial: "" })
-    const [message, setMessage] = React.useState("");
     const handleChange = ({ target }, value) => {  setPrayer({ ...prayer, [target.name]: value || target.value }) };
     const selectTime = (time) => setPrayer({ ...prayer, fixed: time.toISOTime().slice(0, 5) });
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log(prayer);
         if (prayer.mode === "fixed") {
             prayer.minutes = null;
             prayer.depend = null;
@@ -42,7 +40,7 @@ export default function PrayerForm({ pray, handlePrayer }) {
                 {prayer.mode === "fixed" && <TimePick selectTime={selectTime} time={pray?.time} />}
                 {prayer.mode === "depend" && <>
                     <Input onChange={handleChange} required type='number'  name={"minutes"} placeholder='דקות' value={prayer?.minutes || ""}></Input>
-                    <Select defaultValue={prayer?.dependency} name='dependency' onChange={(e, value) => { e.target.name = "dependency"; handleChange(e, value) }} placeholder="לפי זמן">
+                    <Select  defaultValue={ prayer?.dependency}  onChange={(e, value) => {if(!e) return; e.target.name = "dependency"; handleChange(e, value) }} placeholder="לפי זמן">
                         <Option value="dawn ">זריחה</Option>
                         <Option value="sunrise">נץ החמה</Option>
                         <Option value="chatzot ">חצות היום</Option>
@@ -53,7 +51,7 @@ export default function PrayerForm({ pray, handlePrayer }) {
 
                 }
                 <Stack direction='row' justifyContent={"space-between"} >
-                    < Select required name='category' onChange={(e, value) => { e.target.name = "category"; handleChange(e, value) }} value={prayer?.category || ""} placeholder="קטגוריה">
+                    < Select required  onChange={(e, value) => { e.target.name = "category"; handleChange(e, value) }} value={prayer?.category || ""} placeholder="קטגוריה">
                         <Option value="weekdays">ימות חול</Option>
                         <Option value="shabat">שבת ומועדים</Option>
                     </Select>
