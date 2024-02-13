@@ -10,12 +10,16 @@ async function login(req, res) {
 }
 async function register(req, res) {
     try {
-        //todo: validate req.body
-        delete req.body.remember;
-        const [{ insertId }] = await accessData.addUser(req.body);
-        const user = await services.getUser(insertId);
+        const { username, email, pass, first_name, last_name, phone, address, city, zip} = req.body;
+        const details = { username, email, pass, first_name, last_name, phone, address, city, zip };
+        Object.keys(details).forEach(key =>{if (details[key] instanceof String)  throw new Error("invalid details")})
+        const [{ insertId }] = await services.addUser(details);
+        const [user] = await services.getUsers({ user_id: insertId });
         return res.status(201).send(user);
-    } catch (err) { console.log(err); }
+    } catch (err) { 
+        console.log(err);
+        return res.status(400).send(err.message);
+     }
 }
 
 async function getUsers(req, res) {
