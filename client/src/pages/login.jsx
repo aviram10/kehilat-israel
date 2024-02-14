@@ -24,7 +24,6 @@ export default function Login({updateUser}) {
             let { data } = await axios.post(`${url}/users/${mode}`, input);
             //todo: check expire date of cookie 
             cookie.set("token", data.token, { expires: input.remember ? 7 : 1 })
-            sessionStorage.setItem("user_id", data.user_id)
             if (input.remember) localStorage.setItem("user_id", data.user_id);
             updateUser(data);
             setMessage(`${mode} success`)

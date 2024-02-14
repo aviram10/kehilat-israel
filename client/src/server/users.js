@@ -2,9 +2,8 @@ import axios from "axios";
 import { url } from "../config/server";
 import {get, post} from "../server/server"
 export async function getUser(user_id){
-    console.log("getUser", user_id);
     try{
-        const { data } = await axios.get(`${url}/users/${user_id || sessionStorage.user_id}`,{withCredentials: true});
+        const { data } = await axios.get(`${url}/users/${user_id}`,{withCredentials: true});
         return data;
     }catch(err){console.log(err);}
 }

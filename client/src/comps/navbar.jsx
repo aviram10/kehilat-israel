@@ -10,10 +10,7 @@ export default function Navbar() {
     const [user, setUser] = useContext(UserContext);
     const navigate = useNavigate();
     const logout =() =>{
-        Cookies.remove("user_id");
-        Cookies.remove("username");
-        Cookies.remove("pass");
-        sessionStorage.removeItem("user_id");
+        Cookies.remove("token");
         localStorage.removeItem("user_id");
         setUser({first_name: '', last_name: '', email: '', phone: '', address: '', city: '', country: '', zip: '', user_id: ''})
         navigate("/");

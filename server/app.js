@@ -1,13 +1,12 @@
 require("dotenv").config();
 const paypal  = require("./payments/paypal")
-const timesRoter = require('./times/route');
+const timesRoute = require('./times/route');
 const postsRoute = require("./posts/route")
 const usersRoute = require("./users/route")
 const paymentRoute = require("./payments/routes");
 const controllers = require("./payments/controllers");
-const {  authentication } = require("./middlewares/auth2.js");
+const {  authentication, userAuth, adminAuth } = require("./middlewares/auth2.js");
 
-const { identification, adminAuth, userAuth, userId } = require("./middlewares/auth")
 const cors = require('cors');
 const express = require('express');
 const app = express();
@@ -24,9 +23,9 @@ app.use((req, res, next) => {
     next();
 });
 app.use(authentication)
-app.use("/api/orders", userId, paypal );
-app.use("/api/payments",userId, paymentRoute)
+app.use("/api/orders", userAuth, paypal );
+app.use("/api/payments",userAuth, paymentRoute)
 app.use("/api/users", usersRoute);
-app.use("/api/times", timesRoter);
+app.use("/api/times", timesRoute);
 app.use("/api/posts", postsRoute);
 app.get("/api/:data", adminAuth, controllers.getData);

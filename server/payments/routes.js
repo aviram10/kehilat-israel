@@ -1,5 +1,5 @@
 const controllers = require('./controllers');
-const { adminAuth } = require("../middlewares/auth");
+const { adminAuth } = require("../middlewares/auth2");
 const paypal = require("./paypal");
 const express = require('express');
 const router = express.Router();

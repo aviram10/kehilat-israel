@@ -13,6 +13,7 @@ import server from "./config/server";
 import React, { useEffect, useState, createContext } from 'react';
 import { DateTime } from 'luxon';
 import { getUser } from "./server/users";
+import Cookies from "js-cookie";
 
 export const UserContext = createContext(null);
 
@@ -34,16 +35,15 @@ function App() {
   const [user, setUser] = useState({first_name: '', last_name: '', email: '', phone: '', address: '', city: '', country: '', zip: '', user_id: ''});
 
   useEffect(() => {
-    if (localStorage.user_id) sessionStorage.user_id = localStorage.user_id;
-    if (sessionStorage.user_id)
-      getUser(sessionStorage.user_id)
-        .then(res =>  res && setUser(res));
     getTimes(setTimes)
     //update times every day at 00:00
     const tomorrow = DateTime.now().plus({ days: 1 }).startOf('day');
     setTimeout(() => {
       getTimes(setTimes)
     }, tomorrow.diffNow().milliseconds);
+    const token = Cookies.get('token');
+    if(!token) return;
+    getUser(localStorage.getItem("user_id")).then(user => setUser(user));
   }, []);
 
 

@@ -1,7 +1,7 @@
 const express = require('express');
 const controller = require('./controller');
 const router = express.Router();
-const mw = require('../middlewares/auth');
+const mw = require('../middlewares/auth2');
 
 router.get('/', controller.getTimes);
 router.get('/hebrewDate', controller.getHebrewDate);
