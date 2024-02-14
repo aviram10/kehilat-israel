@@ -4,6 +4,7 @@ import PrayerForm from "../forms/prayerForm";
 import { Button } from "@mui/joy";
 import { deletePrayer, addPrayer, updatePrayer } from "../../server/prayer";
 import { useState } from "react";
+import GenericAlert from "../muiComps/Alert";
 
 
 export default function HandlePrayers({ tableProps, prayers, setTimes, setPrayers, selected, setSelected }) {
@@ -25,7 +26,7 @@ export default function HandlePrayers({ tableProps, prayers, setTimes, setPrayer
                         setMessage(rejected.length > 0 ? 
                             ["error", " לא כל התפילות נמחקו בהצלחה! נסה שוב מאוחר יותר"] 
                             : ["success", "התפילות נמחקו בהצלחה!"])
-                            setTimeout(() => setMessage([]), 5000)
+                            setTimeout(() => setMessage([]), 3000)
                     })
                 break;
             case "addPrayer":
@@ -54,6 +55,7 @@ export default function HandlePrayers({ tableProps, prayers, setTimes, setPrayer
     }
 
     return <>
+       {message[0] && <GenericAlert message={message} />}
         <GenericTable data={prayers} {...tableProps} heads={["ID", "תפילה", "זמן היום", "דקות", "קבוע", "קבוצה", "סידורי", "שעה"]}>
             <FormModal title="הוסף תפילה" message={message} setMessage={setMessage} >
                 <PrayerForm handlePrayer={handlePrayer} />
