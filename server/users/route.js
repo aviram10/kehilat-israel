@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const controllers = require("./controllers.js");
 const { userAuth, adminAuth, adminORownerAuth } = require("../middlewares/auth.js");
+const { identification, authentication } = require("../middlewares/auth2.js");
 
 router.post("/login", controllers.login)
 router.post("/register", controllers.register)

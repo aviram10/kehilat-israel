@@ -3,6 +3,16 @@ const util = require('../utils/accessData');
 const posts = require('../posts/services');
 const validator = require("validator");
 const hash = require('../utils/hash');
+const jwt = require('jsonwebtoken');
+
+
+async function login(username, pass) {
+        if (!username || !pass) throw new Error("missing data");
+        const [user] = await getUsers({ username });
+        if (!user || !hash.validate(pass, user.pass)) throw new Error("username and password do not match");
+        return jwt.sign({ user_id: user.user_id, username: user.username, role: user.role }, process.env.ACCESS_TOKEN_SECRET);
+    }
+
 
 async function getUsers(filters = {}) {
     try {
@@ -17,7 +27,6 @@ async function addUser(data) {
     keys.forEach(key => details[key] = data[key]);
     if(!details.username || !details.email || !details.pass || !details.first_name || !details.last_name || !details.phone) throw new Error("missing details");
     if (!validator.isEmail(details.email)) throw new Error("invalid email");
-    // if (!validator.isMobilePhone(details.phone, "he-IL")) throw new Error("invalid phone number");
     details.pass = hash.hash(details.pass);
     const res = await accessData.addUser(details);
     return res;
@@ -77,7 +86,7 @@ async function newDebt({ amount, user_id }) {
 
 
 
-module.exports = { newDebt, addDebt, deleteUser, getUsers, updateUser, getDebt, getUserData, addUser }
+module.exports = { newDebt, addDebt, deleteUser, getUsers, updateUser, getDebt, getUserData, addUser, login }
 
 
 

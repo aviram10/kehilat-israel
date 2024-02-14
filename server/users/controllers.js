@@ -1,12 +1,18 @@
 const services = require('./services');
 const payments = require('../payments/services');
-const accessData = require('./accessData');
 const posts = require('../posts/services');
 const { handleResponse, handleError } = require('../utils/response');
+const validator = require("validator");
 
 
 async function login(req, res) {
-    return req.user ? res.send(req.user) : res.status(401).send("unidentified")
+    try {
+        const { username, pass } = req.body;
+        if (!username || !pass) throw new Error("missing data");
+        if(typeof username !== "string" || typeof pass !== "string") throw new Error("invalid data");
+        const token = await services.login(username, pass);
+        return res.status(200).send({ token });
+    } catch (err) { return res.status(400).send(err.message); };
 }
 async function register(req, res) {
     try {
