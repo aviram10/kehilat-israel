@@ -2,17 +2,17 @@ const cookie = require('cookie');
 const users = require('../users/services');
 const posts = require('../posts/services');
 const comments = require('../comments/services');
+const { hash, validate } = require('../utils/hash');
 
 async function identification(req, res, next) {
     try {
         //get autintication datafrom cookie or body
-        console.log("identification...", req.headers.cookie);
         let data = cookie.parse(req.headers.cookie || '');
         if (!data.username || !data.pass) data = req.body;
         if (!data || !data.username || !data.pass) return next();
         //check if user exist and password is correct
         const [user] = await users.getUsers({ username: data.username });
-        if (!user|| user.role === "לא פעיל" || user.pass != data.pass) return next();
+        if (!user|| user.role === "לא פעיל" || !validate(data.pass, user.pass)) return next();
         req.user = user;
         console.log("identification: ", user.user_id);
         return next();

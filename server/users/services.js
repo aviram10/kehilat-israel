@@ -2,6 +2,7 @@ const accessData = require('./accessData')
 const util = require('../utils/accessData');
 const posts = require('../posts/services');
 const validator = require("validator");
+const hash = require('../utils/hash');
 
 async function getUsers(filters = {}) {
     try {
@@ -11,11 +12,15 @@ async function getUsers(filters = {}) {
 }
 
 async function addUser(data) {
-    if (data.username || data.email || data.pass || !data.first_name || data.last_name || data.phone)
-         throw new Error("missing details");
-    if (!validator.isEmail(data.email)) throw new Error("invalid email");
-    if (!validator.isMobilePhone(data.phone, "he-IL")) throw new Error("invalid phone number");
-
+    const keys = ["username", "email", "pass", "first_name", "last_name", "phone", "address", "city", "zip"];
+    const details = {};
+    keys.forEach(key => details[key] = data[key]);
+    if(!details.username || !details.email || !details.pass || !details.first_name || !details.last_name || !details.phone) throw new Error("missing details");
+    if (!validator.isEmail(details.email)) throw new Error("invalid email");
+    // if (!validator.isMobilePhone(details.phone, "he-IL")) throw new Error("invalid phone number");
+    details.pass = hash.hash(details.pass);
+    const res = await accessData.addUser(details);
+    return res;
 }
     
 
@@ -72,7 +77,7 @@ async function newDebt({ amount, user_id }) {
 
 
 
-module.exports = { newDebt, addDebt, deleteUser, getUsers, updateUser, getDebt, getUserData }
+module.exports = { newDebt, addDebt, deleteUser, getUsers, updateUser, getDebt, getUserData, addUser }
 
 
 

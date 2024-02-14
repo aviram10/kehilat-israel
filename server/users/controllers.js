@@ -12,7 +12,7 @@ async function register(req, res) {
     try {
         const { username, email, pass, first_name, last_name, phone, address, city, zip} = req.body;
         const details = { username, email, pass, first_name, last_name, phone, address, city, zip };
-        Object.keys(details).forEach(key =>{if (details[key] instanceof String)  throw new Error("invalid details")})
+        Object.keys(details).forEach(key =>{if (details[key] && typeof details[key] !== "string" )  throw new Error("invalid data")})
         const [{ insertId }] = await services.addUser(details);
         const [user] = await services.getUsers({ user_id: insertId });
         return res.status(201).send(user);
