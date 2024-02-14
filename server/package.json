@@ -21,6 +21,7 @@
     "mysql2": "^3.6.5",
     "node-fetch": "^3.3.2",
     "qs": "^6.11.2",
-    "react-jewish-datepicker": "^2.0.12"
+    "react-jewish-datepicker": "^2.0.12",
+    "validator": "^13.11.0"
   }
 }

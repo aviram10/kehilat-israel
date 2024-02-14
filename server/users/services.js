@@ -1,6 +1,7 @@
 const accessData = require('./accessData')
 const util = require('../utils/accessData');
 const posts = require('../posts/services');
+const validator = require("validator");
 
 async function getUsers(filters = {}) {
     try {
@@ -8,6 +9,15 @@ async function getUsers(filters = {}) {
         return users;
     } catch (err) { console.log(err); }
 }
+
+async function addUser(data) {
+    if (data.username || data.email || data.pass || !data.first_name || data.last_name || data.phone)
+         throw new Error("missing details");
+    if (!validator.isEmail(data.email)) throw new Error("invalid email");
+    if (!validator.isMobilePhone(data.phone, "he-IL")) throw new Error("invalid phone number");
+
+}
+    
 
 async function updateUser(user_id, data) {
     try {
