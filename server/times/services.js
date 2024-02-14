@@ -121,7 +121,6 @@ async function hebToGreg(hebDate) {
     console.log('hebToGreg');
     console.log(hebDate);
     const { data } = await axios.get(`https://www.hebcal.com/converter?cfg=json&hy=${hebDate.hy}&hm=${hebDate.hm}&hd=${hebDate.hd}&h2g=1`)
-    console.log("greg ", data);
     return data.gy + "-" + data.gm + "-" + data.gd;
 
 }
@@ -147,15 +146,13 @@ async function updatePrayer(prayer, id) {
     } catch (err) { console.log(err); }
 }
 
-//
 // This code copies all the properties of the obj object to the global object.
 // This is done to make the properties of obj can be export to another file.
 //and not overwrite the object itself.
-
 function copyToGlobalVar(obj, global) {
     Object.keys(obj).forEach(key => {
         global[key] = obj[key];
-    })// add the times to the timesData without overwriting the timesData object itself (so that the reference to timesData in the router doesn't change)
+    })
 }
 
  async function deletePrayer(prayer_id) {
@@ -164,7 +161,6 @@ function copyToGlobalVar(obj, global) {
         const index = prayersTimes.findIndex(p => p.id === prayer_id);  
         prayersTimes.splice(index, 1);
 }
-
 
 getTimesEveryMidnight();
 getHebrewDateEverySunset();
