@@ -1,16 +1,16 @@
 	USE kehilat_israel;
 
 INSERT INTO users (user_id, username, first_name, last_name, pass, email, phone, address, city, state, zip, role)
-VALUES (1000, 'david', 'יוחנן', 'דויד', 'password1', 'john.doe@example.com', '1234567890', '123 Main St', 'City1', 'State1', '12345', "מנהל"),
-       (1001, 'yael', 'יעל', 'כהן', 'password2', 'jane.smith@example.com', '0987654321', '456 Elm St', 'City2', 'State2', '54321', "חבר קהילה"),
-       (1002, 'michael', 'מיכאל', 'כהן', 'password3', 'michael.johnson@example.com', '9876543210', '789 Oak St', 'City3', 'State3', '67890', "חבר קהילה"),
-       (1003, 'levy', 'אמילי', 'לוי', 'password4', 'emily.brown@example.com', '0123456789', '321 Pine St', 'City4', 'State4', '09876', "חבר קהילה"),
-       (1004, 'dudi', 'דוד', 'כהן', 'password5', 'david.taylor@example.com', '8765432109', '654 Maple St', 'City5', 'State5', '54321', "חבר קהילה"),
-       (1005, 'oliv', 'אוליביה', 'כהן', 'password6', 'olivia.miller@example.com', '7654321098', '987 Cedar St', 'City6', 'State6', '67890', "חבר קהילה"),
-       (1006, 'yaakov', 'יעקב', 'כהן', 'password7', 'james.anderson@example.com', '6543210987', '654 Birch St', 'City7', 'State7', '12345', "חבר קהילה"),
-       (1007, 'shara', 'שרה', 'כהן', 'password8', 'sophia.wilson@example.com', '5432109876', '321 Oak St', 'City8', 'State8', '54321', "חבר קהילה"),
-       (1008, 'ben', 'בנימין', 'כהן', 'password9', 'benjamin.martinez@example.com', '4321098765', '789 Elm St', 'City9', 'State9', '67890', "חבר קהילה"),
-       (1009, 'avi', 'אביגיל', 'כהן', 'password10', 'ava.harris@example.com', '3210987654', '123 Pine St', 'City10', 'State10', '09876', "חבר קהילה");
+VALUES (1000, 'david', 'יוחנן', 'דויד', 'aTzAt09xRk9Meb//BeBO7mbFXPdoPSvtNJzVBGhQLmY=.n5ZGPJMKDfx0CIPkK0ydlg==', 'john.doe@example.com', '1234567890', '123 Main St', 'City1', 'State1', '12345', "מנהל"),
+       (1001, 'yael', 'יעל', 'כהן', 'Lvcqpopp+ihKa5eGYP2ejNf0UlqIPIlYpQwk+A+dtqo=.iVhZF3fjYyyh72elyYjmuQ==', 'jane.smith@example.com', '0987654321', '456 Elm St', 'City2', 'State2', '54321', "חבר קהילה"),
+       (1002, 'michael', 'מיכאל', 'כהן', 'dgMjfstr8e4A2LJAhepqIqqkmO6LfFzOZ+AwrnAljvI=.NxIYcjY0wfyjmaue8aVO4A==', 'michael.johnson@example.com', '9876543210', '789 Oak St', 'City3', 'State3', '67890', "חבר קהילה"),
+       (1003, 'levy', 'אמילי', 'לוי', 'HeJavkeaFH3DHrzS1H7Djzm1gLm1BQcXxlIpuATwia8=.sXanaeEfMODTTNExemie0Q==', 'emily.brown@example.com', '0123456789', '321 Pine St', 'City4', 'State4', '09876', "חבר קהילה"),
+       (1004, 'dudi', 'דוד', 'כהן', 'Uofxo61WMaZsZ2TWHZDf41kFl3rFs7KP5+jFcLyetnA=.v0A4JexyemTNHuZfTq0pfQ==', 'david.taylor@example.com', '8765432109', '654 Maple St', 'City5', 'State5', '54321', "חבר קהילה"),
+       (1005, 'oliv', 'אוליביה', 'כהן', 'GPsdAaNWf6mq7BV9OhJvWQufCv1zp4WlJy7cbv2dXMc=.d+RVuglqJhXEcnljSg/fBg==', 'olivia.miller@example.com', '7654321098', '987 Cedar St', 'City6', 'State6', '67890', "חבר קהילה"),
+       (1006, 'yaakov', 'יעקב', 'כהן', 'Hkp7ib9rjwR6dKoKi1jd3IB4DpMn646C5UYNpEjg/b8=.bPLU5qd5ZKWJIV5y/FLLOw==', 'james.anderson@example.com', '6543210987', '654 Birch St', 'City7', 'State7', '12345', "חבר קהילה"),
+       (1007, 'shara', 'שרה', 'כהן', 'PSEB8mfahlNr5u2cpEBz0+wSzHJqYXEVO1TkiMuquhE=.gK5x0abJCVtnb1qNRQEcFQ==', 'sophia.wilson@example.com', '5432109876', '321 Oak St', 'City8', 'State8', '54321', "חבר קהילה"),
+       (1008, 'ben', 'בנימין', 'כהן', 'rLs9OeKQSUJ1aEXri1pTjuUVsqNtOsOw0fW/3FsvJss=.fxfSri9jd6hrbKh9ERDlIA==', 'benjamin.martinez@example.com', '4321098765', '789 Elm St', 'City9', 'State9', '67890', "חבר קהילה"),
+       (1009, 'avi', 'אביגיל', 'כהן', 'pgwYHlHfZOJkZA+9M6d902GY8iXDldqrKhrV/e8fyw0=.cxxo2Cw2FfHw2gWOlWkEtQ==', 'ava.harris@example.com', '3210987654', '123 Pine St', 'City10', 'State10', '09876', "חבר קהילה");
 
 INSERT INTO posts (user_id, title, content, date, likes, category)
 VALUES
