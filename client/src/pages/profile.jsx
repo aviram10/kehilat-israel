@@ -18,18 +18,18 @@ export default function Profile() {
   const [paypal, setPaypal] = useState(1)
   
   useEffect(() => {
-    if (!sessionStorage.user_id) return  navigate('/login');
-    axios.get(`${url}/users/${sessionStorage.user_id}/data`, { withCredentials: true })
+    if (!localStorage.user_id) return  navigate('/login');
+    axios.get(`${url}/users/${localStorage.user_id}/data`, { withCredentials: true })
     .then(({ data }) => {
+      setUser(data.user);
       setMyPosts(data.myPosts);
       setSavedPosts(data.savedPosts);
-      setDebt(data.debt.debt)
-      setUser(data.user)
+      setDebt(data.debt?.debt)
       setPaypal(prev => prev + 1)
     })
     .catch(e => console.log(e))
   }, [navigate])
-  
+
   const handleUser = useCallback(user =>setUser({...user}),[])
 
    function success(data){
@@ -65,7 +65,8 @@ export default function Profile() {
   }), [])
   async function handleSubmit(e){
     try{
-        await axios.put(`${url}/users/${sessionStorage.user_id}`, user, { withCredentials: true })
+      console.log(user);
+        await axios.put(`${url}/users/${localStorage.user_id}`, user, { withCredentials: true })
     }catch(error){
         console.log(error);
     }

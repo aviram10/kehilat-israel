@@ -10,8 +10,8 @@ async function login(req, res) {
         const { username, pass } = req.body;
         if (!username || !pass) throw new Error("missing data");
         if(typeof username !== "string" || typeof pass !== "string") throw new Error("invalid data");
-        const token = await services.login(username, pass);
-        return res.status(200).send({ token });
+        const data = await services.login(username, pass);
+        return res.status(200).send(data);
     } catch (err) { return res.status(400).send(err.message); };
 }
 async function register(req, res) {

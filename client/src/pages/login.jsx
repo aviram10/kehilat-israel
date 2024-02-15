@@ -11,7 +11,7 @@ export default function Login({updateUser}) {
     const [input, setInput] = useState({ username: "", pass: "", remember: false, first_name: "", last_name: "", email: "", phone: "" })
     const [message, setMessage] = useState("");
     const navigate = useNavigate();
-    useEffect(()=> sessionStorage.user_id && navigate("/home"),[navigate])
+    useEffect(()=> localStorage.user_id && navigate("/home"),[navigate])
 
     function handleChange(e) {
         setInput({ ...input, [e.target.name]: e.target.value })
@@ -24,8 +24,9 @@ export default function Login({updateUser}) {
             let { data } = await axios.post(`${url}/users/${mode}`, input);
             //todo: check expire date of cookie 
             cookie.set("token", data.token, { expires: input.remember ? 7 : 1 })
-            if (input.remember) localStorage.setItem("user_id", data.user_id);
-            updateUser(data);
+             localStorage.setItem("user_id", data.user.user_id);
+            updateUser(data.user);
+            console.log(data.user);
             setMessage(`${mode} success`)
             setTimeout(() => {
                 navigate(-1);

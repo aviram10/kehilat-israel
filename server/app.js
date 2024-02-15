@@ -20,6 +20,7 @@ app.use((req, res, next) => {
     console.log("visitors: ", visitors);
     console.log("req.url: ", req.url);
     console.log("req.body: ", req.body);
+    console.log("req.cookies: ", req.headers.cookie);
     next();
 });
 app.use(authentication)

@@ -7,12 +7,10 @@ import DebtForm from "../forms/debtForm";
 
 export default function HandleDebts({ debts, setDebts, selected, setSelected, tableProps }) {
     const [message, setMessage] = useState("")
-    console.log(debts);
 
 
     const handleDebt = async (action, input) => {
         try {
-            console.log(input.amount, input.user_id);
             let data;
             switch (action) {
                 case "add":

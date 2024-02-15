@@ -20,7 +20,6 @@ export const UserContext = createContext(null);
 async function getTimes(setTimes) {
   try {
     const { data } = await axios.get(`${server.url}/times`);
-    console.log("app.js times", data);
     data.prayers = data.prayers.sort((a, b) => a.sort - b.sort);
     setTimes(data);
   } catch (error) {

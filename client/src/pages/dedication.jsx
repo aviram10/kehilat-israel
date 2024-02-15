@@ -29,7 +29,7 @@ export default function Dedication(params) {
 
 
     useEffect(() => {
-        !sessionStorage.user_id && navigate("/login")
+        !localStorage.user_id && navigate("/login")
         return
     }, [navigate])
 

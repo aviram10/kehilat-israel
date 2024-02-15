@@ -8,7 +8,6 @@ import { useState } from 'react';
 import Alert from './Alert';
 export default function FormModal({title,message=[], setMessage, children, disabled}) {
 
-  console.log(setMessage);
   const [open, setOpen] = useState(false);
   if(message?.length > 0 && message[0] === "success")setTimeout(() => setOpen(false), 3000);
 

@@ -118,8 +118,6 @@ async function getTimes() {
 }
 
 async function hebToGreg(hebDate) {
-    console.log('hebToGreg');
-    console.log(hebDate);
     const { data } = await axios.get(`https://www.hebcal.com/converter?cfg=json&hy=${hebDate.hy}&hm=${hebDate.hm}&hd=${hebDate.hd}&h2g=1`)
     return data.gy + "-" + data.gm + "-" + data.gd;
 

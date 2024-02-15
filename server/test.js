@@ -33,11 +33,8 @@ const {
 }
 
 async function hebToGreg(hebDate) {
-  console.log('hebToGreg');
   const { data } = await axios.get(`https://www.hebcal.com/converter?cfg=json&hy=${hebDate.hy}&hm=${hebDate.hm}&hd=${hebDate.hd}&h2g=1`)
   data.greg = new Date(data.gy, data.gm - 1, data.gd).toISOString().slice(0, 10);
-
-  console.log(data);
   return data;
 }
 // getHebrewDate();

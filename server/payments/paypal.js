@@ -5,7 +5,6 @@ const services = require("./services");
 // import "dotenv/config";
 
 const { PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET, PORT = 8888 } = process.env;
-console.log("PAYPAL_CLIENT_ID: ", PAYPAL_CLIENT_ID);
 
 const base = "https://api-m.sandbox.paypal.com";
 const router = express.Router();

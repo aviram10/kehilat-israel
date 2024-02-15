@@ -9,9 +9,6 @@ function Message({ content }) {
 }
 
 function Paypal({ name, amount, date, type, details, success }) {
-  // console.log(name, amount, date,type,details, success, set);
-  console.log(date);
-
   const initialOptions = {
     "client-id": "Afgnr4u04HGd4lrqQjBNkd9tjx3xyc1ZBvZ8cYHOR81CT_8im1Tw2N31Z_TyIHdDQymuapou6od5UFLi",
     "enable-funding": "venmo,card",
