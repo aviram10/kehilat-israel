@@ -1,11 +1,16 @@
 import axios from "axios";
 import { url } from "../config/server";
 import {get, post} from "../server/server"
+import Cookies from "js-cookie";
+
 export async function getUser(user_id){
     try{
-        const { data } = await axios.get(`${url}/users/${user_id}`,{withCredentials: true});
+        const { data } = await axios.get(`${url}/users/${user_id}`,{withCredentials: true, maxRedirects: 1});
         return data;
-    }catch(err){console.log(err);}
+    }catch(err){
+        Cookies.remove("token"); 
+        Cookies.remove("user_id");
+    }
 }
 
 export async function getUsers(){

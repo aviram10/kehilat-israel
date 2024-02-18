@@ -6,6 +6,7 @@ import axios from 'axios';
 import Posts from '../comps/postsComps/posts';
 import { toggleLike, deletePosts } from '../server/posts';
 import Paypal from '../comps/paypal';
+import Cookies from 'js-cookie';
 const {useNavigate} = require('react-router-dom')
 
 
@@ -18,8 +19,9 @@ export default function Profile() {
   const [paypal, setPaypal] = useState(1)
   
   useEffect(() => {
-    if (!localStorage.user_id) return  navigate('/login');
-    axios.get(`${url}/users/${localStorage.user_id}/data`, { withCredentials: true })
+    const {token , user_id} = Cookies.get();
+    if (!token) return  navigate('/login');
+    axios.get(`${url}/users/${user_id}/data`, { withCredentials: true })
     .then(({ data }) => {
       setUser(data.user);
       setMyPosts(data.myPosts);
@@ -66,7 +68,7 @@ export default function Profile() {
   async function handleSubmit(e){
     try{
       console.log(user);
-        await axios.put(`${url}/users/${localStorage.user_id}`, user, { withCredentials: true })
+        await axios.put(`${url}/users/${Cookies.get("user_id")}`, user, { withCredentials: true })
     }catch(error){
         console.log(error);
     }

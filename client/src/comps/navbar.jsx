@@ -11,7 +11,7 @@ export default function Navbar() {
     const navigate = useNavigate();
     const logout =() =>{
         Cookies.remove("token");
-        localStorage.removeItem("user_id");
+        Cookies.remove("user_id");
         setUser({first_name: '', last_name: '', email: '', phone: '', address: '', city: '', country: '', zip: '', user_id: ''})
         navigate("/");
     }

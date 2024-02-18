@@ -38,17 +38,18 @@ async function identification(req, res, next) {
  */
 function authentication(req, res, next) {
     try {
-        if (!req.headers.cookie) return next();
-        const { token } = cookie.parse(req.headers.cookie);
+        console.log("authentication", req.headers.cookie?.token);
+        const { token } = cookie.parse(req.headers.cookie || "");
+        if (!token) return next();
         jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
             if (err) throw err;
-            console.log('user', user);
+            console.log("authentication", user);
             req.user = user;
         })
         return next();
     } catch (error) {
         console.log(error);
-        return next();
+       return next();
     }
 }
 
