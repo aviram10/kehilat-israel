@@ -24,10 +24,8 @@ async function getUsers(filters = {}) {
     } catch (err) { console.log(err); }
 }
 
-async function addUser(data) {
-    const keys = ["username", "email", "pass", "first_name", "last_name", "phone", "address", "city", "zip"];
-    const details = {};
-    keys.forEach(key => details[key] = data[key]);
+async function addUser({username, email, pass, first_name, last_name, phone, address, city, zip}) {
+    const details = {username, email, pass, first_name, last_name, phone, address, city, zip};
     if(!details.username || !details.email || !details.pass || !details.first_name || !details.last_name || !details.phone) throw new Error("missing details");
     if (!validator.isEmail(details.email)) throw new Error("invalid email");
     details.pass = hash.hash(details.pass);

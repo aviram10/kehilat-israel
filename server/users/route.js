@@ -19,6 +19,4 @@ router.route("/:user_id/debt")
     .all(adminAuth)
     .post(controllers.handleDebt)
 
-
-
 module.exports = router;
