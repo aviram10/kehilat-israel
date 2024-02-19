@@ -37,7 +37,7 @@ async function handlePayment(details) {
         const [{ insertId }] = await accessData.insert("donations", details);
         const donation_id = insertId
          result?.push(await accessData.get("donations", {donation_id})[0])
-         if (type !== "debt") result?.push(await dedicationPayment({...details, donation_id,name, date})[0]);
+         if (type !== "debt") result?.push(await dedicationPayment({...details, donation_id,name, date, type})[0]);
          console.log("result", result);
         return result
         
