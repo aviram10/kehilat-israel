@@ -7,10 +7,10 @@ const validator = require("validator");
 
 async function login(req, res) {
     try {
-        const { username, pass } = req.body;
+        const { username, pass, remember } = req.body;
         if (!username || !pass) throw new Error("missing data");
         if(typeof username !== "string" || typeof pass !== "string") throw new Error("invalid data");
-        const data = await services.login(username, pass);
+        const data = await services.login(username, pass, remember);
         return res.status(200).send(data);
     } catch (err) { return res.status(400).send(err.message); };
 }

@@ -5,13 +5,14 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import "../styles/login.css";
+import Cookies from 'js-cookie';
 
 export default function Login({updateUser}) {
     const [mode, setMode] = useState("login");
     const [input, setInput] = useState({ username: "", pass: "", remember: false, first_name: "", last_name: "", email: "", phone: "" })
     const [message, setMessage] = useState("");
     const navigate = useNavigate();
-    useEffect(()=> localStorage.user_id && navigate("/home"),[navigate])
+    useEffect(()=> Cookies.get("token") && navigate("/home"),[navigate])
 
     function handleChange(e) {
         setInput({ ...input, [e.target.name]: e.target.value })
@@ -23,10 +24,9 @@ export default function Login({updateUser}) {
         try {
             let { data } = await axios.post(`${url}/users/${mode}`, input);
             //todo: check expire date of cookie 
-            cookie.set("token", data.token, { expires: input.remember ? 7 : 1 })
-             localStorage.setItem("user_id", data.user.user_id);
+            cookie.set("token", data.token, input.remember ? { expires: 30 } : {});
+            cookie.set("user_id", data.user.user_id, input.remember ? { expires: 30 } : {});
             updateUser(data.user);
-            console.log(data.user);
             setMessage(`${mode} success`)
             setTimeout(() => {
                 navigate(-1);

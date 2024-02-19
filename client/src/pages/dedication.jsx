@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { DateTime } from 'luxon';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../App'
+import Cookies from 'js-cookie';
 
 import '../styles/dedication.css';
 import Paypal from '../comps/paypal';
@@ -25,11 +26,10 @@ export default function Dedication(params) {
     const navigate = useNavigate();
     const [user] = useContext(UserContext);
     const width = useResize();
-    console.log(changed);
 
 
     useEffect(() => {
-        !localStorage.user_id && navigate("/login")
+        !Cookies.get("token") && navigate("/login")
         return
     }, [navigate])
 

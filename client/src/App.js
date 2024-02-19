@@ -24,14 +24,14 @@ async function getTimes(setTimes) {
     setTimes(data);
   } catch (error) {
     setTimeout(() => {
-        getTimes(setTimes)
+      getTimes(setTimes)
     }, 500000);
   }
 }
 
 function App() {
   const [times, setTimes] = useState({ prayers: [], dayTimes: [], items: [] });
-  const [user, setUser] = useState({first_name: '', last_name: '', email: '', phone: '', address: '', city: '', country: '', zip: '', user_id: ''});
+  const [user, setUser] = useState({ first_name: '', last_name: '', email: '', phone: '', address: '', city: '', country: '', zip: '', user_id: '' });
 
   useEffect(() => {
     getTimes(setTimes)
@@ -40,9 +40,10 @@ function App() {
     setTimeout(() => {
       getTimes(setTimes)
     }, tomorrow.diffNow().milliseconds);
-    const token = Cookies.get('token');
-    if(!token) return;
-    getUser(localStorage.getItem("user_id")).then(user => setUser(user));
+    const { token, user_id } = Cookies.get();
+    if (!token) return;
+    getUser(user_id).then(user => setUser(user))
+    setT
   }, []);
 
 
@@ -77,7 +78,7 @@ function App() {
         </Route>
       </Routes>
     </UserContext.Provider>
-      {/* <GameField /> */}
+    {/* <GameField /> */}
   </div>
 }
 
