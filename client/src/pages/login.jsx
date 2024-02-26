@@ -3,7 +3,7 @@ import { url } from '../config/server'
 import cookie from 'js-cookie';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useHistory } from 'react-router-dom';
 import "../styles/login.css";
 import Cookies from 'js-cookie';
 
@@ -27,14 +27,15 @@ export default function Login({updateUser}) {
             cookie.set("token", data.token, input.remember ? { expires: 30 } : {});
             cookie.set("user_id", data.user.user_id, input.remember ? { expires: 30 } : {});
             updateUser(data.user);
-            setMessage(`${mode} success`)
+            setMessage(["success", `${mode} successfully`])
             setTimeout(() => {
-                navigate(-1);
+                const goto  = document.referrer.includes("login") ? "/home" : -1;
+                navigate(goto);
             }, 1000);
 
         } catch (error) {
             console.log(error);
-            setMessage(`${mode} failed \n ${error.message}`)
+            setMessage(["fail","password or username are incorrect"])
         }
     }
 
@@ -70,7 +71,7 @@ export default function Login({updateUser}) {
             </div>
 }
             <h4>{mode === "login" ? "don't have an account? " : "already have an account? "}<span onClick={changeMode}>click here</span></h4>
-            <h4>{message}</h4>
+            <h4 style={{color: message[0] === "success" ? "green": "red"}}>{message[1]}</h4>
         </div>
         </div>
     </>

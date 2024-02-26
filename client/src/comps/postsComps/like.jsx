@@ -1,8 +1,6 @@
 import Chip from '@mui/joy/Chip';
 import GradeSharpIcon from '@mui/icons-material/GradeSharp';
 
-
-
 export default function Like({message, handleMessage}) {
 
     const handleLike = async (e) => {

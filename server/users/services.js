@@ -12,7 +12,7 @@ async function login(username, pass, remember = false) {
         if (!user || !hash.validate(pass, user.pass)) throw new Error("username and password do not match");
         const token = jwt.sign({ user_id: user.user_id, username: user.username, role: user.role }, 
             process.env.ACCESS_TOKEN_SECRET, 
-            { expiresIn: remember ? "30d" : "1m"});
+            { expiresIn: remember ? "30d" : 20});
         return {token, user};
     }
 
