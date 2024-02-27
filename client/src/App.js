@@ -43,7 +43,6 @@ function App() {
     const { token, user_id } = Cookies.get();
     if (!token) return;
     getUser(user_id).then(user => setUser(user))
-    setT
   }, []);
 
 
