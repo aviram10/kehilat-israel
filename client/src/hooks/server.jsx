@@ -1,24 +1,32 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from 'axios';
 import { url } from '../config/server';
+import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../App';
+import Cookies from "js-cookie";
 export  function useGet(endPoint) {
-    const [data, setData] = useState(null);
-    let fullUrl = url + endPoint;
+    const [data, setData] = useState([]);
+    const navigate = useNavigate();
+    const [user, setUser] = useContext(UserContext);
+    let fullUrl = url +'/'+ endPoint;
 
     useEffect(() => {
         async function fetchData() {
             try {
-                const response = await axios.get(fullUrl,{withCredentials: true});
-                const json = await response.json();
-                setData(json);
+                const {data} = await axios.get(fullUrl,{withCredentials: true});
+                setData(data);
             } catch (error) {
                 console.log("error", error);
+                setUser({});
+                navigate("/login", );
+                Cookies.remove("token");
+                Cookies.remove("user_id");
             }
         }
         fetchData();
     }, [fullUrl]);
 
-    return data;
+    return [data, setData];
 }
 
 export  function usePost(endPoint, data) {
