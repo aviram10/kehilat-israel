@@ -4,16 +4,10 @@ import { deleteUsers, manager } from '../../server/users'
 import { Button } from "@mui/joy";
 import GenericTable from "../muiComps/Table";
 
-
 export default function HandleUsers({ setUsers, users, selected, setSelected, tableProps }) {
-        
-
-
     const handleDeleteUsers = async () => {
-        console.log("deleteUsers");
         const results = await deleteUsers(selected)
         results.forEach((result) => {
-            console.log(result);
             result.status === "fulfilled" &&
                 setUsers(prev => prev.map(user => user.user_id == result.value.data ? { ...user, role: "לא פעיל" } : { ...user }))
         })

@@ -13,7 +13,6 @@ export  function useGet(endPoint, filter = {}) {
         async function fetchData() {
             try {
                 const {data} = await axios.get(fullUrl,{withCredentials: true});
-                console.log(endPoint, data);
                 setData(data);
             } catch (error) {
                 console.log("error", error);

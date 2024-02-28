@@ -7,6 +7,7 @@ import HandleUsers from '../comps/management/users';
 import HandleDebts from '../comps/management/debts';
 import HandlePrayers from '../comps/management/prayers';
 import { useGet } from '../hooks/server';
+import UsersHandler from '../comps/management/users2';
 
 
 export default function Management({ times, setTimes }) {
@@ -20,39 +21,13 @@ export default function Management({ times, setTimes }) {
     const [prayers, setPrayers] = useState(times?.prayers || [])
     if (prayers.length === 0 && times.prayers.length > 0) setPrayers(times.prayers)
 
-
-    // const getData = async () => {
-    //     try {
-    //         let users = await server("users")
-    //         setUsers(users)
-    //         let debts = await server("debts");
-    //         console.log("debts", debts);
-    //         setDebts(debts.map(debt => debt.username = ({ ...debt, username: users.find(user => user.user_id == debt.user_id).username })))
-    //         setPrayers(times.prayers)
-    //         let donations = await server("donations");
-    //         setDonations(donations.map(donation => donation.username = ({ ...donation, username: users.find(user => user.user_id == donation.user_id).username })))
-    //         let dedications = await server("dedications");
-    //         setDedications(dedications.map(dedication => dedication.username = ({ ...dedication, username: users.find(user => user.user_id == dedication.user_id).username })))
-    //         server("posts").then(res => setPosts(res.map(post => {
-    //             delete post.liked
-    //             delete post.username;
-    //             delete post.role;
-    //             return post
-    //         })))
-    //     } catch (err) { 
-    //         console.log(err);
-    //         if(err.message == "not valid token") navigate("/login");
-    //      }
-
-    // }    
+ 
     const handleData = data => {
         if(!(data instanceof Array)) return [];
         if(!data[0]?.username)
             data = data.map(r => ({...r, username: users.find(user => user.user_id === r.user_id).username}))
         return data.filter(e => e.username.includes(search));
     }
-
-    
 
     useEffect(() => {
         setTimes(prev => ({ ...prev, prayers }));
@@ -112,7 +87,7 @@ export default function Management({ times, setTimes }) {
                 <Tab disableIndicator>פוסטים</Tab>
             </TabList>
             <TabPanel value={0}>
-                <HandleUsers {...{ users: handleData(users), setUsers, selected, setSelected, tableProps }} />
+                <UsersHandler {...{ users: handleData(users), setUsers, selected, setSelected, tableProps }} />
             </TabPanel>
             <TabPanel value={1}>
                 <GenericTable {...tableProps} data={donations} heads={["ID", "מזהה משתשמש", "סכום", "תאריך"]} />

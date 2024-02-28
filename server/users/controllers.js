@@ -32,6 +32,8 @@ async function getUsers(req, res) {
     try {
         const users = await services.getUsers();
         users.forEach(user => delete user.pass)
+        const {start, limit} = req.query;
+        if(start && limit) return res.send(users.slice(start, start + limit));
         return res.send(users);
     }
     catch (err) { console.log(err); }
