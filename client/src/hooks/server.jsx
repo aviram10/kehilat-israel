@@ -4,16 +4,16 @@ import { url } from '../config/server';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../App';
 import Cookies from "js-cookie";
-export  function useGet(endPoint) {
+export  function useGet(endPoint, filter = {}) {
     const [data, setData] = useState([]);
     const navigate = useNavigate();
     const [user, setUser] = useContext(UserContext);
     let fullUrl = url +'/'+ endPoint;
-
     useEffect(() => {
         async function fetchData() {
             try {
                 const {data} = await axios.get(fullUrl,{withCredentials: true});
+                console.log(endPoint, data);
                 setData(data);
             } catch (error) {
                 console.log("error", error);
@@ -25,9 +25,9 @@ export  function useGet(endPoint) {
         }
         fetchData();
     }, [fullUrl]);
-
     return [data, setData];
 }
+
 
 export  function usePost(endPoint, data) {
     const [response, setResponse] = useState(null);

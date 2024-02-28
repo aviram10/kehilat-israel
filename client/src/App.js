@@ -7,7 +7,7 @@ import Times from './pages/times';
 import MessagesBoard from './pages/messagesBoard';
 import Dedication from './pages/dedication';
 import Profile from './pages/profile';
-import Managment from './pages/managment';
+import Management from './pages/management';
 import axios from 'axios';
 import server from "./config/server";
 import React, { useEffect, useState, createContext } from 'react';
@@ -72,7 +72,7 @@ function App() {
           <Route path='board' element={<MessagesBoard />} />
           <Route path='dedication' element={<Dedication />} />
           <Route path='profile' element={<Profile />} />
-          <Route path='managment' element={<Managment times={times} setTimes={setTimes} />} />
+          <Route path='management' element={<Management times={times} setTimes={setTimes} />} />
           <Route path='*' element={<h1>Not Found</h1>} />
         </Route>
       </Routes>

@@ -1,85 +1,91 @@
-.container{
+.container {
     display: flex;
     height: 100vh;
+    justify-content: space-between;
 }
 
-.img{
+.img {
     width: 50%;
     background-image: url("../assets/shul.jpg");
-    background-size: cover ;
+    background-size: cover;
     background-position: center;
     color: white;
 }
-.login{
+
+.login {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
     height: fit-content;
     width: 50%;
-   text-align: center;
- 
+    text-align: center;
+
 }
 
-.form h2{
+.form h2 {
     color: blue;
     text-align: center;
     font-size: 2em;
     margin-top: 0px;
 }
-.login h3{
+
+.login h3 {
     color: purple;
     text-align: center;
     margin-top: 5px;
 }
 
-.form{
-   height: fit-content  ;
-  margin: auto;
+.form {
+    height: fit-content;
+    margin: auto 20px;
+
     max-width: 700px;
-    width: 50%;
+    width: 45%;
     background-color: rgba(255, 255, 255, 0.784);
     display: flex;
-    justify-content: space-evenly   ;
+    justify-content: space-evenly;
     flex-direction: column;
     align-items: center;
     /* padding: 10px; */
     border-radius: 10px;
     box-shadow: 0 0 10px #ccc;
 }
-#signup{
+
+#signup {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100%;
     width: 100%;
-   
+
 
 }
 
 
-   
-.form input{
+
+/* .form input{
     text-align: center;
     width: 75%;
     height: 50px;
     margin: 4px 0;
     border: none;
-    border-radius: 5px;
-    /* padding: 0 4px; */
-    font-size: 16px;
+    border-radius: 5px; */
+/* padding: 0 4px; */
+/* font-size: 16px;
     background-color: lightblue;
   
-}
-.form [type="checkbox"]{
-   width: fit-content;
-   height: fit-content;
+} */
+
+
+.form [type="checkbox"] {
+    width: fit-content;
+    height: fit-content;
 }
 
 
-.form button{
+.form button {
     width: 75%;
     height: 40px;
     margin: 10px 0;
@@ -91,6 +97,3 @@
     color: white;
     cursor: pointer;
 }
-
-
-

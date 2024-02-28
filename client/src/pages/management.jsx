@@ -1,26 +1,30 @@
 import { useEffect, useState } from 'react';
 import { Stack, Button, Typography, Tabs, TabList, Tab, tabClasses, TabPanel, Sheet, Modal, Input } from '@mui/joy';
-import server from '../server/general';
 import { deletePosts } from '../server/posts'
 import GenericTable from '../comps/muiComps/Table';
 import { DateTime } from 'luxon';
-import HandleUsers from '../comps/managment/users';
-import HandleDebts from '../comps/managment/debts';
-import HandlePrayers from '../comps/managment/prayers';
-import {useGet} from '../hooks/server';
+import HandleUsers from '../comps/management/users';
+import HandleDebts from '../comps/management/debts';
+import HandlePrayers from '../comps/management/prayers';
+import { useGet } from '../hooks/server';
 
 
-export default function Managment({ times, setTimes }) { 
+export default function Management({ times, setTimes }) {
     let [users, setUsers] = useGet("users");
-    const [donations, setDonations] =  useGet("donations")
+    const [donations, setDonations] = useGet("donations")
     const [dedications, setDedications] = useGet("dedications")
-    const [prayers, setPrayers] = useGet("prayerstimes")
+    // setDedications(dedications.map(dedication => dedication.username = ({ ...dedication, username: users.find(user => user.user_id == dedication.user_id).username })))
     const [posts, setPosts] = useGet("posts")
-    const [debts, setDebts] = useGet("users")
+    // setPosts(posts.map(post => {
+    //     delete post.liked
+    //     delete post.username;
+
+    const [debts, setDebts] = useGet("debts")
     const [selected, setSelected] = useState([])
     const [search, setSearch] = useState("")
+    const [prayers, setPrayers] = useState(times?.prayers || [])
     if (prayers.length === 0 && times.prayers.length > 0) setPrayers(times.prayers)
-   
+
 
     // const getData = async () => {
     //     try {
@@ -47,19 +51,18 @@ export default function Managment({ times, setTimes }) {
 
     // }
 
-    // useEffect(() => {
-    //     getData();
-    // }, [])
+    useEffect(() => {
+        if(debts && debts[0]?.username) return;
+        debts && setDebts(debts.map(debt =>  ({ ...debt, username: users.find(user => user.user_id == debt.user_id).username })))
+    }, [debts])
 
     useEffect(() => {
         setTimes(prev => ({ ...prev, prayers }));
     }, [prayers])
 
-
     const handleSearch = ({ target }) => {
         setSearch(target.value)
     }
-
 
     const handleChange = ({ target }) => {
         console.log(target.name);
@@ -117,7 +120,7 @@ export default function Managment({ times, setTimes }) {
                 <GenericTable {...tableProps} data={donations} heads={["ID", "מזהה משתשמש", "סכום", "תאריך"]} />
             </TabPanel>
             <TabPanel value={2}>
-                <HandleDebts {...{ debts: debts.filter(debt => debt.username.includes(search)), setDebts, selected, setSelected, tableProps }} />
+                <HandleDebts {...{ debts: debts.filter(debt => debt.username?.includes(search)), setDebts, selected, setSelected, tableProps }} />
             </TabPanel>
             <TabPanel value={3}>
                 <GenericTable data={dedications}  {...tableProps} heads={["ID", "מזהה תרומה", "User ID", "תאריך", "הקדשה", "סוג"]} />

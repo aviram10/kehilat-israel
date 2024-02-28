@@ -52,6 +52,12 @@ async function updateDebt({amount, user_id}) {
     } catch (err) { console.log(err); }
 }
 
+async function getDebts() {
+    try {
+        return await db.get("debts", ['*']);
+    } catch (err) { console.log(err); }
+}
 
 
-module.exports = {deleteUser, getUsers, addUser, updateUser, getDebt, updateDebt, newDebt }
+
+module.exports = {getDebts,deleteUser, getUsers, addUser, updateUser, getDebt, updateDebt, newDebt }

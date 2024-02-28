@@ -120,4 +120,11 @@ async function newDebt(req, res) {
     } catch ({message}) { console.log(message); res.status(400).json({message}); }
 }
 
-module.exports = { newDebt, handleDebt, deleteUser, getUsers, login, register, getUser, getPosts, updateUser, getDebt, getUserData }
+async function getDebts(req, res) {
+    try {
+        const debts = await services.getDebts();
+        res.send(debts);
+    } catch (err) { console.log(err); }
+}
+
+module.exports = {getDebts, newDebt, handleDebt, deleteUser, getUsers, login, register, getUser, getPosts, updateUser, getDebt, getUserData }

@@ -12,7 +12,7 @@ async function login(username, pass, remember = false) {
         if (!user || !hash.validate(pass, user.pass)) throw new Error("username and password do not match");
         const token = jwt.sign({ user_id: user.user_id, username: user.username, role: user.role }, 
             process.env.ACCESS_TOKEN_SECRET, 
-            { expiresIn: remember ? "30d" : 20});
+            { expiresIn: remember ? "30d" : "6h"});
         return {token, user};
     }
 
@@ -85,9 +85,16 @@ async function newDebt({ amount, user_id }) {
     } catch (err) { console.log(err);return err }
 }
 
+async function getDebts() {
+    try {
+        const [data] = await accessData.getDebts();
+        return data
+    } catch (err) { console.log(err); }
+}
 
 
-module.exports = { newDebt, addDebt, deleteUser, getUsers, updateUser, getDebt, getUserData, addUser, login }
+
+module.exports = {getDebts, newDebt, addDebt, deleteUser, getUsers, updateUser, getDebt, getUserData, addUser, login }
 
 
 
