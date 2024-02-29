@@ -3,7 +3,7 @@ import { url } from '../config/server'
 import cookie from 'js-cookie';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useNavigate, useHistory } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import "../styles/login.css";
 import Cookies from 'js-cookie';
 import { TextField, Box, FormControlLabel, Checkbox } from '@mui/material';
@@ -16,9 +16,15 @@ const theme = createTheme({
 export default function Login({ updateUser }) {
     const [mode, setMode] = useState("login");
     const [input, setInput] = useState({ username: "", pass: "", remember: false, first_name: "", last_name: "", email: "", phone: "" })
-    const [message, setMessage] = useState("");
+    const [message, setMessage] = useState(null);
     const navigate = useNavigate();
-    useEffect(() => Cookies.get("token") && navigate("/home"), [navigate])
+    const location = useLocation();
+    useEffect(()=> {
+        Cookies.get("token") && navigate("/home");
+        console.log(location);
+        location.state?.message && setMessage(["fail",location.state.message]);
+         
+    },[navigate])
 
     function handleChange(e) {
         setInput({ ...input, [e.target.name]: e.target.value })
@@ -35,7 +41,7 @@ export default function Login({ updateUser }) {
             updateUser(data.user);
             setMessage(["success", `${mode} successfully`])
             setTimeout(() => {
-                const goto = document.referrer.includes("login") ? "/home" : -1;
+                const goto =location.state?.goto ? location.state.goto : "/home";
                 navigate(goto);
             }, 1000);
 

@@ -2,9 +2,6 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import {url} from '../config/server';
 
-
-
-
 export async function get(endPoint){
     console.log("get", endPoint, url);
     try{

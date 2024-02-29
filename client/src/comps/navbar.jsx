@@ -26,11 +26,10 @@ export default function Navbar() {
                 <NavLink to="/home" >   קהילת ישראל  </NavLink>
             </div>
             <div className="nav">
-                <NavLink to="/times" >   זמני היום </NavLink>|
-                <NavLink to="/times" >   זמני התפילות  </NavLink>|
+                <NavLink to="/times" >   זמנים </NavLink>|
                 <NavLink to="/board">   לוח הקהילה  </NavLink> |
-                <NavLink to={user?.user_id ? "/dedication" : "/login"}>  הקדשות  </NavLink>
-                {user?.role === "מנהל" && <NavLink to="/management">  ניהול  </NavLink>}
+                <NavLink to={ "/dedication"}>  הקדשות  </NavLink>
+                {user?.role === "מנהל" && <NavLink to="/managment">  ניהול  </NavLink>}
             </div>
 
             <div className="account">

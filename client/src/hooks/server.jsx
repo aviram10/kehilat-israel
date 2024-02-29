@@ -1,11 +1,12 @@
 import { useState, useEffect, useContext } from "react";
 import axios from 'axios';
 import { url } from '../config/server';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { UserContext } from '../App';
 import Cookies from "js-cookie";
 import { DateTime } from "luxon";
 export  function useGet(endPoint, filter = {}) {
+    const location = useLocation();
     const [data, setData] = useState([]);
     const navigate = useNavigate();
     const [user, setUser] = useContext(UserContext);
@@ -19,7 +20,7 @@ export  function useGet(endPoint, filter = {}) {
             } catch (error) {
                 console.log("error", error);
                 setUser({});
-                navigate("/login", );
+                navigate("/login", {state: {message: "token expired", goto: location.pathname}} );
                 Cookies.remove("token");
                 Cookies.remove("user_id");
             }

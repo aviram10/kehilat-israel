@@ -29,7 +29,7 @@ export default function Dedication(params) {
 
 
     useEffect(() => {
-        !Cookies.get("token") && navigate("/login")
+        !Cookies.get("token") && navigate("/login", { state: { message: "you need to login", goto: "/dedication" } })
         return
     }, [navigate])
 
