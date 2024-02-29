@@ -5,9 +5,63 @@ import { Button } from "@mui/joy";
 import { deletePrayer, addPrayer, updatePrayer } from "../../server/prayer";
 import { useState } from "react";
 import GenericAlert from "../muiComps/Alert";
+import Table2 from "../muiComps/table2";
+
+const heads = [
+    {
+        id: 'prayer_id',
+        numeric: false,
+        disablePadding: false,
+        label: 'ID'
+    },
+    {
+        id: 'name',
+        numeric: false,
+        disablePadding: false,
+        label: 'שם'
+    },
+    {
+        id: 'dependency',
+        numeric: false,
+        disablePadding: false,
+        label: 'זמן היום'
+    },
+    
+    {
+        id: "minutes", 
+        numeric: false,
+        disablePadding: false,
+        label: "דקות"
+    },
+    {
+        id: "fixed",
+        numeric: false,
+        disablePadding: false,
+        label: "קבוע"
+    },
+    {
+        id: "group",
+        numeric: false,
+        disablePadding: false,
+        label: "קבוצה"
+    },
+    {
+        id: 'serial',
+        numeric: false,
+        disablePadding: false,
+        label: 'סידורי'
+    },
+    {
+        id: "time",
+        numeric: false,
+        disablePadding: false,
+        label: "שעה"
+    }
+]
 
 
-export default function HandlePrayers({ tableProps, prayers, setTimes, setPrayers, selected, setSelected }) {
+export default function HandlePrayers({ tableProps, prayers, setPrayers }) {
+    const { selected, setSelected } = tableProps;
     const [message, setMessage] = useState([]);
     const handlePrayer = async (action, prayer) => {
         let result;
@@ -23,21 +77,21 @@ export default function HandlePrayers({ tableProps, prayers, setTimes, setPrayer
                                 rejected.push(result)
                         })
                         setSelected(rejected)
-                        setMessage(rejected.length > 0 ? 
-                            ["error", " לא כל התפילות נמחקו בהצלחה! נסה שוב מאוחר יותר"] 
+                        setMessage(rejected.length > 0 ?
+                            ["error", " לא כל התפילות נמחקו בהצלחה! נסה שוב מאוחר יותר"]
                             : ["success", "התפילות נמחקו בהצלחה!"])
-                            setTimeout(() => setMessage([]), 3000)
+                        setTimeout(() => setMessage([]), 3000)
                     })
                 break;
             case "addPrayer":
-                result  = await addPrayer(prayer);
-                handleResponse(result)    
+                result = await addPrayer(prayer);
+                handleResponse(result)
                 break;
             case "updatePrayer":
-                     result  = await updatePrayer(prayer);
-                     setPrayers(prev => prev.filter(p => p.id !== prayer.id ))
-                     handleResponse(result);
-                    break;
+                result = await updatePrayer(prayer);
+                setPrayers(prev => prev.filter(p => p.id !== prayer.id))
+                handleResponse(result);
+                break;
             default:
                 break;
         }
@@ -45,7 +99,7 @@ export default function HandlePrayers({ tableProps, prayers, setTimes, setPrayer
     }
     const handleResponse = (result) => {
         if (result.status === 200) {
-            setPrayers(prev => [...prev, result.data].sort((a,b )=> a.serial - b.serial))
+            setPrayers(prev => [...prev, result.data].sort((a, b) => a.serial - b.serial))
             setMessage(["success", " הפעולה בוצעה בהצלחה!"])
         }
         else {
@@ -55,17 +109,17 @@ export default function HandlePrayers({ tableProps, prayers, setTimes, setPrayer
     }
 
     return <>
-       {message[0] && <GenericAlert message={message} />}
-        <GenericTable data={prayers} {...tableProps} heads={["ID", "תפילה", "זמן היום", "דקות", "קבוע", "קבוצה", "סידורי", "שעה"]}>
+        {message[0] && <GenericAlert message={message} />}
+        <Table2 {...{ data: prayers, tableProps, heads, selected_id:"id" }}>
             <FormModal title="הוסף תפילה" message={message} setMessage={setMessage} >
                 <PrayerForm handlePrayer={handlePrayer} />
             </FormModal>
             <FormModal disabled={!(selected?.length === 1)} setMessage={setMessage} title="עדכן תפילה" >
-                <PrayerForm pray={prayers.find(p => p.id == selected[0])} handlePrayer ={handlePrayer} />
+                <PrayerForm pray={prayers.find(p => p.id == selected[0])} handlePrayer={handlePrayer} />
             </FormModal>
             <Button disabled={selected?.length === 0} variant='outlined' color='danger' name="delete Prayer"
                 onClick={() => handlePrayer("deletePrayer")}> מחק תפילה</Button>
-        </GenericTable>
+        </Table2>
     </>
 };
 

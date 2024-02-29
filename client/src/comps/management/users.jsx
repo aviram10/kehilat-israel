@@ -4,6 +4,7 @@ import { deleteUsers, manager } from '../../server/users'
 import { Button } from "@mui/joy";
 import GenericTable from "../muiComps/Table";
 
+
 export default function HandleUsers({ setUsers, users, selected, setSelected, tableProps }) {
     const handleDeleteUsers = async () => {
         const results = await deleteUsers(selected)

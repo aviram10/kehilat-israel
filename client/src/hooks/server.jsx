@@ -4,6 +4,7 @@ import { url } from '../config/server';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../App';
 import Cookies from "js-cookie";
+import { DateTime } from "luxon";
 export  function useGet(endPoint, filter = {}) {
     const [data, setData] = useState([]);
     const navigate = useNavigate();
@@ -13,6 +14,7 @@ export  function useGet(endPoint, filter = {}) {
         async function fetchData() {
             try {
                 const {data} = await axios.get(fullUrl,{withCredentials: true});
+                if(data[0]?.date) data.forEach(d => d.date = DateTime.fromISO(d.date).toLocaleString());
                 setData(data);
             } catch (error) {
                 console.log("error", error);
@@ -26,7 +28,6 @@ export  function useGet(endPoint, filter = {}) {
     }, [fullUrl]);
     return [data, setData];
 }
-
 
 export  function usePost(endPoint, data) {
     const [response, setResponse] = useState(null);

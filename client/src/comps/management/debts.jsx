@@ -3,12 +3,57 @@ import FormModal from "../muiComps/formModal";
 import { useState } from 'react';
 import { addDebt, newDebt } from "../../server/users";
 import DebtForm from "../forms/debtForm";
+import Table2 from "../muiComps/table2";
+
+const heads = [
+    {
+        id: 'debt_id',
+        numeric: false,
+        disablePadding: false,
+        label: 'ID'
+    },
+    {
+        id: 'username',
+        numeric: false,
+        disablePadding: false,
+        label: 'שם משתמש'
+    },
+    {
+        id: 'amount',
+        numeric: false,
+        disablePadding: false,
+        label: 'סכום'
+    },
+    {
+        id: 'date',
+        numeric: false,
+        disablePadding: false,
+        label: 'תאריך'
+    },
+    {
+        id: 'payment_method',
+        numeric: false,
+        disablePadding: false,
+        label: 'אופן התשלום'
+    },
+    {
+        id: 'receipt',
+        numeric: false,
+        disablePadding: false,
+        label: 'אסמכתא'
+    },
+    {
+        id: 'category',
+        numeric: false,
+        disablePadding: false,
+        label: 'קטגוריה'
+    }
+]
 
 
-export default function HandleDebts({ debts, setDebts, selected, setSelected, tableProps }) {
+export default function HandleDebts({ debts, setDebts, tableProps }) {
+    const {selected, setSelected} = tableProps;
     const [message, setMessage] = useState("")
-
-
     const handleDebt = async (action, input) => {
         try {
             let data;
@@ -32,14 +77,13 @@ export default function HandleDebts({ debts, setDebts, selected, setSelected, ta
         }
     }
     return <>
-        <GenericTable data={debts} {...tableProps} selectBy={"user_id"}
-            heads={["ID", "מזהה משתמש", "סכום", "שם משתמש"]}>
+        <Table2 {...{ tableProps, heads, data: debts, selected_id: "debt_id" }}>
             <FormModal  message={message} setMessage={setMessage} title={"הוסף חוב"}>
                 <DebtForm handleDebt={handleDebt} debt={debts?.find(d => d.user_id == selected[0])} />
             </FormModal>
             <FormModal  message={message} title={"חוב חדש"} setMessage={setMessage}>
                <DebtForm handleDebt={handleDebt} />
             </FormModal>
-        </GenericTable>
+        </Table2>
     </>
 }

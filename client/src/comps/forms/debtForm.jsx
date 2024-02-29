@@ -12,6 +12,5 @@ export default function DebtForm({debt, handleDebt}) {
     <Input required name="amount" value={input.amount} type="number" onChange={handleChange} />
     <Input required name="user_id" value={input.user_id} type="number" onChange={handleChange} />
     <Button variant="solid" color="primary" onClick={() => handleDebt(action, input)}>{debt ? "עדכן חוב" : "הוסף חוב"}</Button>
-    
     </>
 };

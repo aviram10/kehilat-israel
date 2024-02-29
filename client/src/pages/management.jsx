@@ -3,11 +3,11 @@ import { Stack, Button, Typography, Tabs, TabList, Tab, tabClasses, TabPanel, Sh
 import { deletePosts } from '../server/posts'
 import GenericTable from '../comps/muiComps/Table';
 import { DateTime } from 'luxon';
-import HandleUsers from '../comps/management/users';
 import HandleDebts from '../comps/management/debts';
 import HandlePrayers from '../comps/management/prayers';
 import { useGet } from '../hooks/server';
 import UsersHandler from '../comps/management/users2';
+import HandleDonations from '../comps/management/donations';
 
 
 export default function Management({ times, setTimes }) {
@@ -37,13 +37,6 @@ export default function Management({ times, setTimes }) {
         setSearch(target.value)
     }
 
-    const handleChange = ({ target }) => {
-        console.log(target.name);
-        setSelected(selected.includes("" + target.name)
-            ? selected.filter(s => s !== target.name)
-            : [...selected, target.name])
-    }
-
     const handleDeletePost = async () => {
         const results = await deletePosts(selected)
         results.forEach((result) => {
@@ -53,7 +46,7 @@ export default function Management({ times, setTimes }) {
         setSelected([])
     }
 
-    const tableProps = { handleChange, selected, }
+    const tableProps = {  selected, setSelected, handleSearch }
 
     const sx = { m: 4, p: 4, textAlign: "center" }
     return <Sheet >
@@ -87,19 +80,19 @@ export default function Management({ times, setTimes }) {
                 <Tab disableIndicator>פוסטים</Tab>
             </TabList>
             <TabPanel value={0}>
-                <UsersHandler {...{ users: handleData(users), setUsers, selected, setSelected, tableProps }} />
+                <UsersHandler {...{ users: handleData(users), setUsers, tableProps}} />
             </TabPanel>
             <TabPanel value={1}>
-                <GenericTable {...tableProps} data={donations} heads={["ID", "מזהה משתשמש", "סכום", "תאריך"]} />
+                <HandleDonations {...{ donations: handleData(donations), setDonations, tableProps }} />
             </TabPanel>
             <TabPanel value={2}>
-                <HandleDebts {...{ debts: handleData(debts), setDebts, selected, setSelected, tableProps }} />
+                <HandleDebts {...{ debts: handleData(debts), setDebts, tableProps }} />
             </TabPanel>
             <TabPanel value={3}>
                 <GenericTable data={dedications}  {...tableProps} heads={["ID", "מזהה תרומה", "User ID", "תאריך", "הקדשה", "סוג"]} />
             </TabPanel>
             <TabPanel value={4}>
-                <HandlePrayers {...{ prayers, setTimes, setPrayers, selected, setSelected, tableProps }} />
+                <HandlePrayers {...{ prayers, setPrayers, tableProps }} />
             </TabPanel>
             <TabPanel value={5}>
                 <GenericTable data={posts} {...tableProps} heads={["ID", "מזהה משתמש", "כותרת", "תוכן", "תאריך", "לייקים", "קטגוריה"]}>

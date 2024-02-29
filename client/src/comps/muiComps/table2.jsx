@@ -21,33 +21,10 @@ import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import { grey } from '@mui/material/colors';
 
-// function createData(id, name, calories, fat, carbs, protein) {
-//   return {
-//     id,
-//     name,
-//     calories,
-//     fat,
-//     carbs,
-//     protein,
-//   };
-// }
 
-// const rows = [
-//   createData(1, 'Cupcake', 305, 3.7, 67, 4.3),
-//   createData(2, 'Donut', 452, 25.0, 51, 4.9),
-//   createData(3, 'Eclair', 262, 16.0, 24, 6.0),
-//   createData(4, 'Frozen yoghurt', 159, 6.0, 24, 4.0),
-//   createData(5, 'Gingerbread', 356, 16.0, 49, 3.9),
-//   createData(6, 'Honeycomb', 408, 3.2, 87, 6.5),
-//   createData(7, 'Ice cream sandwich', 237, 9.0, 37, 4.3),
-//   createData(8, 'Jelly Bean', 375, 0.0, 94, 0.0),
-//   createData(9, 'KitKat', 518, 26.0, 65, 7.0),
-//   createData(10, 'Lollipop', 392, 0.2, 98, 0.0),
-//   createData(11, 'Marshmallow', 318, 0, 81, 2.0),
-//   createData(12, 'Nougat', 360, 19.0, 9, 37.0),
-//   createData(13, 'Oreo', 437, 18.0, 63, 4.0),
-// ];
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -81,39 +58,6 @@ function stableSort(array, comparator) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-// const headCells = [
-//   {
-//     id: 'name',
-//     numeric: false,
-//     disablePadding: true,
-//     label: 'Dessert (100g serving)',
-//   },
-//   {
-//     id: 'calories',
-//     numeric: true,
-//     disablePadding: false,
-//     label: 'Calories',
-//   },
-//   {
-//     id: 'fat',
-//     numeric: true,
-//     disablePadding: false,
-//     label: 'Fat (g)',
-//   },
-//   {
-//     id: 'carbs',
-//     numeric: true,
-//     disablePadding: false,
-//     label: 'Carbs (g)',
-//   },
-//   {
-//     id: 'protein',
-//     numeric: true,
-//     disablePadding: false,
-//     label: 'Protein (g)',
-//   },
-// ];
-
 function EnhancedTableHead(props) {
   const {heads, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
     props;
@@ -122,9 +66,9 @@ function EnhancedTableHead(props) {
   };
 
   return (
-    <TableHead>
-      <TableRow>
-        <TableCell padding="checkbox">
+    <TableHead >
+      <TableRow style={{backgroundColor:"black", color:"white"}} >
+        <TableCell  padding="checkbox">
           <Checkbox
             color="primary"
             indeterminate={numSelected > 0 && numSelected < rowCount}
@@ -137,23 +81,26 @@ function EnhancedTableHead(props) {
         </TableCell>
         {heads.map((headCell) => (
           <TableCell
+            sx={{fontWeight: "bold"}}
             key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
+            align='right'
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
+            <Box component="span" sx={{ display: 'flex' }}>
+            {headCell.label}
             <TableSortLabel
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : 'asc'}
               onClick={createSortHandler(headCell.id)}
             >
-              {headCell.label}
               {orderBy === headCell.id ? (
                 <Box component="span" sx={visuallyHidden}>
                   {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
                 </Box>
               ) : null}
             </TableSortLabel>
+            </Box>
           </TableCell>
         ))}
       </TableRow>
@@ -200,7 +147,7 @@ function EnhancedTableToolbar(props) {
           id="tableTitle"
           component="div"
         >
-          Nutrition
+          משתמשים
         </Typography>
       )}
 
@@ -210,13 +157,14 @@ function EnhancedTableToolbar(props) {
             <DeleteIcon />
           </IconButton>
         </Tooltip>
-      ) : (
-        <Tooltip title="Filter list">
-          <IconButton>
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
-      )}
+      ): null
+      // ) : (
+      //   <Tooltip title="Filter list">
+      //     <IconButton>
+      //       <FilterListIcon />
+      //     </IconButton>
+      //   </Tooltip>
+      }
     </Toolbar>
   );
 }
@@ -225,8 +173,7 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-export default function Table2({rows, heads, selected, setSelected}) {
-  console.log("rows", rows);
+export default function Table2({data, heads, children, tableProps: {selected, setSelected}, selected_id}) {
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
   const [page, setPage] = React.useState(0);
@@ -241,7 +188,7 @@ export default function Table2({rows, heads, selected, setSelected}) {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelected = rows.map((n) => n.id);
+      const newSelected = data.map((n) => n[selected_id]);
       setSelected(newSelected);
       return;
     }
@@ -249,6 +196,7 @@ export default function Table2({rows, heads, selected, setSelected}) {
   };
 
   const handleClick = (event, id) => {
+    console.log(id);
     const selectedIndex = selected.indexOf(id);
     let newSelected = [];
 
@@ -284,23 +232,27 @@ export default function Table2({rows, heads, selected, setSelected}) {
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
 
   const visibleRows = React.useMemo(
     () =>
-      stableSort(rows, getComparator(order, orderBy)).slice(
+      stableSort(data, getComparator(order, orderBy)).slice(
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage,
       ),
-    [order, orderBy, page, rowsPerPage, rows],
+    [order, orderBy, page, rowsPerPage, data],
   );
 
   return (
     <Box sx={{ width: '100%' }}>
-      <Paper sx={{ width: '100%', mb: 2 }}>
+      <ButtonGroup  variant="outlined" aria-label="Basic button group">
+       {children}
+       </ButtonGroup>
+      <Paper sx={{ width: '100%', mb: 2, overflow: 'hidden' }}>
+       
         <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>
-          <Table
+          <Table stickyHeader aria-label="sticky table"
             sx={{ minWidth: 750 }}
             aria-labelledby="tableTitle"
             size={dense ? 'small' : 'medium'}
@@ -312,21 +264,21 @@ export default function Table2({rows, heads, selected, setSelected}) {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={rows.length}
+              rowCount={data.length}
             />
             <TableBody>
               {visibleRows.map((row, index) => {
-                const isItemSelected = isSelected(row.id);
+                const isItemSelected = isSelected(row[selected_id]);
                 const labelId = `enhanced-table-checkbox-${index}`;
 
                 return (
                   <TableRow
                     hover
-                    onClick={(event) => handleClick(event, row.id)}
+                    onClick={(event) => handleClick(event, row[selected_id])}
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
-                    key={row.user_id}
+                    key={Math.random()}
                     selected={isItemSelected}
                     sx={{ cursor: 'pointer' }}
                   >
@@ -339,19 +291,7 @@ export default function Table2({rows, heads, selected, setSelected}) {
                         }}
                       />
                     </TableCell>
-                    {/* <TableCell
-                      component="th"
-                      id={labelId}
-                      scope="row"
-                      padding="none"
-                    >
-                      {row.name}
-                    </TableCell> */}
                     {Object.values(row).map(cell => <TableCell key={Math.random()} align="right">{cell}</TableCell>)}
-                    {/* <TableCell align="right">{row.calories}</TableCell>
-                    <TableCell align="right">{row.fat}</TableCell>
-                    <TableCell align="right">{row.carbs}</TableCell>
-                    <TableCell align="right">{row.protein}</TableCell> */}
                   </TableRow>
                 );
               })}
@@ -368,9 +308,10 @@ export default function Table2({rows, heads, selected, setSelected}) {
           </Table>
         </TableContainer>
         <TablePagination
+        dir='ltr'
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={rows.length}
+          count={data.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

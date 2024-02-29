@@ -1,11 +1,9 @@
 import { useMemo } from "react";
 import Table2 from "../muiComps/table2";
+import { Button } from "@mui/joy";
+import { deleteUsers, manager } from '../../server/users'
 
-
-
-export default function UsersHandler({ users, setUsers, selected, setSelected, tableProps }) {
-    console.log("users", users);
-    const heads = useMemo(()=>
+const heads =
     [
         {
             id: 'user_id',
@@ -17,7 +15,7 @@ export default function UsersHandler({ users, setUsers, selected, setSelected, t
             id: 'username',
             numeric: false,
             disablePadding: false,
-            label: 'username'
+            label: 'שם משתמש'
         },
         {
             id: 'first_name',
@@ -73,9 +71,38 @@ export default function UsersHandler({ users, setUsers, selected, setSelected, t
             disablePadding: false,
             label: 'תפקיד'
         }
-    ], [])
+    ]
+
+
+export default function UsersHandler({ users, setUsers, tableProps}) {
+    const {selected, setSelected} = tableProps;
+    
+    const handleDeleteUsers = async () => {
+        const results = await deleteUsers(selected)
+        results.forEach((result) => {
+            result.status === "fulfilled" &&
+                setUsers(prev => prev.map(user => user.user_id == result.value.data ? { ...user, role: "לא פעיל" } : { ...user }))
+        })
+        setSelected([])
+    }
+    const data = useMemo(()=>  users.sort((a, b) => a.role === "לא פעיל" ? 1 : -1)
+    .sort((a, b) => a.role === "מנהל" ? -1 : 1) ,[users])
     return <>
 
-        <Table2  {...{  heads, selected, setSelected }} rows={users} />
+        <Table2  {...{  heads, tableProps, data, selected_id: "user_id" }}  >
+        <Button disabled={selected?.length === 0}
+            variant='outlined' color='primary' name="manager"
+            onClick={() => {
+                selected.forEach(user_id => manager(user_id)
+                    .then(res => setUsers(prev => prev.map(user => user.user_id == user_id ? { ...user, role: "מנהל" } : { ...user })))
+                    .catch(err => console.log(err)));
+                setSelected([])
+            }}
+        > הגדר כמנהל
+        </Button>
+        <Button disabled={selected?.length === 0} variant='outlined' color='danger' name="deleteUser"
+            onClick={handleDeleteUsers}
+        >השהה משתמש</Button>
+        </Table2>
     </>
 };
