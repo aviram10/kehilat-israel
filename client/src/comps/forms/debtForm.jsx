@@ -1,4 +1,4 @@
-import { Button, Input } from "@mui/joy";
+import { Button, Input, TextField } from "@mui/material";
 import { useState } from "react";
 
 export default function DebtForm({debt, handleDebt}) {
@@ -9,8 +9,8 @@ export default function DebtForm({debt, handleDebt}) {
     }
 
     return<>
-    <Input required name="amount" value={input.amount} type="number" onChange={handleChange} />
-    <Input required name="user_id" value={input.user_id} type="number" onChange={handleChange} />
+    <TextField required name="amount" label="סכום" value={input.amount} type="number" onChange={handleChange} />
+    <TextField required label="user id" name="user_id" value={input.user_id} type="number" onChange={handleChange} />
     <Button variant="solid" color="primary" onClick={() => handleDebt(action, input)}>{debt ? "עדכן חוב" : "הוסף חוב"}</Button>
     </>
 };

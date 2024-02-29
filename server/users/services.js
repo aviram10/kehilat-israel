@@ -9,7 +9,7 @@ const jwt = require('jsonwebtoken');
 async function login(username, pass, remember = false) {
         if (!username || !pass) throw new Error("missing data");
         const [user] = await getUsers({ username });
-        if (!user || !hash.validate(pass, user.pass)) throw new Error("username and password do not match");
+        if (!user || user.role ==="לא פעיל" || !hash.validate(pass, user.pass)) throw new Error("username and password do not match");
         const token = jwt.sign({ user_id: user.user_id, username: user.username, role: user.role }, 
             process.env.ACCESS_TOKEN_SECRET, 
             { expiresIn: remember ? "30d" : "6h"});

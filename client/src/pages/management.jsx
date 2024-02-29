@@ -3,11 +3,11 @@ import { Stack, Button, Typography, Tabs, TabList, Tab, tabClasses, TabPanel, Sh
 import { deletePosts } from '../server/posts'
 import GenericTable from '../comps/muiComps/Table';
 import { DateTime } from 'luxon';
-import HandleDebts from '../comps/management/debts';
-import HandlePrayers from '../comps/management/prayers';
+import DebtsHandler from '../comps/management/debts';
+import PrayersHandler from '../comps/management/prayers';
 import { useGet } from '../hooks/server';
 import UsersHandler from '../comps/management/users2';
-import HandleDonations from '../comps/management/donations';
+import DonationsHandler from '../comps/management/donations';
 
 
 export default function Management({ times, setTimes }) {
@@ -83,16 +83,16 @@ export default function Management({ times, setTimes }) {
                 <UsersHandler {...{ users: handleData(users), setUsers, tableProps}} />
             </TabPanel>
             <TabPanel value={1}>
-                <HandleDonations {...{ donations: handleData(donations), setDonations, tableProps }} />
+                <DonationsHandler {...{ donations: handleData(donations), setDonations, tableProps }} />
             </TabPanel>
             <TabPanel value={2}>
-                <HandleDebts {...{ debts: handleData(debts), setDebts, tableProps }} />
+                <DebtsHandler {...{ debts: handleData(debts), setDebts, tableProps }} />
             </TabPanel>
             <TabPanel value={3}>
                 <GenericTable data={dedications}  {...tableProps} heads={["ID", "מזהה תרומה", "User ID", "תאריך", "הקדשה", "סוג"]} />
             </TabPanel>
             <TabPanel value={4}>
-                <HandlePrayers {...{ prayers, setPrayers, tableProps }} />
+                <PrayersHandler {...{ prayers, setPrayers, tableProps }} />
             </TabPanel>
             <TabPanel value={5}>
                 <GenericTable data={posts} {...tableProps} heads={["ID", "מזהה משתמש", "כותרת", "תוכן", "תאריך", "לייקים", "קטגוריה"]}>

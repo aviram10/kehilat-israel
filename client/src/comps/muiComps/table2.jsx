@@ -120,52 +120,52 @@ EnhancedTableHead.propTypes = {
 function EnhancedTableToolbar(props) {
   const { numSelected } = props;
 
-  return (
-    <Toolbar
-      sx={{
-        pl: { sm: 2 },
-        pr: { xs: 1, sm: 1 },
-        ...(numSelected > 0 && {
-          bgcolor: (theme) =>
-            alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
-        }),
-      }}
-    >
-      {numSelected > 0 ? (
-        <Typography
-          sx={{ flex: '1 1 100%' }}
-          color="inherit"
-          variant="subtitle1"
-          component="div"
-        >
-          {numSelected} selected
-        </Typography>
-      ) : (
-        <Typography
-          sx={{ flex: '1 1 100%' }}
-          variant="h6"
-          id="tableTitle"
-          component="div"
-        >
-          משתמשים
-        </Typography>
-      )}
+  return (<></>
+    // <Toolbar
+    //   sx={{
+    //     pl: { sm: 2 },
+    //     pr: { xs: 1, sm: 1 },
+    //     ...(numSelected > 0 && {
+    //       bgcolor: (theme) =>
+    //         alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
+    //     }),
+    //   }}
+    // >
+    //   {numSelected > 0 ? (
+    //     <Typography
+    //       sx={{ flex: '1 1 100%' }}
+    //       color="inherit"
+    //       variant="subtitle1"
+    //       component="div"
+    //     >
+    //       {numSelected} selected
+    //     </Typography>
+    //   ) : (
+    //     <Typography
+    //       sx={{ flex: '1 1 100%' }}
+    //       variant="h6"
+    //       id="tableTitle"
+    //       component="div"
+    //     >
+    //     </Typography>
+    //   )}
 
-      {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton>
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      ): null
-      // ) : (
-      //   <Tooltip title="Filter list">
-      //     <IconButton>
-      //       <FilterListIcon />
-      //     </IconButton>
-      //   </Tooltip>
-      }
-    </Toolbar>
+    //   {numSelected > 0 ? (
+    //     <Tooltip title="Delete">
+    //       <IconButton>
+    //         <DeleteIcon />
+    //       </IconButton>
+    //     </Tooltip>
+    //   ): null
+    //   // ) : (
+    //   //   <Tooltip title="Filter list">
+    //   //     <IconButton>
+    //   //       <FilterListIcon />
+    //   //     </IconButton>
+    //   //   </Tooltip>
+    //   }
+    // </Toolbar>
+  // );
   );
 }
 
@@ -245,7 +245,7 @@ export default function Table2({data, heads, children, tableProps: {selected, se
 
   return (
     <Box sx={{ width: '100%' }}>
-      <ButtonGroup  variant="outlined" aria-label="Basic button group">
+      <ButtonGroup sx={{width: "100%", backgroundColor: "lightgrey"}}  variant="outlined" aria-label="Basic button group">
        {children}
        </ButtonGroup>
       <Paper sx={{ width: '100%', mb: 2, overflow: 'hidden' }}>

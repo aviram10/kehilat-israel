@@ -29,33 +29,17 @@ const heads = [
         numeric: false,
         disablePadding: false,
         label: 'תאריך'
-    },
-    {
-        id: 'payment_method',
-        numeric: false,
-        disablePadding: false,
-        label: 'אופן התשלום'
-    },
-    {
-        id: 'receipt',
-        numeric: false,
-        disablePadding: false,
-        label: 'אסמכתא'
-    },
-    {
-        id: 'category',
-        numeric: false,
-        disablePadding: false,
-        label: 'קטגוריה'
     }
 ]
 
 
-export default function HandleDebts({ debts, setDebts, tableProps }) {
+export default function DebtsHandler({ debts, setDebts, tableProps }) {
     const {selected, setSelected} = tableProps;
+    console.log(selected);
     const [message, setMessage] = useState("")
     const handleDebt = async (action, input) => {
         try {
+            console.log(action);
             let data;
             switch (action) {
                 case "add":
@@ -78,8 +62,8 @@ export default function HandleDebts({ debts, setDebts, tableProps }) {
     }
     return <>
         <Table2 {...{ tableProps, heads, data: debts, selected_id: "debt_id" }}>
-            <FormModal  message={message} setMessage={setMessage} title={"הוסף חוב"}>
-                <DebtForm handleDebt={handleDebt} debt={debts?.find(d => d.user_id == selected[0])} />
+            <FormModal disabled={selected.length == 0}  message={message} setMessage={setMessage} title={"הוסף חוב"}>
+                <DebtForm handleDebt={handleDebt} debt={debts?.find(d => d.debt_id == selected[0])} />
             </FormModal>
             <FormModal  message={message} title={"חוב חדש"} setMessage={setMessage}>
                <DebtForm handleDebt={handleDebt} />

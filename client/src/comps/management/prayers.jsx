@@ -60,7 +60,7 @@ const heads = [
 ]
 
 
-export default function HandlePrayers({ tableProps, prayers, setPrayers }) {
+export default function PrayersHandler({ tableProps, prayers, setPrayers }) {
     const { selected, setSelected } = tableProps;
     const [message, setMessage] = useState([]);
     const handlePrayer = async (action, prayer) => {
