@@ -9,31 +9,31 @@ async function login(req, res) {
     try {
         const { username, pass, remember } = req.body;
         if (!username || !pass) throw new Error("missing data");
-        if(typeof username !== "string" || typeof pass !== "string") throw new Error("invalid data");
+        if (typeof username !== "string" || typeof pass !== "string") throw new Error("invalid data");
         const data = await services.login(username, pass, remember);
         return res.status(200).send(data);
     } catch (err) { return res.status(400).send(err.message); };
 }
 async function register(req, res) {
     try {
-        const { username, email, pass, first_name, last_name, phone, address, city, zip} = req.body;
+        const { username, email, pass, first_name, last_name, phone, address, city, zip } = req.body;
         const details = { username, email, pass, first_name, last_name, phone, address, city, zip };
-        Object.keys(details).forEach(key =>{if (details[key] && typeof details[key] !== "string" )  throw new Error("invalid data")})
+        Object.keys(details).forEach(key => { if (details[key] && typeof details[key] !== "string") throw new Error("invalid data") })
         const [{ insertId }] = await services.addUser(details);
         const [user] = await services.getUsers({ user_id: insertId });
         return res.status(201).send(user);
-    } catch (err) { 
+    } catch (err) {
         console.log(err);
         return res.status(400).send(err.message);
-     }
+    }
 }
 
 async function getUsers(req, res) {
     try {
         const users = await services.getUsers();
         users.forEach(user => delete user.pass)
-        const {start, limit} = req.query;
-        if(start && limit) return res.send(users.slice(start, start + limit));
+        const { start, limit } = req.query;
+        if (start && limit) return res.send(users.slice(start, start + limit));
         return res.send(users);
     }
     catch (err) { console.log(err); }
@@ -98,28 +98,36 @@ async function deleteUser(req, res) {
 async function handleDebt(req, res) {
     try {
         const action = req.query?.action;
-        if (!action)  throw new Error("invalid action");
+        if (!action) throw new Error("invalid action");
         let data;
         switch (action) {
             case "add": data = await services.addDebt(req.body, req.params.user_id); break;
-            case "pay": data = await payments.payDebt(req.body, req.params.user_id); break;
-            case "new": return await newDebt(req, res);
+            case "pay": 
+                   const details= {amount, payment_method, confirmation} = req.body;  
+                   details.user_id = req.params.user_id;
+                   details.type = "debt";
+                     [data] = await payments.handlePayment(details);
+                     console.log("data", data);
+             break;
             default: throw new Error("invalid action");
         }
         handleResponse(res, data);
-    } catch (err) { handleError(res, err);}
+    } catch (err) { handleError(res, err); }
 }
 
 
 
 async function newDebt(req, res) {
     try {
-        if(req.params.user_id) req.body.user_id  = req.params.user_id
+        if (req.params.user_id) req.body.user_id = req.params.user_id
         if (!req.body) throw new Error("no details sent");
         const result = await services.newDebt(req.body);
         if (result instanceof Error) throw result;
         return res.json(result);
-    } catch ({message}) { console.log(message); res.status(400).json({message}); }
+    } catch ({ message }) {
+        console.log(message);
+        res.status(400).json({ message });
+    }
 }
 
 async function getDebts(req, res) {
@@ -129,4 +137,4 @@ async function getDebts(req, res) {
     } catch (err) { console.log(err); }
 }
 
-module.exports = {getDebts, newDebt, handleDebt, deleteUser, getUsers, login, register, getUser, getPosts, updateUser, getDebt, getUserData }
+module.exports = { getDebts, newDebt, handleDebt, deleteUser, getUsers, login, register, getUser, getPosts, updateUser, getDebt, getUserData }

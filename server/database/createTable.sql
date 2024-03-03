@@ -65,7 +65,7 @@ CREATE TABLE likes(
 CREATE TABLE debts (
     debt_id INT NOT NULL AUTO_INCREMENT,
     user_id INT UNIQUE NOT NULL,
-    debt INT UNSIGNED NOT NULL,
+    debt INT NOT NULL,
     PRIMARY KEY (debt_id),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );

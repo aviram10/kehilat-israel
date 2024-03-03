@@ -104,7 +104,7 @@ export default function Login({ updateUser }) {
                     </div>
                 }
                 <h4>{mode === "login" ? "אין לך חשבון? " : "כבר יש לך חשבון? "}<span onClick={changeMode}>לחץ כאן   </span></h4>
-                <h4 style={{ color: message[0] === "success" ? "green" : "red" }}>{message[1]}</h4>
+               {message?.length === 2 && <h4 style={{ color: message[0] === "success" ? "green" : "red" }}>{message[1]}</h4>}
             </div>
         </div>
     </>

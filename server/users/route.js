@@ -20,6 +20,7 @@ router.route("/:user_id/debt")
     .all(adminORownerAuth)
     .get(controllers.getDebt)
     .all(adminAuth)
-    .post(controllers.handleDebt)
+    .post(controllers.newDebt)
+    .put(controllers.handleDebt)
 
 module.exports = router;

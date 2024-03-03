@@ -1,6 +1,6 @@
 import axios from "axios";
 import { url } from "../config/server";
-import {get, post} from "../server/server"
+import {get, post,put} from "../server/server"
 import Cookies from "js-cookie";
 
 export async function getUser(user_id){
@@ -42,16 +42,21 @@ export async function manager(user_id){
 
 export async function addDebt({amount, user_id}){
     if(!amount || !user_id) throw new Error("No amount or user_id")
-    return await post(`/users/${user_id}/debt?action=add`, { amount});
+    return await put(`/users/${user_id}/debt?action=add`, { amount});
 }
 
 export async function newDebt(amount, user_id){
    
     if(!amount || !user_id) throw new Error("No amount or user_id")
-    const data =  await post(`/users/${user_id}/debt?action=new`, { amount});
+    const data =  await post(`/users/${user_id}/debt`, { amount});
     console.log("users", data);
     return data
     
+}
+
+export async function payDebt(amount, user_id, payment_method, confirmation){
+    if(!amount || !user_id || !payment_method  || !confirmation) throw new Error("data missing")
+    return await put(`/users/${user_id}/debt?action=pay`, { amount, payment_method, confirmation});
 }
     
 

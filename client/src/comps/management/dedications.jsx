@@ -1,5 +1,6 @@
 
 import Table2 from "../muiComps/table2";
+//[id, user id, date, name, type]
 const heads = [
     {
         id: 'donation_id',
@@ -8,16 +9,16 @@ const heads = [
         label: 'ID'
     },
     {
+        id: 'donation id',
+        numeric: false,
+        disablePadding: false,
+        label: 'מזהה תרומה '
+    },
+    {
         id: 'user_id',
         numeric: false,
         disablePadding: false,
         label: 'מזהה משתמש'
-    },
-   {
-        id: 'amount',
-        numeric: false,
-        disablePadding: false,
-        label: 'סכום'
     },
     {
         id: 'date',
@@ -26,35 +27,30 @@ const heads = [
         label: 'תאריך'
     },
     {
-        id: 'payment_method',
+        id: 'name',
         numeric: false,
         disablePadding: false,
-        label: 'אופן התשלום'
+        label: 'שם'
     },
     {
-        id: 'receipt',
+        id: 'type',
         numeric: false,
         disablePadding: false,
-        label: 'אסמכתא'
+        label: 'סוג'
     },
     {
-        id: 'category',
+        id: 'username',
         numeric: false,
         disablePadding: false,
-        label: 'קטגוריה'
-    },
-    {
-        id: "username",
-        numeric: false,
-        disablePadding: false,
-        label: "שם משתמש"
+        label: ' שם משתמש'
     }
+    
 ]
 
 
-export default function DonationHandler({ donations, setDonations, tableProps }) {
+export default function DedicationHandler({ dedications, setDedications, tableProps }) {
     return <>
-        <Table2 {...{ tableProps, heads, data: donations, selected_id: "donation_id" }}>
+        <Table2 {...{ tableProps, heads, data: dedications, selected_id: "dedication_id" }}>
         </Table2>
     </>
 }

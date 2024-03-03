@@ -1,11 +1,12 @@
 
 import Table2 from "../muiComps/table2";
+//id, user id, title, content, date, likes, category, username, role
 const heads = [
     {
-        id: 'donation_id',
+        id: 'post_id',
         numeric: false,
         disablePadding: false,
-        label: 'ID'
+        label: 'מזהה פוסט'
     },
     {
         id: 'user_id',
@@ -13,11 +14,17 @@ const heads = [
         disablePadding: false,
         label: 'מזהה משתמש'
     },
-   {
-        id: 'amount',
+    {
+        id: 'title',
         numeric: false,
         disablePadding: false,
-        label: 'סכום'
+        label: 'כותרת'
+    },
+    {
+        id: 'content',
+        numeric: false,
+        disablePadding: false,
+        label: 'תוכן'
     },
     {
         id: 'date',
@@ -26,16 +33,10 @@ const heads = [
         label: 'תאריך'
     },
     {
-        id: 'payment_method',
+        id: 'likes',
         numeric: false,
         disablePadding: false,
-        label: 'אופן התשלום'
-    },
-    {
-        id: 'receipt',
-        numeric: false,
-        disablePadding: false,
-        label: 'אסמכתא'
+        label: 'לייקים'
     },
     {
         id: 'category',
@@ -44,17 +45,23 @@ const heads = [
         label: 'קטגוריה'
     },
     {
-        id: "username",
+        id: 'username',
         numeric: false,
         disablePadding: false,
-        label: "שם משתמש"
+        label: 'שם משתמש'
+    },
+    {
+        id: 'role',
+        numeric: false,
+        disablePadding: false,
+        label: 'תפקיד'
     }
 ]
 
 
-export default function DonationHandler({ donations, setDonations, tableProps }) {
+export default function PostsHandler({ posts, setPosts, tableProps }) {
     return <>
-        <Table2 {...{ tableProps, heads, data: donations, selected_id: "donation_id" }}>
+        <Table2 {...{ tableProps, heads, data: posts, selected_id: "post_id" }}>
         </Table2>
     </>
 }

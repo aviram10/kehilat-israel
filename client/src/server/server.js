@@ -10,10 +10,13 @@ export async function get(endPoint){
     }catch(err){console.log(err);}
 }
 
-export async function post(endPoint, data){
-   
-        const result = await axios.post(url+endPoint, data, {withCredentials: true});
-        return result;
-    
+export async function post(endPoint, body){
+        const {data} = await axios.post(url+endPoint, body, {withCredentials: true});
+        return data;
+}
+
+export async function put(endPoint, body){
+        const {data} = await axios.put(url+endPoint, body, {withCredentials: true});
+        return data;
 }
 

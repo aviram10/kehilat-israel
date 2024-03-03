@@ -8,6 +8,9 @@ import PrayersHandler from '../comps/management/prayers';
 import { useGet } from '../hooks/server';
 import UsersHandler from '../comps/management/users2';
 import DonationsHandler from '../comps/management/donations';
+import DedicationHandler from '../comps/management/dedications';
+import Table2 from '../comps/muiComps/table2';
+import PostsHandler from '../comps/management/posts';
 
 
 export default function Management({ times, setTimes }) {
@@ -51,7 +54,7 @@ export default function Management({ times, setTimes }) {
     const sx = { m: 4, p: 4, textAlign: "center" }
     return <Sheet >
         <Stack direction={"row"} justifyContent={'center'} height={"15%"}>
-            <Typography sx={sx} color='success' variant='outlined' level='title-lg'>סה"כ תרומות החודש: {donations.reduce((a, b) => { return b.date.slice(0, 7) === DateTime.now().toFormat("yyyy-MM") ? a + b.amount : 0 }, 0)} </Typography>
+            <Typography sx={sx} color='success' variant='outlined' level='title-lg'>סה"כ תרומות השנה: {donations.reduce((a, b) => { return b.date.slice(-4) === DateTime.now().toFormat("yyyy") ? a + b.amount : 0 }, 0)} </Typography>
             <Typography sx={sx} color='success' variant='outlined' level='title-lg'> סה"כ משתמשים חודשיים: 250</Typography>
         </Stack>
         <Input value={search} onChange={handleSearch} />
@@ -89,15 +92,14 @@ export default function Management({ times, setTimes }) {
                 <DebtsHandler {...{ debts: handleData(debts), setDebts, tableProps }} />
             </TabPanel>
             <TabPanel value={3}>
-                <GenericTable data={dedications}  {...tableProps} heads={["ID", "מזהה תרומה", "User ID", "תאריך", "הקדשה", "סוג"]} />
+                <DedicationHandler {...{ dedications: handleData(dedications), setDedications, tableProps }} />
             </TabPanel>
+           
             <TabPanel value={4}>
                 <PrayersHandler {...{ prayers, setPrayers, tableProps }} />
             </TabPanel>
             <TabPanel value={5}>
-                <GenericTable data={posts} {...tableProps} heads={["ID", "מזהה משתמש", "כותרת", "תוכן", "תאריך", "לייקים", "קטגוריה"]}>
-                    <Button color='danger' name={"deletePost"} variant='outlined' onClick={handleDeletePost}>מחק פוסט</Button>
-                </GenericTable>
+              <PostsHandler {...{ posts: handleData(posts), setPosts, tableProps }} />
             </TabPanel>
             <TabPanel value={6}>
             </TabPanel>

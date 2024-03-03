@@ -1,7 +1,7 @@
 import GenericTable from "../muiComps/Table";
 import FormModal from "../muiComps/formModal";
 import { useState } from 'react';
-import { addDebt, newDebt } from "../../server/users";
+import {payDebt, addDebt, newDebt } from "../../server/users";
 import DebtForm from "../forms/debtForm";
 import Table2 from "../muiComps/table2";
 
@@ -13,10 +13,10 @@ const heads = [
         label: 'ID'
     },
     {
-        id: 'username',
+        id: 'user_id',
         numeric: false,
         disablePadding: false,
-        label: 'שם משתמש'
+        label: 'מזהה משתמש'
     },
     {
         id: 'amount',
@@ -25,17 +25,16 @@ const heads = [
         label: 'סכום'
     },
     {
-        id: 'date',
+        id: 'username',
         numeric: false,
         disablePadding: false,
-        label: 'תאריך'
+        label: 'שם משתמש'
     }
 ]
 
 
-export default function DebtsHandler({ debts, setDebts, tableProps }) {
-    const {selected, setSelected} = tableProps;
-    console.log(selected);
+export default function HandleDebts({ debts, setDebts, tableProps }) {
+    const { selected, setSelected } = tableProps;
     const [message, setMessage] = useState("")
     const handleDebt = async (action, input) => {
         try {
@@ -44,29 +43,42 @@ export default function DebtsHandler({ debts, setDebts, tableProps }) {
             switch (action) {
                 case "add":
                     data = await addDebt(input);
-                    setDebts(prev => prev.map(debt => debt.debt_id == data.data.debt_id ? {...data.data, username: debt.username} : debt))
+                    setDebts(prev => prev.map(debt => debt.debt_id == data.debt_id ? { ...data, username: debt.username } : debt))
                     setMessage(["success", "החוב עודכן בהצלחה!"])
                     break;
                 case "new":
-                      data = await newDebt(input.amount, input?.user_id);
-                    setDebts(prev => [data.data, ...prev])
+                    data = await newDebt(input.amount, input?.user_id);
+                    setDebts(prev => [data, ...prev])
+                    break;
+                case "pay":
+                    data = await payDebt(input.amount, input?.user_id, input?.payment_method, input?.confirmation);
+                    console.log("data", data);
+                    setDebts(prev => prev.map(debt => debt.debt_id == data.debt_id ? { ...data, username: debt.username } : debt))
+                    setMessage(["success", "החוב עודכן בהצלחה!"]);
                     break;
                 default:
                     throw new Error("invalid action");
             }
-            setTimeout(() => setMessage(""), 3000)
+            setTimeout(() => {
+                setMessage("");
+                setSelected([])
+            }, 3000)
         } catch (err) {
             console.log(err);
-            setMessage(["error",err.response.data.message])
+            setMessage(["error", err.response.data.message])
         }
     }
+    const debt = debts?.find(d => d.user_id == selected[0]);
     return <>
-        <Table2 {...{ tableProps, heads, data: debts, selected_id: "debt_id" }}>
-            <FormModal disabled={selected.length == 0}  message={message} setMessage={setMessage} title={"הוסף חוב"}>
-                <DebtForm handleDebt={handleDebt} debt={debts?.find(d => d.debt_id == selected[0])} />
+        <Table2 {...{ tableProps, heads, data: debts, selected_id: "user_id" }}>
+            <FormModal message={message} setMessage={setMessage} title={"הוסף חוב"}>
+                <DebtForm action={"add"} handleDebt={handleDebt} debt={debt} />
             </FormModal>
             <FormModal  message={message} title={"חוב חדש"} setMessage={setMessage}>
-               <DebtForm handleDebt={handleDebt} />
+                <DebtForm action={"new"} handleDebt={handleDebt} />
+            </FormModal>
+            <FormModal  message={message} title={"תשלום חוב"} setMessage={setMessage}>
+                <DebtForm action={"pay"} handleDebt={handleDebt} debt={debt} />
             </FormModal>
         </Table2>
     </>

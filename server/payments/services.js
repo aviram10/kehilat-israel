@@ -18,7 +18,6 @@ async function payDebt({ amount, user_id}) {
 
 const dedicationPayment = async ({ name, date, type, user_id, donation_id }) => {
     try{
-        console.log("dedicationPayment", date, type, user_id);
         const [{insertId}] = await accessData.insert("dedications", {name, date, type, user_id, donation_id});
         const dedication_id = insertId;
         return await accessData.get("dedications", {dedication_id})
@@ -33,7 +32,7 @@ async function handlePayment(details) {
         delete details.type;
         delete details.name;   
         let result=[];
-        if (type === "debt") {result.push(await payDebt(details));}
+        if (type === "debt") result.push(await payDebt(details));
         const [{ insertId }] = await accessData.insert("donations", details);
         const donation_id = insertId
          result?.push(await accessData.get("donations", {donation_id})[0])
