@@ -103,10 +103,10 @@ function Paypal({ name, amount, date, type, details, success }) {
                 const transaction =
                   orderData.purchase_units[0].payments.captures[0];
                 setContent(
-                 
+
                   <Alert variant="success">
                     `התשלום בוצע בהצלחה! קוד אישור: ${transaction?.id}`
-                    </Alert>
+                  </Alert>
                 );
                 // console.log(
                 //   "Capture result",

@@ -153,15 +153,14 @@ function copyToGlobalVar(obj, global) {
     })
 }
 
- async function deletePrayer(prayer_id) {
-    console.log("deletePrayer", prayer_id);
-        await accessData.deletePrayer(prayer_id);
-        const index = prayersTimes.findIndex(p => p.id === prayer_id);  
-        prayersTimes.splice(index, 1);
+async function deletePrayer(prayer_id) {
+    await accessData.deletePrayer(prayer_id);
+    const index = prayersTimes.findIndex(p => p.id === prayer_id);
+    prayersTimes.splice(index, 1);
 }
 
 getTimesEveryMidnight();
 getHebrewDateEverySunset();
 getWeekTimesEverySunday();
-module.exports = { updatePrayer, dayTimes, hebrewDate, weekTimes, prayersTimes,deletePrayer, addPrayer, getTimes, getDayTimes, getHebrewDate, getPrayersTimes, getWeekTimes, getWeekTimesEverySunday }
+module.exports = { updatePrayer, dayTimes, hebrewDate, weekTimes, prayersTimes, deletePrayer, addPrayer, getTimes, getDayTimes, getHebrewDate, getPrayersTimes, getWeekTimes, getWeekTimesEverySunday }
 
