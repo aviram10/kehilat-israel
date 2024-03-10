@@ -3,7 +3,6 @@ import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { UserContext } from '../App'
 import { Dropdown, Menu, MenuButton, MenuItem, Button, Link } from "@mui/joy";
 import Cookies from "js-cookie";
-
 import "../styles/navbar.css";
 
 export default function Navbar() {
@@ -15,11 +14,9 @@ export default function Navbar() {
         setUser({first_name: '', last_name: '', email: '', phone: '', address: '', city: '', country: '', zip: '', user_id: ''})
         navigate("/");
     }
-
     const profile = () => {
         navigate("/profile");
     }
-
     return <>
         <div className="navbar">
             <div className="logo">
