@@ -2,18 +2,27 @@ import React from 'react';
 import DayTimes from '../comps/dayTimes';
 import PrayersTimes from '../comps/prayersTimes';
 import "../styles/times.css"
-import { Divider, Grid, Modal } from '@mui/joy';
+import DigitalClock from '../comps/clock';
 
 export default function Times({ times }) {
 
 
-    return <Grid container>
-        <Grid xs={12} sm={6} md={4} lg={3} xl={2}>
-            <DayTimes times={times.dayTimes} />
-        </Grid>
-        <Divider orientation='vertical' />
-        <Grid xs={12} sm={6} md={4} lg={3} xl={2}>
-            <PrayersTimes times={times.prayers} />
-        </Grid>
-    </Grid>
+    return<div class="container">
+    <div class="navbar"></div>
+    <div class="weekday">
+      <div class="dayInfo"></div>
+      <div class="dailyPrayers"><PrayersTimes times={times.prayers} isDaily={true}/></div>
+    </div>
+    <div class="shabbat">
+      <div class="shbbatInfo"></div>
+      <div class="shabbatPrayers"><PrayersTimes times={times.prayers} isDaily={false}/></div>
+    </div>
+    <div class="info">
+      <div class="clock"> <DigitalClock /></div>
+      <div class="title"></div>
+    </div>
+    <div class="times"></div>
+    <div class="dedication"></div>
+    <div class="commissiner"></div>
+  </div>
 };

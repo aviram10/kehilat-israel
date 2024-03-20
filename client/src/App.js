@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import Home from "./pages/home";
 import "./App.css";
 import Login from './pages/login';
-import Times from './pages/times2';
+import Times from './pages/times';
 import MessagesBoard from './pages/messagesBoard';
 import Dedication from './pages/dedication';
 import Profile from './pages/profile';
