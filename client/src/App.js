@@ -14,6 +14,7 @@ import React, { useEffect, useState, createContext } from 'react';
 import { DateTime } from 'luxon';
 import { getUser } from "./server/users";
 import Cookies from "js-cookie";
+import Schedule from "./expirement/times";
 
 export const UserContext = createContext(null);
 
@@ -68,7 +69,8 @@ function App() {
           <Route path='home' element={<Home times={times} />} />
           <Route path="login" element={<Login updateUser={updateUser} />} />
           <Route path='signup' element={<Login />} />
-          <Route path='times' element={<Times times={times} />} />
+          <Route path='ex' element={<Schedule />} />
+          <Route path='times' element={<Times times={times} />} /> 
           <Route path='board' element={<MessagesBoard />} />
           <Route path='dedication' element={<Dedication />} />
           <Route path='profile' element={<Profile />} />

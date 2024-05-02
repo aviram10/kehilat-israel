@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import Clock from 'react-clock';
+// import Clock from 'react-clock';
 
 export default function DigitalClock() {
   const [value, setValue] = useState(new Date());
@@ -15,7 +15,7 @@ export default function DigitalClock() {
   return (
     <div>
       <p>sdfsdf</p>
-      <Clock value={value} />
+      {/* <Clock value={value} /> */}
     </div>
   );
 }
