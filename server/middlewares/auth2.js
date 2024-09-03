@@ -104,7 +104,7 @@ async function ownerAuth(req, res, next) {
 
  function adminORownerAuth(req, res, next) {
     console.log("adminORownerAuth", req.user);
-    if (req.user.role === 'מנהל') return next();
+    if (req?.user?.role === 'מנהל') return next();
      ownerAuth(req, res, next);
     
 }
