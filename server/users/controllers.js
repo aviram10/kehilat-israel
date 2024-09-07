@@ -19,8 +19,20 @@ async function register(req, res) {
         const { username, email, pass, first_name, last_name, phone, address, city, zip } = req.body;
         const details = { username, email, pass, first_name, last_name, phone, address, city, zip };
         Object.keys(details).forEach(key => { if (details[key] && typeof details[key] !== "string") throw new Error("invalid data") })
-        const [{ insertId }] = await services.addUser(details);
-        const [user] = await services.getUsers({ user_id: insertId });
+        const result = await services.addUser(details);
+        console.log(result);
+        if(result instanceof Error){
+            if(result.sqlState = '23000') 
+                return res.status(400).send('one of the details already exist (phone, email, or username)')
+            else return res.status(400).send(result.message)
+        }
+        
+        [{insertId: user_id}] = result 
+        console.log(user_id);
+        
+        const [user] = await services.getUsers({ user_id });
+        console.log(user);
+        
         return res.status(201).send(user);
     } catch (err) {
         console.log(err);

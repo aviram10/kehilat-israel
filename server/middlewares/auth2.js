@@ -40,6 +40,7 @@ function authentication(req, res, next) {
     try {
         console.log("authentication", req.headers.cookie?.token);
         const { token } = cookie.parse(req.headers.cookie || "");
+        req.user = "anonymous"
         if (!token) return next();
         jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
             if (err) throw err;
@@ -98,7 +99,7 @@ async function ownerAuth(req, res, next) {
         const [comment] = await comments.getComments(req.params.comment_id);
         user_id = comment.user_id;
     }
-    if (req.user.user_id == user_id) return next();
+    if (req.user?.user_id == user_id) return next();
     return res.status(401).send('unauthorized');
 }
 

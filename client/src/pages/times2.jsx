@@ -3,14 +3,24 @@ import DayTimes from '../comps/dayTimes';
 import PrayersTimes from '../comps/prayersTimes';
 import "../styles/times.css"
 import { Grid, Typography, Box } from '@mui/joy';
+import Clock from 'react-clock'
+import { useEffect, useState } from 'react';
 
 export default function Times({ times }) {
+  const [value, setValue] = useState(new Date());
+
+  useEffect(() => {
+    const interval = setInterval(() => setValue(new Date()), 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
   return (
     <Grid m={1} container spacing={2}>
 
       <Grid xs={12} justifyContent="center">
-      <Box m={"auto"} width={"fit-content"}  border={1} px={2} py={2}>
-      <Typography variant="h4" align="center">15:28:04</Typography>
+      <Box m={"auto"} width={"fit-content"}   border={1} px={2} py={2}>
+      <Typography variant="h4" align="center" ><div style={{direction: "ltr"}}>{value.toLocaleTimeString()}</div></Typography>
     </Box>
       </Grid>
       <Grid xs={12}>

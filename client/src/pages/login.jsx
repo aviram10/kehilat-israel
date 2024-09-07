@@ -27,50 +27,54 @@ export default function Login({ updateUser }) {
   const [message, setMessage] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
-  useEffect(() => {
-    Cookies.get("token") && navigate("/home");
-    console.log(location);
-    location.state?.message && setMessage(["fail", location.state.message]);
-  }, [navigate]);
+  //   useEffect(() => {
+  //     console.log("before");
+
+  //     Cookies.get("token") && navigate("/home");
+  //     console.log("after");
+
+  //     location.state?.message && setMessage(["fail", location.state.message]);
+  //   }, [navigate]);
 
   function handleChange(e) {
     setInput({ ...input, [e.target.name]: e.target.value });
   }
   function changeMode() {
     setMode((prev) => (prev === "login" ? "register" : "login"));
-    setMessage(null)
+    setMessage(null);
   }
-  async function handleClick() {
+  async function handleClick(e) {
     try {
+      e.preventDefault();
       let { data } = await axios.post(`${url}/users/${mode}`, input);
+      console.log(data);
+      
       //todo: check expire date of cookie
       cookie.set("token", data.token, input.remember ? { expires: 30 } : {});
       cookie.set(
         "user_id",
-        data.user.user_id,
+        data.user_id,
         input.remember ? { expires: 30 } : {}
       );
-      updateUser(data.user);
+      updateUser(data);
       setMessage(["success", `${mode} successfully`]);
-      setTimeout(() => {
-        const goto = location.state?.goto ? location.state.goto : "/home";
-        navigate(goto);
-      }, 1000);
+      const goto = location.state?.goto ? location.state.goto : "/home";
+      navigate(goto);
     } catch (error) {
       console.log(error);
       setMessage(["fail", error?.response?.data || "error"]);
     }
   }
 
-//   function handleCheck(e) {
-//     setInput({ ...input, remember: e.target.checked });
-//   }
+  //   function handleCheck(e) {
+  //     setInput({ ...input, remember: e.target.checked });
+  //   }
   return (
     <>
       <div className="container">
         <div className="img"></div>
 
-        <div className="form">
+        <div className="form" style={{ height: "100%", overflow: "auto" }}>
           <h1>בית כנסת קהילת ישראל</h1>
           {mode === "login" ? (
             <div className="login">
