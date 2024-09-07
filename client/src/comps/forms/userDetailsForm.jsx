@@ -69,7 +69,7 @@ export default function UserDetailsForm({user, handleUser}) {
                             </Typography>
                         </Grid>
                         <Grid xs={3}>
-                         <Input name='address' onChange={handleChange} value={input?.city || ""} required></Input> 
+                         <Input name='city' onChange={handleChange} value={input?.city || ""} required></Input> 
                         </Grid>
                         <Grid xs={2}>
                             <Typography level='body-lg'>
@@ -77,7 +77,7 @@ export default function UserDetailsForm({user, handleUser}) {
                             </Typography>
                         </Grid>
                         <Grid xs={3}>
-                         <Input name='address' onChange={handleChange} value={input?.state || "ישראל"} required></Input> 
+                         <Input name='country' onChange={handleChange} value={input?.state || "ישראל"} required></Input> 
                         </Grid>
                     </Grid>
                     

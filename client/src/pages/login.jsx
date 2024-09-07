@@ -27,18 +27,11 @@ export default function Login({ updateUser }) {
   const [message, setMessage] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
-  //   useEffect(() => {
-  //     console.log("before");
-
-  //     Cookies.get("token") && navigate("/home");
-  //     console.log("after");
-
-  //     location.state?.message && setMessage(["fail", location.state.message]);
-  //   }, [navigate]);
 
   function handleChange(e) {
     setInput({ ...input, [e.target.name]: e.target.value });
   }
+  
   function changeMode() {
     setMode((prev) => (prev === "login" ? "register" : "login"));
     setMessage(null);
@@ -47,16 +40,16 @@ export default function Login({ updateUser }) {
     try {
       e.preventDefault();
       let { data } = await axios.post(`${url}/users/${mode}`, input);
-      console.log(data);
+      const {token, user} = data      
       
       //todo: check expire date of cookie
-      cookie.set("token", data.token, input.remember ? { expires: 30 } : {});
+      cookie.set("token", token, input.remember ? { expires: 30 } : {});
       cookie.set(
         "user_id",
-        data.user_id,
+        user.user_id,
         input.remember ? { expires: 30 } : {}
       );
-      updateUser(data);
+      updateUser(user);
       setMessage(["success", `${mode} successfully`]);
       const goto = location.state?.goto ? location.state.goto : "/home";
       navigate(goto);
