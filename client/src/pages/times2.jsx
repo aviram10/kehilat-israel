@@ -3,7 +3,6 @@ import DayTimes from '../comps/dayTimes';
 import PrayersTimes from '../comps/prayersTimes';
 import "../styles/times.css"
 import { Grid, Typography, Box } from '@mui/joy';
-import Clock from 'react-clock'
 import { useEffect, useState } from 'react';
 
 export default function Times({ times }) {
