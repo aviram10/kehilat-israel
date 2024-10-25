@@ -6,3 +6,30 @@
 .times > *{
     width: 40%;
 }
+
+.current-time-box {
+    margin: auto;
+    width: fit-content;
+    border: 1px solid;
+    padding: 16px;
+  }
+  
+  .time-text {
+    direction: ltr;
+  }
+  
+  .daf-yomi-box {
+    margin: auto;
+    width: fit-content;
+    border: 1px solid;
+    padding: 16px;
+    margin-top: 16px;
+  }
+  
+  .special-additions-box {
+    margin: auto;
+    width: fit-content;
+    border: 1px solid;
+    padding: 16px;
+    margin-top: 16px;
+  }

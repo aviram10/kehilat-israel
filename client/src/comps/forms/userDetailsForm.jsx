@@ -20,7 +20,7 @@ export default function UserDetailsForm({user, handleUser}) {
         <Sheet   variant='soft' color='primary'>
                 <Stack >
                     <Typography level='title-lg' textAlign={"center"}>
-                        פרטים אישיים
+                        פרטי התורם
                     </Typography>
                     <Grid container sx={{m: 2}} spacing={2} >
                         <Grid xs={3}>

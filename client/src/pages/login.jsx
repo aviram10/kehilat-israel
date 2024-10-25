@@ -2,10 +2,9 @@ import "../styles/login.css";
 import { url } from "../config/server";
 import cookie from "js-cookie";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "../styles/login.css";
-import Cookies from "js-cookie";
 import { TextField, Box, FormControlLabel, Checkbox } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
 
@@ -31,7 +30,7 @@ export default function Login({ updateUser }) {
   function handleChange(e) {
     setInput({ ...input, [e.target.name]: e.target.value });
   }
-  
+
   function changeMode() {
     setMode((prev) => (prev === "login" ? "register" : "login"));
     setMessage(null);
@@ -40,8 +39,8 @@ export default function Login({ updateUser }) {
     try {
       e.preventDefault();
       let { data } = await axios.post(`${url}/users/${mode}`, input);
-      const {token, user} = data      
-      
+      const { token, user } = data
+
       //todo: check expire date of cookie
       cookie.set("token", token, input.remember ? { expires: 30 } : {});
       cookie.set(
@@ -76,9 +75,12 @@ export default function Login({ updateUser }) {
                 component="form"
                 sx={{
                   "& .MuiTextField-root": { m: 1, width: "25ch" },
+                  direction: 'rtl'
                 }}
+                style={{direction: "rtl"}}
                 noValidate
                 autoComplete="off"
+
               >
                 <TextField
                   type="text"
@@ -86,6 +88,8 @@ export default function Login({ updateUser }) {
                   label="שם משתמש"
                   name="username"
                   value={input.username}
+                  dir="ltr"
+                
                 />
                 <TextField
                   type="password"
@@ -93,6 +97,7 @@ export default function Login({ updateUser }) {
                   label="סיסמא"
                   name="pass"
                   value={input.pass}
+                  dir="ltr"
                 />
               </Box>
               <FormControlLabel
@@ -113,6 +118,7 @@ export default function Login({ updateUser }) {
                     height: "5ch",
                   },
                   flexDirection: "column",
+                  direction: "rtl"
                 }}
                 noValidate
                 autoComplete="off"
@@ -123,6 +129,8 @@ export default function Login({ updateUser }) {
                   label="שם פרטי"
                   name="first_name"
                   value={input.first_name}
+                  style={{direction: "rtl"}}
+                  sx={{direction: "rtl"}}
                 />
                 <TextField
                   type="text"

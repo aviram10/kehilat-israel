@@ -38,7 +38,7 @@ export default function Dedication(params) {
     }, [type, name, details, date])
 
     const handleUser = useCallback(user => {setDetails({ ...user }); setChanged(true)}, [])
-    const success = data => { }
+    const success = data => { window.location.reload() }
 
 
     return <>
