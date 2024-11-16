@@ -1,7 +1,7 @@
 import GenericTable from "../muiComps/Table";
 import FormModal from "../muiComps/formModal";
 import { useState } from 'react';
-import {payDebt, addDebt, newDebt } from "../../server/users";
+import { payDebt, addDebt, newDebt } from "../../server/users";
 import DebtForm from "../forms/debtForm";
 import Table2 from "../muiComps/table2";
 
@@ -33,7 +33,7 @@ const heads = [
 ]
 
 
-export default function HandleDebts({ debts, setDebts, tableProps }) {
+export default function HandleDebts({ debts, setDebts, tableProps, users }) {
     const { selected, setSelected } = tableProps;
     const [message, setMessage] = useState("")
     const handleDebt = async (action, input) => {
@@ -41,9 +41,18 @@ export default function HandleDebts({ debts, setDebts, tableProps }) {
             console.log(action);
             let data;
             switch (action) {
-                case "add":
-                    data = await addDebt(input);
-                    setDebts(prev => prev.map(debt => debt.debt_id == data.debt_id ? { ...data, username: debt.username } : debt))
+                case "upsert":
+                    data = await newDebt(input.amount, input?.user_id);
+                    console.log("=====>data", data);
+                    console.log(debts[0]);
+                    setDebts(prev => {
+                        const oldDebt = prev.find(debt => debt.debt_id == data?.debt_id);
+                        if (oldDebt) {
+                            oldDebt.debt = data?.debt
+                            return prev
+                        }
+                        return [data, ...prev]
+                    })
                     setMessage(["success", "החוב עודכן בהצלחה!"])
                     break;
                 case "new":
@@ -65,19 +74,19 @@ export default function HandleDebts({ debts, setDebts, tableProps }) {
             }, 3000)
         } catch (err) {
             console.log(err);
-            setMessage(["error", err.response.data.message])
+            setMessage(["error", err?.response?.data?.message])
         }
     }
     const debt = debts?.find(d => d.user_id == selected[0]);
     return <>
         <Table2 {...{ tableProps, heads, data: debts, selected_id: "user_id" }}>
             <FormModal message={message} setMessage={setMessage} title={"הוסף חוב"}>
-                <DebtForm action={"add"} handleDebt={handleDebt} debt={debt} />
+                <DebtForm action={"upsert"} handleDebt={handleDebt} debt={debt} users={users} />
             </FormModal>
-            <FormModal  message={message} title={"חוב חדש"} setMessage={setMessage}>
-                <DebtForm action={"new"} handleDebt={handleDebt} />
-            </FormModal>
-            <FormModal  message={message} title={"תשלום חוב"} setMessage={setMessage}>
+            {/* <FormModal message={message} title={"חוב חדש"} setMessage={setMessage}>
+                <DebtForm action={"upsert"} handleDebt={handleDebt} />
+            </FormModal> */}
+            <FormModal message={message} title={"תשלום חוב"} setMessage={setMessage}>
                 <DebtForm action={"pay"} handleDebt={handleDebt} debt={debt} />
             </FormModal>
         </Table2>
