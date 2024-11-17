@@ -76,9 +76,6 @@ export default function Times({ times }) {
           </Box>
         </Grid>
       </Grid>
-      <Grid xs={12}>
-        <Typography textAlign="center">זמני היום • שעון קיץ • משיב הרוח • מוריד הגשם • טל ומטר • ברכי נפשי</Typography>
-      </Grid>
     </Grid>
   );
 }

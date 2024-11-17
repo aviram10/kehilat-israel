@@ -18,6 +18,10 @@ export default function DayTimes({ times }) {
                 <ListItemText> צאת הכוכבים</ListItemText>
                 <ListItemText> {times.dusk && times.dusk.split("T")[1].slice(0, 5)}</ListItemText>
             </ListItem>
+            <ListItem>
+                <ListItemText> צאת הכוכבים</ListItemText>
+                <ListItemText> {times.dusk && times.dusk.split("T")[1].slice(0, 5)}</ListItemText>
+            </ListItem>
         </List>
     </div>
 };

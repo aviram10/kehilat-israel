@@ -80,6 +80,7 @@ export default function Login({ updateUser }) {
                 style={{direction: "rtl"}}
                 noValidate
                 autoComplete="off"
+                dir="rtl"
 
               >
                 <TextField
@@ -177,7 +178,7 @@ export default function Login({ updateUser }) {
           )}
           <h4>
             {mode === "login" ? "אין לך חשבון? " : "כבר יש לך חשבון? "}
-            <span onClick={changeMode}>לחץ כאן </span>
+            <span className="clickable" onClick={changeMode}>לחץ כאן </span>
           </h4>
           {message?.length === 2 && (
             <h4 style={{ color: message[0] === "success" ? "green" : "red" }}>
