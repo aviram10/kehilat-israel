@@ -1,0 +1,33 @@
+.schedule {
+    direction: rtl;
+    font-family: Arial, sans-serif;
+    background-color: #f0e8d4;
+    padding: 20px;
+    border: 8px solid #8b4513;
+  }
+  
+  h1, h2 {
+    text-align: center;
+    color: #8b4513;
+  }
+  
+  .times {
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  .section {
+    background-color: #fff;
+    border: 2px solid #8b4513;
+    padding: 10px;
+    margin: 10px;
+    text-align: center;
+  }
+  
+  h3 {
+    color: #8b4513;
+  }
+  
+  p {
+    margin: 5px 0;
+  }
