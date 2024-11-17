@@ -31,10 +31,10 @@ export default function Navbar() {
 
             <div className="account">
                 {user?.user_id ? <Dropdown>
-                    <MenuButton sx={{color:"white"}} size="sm">{`שלום ${user?.username}`} </MenuButton>
+                    <MenuButton className="profileMenu" sx={{color:"white"}} size="sm">{`שלום ${user?.username}`} </MenuButton>
                     <Menu>
-                        <MenuItem onClick={profile} variant="soft">פרופיל</MenuItem>
-                        <MenuItem onClick={logout} variant="soft" color="warning" >התנתק</MenuItem>
+                        <MenuItem  className="profileItem" onClick={logout}  >התנתק</MenuItem>
+                        <MenuItem className="profileItem" onClick={profile} >פרופיל</MenuItem>
                     </Menu>
                 </Dropdown> : <NavLink to="/login">  התחברות  </NavLink>}
             </div>

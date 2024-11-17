@@ -16,12 +16,17 @@ async function login(req, res) {
 }
 async function register(req, res) {
     try {
-        const { username, email, pass, first_name, last_name, phone, address, city, zip } = req.body;
+        const { username, email, pass, first_name, last_name, phone, address, city, zip, remember } = req.body;
         const details = { username, email, pass, first_name, last_name, phone, address, city, zip };
         Object.keys(details).forEach(key => { if (details[key] && typeof details[key] !== "string") throw new Error("invalid data") })
-        const [{ insertId }] = await services.addUser(details);
-        const [user] = await services.getUsers({ user_id: insertId });
-        return res.status(201).send(user);
+        const result = await services.addUser(details);
+        if (result instanceof Error) {
+            if (result.sqlState = '23000')
+                return res.status(400).send('one of the details already exist (phone, email, or username)')
+            else return res.status(400).send(result.message)
+        }
+        const data = await services.login(username, pass, remember);
+        return res.status(200).send(data)
     } catch (err) {
         console.log(err);
         return res.status(400).send(err.message);
@@ -100,28 +105,29 @@ async function handleDebt(req, res) {
         const action = req.query?.action;
         if (!action) throw new Error("invalid action");
         let data;
-        switch (action) {
-            case "add": data = await services.addDebt(req.body, req.params.user_id); break;
-            case "pay": 
-                   const details= {amount, payment_method, confirmation} = req.body;  
-                   details.user_id = req.params.user_id;
-                   details.type = "debt";
-                     [data] = await payments.handlePayment(details);
-                     console.log("data", data);
-             break;
-            default: throw new Error("invalid action");
-        }
+        // switch (action) {
+        // case "update": data = await services.addDebt(req.body, req.params.user_id); break;
+        // case "pay": 
+        const details = { amount, payment_method, confirmation } = req.body;
+        details.user_id = req.params.user_id;
+        details.type = "debt";
+        [data] = await payments.handlePayment(details);
+        console.log("data", data);
+        //  break;
+        // default: throw new Error("invalid action");
+        // }
         handleResponse(res, data);
     } catch (err) { handleError(res, err); }
 }
 
 
 
-async function newDebt(req, res) {
+async function upsertDebt(req, res) {
     try {
-        if (req.params.user_id) req.body.user_id = req.params.user_id
+        console.log("upsert");
         if (!req.body) throw new Error("no details sent");
-        const result = await services.newDebt(req.body);
+        req.body.user_id = req.params.user_id                
+        const result = await services.upsertDebt(req.body);
         if (result instanceof Error) throw result;
         return res.json(result);
     } catch ({ message }) {
@@ -137,4 +143,4 @@ async function getDebts(req, res) {
     } catch (err) { console.log(err); }
 }
 
-module.exports = { getDebts, newDebt, handleDebt, deleteUser, getUsers, login, register, getUser, getPosts, updateUser, getDebt, getUserData }
+module.exports = { getDebts, upsertDebt, handleDebt, deleteUser, getUsers, login, register, getUser, getPosts, updateUser, getDebt, getUserData }

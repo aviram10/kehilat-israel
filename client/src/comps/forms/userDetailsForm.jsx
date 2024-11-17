@@ -20,7 +20,7 @@ export default function UserDetailsForm({user, handleUser}) {
         <Sheet   variant='soft' color='primary'>
                 <Stack >
                     <Typography level='title-lg' textAlign={"center"}>
-                        פרטים אישיים
+                        פרטי התורם
                     </Typography>
                     <Grid container sx={{m: 2}} spacing={2} >
                         <Grid xs={3}>
@@ -69,7 +69,7 @@ export default function UserDetailsForm({user, handleUser}) {
                             </Typography>
                         </Grid>
                         <Grid xs={3}>
-                         <Input name='address' onChange={handleChange} value={input?.city || ""} required></Input> 
+                         <Input name='city' onChange={handleChange} value={input?.city || ""} required></Input> 
                         </Grid>
                         <Grid xs={2}>
                             <Typography level='body-lg'>
@@ -77,7 +77,7 @@ export default function UserDetailsForm({user, handleUser}) {
                             </Typography>
                         </Grid>
                         <Grid xs={3}>
-                         <Input name='address' onChange={handleChange} value={input?.state || "ישראל"} required></Input> 
+                         <Input name='country' onChange={handleChange} value={input?.state || "ישראל"} required></Input> 
                         </Grid>
                     </Grid>
                     

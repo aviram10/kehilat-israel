@@ -38,7 +38,7 @@ export default function Dedication(params) {
     }, [type, name, details, date])
 
     const handleUser = useCallback(user => {setDetails({ ...user }); setChanged(true)}, [])
-    const success = data => { }
+    const success = data => { window.location.reload() }
 
 
     return <>
@@ -52,12 +52,14 @@ export default function Dedication(params) {
                 spacing={{ xs: 1, md: 2 }}
                 useFlexGap
                 margin={"auto"}
+                alignItems={{xs: 'center', md:'stretch'}}
             >
                 <UserDetailsForm
                     handleUser={handleUser}
                     user={user}
                 />
                 <IconlessRadio
+                    
                     values={['לרפואה', 'פרנס היום', 'אזכרה']}
                     handleChange={({ target }) => {setType(target.value); setChanged(true)}}
                 />

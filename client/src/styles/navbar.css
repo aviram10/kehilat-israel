@@ -7,15 +7,22 @@
     padding: 10px;
 }
 
-
-
-
 .navbar a{
     margin: 8px;
     color: #fff;
     text-decoration: none;
     padding: 10px;
     cursor: pointer; /* Add this line */
+}
+
+.profileMenu:hover{
+    color: black;
+    background-color: white;
+}
+
+.profileItem:hover{
+    color: white !important;
+    background-color: black !important;
 }
 
 

@@ -53,6 +53,7 @@ async function add(table, cols, values) {
     return await pool.query(`INSERT INTO ${table}(${cols.join(", ")}) VALUES (?)`, [values])
     }catch(e){
         console.log(e)
+        return e
     }
 }
 

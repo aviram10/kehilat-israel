@@ -65,24 +65,49 @@ async function getDebt(user_id) {
     } catch (err) { console.log(err); }
 }
 
-async function addDebt({ amount }, user_id) {
-    try {
-        const debt = await getDebt(user_id);
-        if(!amount) throw new Error("amount is required");
-        if (amount < 0) throw new Error("amount must be positive");
-        debt.debt += Number(amount);
-         await accessData.updateDebt({ amount:debt.debt, user_id });
-        return debt;
-    } catch (err) { return err }
-}
+// async function addDebt({ amount }, user_id) {
+//     try {
+//         const debt = await getDebt(user_id);
+//         if(!amount) throw new Error("amount is required");
+//         if (amount < 0) throw new Error("amount must be positive");
+//         debt.debt += Number(amount);
+//          await accessData.updateDebt({ amount:debt.debt, user_id });
+//         return debt;
+//     } catch (err) { return err }
+// }
 
-async function newDebt({ amount, user_id }) {
-    try {
-        if (amount < 0) throw new Error("amount must be positive");
-        const data = await accessData.newDebt({ amount, user_id });
-        if(data instanceof Error) throw new Error("בדוק אם אין כבר חוב קיים");
-        return await getDebt(user_id);
-    } catch (err) { console.log(err);return err }
+// async function newDebt({ amount, user_id }) {
+//     try {
+//         if (amount < 0) throw new Error("amount must be positive");
+//         const data = await accessData.newDebt({ amount, user_id });
+//         if(data instanceof Error) {
+//             console.log(data);
+            
+//             throw new Error(" בדוק אם אין כבר חוב קיים או מזהה משתמש תקין")
+//         };
+//         return await getDebt(user_id);
+//     } catch (err) { console.log(err);return err }
+// }
+
+async function upsertDebt({amount, user_id}){
+    try{
+        
+        if(!amount) throw new Error("amount is required");
+        const debt = await getDebt(user_id);
+        if(debt) {
+            debt.debt = Number(debt.debt) +Number(amount);
+            await accessData.updateDebt({ amount:debt.debt, user_id });
+            return debt
+        } else{
+            await accessData.newDebt({amount, user_id})
+            const data = await getDebt(user_id)
+            console.log("data", data);
+            return data
+        }       
+    }catch(err){
+        console.log(err);
+        
+    }
 }
 
 async function getDebts() {
@@ -94,7 +119,7 @@ async function getDebts() {
 
 
 
-module.exports = {getDebts, newDebt, addDebt, deleteUser, getUsers, updateUser, getDebt, getUserData, addUser, login }
+module.exports = {getDebts, deleteUser, getUsers, updateUser, getDebt, getUserData, addUser, login, upsertDebt }
 
 
 

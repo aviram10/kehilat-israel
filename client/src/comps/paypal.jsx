@@ -9,14 +9,17 @@ function Message({ content }) {
 }
 
 function Paypal({ name, amount, date, type, details, success }) {
+  const [content, setContent] = useState("");
+  console.log(amount);
+  
+  if (!amount) return null;
   const initialOptions = {
     "client-id": "Afgnr4u04HGd4lrqQjBNkd9tjx3xyc1ZBvZ8cYHOR81CT_8im1Tw2N31Z_TyIHdDQymuapou6od5UFLi",
-    "enable-funding": "venmo,card",
+    "enable-funding": "card",
     "disable-funding": "paylater",
     "data-sdk-integration-source": "integrationbuilder_sc",
   };
 
-  const [content, setContent] = useState("");
 
   return (
     <div className="App" style={{ margin: "5px auto" }}>
@@ -63,7 +66,7 @@ function Paypal({ name, amount, date, type, details, success }) {
               console.log("error", error);
             }
           }}
-          onError={(err) => { console.log(err) }}
+          onError={(err) => { console.log("err", err) }}
           onApprove={async (data, actions) => {
             try {
               const response = await fetch(

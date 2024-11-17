@@ -28,7 +28,7 @@ export default function Management({ times, setTimes }) {
     const handleData = data => {
         if(!(data instanceof Array)) return [];
         if(!data[0]?.username)
-            data = data.map(r => ({...r, username: users.find(user => user.user_id === r.user_id).username}))
+            data = data.map(r => ({...r, username: users.find(user => user?.user_id === r?.user_id).username}))
         return data.filter(e => e.username.includes(search));
     }
 
@@ -36,9 +36,9 @@ export default function Management({ times, setTimes }) {
         setTimes(prev => ({ ...prev, prayers }));
     }, [prayers])
 
-    const handleSearch = ({ target }) => {
-        setSearch(target.value)
-    }
+    // const handleSearch = ({ target }) => {
+    //     setSearch(target.value)
+    // }
 
     const handleDeletePost = async () => {
         const results = await deletePosts(selected)
@@ -49,15 +49,14 @@ export default function Management({ times, setTimes }) {
         setSelected([])
     }
 
-    const tableProps = {  selected, setSelected, handleSearch }
+    const tableProps = {  selected, setSelected }
 
     const sx = { m: 4, p: 4, textAlign: "center" }
     return <Sheet >
         <Stack direction={"row"} justifyContent={'center'} height={"15%"}>
             <Typography sx={sx} color='success' variant='outlined' level='title-lg'>סה"כ תרומות השנה: {donations.reduce((a, b) => { return b.date.slice(-4) === DateTime.now().toFormat("yyyy") ? a + b.amount : 0 }, 0)} </Typography>
-            <Typography sx={sx} color='success' variant='outlined' level='title-lg'> סה"כ משתמשים חודשיים: 250</Typography>
         </Stack>
-        <Input value={search} onChange={handleSearch} />
+        {/* <Input value={search} onChange={handleSearch} /> */}
         <Tabs variant='outlined' aria-label="Basic tabs" defaultValue={0}
             sx={{
                 [`& .${tabClasses.root}`]: {
@@ -89,7 +88,7 @@ export default function Management({ times, setTimes }) {
                 <DonationsHandler {...{ donations: handleData(donations), setDonations, tableProps }} />
             </TabPanel>
             <TabPanel value={2}>
-                <DebtsHandler {...{ debts: handleData(debts), setDebts, tableProps }} />
+                <DebtsHandler {...{ debts: handleData(debts), setDebts, tableProps, users }} />
             </TabPanel>
             <TabPanel value={3}>
                 <DedicationHandler {...{ dedications: handleData(dedications), setDedications, tableProps }} />
