@@ -1,58 +1,8 @@
-.container {  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1.8fr 1.1fr 39.1px;
-  gap: 0px 0px;
-  grid-auto-flow: row;
-  grid-template-areas:
-    "shabbat info weekday"
-    "dedication commissiner times"
-    ". . .";
+.times{
+    display: flex;
+    justify-content: space-between;
+
 }
-
-.weekday {  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 0.6fr 1.4fr 1fr;
-  gap: 0px 0px;
-  grid-auto-flow: row;
-  grid-template-areas:
-    "dayInfo dayInfo dayInfo"
-    "dailyPrayers dailyPrayers dailyPrayers"
-    "dailyPrayers dailyPrayers dailyPrayers";
-  grid-area: weekday;
-}
-
-.dayInfo { grid-area: dayInfo; }
-
-.dailyPrayers { grid-area: dailyPrayers; }
-
-.shabbat {  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 0.6fr 1.4fr 1fr;
-  gap: 0px 0px;
-  grid-auto-flow: row;
-  grid-template-areas:
-    "shbbatInfo shbbatInfo shbbatInfo"
-    "shabbatPrayers shabbatPrayers shabbatPrayers"
-    "shabbatPrayers shabbatPrayers shabbatPrayers";
-  grid-area: shabbat;
-}
-
-.shbbatInfo { grid-area: shbbatInfo; }
-
-.shabbatPrayers { grid-area: shabbatPrayers; }
-
-.info {  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
-  gap: 0px 0px;
-  grid-auto-flow: row;
-  grid-template-areas:
-    ". clock ."
-    "title title title"
-    ". . .";
-  grid-area: info;
-}
-
 .times > *{
     width: 40%;
 }
@@ -83,14 +33,3 @@
     padding: 16px;
     margin-top: 16px;
   }
-
-.clock { grid-area: clock; }
-
-.title { grid-area: title; }
-
-.times { grid-area: times; }
-
-.dedication { grid-area: dedication; }
-
-.commissiner { grid-area: commissiner; }
-

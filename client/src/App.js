@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import Home from "./pages/home";
 import "./App.css";
 import Login from './pages/login';
-import Times from './pages/times';
+import Times from './pages/times2';
 import MessagesBoard from './pages/messagesBoard';
 import Dedication from './pages/dedication';
 import Profile from './pages/profile';
@@ -14,7 +14,6 @@ import React, { useEffect, useState, createContext } from 'react';
 import { DateTime } from 'luxon';
 import { getUser } from "./server/users";
 import Cookies from "js-cookie";
-import Schedule from "./expirement/times";
 
 export const UserContext = createContext(null);
 
@@ -69,8 +68,7 @@ function App() {
           <Route path='home' element={<Home times={times} />} />
           <Route path="login" element={<Login updateUser={updateUser} />} />
           <Route path='signup' element={<Login />} />
-          <Route path='ex' element={<Schedule />} />
-          <Route path='times' element={<Times times={times} />} /> 
+          <Route path='times' element={<Times times={times} />} />
           <Route path='board' element={<MessagesBoard />} />
           <Route path='dedication' element={<Dedication />} />
           <Route path='profile' element={<Profile />} />
