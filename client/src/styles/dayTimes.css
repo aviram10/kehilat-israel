@@ -1,7 +1,19 @@
-.dayTimes *{
+/* .dayTimes *{
     text-align: center;
    
 }
-.dayTimes{
- 
+
+.MuiListItemText-primary{
+    text-align: right;
+    width: 100%;
 }
+
+.MuiListItemText-root{
+    width: 50%;
+    margin: 10px;
+}
+
+.textLeft{
+    text-align: left !important;
+    background-color: aqua;
+} */

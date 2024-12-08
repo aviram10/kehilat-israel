@@ -83,11 +83,8 @@ export default function HandleDebts({ debts, setDebts, tableProps, users }) {
             <FormModal message={message} setMessage={setMessage} title={"הוסף חוב"}>
                 <DebtForm action={"upsert"} handleDebt={handleDebt} debt={debt} users={users} />
             </FormModal>
-            {/* <FormModal message={message} title={"חוב חדש"} setMessage={setMessage}>
-                <DebtForm action={"upsert"} handleDebt={handleDebt} />
-            </FormModal> */}
             <FormModal message={message} title={"תשלום חוב"} setMessage={setMessage}>
-                <DebtForm action={"pay"} handleDebt={handleDebt} debt={debt} />
+                <DebtForm action={"pay"} handleDebt={handleDebt} debt={debt} users={users} />
             </FormModal>
         </Table2>
     </>

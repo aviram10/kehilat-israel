@@ -25,6 +25,6 @@ export default function PostForm({ handleSubmit, disabled }) {
             </Grid>
             <Button disabled={disabled} fullWidth type="submit" onClick={() => { handleSubmit(input).then(() => setInput({ title: '', category: '', content: '' })) }}  >פרסם</Button>
         </Grid>
-           { disabled &&<Typography textAlign={"center"} variant='soft'color='warning' level="title-lg">כדי לפרסם עליך להרשם </Typography>}
+           { disabled &&<Typography textAlign={"center"} variant='soft'color='warning' level="title-lg">על מנת לפרסם עליך להרשם </Typography>}
     </>
 };

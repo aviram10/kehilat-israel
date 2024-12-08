@@ -21,11 +21,11 @@ export default function Message({ message, handleMessage, children, likes = true
                 {children}
                 <CardActions  >
                     <Stack width={"100%"} direction={"row"} justifyContent={"space-between"}><div>
-                    {likes && <Like {...{ message, handleMessage }} />}
-                    {handleMessage.edit && <EditIcon onClick={handleMessage.handleEdit} sx={{ border: "1px solid blue" }} color='primary' />}
-                    {handleMessage.edit && <DeleteIcon onClick={(e) => { handleMessage.delete(message.post_id, e) }} sx={{ color: "red" }} />}
+                        {likes && <Like {...{ message, handleMessage }} />}
+                        {handleMessage.edit && <EditIcon onClick={handleMessage.handleEdit} sx={{ border: "1px solid blue" }} color='primary' />}
+                        {handleMessage.edit && <DeleteIcon onClick={(e) => { handleMessage.delete(message.post_id, e) }} sx={{ color: "red" }} />}
                     </div>
-                    {message.category && <Typography level='body-sm'>קטגוריה: {message.category}</Typography>}
+                        {message.category && <Typography level='body-sm'>קטגוריה: {message.category}</Typography>}
                     </Stack>
                 </CardActions>
             </CardContent>
