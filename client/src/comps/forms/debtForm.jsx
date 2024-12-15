@@ -9,7 +9,6 @@ export default function DebtForm({ debt, handleDebt, action, users }) {
     const handleChange = ({ target }) => {
         setInput(prev => ({ ...prev, [target.name]: target.value }))
     }
-    console.log('====>', debt, action, input, users);
 
     return <>
         <TextField dir="ltr" label="סכום" required name="amount" value={input.amount} type="number" onChange={handleChange} />

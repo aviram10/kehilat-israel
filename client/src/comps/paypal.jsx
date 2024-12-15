@@ -9,9 +9,7 @@ function Message({ content }) {
 }
 
 function Paypal({ name, amount, date, type, details, success }) {
-  const [content, setContent] = useState("");
-  console.log(amount);
-  
+  const [content, setContent] = useState("");  
   if (!amount) return null;
   const initialOptions = {
     "client-id": "Afgnr4u04HGd4lrqQjBNkd9tjx3xyc1ZBvZ8cYHOR81CT_8im1Tw2N31Z_TyIHdDQymuapou6od5UFLi",
@@ -22,10 +20,10 @@ function Paypal({ name, amount, date, type, details, success }) {
 
 
   return (
-    <div className="App" style={{ margin: "5px auto" }}>
+    <div className="App" style={{ margin: "5px auto", minWidth: '400px' }}>
       <PayPalScriptProvider options={initialOptions}>
         <PayPalButtons
-
+        onClick={() => console.log("click")}
           style={{
             shape: "rect",
             layout: "horizontal",
@@ -49,7 +47,6 @@ function Paypal({ name, amount, date, type, details, success }) {
                 }),
               });
               const orderData = await response.json();
-              console.log("order", orderData);
               if (orderData.id) {
                 return orderData.id;
               } else {
@@ -128,6 +125,9 @@ function Paypal({ name, amount, date, type, details, success }) {
       </PayPalScriptProvider>
       <Message content={content} />
 
+      <script>
+  
+      </script>
     </div>
   );
 }

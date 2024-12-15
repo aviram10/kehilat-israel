@@ -62,7 +62,7 @@ const heads = [
 
 export default function PrayersHandler({ tableProps, prayers, setPrayers }) {
     const { selected, setSelected } = tableProps;
-    const [message, setMessage] = useState([]);
+    const [message, setMessage] = useState(null);
     const handlePrayer = async (action, prayer) => {
         let result;
         switch (action) {
@@ -80,7 +80,6 @@ export default function PrayersHandler({ tableProps, prayers, setPrayers }) {
                         setMessage(rejected.length > 0 ?
                             ["error", " לא כל התפילות נמחקו בהצלחה! נסה שוב מאוחר יותר"]
                             : ["success", "התפילות נמחקו בהצלחה!"])
-                        setTimeout(() => setMessage([]), 3000)
                     })
                 break;
             case "addPrayer":
@@ -95,6 +94,7 @@ export default function PrayersHandler({ tableProps, prayers, setPrayers }) {
             default:
                 break;
         }
+        setTimeout(() =>{ setMessage(null); setSelected([])}, 3000)
 
     }
     const handleResponse = (result) => {
@@ -105,16 +105,17 @@ export default function PrayersHandler({ tableProps, prayers, setPrayers }) {
         else {
             setMessage(["error", "הפעולה הלא הצליחה! נסה שוב מאוחר יות"])
         }
-        setTimeout(() => setMessage([]), 5000)
+        setTimeout(() => setMessage(null), 5000)
     }
+    console.log("message", message);
+    
 
     return <>
-        {message[0] && <GenericAlert message={message} />}
         <Table2 {...{ data: prayers, tableProps, heads, selected_id:"id" }}>
             <FormModal title="הוסף תפילה" message={message} setMessage={setMessage} >
                 <PrayerForm handlePrayer={handlePrayer} />
             </FormModal>
-            <FormModal disabled={!(selected?.length === 1)} setMessage={setMessage} title="עדכן תפילה" >
+            <FormModal disabled={!(selected?.length === 1)} message={message} setMessage={setMessage} title="עדכן תפילה" >
                 <PrayerForm pray={prayers.find(p => p.id == selected[0])} handlePrayer={handlePrayer} />
             </FormModal>
             <Button disabled={selected?.length === 0} variant='outlined' color='danger' name="delete Prayer"

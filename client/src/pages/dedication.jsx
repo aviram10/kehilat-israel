@@ -13,6 +13,8 @@ import '../styles/dedication.css';
 import Paypal from '../comps/paypal';
 import JewishCalender from '../comps/jewishCalender';
 import useResize from '../hooks/useResize';
+import FormModal from '../comps/muiComps/formModal';
+import GenericAlert from '../comps/muiComps/Alert';
 
 export default function Dedication(params) {
     const [name, setName] = useState("")
@@ -20,9 +22,7 @@ export default function Dedication(params) {
     const [details, setDetails] = useState({})
     const [date, setDate] = useState(DateTime.fromISO(new Date().toISOString()).toISODate());
     const [amount, setAmount] = useState(0)
-    const [message, setMessage] = useState();
-    const [paypal, setPaypal] = useState("")
-    const [changed, setChanged] = useState(false);
+    const [message, setMessage] = useState(null);
     const navigate = useNavigate();
     const [user] = useContext(UserContext);
     const width = useResize();
@@ -37,8 +37,11 @@ export default function Dedication(params) {
         setAmount(type === "פרנס היום" ? 250 : 100)
     }, [type, name, details, date])
 
-    const handleUser = useCallback(user => {setDetails({ ...user }); setChanged(true)}, [])
-    const success = data => { window.location.reload() }
+    const handleUser = useCallback(user => { setDetails({ ...user }) }, [])
+    const success = data => {
+        setMessage(['success', "התשלום בוצע בהצלחה"])
+        setTimeout(() => window.location.reload(),5000) 
+    }
 
 
     return <>
@@ -52,16 +55,16 @@ export default function Dedication(params) {
                 spacing={{ xs: 1, md: 2 }}
                 useFlexGap
                 margin={"auto"}
-                alignItems={{xs: 'center', md:'stretch'}}
+                alignItems={{ xs: 'center', md: 'stretch' }}
             >
                 <UserDetailsForm
                     handleUser={handleUser}
                     user={user}
                 />
                 <IconlessRadio
-                    
+
                     values={['לרפואה', 'פרנס היום', 'אזכרה']}
-                    handleChange={({ target }) => {setType(target.value); setChanged(true)}}
+                    handleChange={({ target }) => { setType(target.value)}}
                 />
             </Stack>
             <Card orientation={width < 600 ? "vertical" : "horizontal"} sx={{ justifyContent: "center", alignItems: "center" }} variant='outlined' color="primary" >
@@ -70,16 +73,21 @@ export default function Dedication(params) {
                 <Input
                     placeholder='שם להקדשה'
                     name='name'
-                    onChange={({ target }) => { setName(target.value); setChanged(true) }}
+                    onChange={({ target }) => { setName(target.value); }}
                     sx={{ m: 1 }}>
                 </Input>
                 <Typography level='body-md' > סכום תרומה</Typography>
                 <Input type='number' name='amount' value={amount}></Input>
                 <Typography level='body-md' > תאריך</Typography>
-                <JewishCalender handleChange={(date) => { setDate(DateTime.fromISO(new Date(date).toISOString()).toISODate()); setChanged(true) }} />
+                <JewishCalender handleChange={(date) => { setDate(DateTime.fromISO(new Date(date).toISOString()).toISODate()) }} />
             </Card>
-            <div style={{ width: "100%" }} onMouseEnter={() => { if(changed)  {setChanged(false); setPaypal(Math.random())}  }}>
-                <Paypal key={paypal} set={setPaypal} date={date} amount={amount} name={name} details={details} type={type} success={success} />
+            <div style={{ justifyContent: 'center', display: 'flex' }} >
+            <FormModal setMessage={setMessage} title={"המשך לתשלום"}  size='lg' withIcon= {false}>
+                <Typography>תשלום מאובטח עם PYPAL</Typography>
+                <Typography>תרומה על סך: {amount} ש"ח</Typography>
+                <Paypal date={date} amount={amount} name={name} details={details} type={type} success={success} />
+                {message && <GenericAlert message={message} set></GenericAlert>}
+            </FormModal>
             </div>
         </Stack>
     </>

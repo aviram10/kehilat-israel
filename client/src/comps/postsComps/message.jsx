@@ -20,11 +20,12 @@ export default function Message({ message, handleMessage, children, likes = true
             <CardContent>
                 {children}
                 <CardActions  >
-                    <Stack width={"100%"} direction={"row"} justifyContent={"space-between"}><div>
-                        {likes && <Like {...{ message, handleMessage }} />}
-                        {handleMessage.edit && <EditIcon onClick={handleMessage.handleEdit} sx={{ border: "1px solid blue" }} color='primary' />}
-                        {handleMessage.edit && <DeleteIcon onClick={(e) => { handleMessage.delete(message.post_id, e) }} sx={{ color: "red" }} />}
-                    </div>
+                    <Stack width={"100%"} direction={"row"} justifyContent={"space-between"} alignItems={'center'}>
+                        <div style={{ alignItems: 'center', display: 'flex' }}>
+                            {likes && <Like {...{ message, handleMessage }} />}
+                            {handleMessage.edit && <EditIcon onClick={handleMessage.handleEdit} sx={{ border: "1px solid blue" }} color='primary' />}
+                            {handleMessage.edit && <DeleteIcon onClick={(e) => { handleMessage.delete(message.post_id, e) }} sx={{ color: "red" }} />}
+                        </div>
                         {message.category && <Typography level='body-sm'>קטגוריה: {message.category}</Typography>}
                     </Stack>
                 </CardActions>

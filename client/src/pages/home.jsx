@@ -24,8 +24,8 @@ export default function Home({ times}) {
         </Grid>
         <Divider orientation="vertical" sx={{m:1}}  />
         <Grid  lg={3} md={5} xs={10} >
-           
-            <Typography level="title-lg">{DateTime.now().setLocale('he').weekdayLong} {times?.hebrewDate?.hebrew} { times.items.find?.(t=>t.category === "parashat")?.hebrew} </Typography>
+            <Typography sx={{mt:4}} level="title-lg">{DateTime.now().setLocale('he').weekdayLong} {times?.hebrewDate?.hebrew} </Typography>
+            <Typography level="body-md"> { times.items.find?.(t=>t.category === "parashat")?.hebrew}</Typography>
             <PrayersTimes isDaily={true} times={ times?.prayers}/>
             <DayTimes times={times.dayTimes} />
         </Grid>

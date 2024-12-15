@@ -3,7 +3,6 @@ import React from 'react';
 import "../styles/dayTimes.css"
 import { Typography } from '@mui/joy';
 export default function DayTimes({ times, isExtends }) {
-    console.log(times);
     
     return <div className='dayTimes'>
         <Typography variant='soft' level="h3"> זמני היום</Typography>

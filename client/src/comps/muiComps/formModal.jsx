@@ -6,28 +6,29 @@ import DialogTitle from '@mui/joy/DialogTitle';
 import Add from '@mui/icons-material/Add';
 import { useState } from 'react';
 import Alert from './Alert';
-export default function FormModal({title,message=[], setMessage, children, disabled}) {
+export default function FormModal({title,message, setMessage, children, disabled, style, withIcon, size}) {
 
   const [open, setOpen] = useState(false);
-  if(message?.length > 0 && message[0] === "success")setTimeout(() => setOpen(false), 3000);
 
   return (
     <React.Fragment>
       <Button
-        variant="outlined"
-        color="neutral"
-        startDecorator={<Add />}
+      // style={{display:'inline-block', justifyContent:'center', alignContent:'center'}}
+      sx={{maxWidth:size != 'lg' ? "300px" : '600px'}}
+        variant={style?.variant ||"outlined"}
+        color={style?.color || "neutral"}
+        startDecorator={withIcon && <Add />}
         onClick={() => setOpen(true)}
         disabled={disabled}
       >
        {title}
       </Button>
-      <Modal  open={open} onClose={() =>{ setOpen(false); setMessage([])}}>
+      <Modal  open={open} onClose={() =>{ setOpen(false); setMessage(null)}}>
         <ModalDialog>
           <DialogTitle>{title}</DialogTitle>
             {children}
-          {  message[0] && <Alert message={message}  ></Alert>}
-            <Button color='danger' variant='solid' onClick={() => {setOpen(false); setMessage([])}}>סגור</Button>
+          {  message && <Alert message={message}  ></Alert>}
+            <Button color='danger' variant='solid' onClick={() => {setOpen(false); setMessage(null)}}>סגור</Button>
         </ModalDialog>
       </Modal>
     </React.Fragment>

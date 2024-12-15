@@ -14,7 +14,7 @@ export default function Like({message, handleMessage}) {
  
     return <>
         <Chip color="neutral" sx={{ '& span': { display: "flex", alignItems: "center" }, color: { color } }}>
-            {message.likes}
+            {/* {message.likes} */}
             <GradeSharpIcon onClick={handleLike} sx={{color:color}} />
         </Chip>
     </>

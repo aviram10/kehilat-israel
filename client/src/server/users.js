@@ -46,8 +46,6 @@ export async function manager(user_id){
 export async function newDebt(amount, user_id){
     if(!amount || !user_id) throw new Error("חסר מידע")
     const data =  await post(`/users/${user_id}/debt`, { amount});
-console.log("!!!", data);
-
     return data
     
 }
