@@ -36,18 +36,6 @@ export default function Management({ times, setTimes }) {
         setTimes(prev => ({ ...prev, prayers }));
     }, [prayers])
 
-    // const handleSearch = ({ target }) => {
-    //     setSearch(target.value)
-    // }
-
-    const handleDeletePost = async () => {
-        const results = await deletePosts(selected)
-        results.forEach((result) => {
-            result.status === "fulfilled" &&
-                setPosts(prev => prev.filter(post => post.post_id != result.value.data))
-        })
-        setSelected([])
-    }
 
     const tableProps = {  selected, setSelected }
 
@@ -56,7 +44,6 @@ export default function Management({ times, setTimes }) {
         <Stack direction={"row"} justifyContent={'center'} height={"15%"}>
             <Typography sx={sx} color='success' variant='outlined' level='title-lg'>סה"כ תרומות השנה: {donations.reduce((a, b) => { return b.date.slice(-4) === DateTime.now().toFormat("yyyy") ? a + b.amount : 0 }, 0)} </Typography>
         </Stack>
-        {/* <Input value={search} onChange={handleSearch} /> */}
         <Tabs variant='outlined' aria-label="Basic tabs" defaultValue={0}
             sx={{
                 [`& .${tabClasses.root}`]: {
@@ -93,7 +80,6 @@ export default function Management({ times, setTimes }) {
             <TabPanel value={3}>
                 <DedicationHandler {...{ dedications: handleData(dedications), setDedications, tableProps }} />
             </TabPanel>
-           
             <TabPanel value={4}>
                 <PrayersHandler {...{ prayers, setPrayers, tableProps }} />
             </TabPanel>

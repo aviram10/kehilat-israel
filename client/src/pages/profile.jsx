@@ -7,6 +7,7 @@ import Posts from '../comps/postsComps/posts';
 import { toggleLike, deletePosts } from '../server/posts';
 import Paypal from '../comps/paypal';
 import Cookies from 'js-cookie';
+import GenericAlert from '../comps/muiComps/Alert';
 const {useNavigate} = require('react-router-dom')
 
 
@@ -17,6 +18,7 @@ export default function Profile() {
   const [debt, setDebt] = useState()
   const [user, setUser] = useState({ first_name: '', last_name: '', phone: '', email: '', address: '', city: '', state: '' })
   const [paypal, setPaypal] = useState(1)
+  const [message, setMessage] = useState(null)
   
   useEffect(() => {
     const {token , user_id} = Cookies.get();
@@ -36,9 +38,7 @@ export default function Profile() {
 
    function success(data){
     setPaypal(prev => prev + 1)
-    console.log(data);
     setDebt( data.data[0].debt)
-    console.log(data);
   }
   const handleError = () => {
     setPaypal(prev => prev + 1)}
@@ -67,16 +67,18 @@ export default function Profile() {
   }), [])
   async function handleSubmit(e){
     try{
-      console.log(user);
         await axios.put(`${url}/users/${Cookies.get("user_id")}`, user, { withCredentials: true })
+        setMessage(["success", "הפרטים עודכנו בהצלחה"])
+        setTimeout(()=> setMessage(null), 5000)
     }catch(error){
         console.log(error);
+        setMessage(["error", "שגיאה, נא נסה מאוחר יותר"])
+        setTimeout(()=> setMessage(null), 5000)
     }
 }
   const handleSavedPosts = useMemo(() => ({
     toggleLike: async post_id => {
       try {
-        console.log("post toggle");
         await toggleLike(post_id);
         //copy the message and change the liked property
         setSavedPosts(prev => prev.filter(post => post.post_id !== post_id))
@@ -95,7 +97,8 @@ export default function Profile() {
         <Grid xs={12} md={5} spacing={2} >
           <UserDetailsForm user={user} handleUser={ handleUser} />
           <Button onClick={handleSubmit} fullWidth >עדכן</Button>
-          <Typography sx={{ mt: 1 }} color={debt ?'danger' : "success"} variant='solid' level='title-lg'>סה"כ חובות: {debt || 0}
+          {message && <GenericAlert message={message}></GenericAlert>}
+          <Typography sx={{ mt: 1 }} color={debt ?'danger' : "success"} variant='soft' level='title-lg'>סה"כ חובות: {debt || 0}
           </Typography>
             <Paypal key={paypal} amount={debt} type={"debt"} success={success} handleError={handleError} />
         </Grid>
@@ -104,7 +107,6 @@ export default function Profile() {
             <TabList >
               <Tab variant='soft' color='primary' sx={{ width: "50%" }}>ההודעות שלי</Tab>
               <Tab variant='soft' color='primary' sx={{ width: "50%" }}>הודעות שמורות </Tab>
-
             </TabList>
             <TabPanel sx={{ m: "auto" }} value={0}>
               <Posts handlePosts={handleMyPosts} posts={myPosts} />

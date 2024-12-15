@@ -25,16 +25,17 @@ export default function Navbar() {
             <div className="nav">
                 <NavLink to="/times" >   זמנים </NavLink>|
                 <NavLink to="/board">   לוח הקהילה  </NavLink> |
-                <NavLink to={ "/dedication"}>  הקדשות  </NavLink>
-                {user?.role === "מנהל" && <NavLink to="/management">  ניהול  </NavLink>}
+                <NavLink to={ "/dedication"}>  הקדשות  </NavLink> 
+                {user?.role === "מנהל" && '|'}
+                {user?.role === "מנהל" && <NavLink to="/management"> ניהול  </NavLink>}
             </div>
 
             <div className="account">
                 {user?.user_id ? <Dropdown>
                     <MenuButton className="profileMenu" sx={{color:"white"}} size="sm">{`שלום ${user?.username}`} </MenuButton>
                     <Menu>
-                        <MenuItem  className="profileItem" onClick={logout}  >התנתק</MenuItem>
                         <MenuItem className="profileItem" onClick={profile} >פרופיל</MenuItem>
+                        <MenuItem  className="profileItem" onClick={logout}  >התנתק</MenuItem>
                     </Menu>
                 </Dropdown> : <NavLink to="/login">  התחברות  </NavLink>}
             </div>

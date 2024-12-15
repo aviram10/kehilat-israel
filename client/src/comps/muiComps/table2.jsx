@@ -196,7 +196,6 @@ export default function Table2({data, heads, children, tableProps: {selected, se
   };
 
   const handleClick = (event, id) => {
-    console.log(id);
     const selectedIndex = selected.indexOf(id);
     let newSelected = [];
 

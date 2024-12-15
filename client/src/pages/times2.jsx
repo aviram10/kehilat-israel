@@ -41,7 +41,7 @@ export default function Times({ times }) {
       <Grid xs={12} container spacing={2}>
         <Grid xs={6}>
           <Box border="1px solid" borderColor="divider" p={1}>
-            <DayTimes times={times?.dayTimes} />
+            <DayTimes times={times?.dayTimes} isExtends={true} />
           </Box>
         </Grid>
         <Grid xs={6}>
@@ -51,6 +51,14 @@ export default function Times({ times }) {
         </Grid>
       </Grid>
       <Grid xs={12} container spacing={2}>
+        <Grid xs={4}>
+          <Box border="1px solid" borderColor="divider" p={1}>
+            <Typography level="h5" textAlign="center" mb={1}>
+              דף יומי
+            </Typography>
+            <Typography textAlign="center">{dafYomi}</Typography>
+          </Box>
+        </Grid>
         <Grid xs={4}>
           <Box border="1px solid" borderColor="divider" p={1}>
             <Typography level="h5" textAlign="center" mb={1}>
@@ -65,14 +73,6 @@ export default function Times({ times }) {
               הלכה יומית
             </Typography>
             <Typography textAlign="center">{halakhahYomit} </Typography>
-          </Box>
-        </Grid>
-        <Grid xs={4}>
-          <Box border="1px solid" borderColor="divider" p={1}>
-            <Typography level="h5" textAlign="center" mb={1}>
-              דף יומי
-            </Typography>
-            <Typography textAlign="center">{dafYomi}</Typography>
           </Box>
         </Grid>
       </Grid>

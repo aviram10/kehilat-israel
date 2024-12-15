@@ -17,7 +17,6 @@ export default function JewishCalender({ handleChange, date }) {
       isHebrew
       onClick={(day) => {
         setBasicJewishDay(day);
-        // console.log(day);
       }}
     />
   );

@@ -19,16 +19,15 @@ export default function GenericAlert({ message  }) {
 
     return <>
         <Alert
-            size="lg"
+            size="md"
             color={color}
-            variant="solid"
+            variant="soft"
             invertedColors
             startDecorator={
                 <AspectRatio
                     variant="solid"
                     ratio="1"
                     sx={{
-
                         minWidth: 40,
                         borderRadius: '50%',
                         boxShadow: '0 2px 12px 0 rgb(0 0 0/0.2)',
@@ -39,8 +38,7 @@ export default function GenericAlert({ message  }) {
                     </div>
                 </AspectRatio>
             }
-
-            sx={{ margin: "auto", alignItems: 'flex-start', overflow: 'hidden', maxWidth: 400 }}
+            sx={{ margin: "auto", alignItems: 'flex-start', overflow: 'hidden', maxWidth: 400, my:1, mx: "auto" }}
         >
             <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ width: "100%" }}>
                 <div>

@@ -92,7 +92,6 @@ export default function UsersHandler({ users, setUsers, tableProps}) {
         <Table2  {...{  heads, tableProps, data, selected_id: "user_id" }}  >
         <Button disabled={selected?.length === 0}
             variant='solid' color='primary' name="manager"
-            // sx={{backgroundColor: "white"}}
             onClick={() => {
                 selected.forEach(user_id => manager(user_id)
                     .then(res => setUsers(prev => prev.map(user => user.user_id == user_id ? { ...user, role: "מנהל" } : { ...user })))
@@ -102,7 +101,6 @@ export default function UsersHandler({ users, setUsers, tableProps}) {
         > הגדר כמנהל
         </Button>
         <Button disabled={selected?.length === 0} variant='solid' color='danger' name="deleteUser"
-        // sx={{backgroundColor: "white"}}
             onClick={handleDeleteUsers}
         >השהה משתמש</Button>
         </Table2>

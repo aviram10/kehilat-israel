@@ -29,7 +29,6 @@ export default function ExtendPost({ post, handlePosts }) {
     const handleComment = {
         addComment: async comment => {
             const newComment = await postComment(comment, post.post_id);
-            console.log(newComment);
             setComments([...comments, newComment]);
         },
         toggleLike: async comment_id => {
@@ -60,11 +59,12 @@ export default function ExtendPost({ post, handlePosts }) {
         >
             <AccordionSummary color='neutral'>
                 <Post {...{ post, handlePosts }} />
+                
             </AccordionSummary>
-            <AccordionDetails variant='soft' color="primary" >
-                <div className="comment">
+            <AccordionDetails variant='plain' color='neutral' sx={{width: '85%', m: 'auto'}} >
+                {/* <span className="comment"> */}
                     {comments.map((comment) => <Comment key={comment.comment_id} handleComment={handleComment} comment={comment} />)}
-                </div>
+                {/* </span> */}
                 <CommentForm handleComment={handleComment} sx={{ m: 1 }} />
             </AccordionDetails>
         </Accordion>
