@@ -1,10 +1,8 @@
-import GenericTable from "../muiComps/Table";
 import FormModal from "../muiComps/formModal";
 import PrayerForm from "../forms/prayerForm";
 import { Button } from "@mui/joy";
 import { deletePrayer, addPrayer, updatePrayer } from "../../server/prayer";
-import { useState } from "react";
-import GenericAlert from "../muiComps/Alert";
+import {useState } from "react";
 import Table2 from "../muiComps/table2";
 
 const heads = [
@@ -107,8 +105,6 @@ export default function PrayersHandler({ tableProps, prayers, setPrayers }) {
         }
         setTimeout(() => setMessage(null), 5000)
     }
-    console.log("message", message);
-    
 
     return <>
         <Table2 {...{ data: prayers, tableProps, heads, selected_id:"id" }}>

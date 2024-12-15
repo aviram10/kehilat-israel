@@ -29,7 +29,7 @@ export default function Management({ times, setTimes }) {
         if(!(data instanceof Array)) return [];
         if(!data[0]?.username)
             data = data.map(r => ({...r, username: users.find(user => user?.user_id === r?.user_id).username}))
-        return data.filter(e => e.username.includes(search));
+        return data.filter(e => e?.username?.includes(search));
     }
 
     useEffect(() => {
